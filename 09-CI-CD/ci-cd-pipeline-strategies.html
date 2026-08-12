@@ -1,0 +1,1309 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CI/CD Pipeline Strategies - DevOps Interview Master Guide">
+<title>CI/CD Pipeline Strategies - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,50px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.badge{
+    display:inline-block;
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:20px;
+    padding:4px 10px;
+    margin:4px;
+    color:#fbbf24;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🚀</div>
+
+<a href="index.html" class="back">← Back to CI/CD</a>
+
+<h1>CI/CD <span>Pipeline Strategies</span></h1>
+
+<p>
+Interview-focused guide covering pipeline design, artifact promotion,
+deployment strategies, approvals, rollback, zero-downtime releases,
+feature flags and production release patterns.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ 1. Complete Pipeline Strategy</h2>
+
+<div class="flow">
+
+👨‍💻 Code
+<br>↓
+<br>
+📦 Git
+<br>↓
+<br>
+🔨 Build
+<br>↓
+<br>
+🧪 Test
+<br>↓
+<br>
+🔐 Security Scan
+<br>↓
+<br>
+📦 Artifact
+<br>↓
+<br>
+🧪 Dev
+<br>↓
+<br>
+🔎 QA / Staging
+<br>↓
+<br>
+👤 Approval
+<br>↓
+<br>
+🚀 Production
+<br>↓
+<br>
+📊 Monitor
+<br>↓
+<br>
+↩️ Rollback if required
+
+</div>
+
+<div class="answer">
+
+A good CI/CD strategy focuses not only on automation, but also on
+safe promotion, traceability, validation and recovery.
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Build Once, Deploy Many</h2>
+
+<div class="answer">
+
+The preferred approach is to build and validate an application once,
+create a versioned artifact, and promote that same artifact through
+different environments.
+
+</div>
+
+<div class="flow">
+
+Source Code
+<br>↓
+<br>
+<strong>Build Once</strong>
+<br>↓
+<br>
+Artifact v1.8
+<br>↓
+<br>
+Dev
+<br>↓
+<br>
+QA
+<br>↓
+<br>
+Staging
+<br>↓
+<br>
+Production
+
+</div>
+
+<div class="warning">
+
+Avoid rebuilding the application separately for every environment
+when the goal is to promote the same tested artifact. Environment-
+specific configuration should be supplied separately.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Environment Promotion</h2>
+
+<table>
+
+<tr>
+<th>Environment</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Development</td>
+<td>Early integration and developer validation.</td>
+</tr>
+
+<tr>
+<td>QA / Testing</td>
+<td>Functional, integration and regression testing.</td>
+</tr>
+
+<tr>
+<td>Staging</td>
+<td>Production-like final validation.</td>
+</tr>
+
+<tr>
+<td>Production</td>
+<td>Serve real users.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+A release should normally progress through controlled gates rather
+than directly moving every untested change into production.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Rolling Deployment</h2>
+
+<div class="answer">
+
+A <strong>Rolling Deployment</strong> gradually replaces old
+application instances with new instances instead of replacing
+everything at once.
+
+</div>
+
+<div class="flow">
+
+Old Version
+<br>
+🟦 🟦 🟦 🟦
+<br>↓<br>
+
+Replace Gradually
+<br>
+🟦 🟦 🟩 🟦
+<br>↓
+<br>
+🟦 🟩 🟩 🟦
+<br>↓
+<br>
+🟩 🟩 🟩 🟩
+<br><br>
+New Version
+
+</div>
+
+<h3>Advantages</h3>
+
+<ul>
+<li>Usually no need for a completely separate environment.</li>
+<li>Gradual rollout.</li>
+<li>Can reduce deployment risk.</li>
+<li>Common in Kubernetes.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+
+<ul>
+<li>Old and new versions may temporarily coexist.</li>
+<li>Rollback can be more complicated for stateful changes.</li>
+</ul>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Blue-Green Deployment</h2>
+
+<div class="answer">
+
+Blue-Green deployment maintains two environments or versions.
+Traffic is directed to one version while the other is prepared.
+
+</div>
+
+<div class="flow">
+
+<strong>Blue</strong>
+<br>
+Version 1.4
+<br>
+👥 Traffic
+<br>
+⬇
+<br>
+Production
+
+<br><br>
+
+<strong>Green</strong>
+<br>
+Version 1.5
+<br>
+Testing
+<br>
+⬇
+<br>
+Ready
+
+<br><br>
+
+Traffic Switch
+<br>↓<br>
+
+<strong>Green → Production</strong>
+
+</div>
+
+<h3>Rollback</h3>
+
+<div class="scenario">
+
+If the new Green version fails after the switch, traffic can be
+redirected back to Blue, assuming the architecture and state
+management support this safely.
+
+</div>
+
+<h3>Advantages</h3>
+
+<ul>
+<li>Fast traffic switch.</li>
+<li>Easy conceptual rollback.</li>
+<li>Full new version can be tested before switching traffic.</li>
+</ul>
+
+<h3>Disadvantages</h3>
+
+<ul>
+<li>Can require additional infrastructure.</li>
+<li>Database compatibility must be handled carefully.</li>
+</ul>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Canary Deployment</h2>
+
+<div class="answer">
+
+A <strong>Canary Deployment</strong> releases the new version to a
+small percentage of users or traffic first.
+
+</div>
+
+<div class="flow">
+
+Version 1.4
+<br>
+90% Traffic
+<br>
+👥👥👥👥👥👥👥👥👥
+<br><br>
+
+Version 1.5
+<br>
+10% Traffic
+<br>
+👥
+<br><br>
+
+Monitor
+<br>↓<br>
+Success?
+<br>↓<br>
+Increase Traffic
+<br>↓<br>
+100%
+
+</div>
+
+<h3>Monitor</h3>
+
+<ul>
+<li>Error rate</li>
+<li>Latency</li>
+<li>HTTP 5xx responses</li>
+<li>CPU / memory</li>
+<li>Business metrics</li>
+</ul>
+
+<div class="interview">
+
+Canary reduces blast radius because only a portion of traffic is
+exposed to the new release initially.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Rolling vs Blue-Green vs Canary</h2>
+
+<table>
+
+<tr>
+<th>Strategy</th>
+<th>Core Idea</th>
+<th>Main Benefit</th>
+</tr>
+
+<tr>
+<td>Rolling</td>
+<td>Gradually replace instances.</td>
+<td>Controlled incremental rollout.</td>
+</tr>
+
+<tr>
+<td>Blue-Green</td>
+<td>Maintain old and new versions and switch traffic.</td>
+<td>Fast switch and rollback.</td>
+</tr>
+
+<tr>
+<td>Canary</td>
+<td>Send a small amount of traffic to the new version.</td>
+<td>Small blast radius.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Easy memory:</strong>
+
+<br><br>
+
+Rolling → <strong>Replace gradually</strong>
+
+<br>
+
+Blue-Green → <strong>Switch environments</strong>
+
+<br>
+
+Canary → <strong>Release to a small percentage</strong>
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Zero-Downtime Deployment</h2>
+
+<div class="answer">
+
+Zero-downtime deployment aims to keep the application available
+while a new version is released.
+
+</div>
+
+<div class="flow">
+
+Load Balancer
+<br>↓
+<br>
+Healthy Instances
+<br>
+🟩 🟩 🟩
+<br><br>
+Deploy New Version
+<br>↓
+<br>
+🟩 🟩 🟩
+<br>+
+<br>
+🟦 🟦
+<br><br>
+Health Checks
+<br>↓
+<br>
+Remove Old Instances
+<br>↓
+<br>
+🟦 🟦 🟦
+
+</div>
+
+<h3>Important requirements</h3>
+
+<ul>
+<li>Multiple application instances.</li>
+<li>Load balancing.</li>
+<li>Health checks.</li>
+<li>Graceful shutdown.</li>
+<li>Backward-compatible changes.</li>
+<li>Safe database migration strategy.</li>
+</ul>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Rollback Strategy</h2>
+
+<div class="answer">
+
+Rollback means returning the application to a previously known-good
+version after a failed or unsafe release.
+
+</div>
+
+<div class="flow">
+
+v1.0 ✅
+<br>↓
+<br>
+v1.1 🚀
+<br>↓
+<br>
+Production Error ❌
+<br>↓
+<br>
+Detect
+<br>↓
+<br>
+Rollback
+<br>↓
+<br>
+v1.0 ✅
+
+</div>
+
+<h3>Good rollback practices</h3>
+
+<ul>
+<li>Keep previous versions available.</li>
+<li>Use immutable/versioned artifacts.</li>
+<li>Automate rollback where appropriate.</li>
+<li>Monitor deployment health.</li>
+<li>Test rollback procedures.</li>
+</ul>
+
+<div class="warning">
+
+Application rollback does not automatically mean database rollback.
+Database changes require separate compatibility and migration
+planning.
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Manual Approval Gates</h2>
+
+<div class="answer">
+
+An approval gate pauses the pipeline before a sensitive action, such
+as production deployment, until an authorized person approves it.
+
+</div>
+
+<div class="flow">
+
+Build
+<br>↓
+<br>
+Test
+<br>↓
+<br>
+Security
+<br>↓
+<br>
+Staging
+<br>↓
+<br>
+<strong>Approval ⏸️</strong>
+<br>↓
+<br>
+Production
+
+</div>
+
+<div class="scenario">
+
+This is common when an organization wants automated validation but
+requires human authorization for production changes.
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 11. Feature Flags</h2>
+
+<div class="answer">
+
+A feature flag allows application functionality to be enabled or
+disabled through configuration without necessarily deploying a new
+application version.
+
+</div>
+
+<div class="scenario">
+
+Example:
+
+A new payment feature is deployed but initially disabled.
+
+After validation, the team enables it for a small group of users and
+then gradually increases exposure.
+
+</div>
+
+<div class="warning">
+
+Feature flags should be managed securely and cleaned up when they are
+no longer needed. Old flags can create unnecessary application
+complexity.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Release vs Deployment</h2>
+
+<div class="answer">
+
+<strong>Deployment</strong> means installing or making a version
+available in an environment.
+
+<strong>Release</strong> means making functionality available to
+users.
+
+These can be separated using techniques such as feature flags.
+
+</div>
+
+<div class="scenario">
+
+A new application version can be deployed to production while a new
+feature remains disabled. The deployment happened, but the feature
+has not yet been released to users.
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Immutable Artifacts</h2>
+
+<div class="answer">
+
+An immutable artifact should not be modified after it is built and
+validated.
+
+</div>
+
+<pre><code>payment-app:1.8.0
+payment-app:git-a82f31c
+payment-app:build-245</code></pre>
+
+<div class="warning">
+
+Avoid overwriting the same production artifact tag with different
+content. Immutable versioning improves traceability and rollback.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Deployment Verification</h2>
+
+<div class="flow">
+
+Deploy
+<br>↓
+<br>
+Health Check
+<br>↓
+<br>
+Application Logs
+<br>↓
+<br>
+Metrics
+<br>↓
+<br>
+Error Rate
+<br>↓
+<br>
+Business Validation
+<br>↓
+<br>
+<strong>Success / Rollback</strong>
+
+</div>
+
+<p>
+A deployment should not be considered successful simply because the
+deployment command returned exit code zero. The running application
+must be healthy.
+</p>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Production Release Strategy</h2>
+
+<div class="scenario">
+
+A safe production workflow can look like:
+
+<br><br>
+
+1. Build artifact.
+
+<br>
+2. Run automated tests.
+
+<br>
+3. Perform security checks.
+
+<br>
+4. Publish immutable artifact.
+
+<br>
+5. Deploy to staging.
+
+<br>
+6. Validate staging.
+
+<br>
+7. Obtain approval if required.
+
+<br>
+8. Deploy using Rolling, Blue-Green or Canary.
+
+<br>
+9. Monitor health and business metrics.
+
+<br>
+10. Roll back if defined failure thresholds are reached.
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Real-Time Scenario: Production Deployment Failed</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+A new version is deployed and error rates increase sharply.
+
+<br><br>
+
+<strong>Response:</strong>
+
+1. Confirm the issue through monitoring and logs.
+<br>
+2. Stop further rollout.
+<br>
+3. Assess impact.
+<br>
+4. Roll back or shift traffic to the known-good version.
+<br>
+5. Investigate the root cause.
+<br>
+6. Fix and validate the new version.
+<br>
+7. Retry deployment through the normal pipeline.
+
+</div>
+
+<div class="interview">
+
+The priority is to restore service safely first, then investigate the
+root cause.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Real-Time Scenario: Zero Downtime</h2>
+
+<div class="scenario">
+
+<strong>Question:</strong>
+
+"How would you deploy a new version without downtime?"
+
+<br><br>
+
+<strong>Answer approach:</strong>
+
+Use multiple healthy instances behind a load balancer, deploy the new
+version gradually, configure readiness/health checks, wait for new
+instances to become healthy, then remove old instances.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Real-Time Scenario: Canary Failure</h2>
+
+<div class="scenario">
+
+Suppose 10% of traffic is sent to version 2.0.
+
+Monitoring shows:
+
+<pre><code>Error Rate: 0.5% → 8%
+Latency:    200ms → 900ms</code></pre>
+
+The rollout should be paused and the traffic can be shifted back to
+the stable version while the issue is investigated.
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. How to Choose a Deployment Strategy?</h2>
+
+<table>
+
+<tr>
+<th>Requirement</th>
+<th>Possible Choice</th>
+</tr>
+
+<tr>
+<td>Simple gradual replacement</td>
+<td>Rolling</td>
+</tr>
+
+<tr>
+<td>Fast switch between complete versions</td>
+<td>Blue-Green</td>
+</tr>
+
+<tr>
+<td>Small initial user exposure</td>
+<td>Canary</td>
+</tr>
+
+<tr>
+<td>Very high-risk release</td>
+<td>Canary + strong monitoring</td>
+</tr>
+
+<tr>
+<td>Need quick traffic reversal</td>
+<td>Blue-Green can be suitable</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+There is no universally best deployment strategy. The choice depends
+on application architecture, traffic, infrastructure cost, data
+compatibility, monitoring maturity and business risk.
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>What is a deployment strategy?</li>
+
+<li>What is Rolling Deployment?</li>
+
+<li>What is Blue-Green Deployment?</li>
+
+<li>What is Canary Deployment?</li>
+
+<li>Rolling vs Blue-Green?</li>
+
+<li>Blue-Green vs Canary?</li>
+
+<li>How do you achieve zero-downtime deployment?</li>
+
+<li>What is rollback?</li>
+
+<li>How do you handle a failed production deployment?</li>
+
+<li>What is an approval gate?</li>
+
+<li>What is Build Once, Deploy Many?</li>
+
+<li>Why use immutable artifacts?</li>
+
+<li>What is a feature flag?</li>
+
+<li>Release vs Deployment?</li>
+
+<li>How do you verify a production deployment?</li>
+
+<li>How do you choose a deployment strategy?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Can Rolling Deployment cause downtime?</li>
+
+<li>What happens if old and new application versions run together?</li>
+
+<li>How do you rollback a database migration?</li>
+
+<li>How do you monitor a Canary release?</li>
+
+<li>What metrics would you monitor during deployment?</li>
+
+<li>Why should Docker image tags be immutable?</li>
+
+<li>How do Kubernetes readiness probes help deployments?</li>
+
+<li>How would you implement Blue-Green deployment?</li>
+
+<li>How would you stop an unsafe automated deployment?</li>
+
+<li>When would you prefer manual approval?</li>
+
+</ul>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Deployment Strategy Cheat Sheet</h2>
+
+<pre><code>ROLLING
+Old → New gradually
+Best for controlled incremental replacement
+
+BLUE-GREEN
+Blue = Old
+Green = New
+Switch traffic
+Fast rollback
+
+CANARY
+Small traffic → New
+Monitor
+Increase gradually
+
+ZERO DOWNTIME
+Multiple instances
++ Load Balancer
++ Health Checks
++ Graceful rollout
+
+ROLLBACK
+Bad Version
+↓
+Known-Good Version
+
+BUILD ONCE
+Source
+↓
+Artifact
+↓
+Dev
+↓
+QA
+↓
+Staging
+↓
+Production</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Rolling</strong>
+→ Replace gradually
+
+<br><br>
+
+<strong>Blue-Green</strong>
+→ Switch between old/new environments
+
+<br><br>
+
+<strong>Canary</strong>
+→ Small traffic first
+
+<br><br>
+
+<strong>Zero Downtime</strong>
+→ Healthy instances remain available
+
+<br><br>
+
+<strong>Rollback</strong>
+→ Return to known-good version
+
+<br><br>
+
+<strong>Build Once</strong>
+→ Promote the same artifact
+
+<br><br>
+
+<strong>Approval</strong>
+→ Human gate when required
+
+<br><br>
+
+<strong>Monitor</strong>
+→ Verify before full rollout
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Deployment Strategies"</h2>
+
+<div class="interview">
+
+"In CI/CD, deployment strategies define how a new application version
+is introduced into an environment.
+
+With Rolling Deployment, old instances are gradually replaced with
+new ones.
+
+With Blue-Green Deployment, we maintain the old and new versions and
+switch traffic between them, which can make rollback quick.
+
+With Canary Deployment, we expose the new version to a small
+percentage of users first, monitor metrics such as error rate and
+latency, and gradually increase traffic if the release is healthy.
+
+For zero-downtime deployment, I would use multiple instances,
+load balancing, health checks and a controlled rollout.
+
+I also prefer building an immutable versioned artifact once and
+promoting that same artifact across environments. If a deployment
+causes a production issue, monitoring should detect it and we can
+pause or roll back to the known-good version."
+
+</div>
+
+</div>
+
+
+<!-- NAV -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="ci-cd-basics.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: CI/CD Basics
+</a>
+
+<br><br>
+
+<a href="ci-cd-tools-integration.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next: CI/CD Tools Integration →
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🚀 CI/CD Pipeline Strategies • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

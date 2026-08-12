@@ -1,0 +1,1212 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes Config & Storage - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+.back{color:#94a3b8;text-decoration:none}
+.back:hover{color:#93c5fd}
+.icon{font-size:50px;margin-bottom:10px}
+h1{font-size:clamp(32px,5vw,52px);margin:0}
+h1 span{color:#93c5fd}
+header p{max-width:850px;margin:15px auto 0;color:#9ca8c0}
+.container{width:min(1050px,92%);margin:auto;padding:45px 0 80px}
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+.intro{background:#121a2d}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+pre code{padding:0;color:#e5e7eb}
+table{width:100%;border-collapse:collapse;margin:20px 0}
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+th{background:#172033;color:#93c5fd}
+.priority{font-weight:800;white-space:nowrap}
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="icon">⚙️</div>
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Config & Storage</span></h1>
+
+<p>
+Interview-focused revision covering ConfigMaps, Secrets, Volumes,
+Persistent Volumes, PVCs, StorageClasses and real-time production scenarios.
+</p>
+</header>
+
+<main class="container">
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Why Config & Storage Matter</h2>
+
+<p>
+Kubernetes applications usually need two things outside the container image:
+<strong>configuration</strong> and <strong>persistent data</strong>.
+</p>
+
+<div class="flow">
+
+Application Container
+<br>
+↓
+<br>
+<strong>ConfigMap / Secret</strong>
+→ Application Configuration
+<br><br>
+<strong>Volume / PVC</strong>
+→ Persistent Application Data
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A Java application runs in Kubernetes.
+
+The application image contains the code, but database URLs,
+environment-specific configuration and passwords should not be
+hardcoded inside the image.
+
+ConfigMaps can store normal configuration, Secrets can store
+sensitive values, and PVCs can provide persistent storage for
+application data.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a ConfigMap?</h2>
+
+<h3>Interview Question</h3>
+
+<div class="answer">
+A <strong>ConfigMap</strong> is a Kubernetes object used to store
+non-sensitive configuration data separately from application code
+and container images.
+</div>
+
+<h3>Why do we use ConfigMaps?</h3>
+
+<ul>
+<li>Keep configuration outside the container image</li>
+<li>Use different configuration for different environments</li>
+<li>Avoid rebuilding images for configuration changes</li>
+<li>Provide configuration as environment variables or files</li>
+</ul>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_ENV: production
+  LOG_LEVEL: INFO
+  APP_PORT: "8080"</code></pre>
+
+<h3>Using ConfigMap as environment variables</h3>
+
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: myapp:v1
+        envFrom:
+        - configMapRef:
+            name: app-config</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"I use ConfigMaps to externalize non-sensitive application
+configuration from the container image. This allows the same image
+to be promoted across environments while configuration can vary
+between development, staging and production."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is a Secret?</h2>
+
+<div class="answer">
+A <strong>Secret</strong> is a Kubernetes object designed to hold
+sensitive data such as passwords, tokens, API keys and credentials.
+</div>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+stringData:
+  DB_USERNAME: admin
+  DB_PASSWORD: mypassword</code></pre>
+
+<h3>Using Secret in a Pod</h3>
+
+<pre><code>env:
+- name: DB_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: db-secret
+      key: DB_USERNAME
+
+- name: DB_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: db-secret
+      key: DB_PASSWORD</code></pre>
+
+<div class="warning">
+
+Kubernetes Secrets are not automatically equivalent to a fully secure
+external secrets manager. In production, protect access using RBAC
+and encryption at rest, and consider external secret-management
+solutions when appropriate.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. ConfigMap vs Secret</h2>
+
+<table>
+
+<tr>
+<th>ConfigMap</th>
+<th>Secret</th>
+</tr>
+
+<tr>
+<td>Non-sensitive configuration</td>
+<td>Sensitive configuration</td>
+</tr>
+
+<tr>
+<td>Environment variables</td>
+<td>Passwords / tokens / keys</td>
+</tr>
+
+<tr>
+<td>Application settings</td>
+<td>Credentials</td>
+</tr>
+
+<tr>
+<td>Not intended for secrets</td>
+<td>Designed for sensitive values</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy interview line:</strong>
+
+<br><br>
+
+"ConfigMap is for non-sensitive configuration, while Secret is for
+sensitive configuration such as credentials and tokens."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. How can ConfigMap and Secret be consumed?</h2>
+
+<p>They can commonly be consumed in two ways:</p>
+
+<h3>1. Environment Variables</h3>
+
+<pre><code>envFrom:
+- configMapRef:
+    name: app-config
+
+- secretRef:
+    name: db-secret</code></pre>
+
+<h3>2. Mounted as Files</h3>
+
+<pre><code>volumes:
+- name: config-volume
+  configMap:
+    name: app-config
+
+containers:
+- name: app
+  image: myapp:v1
+  volumeMounts:
+  - name: config-volume
+    mountPath: /etc/config</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+An NGINX application may need a configuration file.
+Instead of rebuilding the Docker image whenever the configuration
+changes, the configuration can be stored in a ConfigMap and mounted
+inside the Pod.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is a Volume in Kubernetes?</h2>
+
+<div class="answer">
+A Kubernetes Volume provides storage that can be mounted into
+containers running inside a Pod.
+</div>
+
+<p>
+A container's writable filesystem is tied to the container lifecycle.
+When a container is replaced, data stored only inside that writable
+layer may be lost.
+</p>
+
+<h3>Basic volume example</h3>
+
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-demo
+spec:
+  containers:
+  - name: app
+    image: nginx
+    volumeMounts:
+    - name: app-storage
+      mountPath: /data
+
+  volumes:
+  - name: app-storage
+    emptyDir: {}</code></pre>
+
+</div>
+
+
+<!-- SECTION 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is emptyDir?</h2>
+
+<div class="answer">
+<code>emptyDir</code> creates temporary storage when a Pod is assigned
+to a node. The storage exists for the lifetime of the Pod.
+</div>
+
+<div class="scenario">
+
+<strong>Real-time use case:</strong>
+
+A Pod has two containers. One container generates temporary files and
+another container processes them.
+
+Both containers can mount the same <code>emptyDir</code> volume and
+share those temporary files.
+
+</div>
+
+<div class="warning">
+
+When the Pod is deleted from the node, the <code>emptyDir</code>
+data is deleted.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is PersistentVolume?</h2>
+
+<div class="answer">
+A <strong>PersistentVolume (PV)</strong> is a cluster-level storage
+resource provisioned for persistent application data.
+</div>
+
+<p>
+A PV represents storage that exists independently of a particular
+Pod's lifecycle.
+</p>
+
+<h3>Concept</h3>
+
+<div class="flow">
+
+Pod
+<br>
+↓
+<br>
+PVC
+<br>
+↓
+<br>
+PV
+<br>
+↓
+<br>
+Storage Backend
+
+</div>
+
+<p>
+The storage backend could be cloud block storage, network storage,
+or another Kubernetes-supported storage implementation.
+</p>
+
+</div>
+
+
+<!-- SECTION 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is PersistentVolumeClaim?</h2>
+
+<div class="answer">
+A <strong>PersistentVolumeClaim (PVC)</strong> is a request for
+persistent storage made by a user or workload.
+</div>
+
+<p>
+Instead of directly selecting a physical storage device, the
+application requests storage through a PVC.
+</p>
+
+<h3>Example PVC</h3>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 10Gi</code></pre>
+
+<h3>Using PVC in a Pod</h3>
+
+<pre><code>volumes:
+- name: app-storage
+  persistentVolumeClaim:
+    claimName: app-pvc
+
+containers:
+- name: app
+  image: nginx
+  volumeMounts:
+  - name: app-storage
+    mountPath: /data</code></pre>
+
+</div>
+
+
+<!-- SECTION 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. PV vs PVC</h2>
+
+<table>
+
+<tr>
+<th>PV</th>
+<th>PVC</th>
+</tr>
+
+<tr>
+<td>Actual Kubernetes storage resource</td>
+<td>Request for storage</td>
+</tr>
+
+<tr>
+<td>Cluster-level resource</td>
+<td>Requested by workload/user</td>
+</tr>
+
+<tr>
+<td>Provides storage</td>
+<td>Consumes/claims storage</td>
+</tr>
+
+<tr>
+<td>Usually associated with a storage backend</td>
+<td>Specifies required capacity/access characteristics</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Simple interview answer:</strong>
+
+<br><br>
+
+"PV is the storage resource, while PVC is the request for that
+storage. Pods normally consume the PVC rather than directly
+managing the underlying storage."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. What is StorageClass?</h2>
+
+<div class="answer">
+A <strong>StorageClass</strong> defines classes of storage and enables
+dynamic provisioning of PersistentVolumes.
+</div>
+
+<p>
+Without dynamic provisioning, administrators may need to create PVs
+manually. With a StorageClass, Kubernetes can provision storage
+through the configured storage provisioner when a PVC requests it.
+</p>
+
+<div class="flow">
+
+PVC
+<br>
+↓
+<br>
+StorageClass
+<br>
+↓
+<br>
+Provisioner
+<br>
+↓
+<br>
+Persistent Volume
+<br>
+↓
+<br>
+Pod
+
+</div>
+
+</div>
+
+
+<!-- SECTION 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Dynamic vs Static Provisioning</h2>
+
+<table>
+
+<tr>
+<th>Static Provisioning</th>
+<th>Dynamic Provisioning</th>
+</tr>
+
+<tr>
+<td>Admin creates PV manually</td>
+<td>PV is provisioned automatically</td>
+</tr>
+
+<tr>
+<td>More manual work</td>
+<td>Automation-friendly</td>
+</tr>
+
+<tr>
+<td>Useful for predefined storage</td>
+<td>Common in cloud Kubernetes environments</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<strong>Real-time AWS example:</strong>
+
+An application requests a 20Gi PVC. The configured StorageClass
+can dynamically provision the required cloud storage instead of
+the administrator manually creating every PV.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Access Modes</h2>
+
+<table>
+
+<tr>
+<th>Mode</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>ReadWriteOnce</code></td>
+<td>Volume can be mounted read-write by a node according to the storage backend's capabilities.</td>
+</tr>
+
+<tr>
+<td><code>ReadOnlyMany</code></td>
+<td>Volume can be mounted read-only by multiple nodes where supported.</td>
+</tr>
+
+<tr>
+<td><code>ReadWriteMany</code></td>
+<td>Volume can be mounted read-write by multiple nodes where supported.</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+Do not assume every storage backend supports every access mode.
+The actual capability depends on the storage implementation.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 13. What happens when a Pod using a PVC is deleted?</h2>
+
+<div class="answer">
+Deleting a Pod does not automatically mean the persistent data is
+deleted. The PVC and the underlying storage can remain available
+for another Pod, depending on the storage lifecycle and reclaim
+configuration.
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A database Pod crashes.
+
+Kubernetes creates a replacement Pod.
+
+The replacement Pod can mount the same PVC and continue using the
+persistent database data, assuming the storage can be attached to
+the new Pod.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. What is a Reclaim Policy?</h2>
+
+<div class="answer">
+A PV reclaim policy determines what happens to the underlying
+storage after the PVC is deleted.
+</div>
+
+<table>
+
+<tr>
+<th>Policy</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Retain</td>
+<td>Keep the PV/storage for manual recovery or cleanup.</td>
+</tr>
+
+<tr>
+<td>Delete</td>
+<td>Delete the associated dynamically provisioned storage where supported.</td>
+</tr>
+
+<tr>
+<td>Recycle</td>
+<td>Legacy behavior and generally not used in modern Kubernetes.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+For production databases, storage lifecycle must be chosen carefully.
+Accidental deletion of a claim should not automatically destroy
+critical data without an intentional recovery strategy.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Kubernetes Storage Troubleshooting</h2>
+
+<h3>Scenario: PVC is stuck in Pending</h3>
+
+<p>First inspect the PVC:</p>
+
+<pre><code>kubectl get pvc
+kubectl describe pvc &lt;pvc-name&gt;</code></pre>
+
+<p>Then inspect StorageClasses:</p>
+
+<pre><code>kubectl get storageclass
+kubectl describe storageclass &lt;storage-class-name&gt;</code></pre>
+
+<p>Also inspect Pods and cluster events:</p>
+
+<pre><code>kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+<h3>Common causes</h3>
+
+<ul>
+<li>No suitable StorageClass</li>
+<li>StorageClass/provisioner problem</li>
+<li>Insufficient storage capacity</li>
+<li>Unsupported access mode</li>
+<li>Storage backend problem</li>
+<li>Topology or node constraints</li>
+</ul>
+
+</div>
+
+
+<!-- SECTION 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. ConfigMap/Secret Troubleshooting</h2>
+
+<h3>Check objects</h3>
+
+<pre><code>kubectl get configmap
+kubectl get secret</code></pre>
+
+<h3>Inspect configuration</h3>
+
+<pre><code>kubectl describe configmap app-config
+kubectl describe secret db-secret</code></pre>
+
+<h3>Check Pod</h3>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+The application starts but cannot connect to the database.
+
+I would verify:
+
+<br><br>
+
+1. Secret exists<br>
+2. Correct Secret key is referenced<br>
+3. Environment variable is injected correctly<br>
+4. Database hostname and port are correct<br>
+5. Pod logs show the actual application error
+
+</div>
+
+</div>
+
+
+<!-- SECTION 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Secret Security in Production</h2>
+
+<ul>
+<li>Use least-privilege RBAC</li>
+<li>Restrict who can read Secrets</li>
+<li>Enable encryption at rest where appropriate</li>
+<li>Avoid committing secrets to Git</li>
+<li>Rotate credentials</li>
+<li>Use external secret-management systems when appropriate</li>
+<li>Never print secrets in application logs</li>
+</ul>
+
+<div class="warning">
+
+Base64 encoding is not the same thing as encryption.
+Do not describe Kubernetes Secret data as secure simply because it
+is base64-encoded.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Real-Time Scenario: Database in Kubernetes</h2>
+
+<div class="scenario">
+
+<strong>Situation:</strong>
+
+A PostgreSQL database is running inside Kubernetes.
+
+The Pod gets deleted because of a node failure.
+
+<br><br>
+
+<strong>Problem:</strong>
+
+If database files were stored only inside the container's writable
+layer, the replacement Pod could lose the data.
+
+<br><br>
+
+<strong>Solution:</strong>
+
+Use a PVC backed by persistent storage.
+
+</div>
+
+<div class="flow">
+
+PostgreSQL Pod
+<br>
+↓
+<br>
+PVC
+<br>
+↓
+<br>
+PV / Dynamic Provisioning
+<br>
+↓
+<br>
+Persistent Storage
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I would not depend on the container writable layer for database
+persistence. I would use a PVC backed by an appropriate persistent
+storage system, define the storage lifecycle carefully, and also
+maintain backups because persistent storage alone is not a complete
+backup strategy."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 19. ConfigMap vs Baking Configuration into Docker Image</h2>
+
+<table>
+
+<tr>
+<th>Docker Image Configuration</th>
+<th>Kubernetes ConfigMap</th>
+</tr>
+
+<tr>
+<td>Configuration becomes part of image</td>
+<td>Configuration is externalized</td>
+</tr>
+
+<tr>
+<td>Often requires rebuilding image</td>
+<td>Same image can be used across environments</td>
+</tr>
+
+<tr>
+<td>Less flexible for environment changes</td>
+<td>Better separation of application and configuration</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>DevOps principle:</strong>
+
+Build the application image once and inject environment-specific
+configuration during deployment.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Most Asked Interview Questions</h2>
+
+<ol>
+
+<li>What is ConfigMap?</li>
+<li>Why do we use ConfigMaps?</li>
+<li>What is Kubernetes Secret?</li>
+<li>ConfigMap vs Secret?</li>
+<li>How can ConfigMaps be injected into Pods?</li>
+<li>How can Secrets be injected into Pods?</li>
+<li>What is a Kubernetes Volume?</li>
+<li>What is emptyDir?</li>
+<li>What is PersistentVolume?</li>
+<li>What is PersistentVolumeClaim?</li>
+<li>PV vs PVC?</li>
+<li>What is StorageClass?</li>
+<li>What is dynamic provisioning?</li>
+<li>What are Kubernetes access modes?</li>
+<li>What happens to a PVC when a Pod is deleted?</li>
+<li>What is a reclaim policy?</li>
+<li>What is the difference between Retain and Delete?</li>
+<li>How would you troubleshoot a PVC stuck in Pending?</li>
+<li>How would you troubleshoot a Pod that cannot mount a volume?</li>
+<li>How would you run a database with persistent storage?</li>
+<li>How do you secure Kubernetes Secrets?</li>
+<li>Why is base64 not encryption?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Can multiple Pods use the same PVC?</li>
+<li>Does every StorageClass support ReadWriteMany?</li>
+<li>What happens if the node containing a Pod fails?</li>
+<li>What is dynamic volume provisioning?</li>
+<li>What is the difference between volume and persistent volume?</li>
+<li>What happens when a PVC is deleted?</li>
+<li>How do you protect production database storage?</li>
+<li>Where should application secrets be stored?</li>
+<li>How do you troubleshoot a volume mount failure?</li>
+<li>How does Kubernetes know which PV satisfies a PVC?</li>
+<li>What is the role of a CSI driver?</li>
+<li>Why should application configuration be externalized?</li>
+
+</ul>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Config & Storage Command Cheat Sheet</h2>
+
+<pre><code># ConfigMaps
+kubectl get configmaps
+kubectl describe configmap &lt;name&gt;
+kubectl create configmap app-config --from-literal=APP_ENV=prod
+
+# Secrets
+kubectl get secrets
+kubectl describe secret &lt;name&gt;
+
+# Volumes / Pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl get pods
+
+# Persistent Storage
+kubectl get pv
+kubectl get pvc
+kubectl describe pv &lt;pv-name&gt;
+kubectl describe pvc &lt;pvc-name&gt;
+
+# StorageClasses
+kubectl get storageclass
+kubectl describe storageclass &lt;name&gt;
+
+# Events
+kubectl get events --sort-by=.lastTimestamp
+
+# Debugging
+kubectl logs &lt;pod-name&gt;
+kubectl exec -it &lt;pod-name&gt; -- sh</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second Config & Storage Revision</h2>
+
+<div class="flow">
+
+<strong>ConfigMap</strong>
+→ Non-sensitive configuration
+
+<br><br>
+
+<strong>Secret</strong>
+→ Sensitive configuration
+
+<br><br>
+
+<strong>Volume</strong>
+→ Storage mounted into Pod
+
+<br><br>
+
+<strong>emptyDir</strong>
+→ Temporary Pod storage
+
+<br><br>
+
+<strong>PV</strong>
+→ Persistent storage resource
+
+<br><br>
+
+<strong>PVC</strong>
+→ Request for persistent storage
+
+<br><br>
+
+<strong>StorageClass</strong>
+→ Defines storage class / enables dynamic provisioning
+
+<br><br>
+
+<strong>Pod</strong>
+→ Mounts PVC
+
+<br><br>
+
+<strong>Production</strong>
+→ Persistent storage + backups + RBAC + secure secrets
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Kubernetes Storage"</h2>
+
+<div class="interview">
+
+"Kubernetes provides different mechanisms for configuration and
+storage.
+
+For non-sensitive application configuration, I use ConfigMaps,
+while sensitive values such as credentials are stored in Secrets.
+
+For storage, a Pod can use volumes. For temporary data,
+emptyDir can be used, but for persistent application data I use
+PersistentVolumeClaims.
+
+A PVC represents the application's request for storage and can be
+bound to a PersistentVolume. In dynamic provisioning, a
+StorageClass and its provisioner can automatically create the
+required storage.
+
+For production workloads such as databases, I would use persistent
+storage with an appropriate access mode and reclaim policy, secure
+Secrets using RBAC and encryption controls, and maintain backups
+because storage persistence is not a substitute for backups."
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+⚙️ Kubernetes Config & Storage • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

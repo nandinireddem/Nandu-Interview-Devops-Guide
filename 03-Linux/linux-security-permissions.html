@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Security & Permissions - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+.icon{font-size:50px;margin:20px 0 5px}
+h1{font-size:clamp(30px,5vw,48px);margin:0}
+h1 span{color:#c4b5fd}
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+.priority{
+    display:inline-block;
+    color:#c4b5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+h2{margin:5px 0 12px;font-size:25px}
+h3{color:#c4b5fd}
+p{color:#c2ccde}
+.example{
+    background:rgba(196,181,253,.05);
+    border-left:4px solid #c4b5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+.example strong{color:#c4b5fd}
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+.answer strong{color:#c4b5fd}
+.warning{
+    background:rgba(248,113,113,.06);
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:0 10px 10px 0;
+    margin:20px 0;
+}
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1;
+}
+code{
+    background:#080d18;
+    color:#ddd6fe;
+    padding:3px 7px;
+    border-radius:5px;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+th{
+    color:#c4b5fd;
+    background:#111a2e;
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+.note{
+    background:rgba(196,181,253,.05);
+    border:1px solid rgba(196,181,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0;
+}
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">🔐</div>
+
+<h1>Linux <span>Security & Permissions</span></h1>
+
+<p>
+Users, groups, file permissions, chmod, chown, sudo, umask,
+special permissions, ACL, SSH security and real-time DevOps
+troubleshooting.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+
+<!-- LINUX SECURITY -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h2>What is Linux Security?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux security controls who can access files, directories,
+processes and system resources and what actions they are allowed
+to perform.
+</p>
+
+<div class="flow">
+
+User
+
+↓
+
+Authentication
+
+↓
+
+Authorization
+
+↓
+
+Permissions
+
+↓
+
+Resource Access
+
+</div>
+
+<div class="example">
+
+<strong>💡 DevOps Example</strong>
+
+<p>
+An application should be able to read its configuration files,
+but it should not have permission to modify sensitive system
+files.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux security uses users, groups, permissions, ownership and
+privilege controls to restrict access to system resources and
+protect applications and data."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- USERS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h2>What is a Linux User?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A user is an identity under which processes and commands run.
+Linux associates each user with a UID, or User ID.
+</p>
+
+<div class="example">
+
+<strong>View current user</strong>
+
+<pre>whoami</pre>
+
+<strong>View user identity</strong>
+
+<pre>id</pre>
+
+<strong>List users</strong>
+
+<pre>cat /etc/passwd</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A Linux user is an identity used to authenticate and control
+access to system resources. Each user has a unique UID."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ROOT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 03</div>
+
+<h2>What is the root user?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+The root user is the Linux superuser with extensive privileges
+over the operating system.
+</p>
+
+<div class="example">
+
+<pre>whoami</pre>
+
+<p>
+If the output is:
+</p>
+
+<pre>root</pre>
+
+<p>
+the current shell is running as the root user.
+</p>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Security Principle</strong>
+
+<p>
+Avoid using root unnecessarily. Use the least privilege required
+to perform an operation.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Root is the Linux superuser with administrative privileges.
+For security, administrative access should be limited and used
+only when necessary."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- GROUPS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 04</div>
+
+<h2>What is a Linux Group?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A group is a collection of users that can share permissions to
+files, directories and other resources.
+</p>
+
+<div class="example">
+
+<strong>Check groups of current user</strong>
+
+<pre>groups</pre>
+
+<strong>Detailed identity</strong>
+
+<pre>id</pre>
+
+</div>
+
+<div class="flow">
+
+Users
+
+↓
+
+Group
+
+↓
+
+Shared Permissions
+
+↓
+
+Resources
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux groups allow administrators to manage permissions for
+multiple users collectively instead of configuring permissions
+individually."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PERMISSIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 05</div>
+
+<h2>Linux File Permissions</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux permissions control what the owner, group and other users
+can do with a file or directory.
+</p>
+
+<div class="example">
+
+<pre>ls -l</pre>
+
+<p>Example:</p>
+
+<pre>-rwxr-xr--</pre>
+
+</div>
+
+<table>
+
+<tr>
+<th>Permission</th>
+<th>Meaning</th>
+<th>Numeric Value</th>
+</tr>
+
+<tr>
+<td>r</td>
+<td>Read</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>w</td>
+<td>Write</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>x</td>
+<td>Execute</td>
+<td>1</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PERMISSION STRUCTURE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 06</div>
+
+<h2>How do you read rwxr-xr-x?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<div class="flow">
+
+rwx
+
+Owner
+
+↓
+
+r-x
+
+Group
+
+↓
+
+r-x
+
+Others
+
+</div>
+
+<table>
+
+<tr>
+<th>Section</th>
+<th>Permission</th>
+</tr>
+
+<tr>
+<td>Owner</td>
+<td>rwx</td>
+</tr>
+
+<tr>
+<td>Group</td>
+<td>r-x</td>
+</tr>
+
+<tr>
+<td>Others</td>
+<td>r-x</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The first permission set belongs to the owner, the second to
+the group and the third to others. In rwxr-xr-x, the owner has
+read, write and execute permissions, while group and others have
+read and execute permissions."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CHMOD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 07</div>
+
+<h2>chmod</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+<code>chmod</code> changes the permissions of files and
+directories.
+</p>
+
+<h3>Symbolic Mode</h3>
+
+<pre>chmod u+x script.sh
+chmod g+w file.txt
+chmod o-r file.txt</pre>
+
+<h3>Numeric Mode</h3>
+
+<pre>chmod 755 script.sh
+chmod 644 file.txt</pre>
+
+<table>
+
+<tr>
+<th>Number</th>
+<th>Permissions</th>
+</tr>
+
+<tr>
+<td>7</td>
+<td>rwx</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>rw-</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>r-x</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>r--</td>
+</tr>
+
+<tr>
+<td>0</td>
+<td>---</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"chmod is used to modify file and directory permissions. Numeric
+permissions represent read, write and execute values using
+4, 2 and 1."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- 755 -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h2>What does chmod 755 mean?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<div class="flow">
+
+7 → rwx
+
+↓
+
+5 → r-x
+
+↓
+
+5 → r-x
+
+</div>
+
+<p>
+Therefore:
+</p>
+
+<pre>Owner  → rwx
+Group  → r-x
+Others → r-x</pre>
+
+<div class="example">
+
+<strong>Common use</strong>
+
+<p>
+Executable scripts may commonly use 755 when they need to be
+executed by users other than the owner.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- 644 -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 09</div>
+
+<h2>What does chmod 644 mean?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<pre>6 → rw-
+4 → r--
+4 → r--</pre>
+
+<p>
+So:
+</p>
+
+<pre>Owner  → read + write
+Group  → read
+Others → read</pre>
+
+<div class="example">
+
+<strong>Common use</strong>
+
+<p>
+Regular text or configuration files may commonly use a 644-style
+permission when they do not need to be executable.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CHOWN -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 10</div>
+
+<h2>chown</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+<code>chown</code> changes file or directory ownership.
+</p>
+
+<div class="example">
+
+<strong>Change owner</strong>
+
+<pre>sudo chown nandu file.txt</pre>
+
+<strong>Change owner and group</strong>
+
+<pre>sudo chown nandu:devops file.txt</pre>
+
+<strong>Recursive ownership change</strong>
+
+<pre>sudo chown -R nandu:devops /app</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Be careful with -R</strong>
+
+<p>
+Recursive ownership changes affect everything below the specified
+directory. Always verify the path before using it.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"chown changes the owner and group ownership of files and
+directories. It is commonly used to ensure applications have the
+correct ownership for accessing their files."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CHGRP -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 11</div>
+
+<h2>chgrp</h2>
+
+<span class="priority">⭐⭐⭐</span>
+
+<p>
+<code>chgrp</code> changes the group ownership of a file or
+directory.
+</p>
+
+<pre>sudo chgrp devops file.txt</pre>
+
+<div class="answer">
+
+<strong>Memory Trick</strong>
+
+<p>
+<strong>chown</strong> → Change owner<br>
+<strong>chgrp</strong> → Change group
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SUDO -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 12</div>
+
+<h2>What is sudo?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+<code>sudo</code> allows an authorized user to execute a command
+with elevated privileges.
+</p>
+
+<div class="example">
+
+<pre>sudo systemctl restart nginx</pre>
+
+<pre>sudo apt update</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"sudo allows authorized users to execute specific commands with
+elevated privileges without logging in directly as the root
+user."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SUDOERS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 13</div>
+
+<h2>/etc/sudoers</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+The sudoers configuration defines which users or groups are
+allowed to execute commands with elevated privileges.
+</p>
+
+<div class="example">
+
+<strong>Safely edit sudo configuration</strong>
+
+<pre>sudo visudo</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+Do not casually edit sudo configuration with a normal text editor.
+Syntax mistakes can cause serious administrative problems.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- UMASK -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 14</div>
+
+<h2>What is umask?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p>
+<code>umask</code> controls the default permission bits that are
+removed when new files and directories are created.
+</p>
+
+<div class="example">
+
+<pre>umask</pre>
+
+<strong>Example</strong>
+
+<pre>umask 022</pre>
+
+</div>
+
+<p>
+A commonly encountered 022 umask results in:
+</p>
+
+<pre>New file       → 644
+New directory  → 755</pre>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"umask defines which permission bits are masked when new files
+and directories are created. It helps control their default
+permissions."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SPECIAL PERMISSIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 15</div>
+
+<h2>Special Permissions</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+Linux supports special permission bits that provide additional
+access-control behavior.
+</p>
+
+<table>
+
+<tr>
+<th>Permission</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>SUID</td>
+<td>Executable runs with owner's privileges</td>
+</tr>
+
+<tr>
+<td>SGID</td>
+<td>Executable/group inheritance behavior</td>
+</tr>
+
+<tr>
+<td>Sticky Bit</td>
+<td>Controls deletion in shared directories</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>Common example</strong>
+
+<pre>ls -ld /tmp</pre>
+
+<p>
+The <code>/tmp</code> directory commonly has the sticky bit.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- STICKY -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 16</div>
+
+<h2>What is Sticky Bit?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+The sticky bit on a shared directory restricts users from deleting
+or renaming files owned by other users, subject to the system's
+permission model.
+</p>
+
+<div class="example">
+
+<pre>ls -ld /tmp</pre>
+
+<p>
+You may see a permission pattern containing:
+</p>
+
+<pre>drwxrwxrwt</pre>
+
+<p>
+The <code>t</code> represents the sticky bit.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The sticky bit is commonly used on shared directories so users
+cannot freely delete or rename files belonging to other users."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ACL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 17</div>
+
+<h2>What is ACL?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+ACL stands for Access Control List. It provides more granular
+permissions than the traditional owner-group-other model.
+</p>
+
+<div class="example">
+
+<strong>View ACL</strong>
+
+<pre>getfacl file.txt</pre>
+
+<strong>Set an ACL entry</strong>
+
+<pre>setfacl -m u:nandu:r file.txt</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"ACL provides fine-grained access control by allowing additional
+users or groups to receive specific permissions beyond the
+traditional owner, group and others model."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SSH -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 18</div>
+
+<h2>What is SSH?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+SSH, or Secure Shell, is a protocol used to securely connect to
+remote systems and execute commands.
+</p>
+
+<div class="example">
+
+<pre>ssh user@server-ip</pre>
+
+<strong>Using a private key</strong>
+
+<pre>ssh -i key.pem user@server-ip</pre>
+
+</div>
+
+<div class="flow">
+
+Local Machine
+
+↓
+
+SSH
+
+↓
+
+Remote Server
+
+↓
+
+Authentication
+
+↓
+
+Shell Access
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"SSH is a secure protocol used for remote login and command
+execution. In cloud environments it is commonly used by
+administrators and DevOps engineers to access Linux servers."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SSH KEY -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 19</div>
+
+<h2>SSH Key-Based Authentication</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+SSH key authentication uses a public-private key pair instead of
+a password.
+</p>
+
+<div class="flow">
+
+Private Key
+
+↓
+
+Client
+
+↓
+
+Public Key
+
+↓
+
+Server
+
+↓
+
+Authentication
+
+</div>
+
+<p>
+The private key should remain secret, while the public key can be
+placed on the server.
+</p>
+
+<div class="example">
+
+<strong>Common key location</strong>
+
+<pre>~/.ssh/id_rsa
+~/.ssh/id_ed25519</pre>
+
+<strong>Authorized public keys</strong>
+
+<pre>~/.ssh/authorized_keys</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>🔐 Security Rule</strong>
+
+<p>
+Never share your private SSH key. Store it securely and protect
+its permissions.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SSH PERMISSIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 20</div>
+
+<h2>Common SSH Permission Problem</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ REAL-TIME</span>
+
+<p>
+SSH may reject a private key if its permissions are too open.
+</p>
+
+<div class="example">
+
+<pre>chmod 400 key.pem</pre>
+
+<p>
+or, depending on the environment and security requirements:
+</p>
+
+<pre>chmod 600 key.pem</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"If SSH reports that a private key is too open, I would verify
+the key's ownership and permissions and restrict access so that
+unauthorized users cannot read the private key."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FILE ACCESS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 21</div>
+
+<h2>File vs Directory Permissions</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<table>
+
+<tr>
+<th>Permission</th>
+<th>File</th>
+<th>Directory</th>
+</tr>
+
+<tr>
+<td>Read</td>
+<td>Read file contents</td>
+<td>List directory entries</td>
+</tr>
+
+<tr>
+<td>Write</td>
+<td>Modify file</td>
+<td>Create/delete/rename entries subject to other permissions</td>
+</tr>
+
+<tr>
+<td>Execute</td>
+<td>Execute program/script</td>
+<td>Access/traverse directory</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Read, write and execute have different practical meanings on
+files and directories. On a directory, execute permission is
+especially important because it allows traversal and access to
+entries."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- REAL TIME -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME DEVOPS SCENARIO</div>
+
+<h2>Application cannot read its configuration file</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<div class="flow">
+
+Application Error
+
+↓
+
+ls -l config-file
+
+↓
+
+Check Owner
+
+↓
+
+Check Group
+
+↓
+
+Check Permissions
+
+↓
+
+Check Parent Directory
+
+↓
+
+Fix Ownership/Permissions
+
+↓
+
+Test Application
+
+</div>
+
+<div class="example">
+
+<pre>ls -l /app/config/application.yml
+
+id appuser
+
+namei -l /app/config/application.yml</pre>
+
+<p>
+Then, if appropriate:
+</p>
+
+<pre>sudo chown appuser:appgroup /app/config/application.yml
+sudo chmod 640 /app/config/application.yml</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Don't simply use chmod 777</strong>
+
+<p>
+Fix the actual ownership or permission requirement instead of
+giving everyone unrestricted access.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"I would first inspect the file ownership and permissions, then
+verify the application's user and group. I would also check
+permissions on the parent directories. I would make the smallest
+permission or ownership change necessary and then test again."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- 777 -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 22</div>
+
+<h2>Why should you avoid chmod 777?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+<code>777</code> gives read, write and execute permissions to the
+owner, group and others.
+</p>
+
+<pre>777 → rwxrwxrwx</pre>
+
+<div class="warning">
+
+<strong>🚨 Security Risk</strong>
+
+<p>
+Giving everyone write and execute access can allow unauthorized
+modification or execution and increase the attack surface.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I avoid chmod 777 because it grants excessive permissions to
+everyone. I follow the principle of least privilege and grant
+only the permissions required by the application or user."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- USER CREATION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 23</div>
+
+<h2>User & Group Management</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<div class="example">
+
+<strong>Create user</strong>
+
+<pre>sudo useradd nandu</pre>
+
+<strong>Create group</strong>
+
+<pre>sudo groupadd devops</pre>
+
+<strong>Add user to group</strong>
+
+<pre>sudo usermod -aG devops nandu</pre>
+
+<strong>Verify</strong>
+
+<pre>id nandu</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+Use <code>-aG</code> when adding supplementary groups so existing
+supplementary group memberships are not unintentionally replaced.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PASSWORD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 24</div>
+
+<h2>Password Management</h2>
+
+<span class="priority">⭐⭐⭐</span>
+
+<div class="example">
+
+<strong>Set or change password</strong>
+
+<pre>sudo passwd nandu</pre>
+
+<strong>Lock account</strong>
+
+<pre>sudo passwd -l nandu</pre>
+
+<strong>Unlock account</strong>
+
+<pre>sudo passwd -u nandu</pre>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SECURITY BEST PRACTICES -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 25</div>
+
+<h2>Linux Security Best Practices</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<ul>
+<li>Follow the principle of least privilege.</li>
+<li>Avoid unnecessary root access.</li>
+<li>Use SSH keys where appropriate.</li>
+<li>Protect private SSH keys.</li>
+<li>Avoid chmod 777.</li>
+<li>Keep systems and packages updated.</li>
+<li>Use strong authentication practices.</li>
+<li>Restrict unnecessary network access.</li>
+<li>Monitor logs and authentication activity.</li>
+<li>Use service-specific users where appropriate.</li>
+</ul>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I follow least privilege, minimize root access, secure SSH
+authentication, protect private keys, avoid excessive
+permissions, keep systems updated and monitor logs for suspicious
+activity."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TROUBLESHOOTING -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME TROUBLESHOOTING</div>
+
+<h2>Permission Denied — What Will You Check?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<div class="flow">
+
+Permission Denied
+
+↓
+
+whoami / id
+
+↓
+
+ls -l target
+
+↓
+
+Check Owner
+
+↓
+
+Check Group
+
+↓
+
+Check rwx
+
+↓
+
+Check Parent Directories
+
+↓
+
+Check ACL
+
+↓
+
+Fix Minimum Required Permission
+
+</div>
+
+<div class="example">
+
+<pre>whoami
+id
+ls -l file.txt
+namei -l /path/to/file
+getfacl file.txt</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+"First I identify the user running the command. Then I check the
+file's owner, group and permissions. I also verify permissions on
+parent directories and check ACLs if necessary. Finally, I apply
+the minimum required permission or ownership change."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- QUICK COMMANDS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧰 Linux Security Quick Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>whoami</code></td>
+<td>Current user</td>
+</tr>
+
+<tr>
+<td><code>id</code></td>
+<td>User and group IDs</td>
+</tr>
+
+<tr>
+<td><code>groups</code></td>
+<td>Current user's groups</td>
+</tr>
+
+<tr>
+<td><code>ls -l</code></td>
+<td>File permissions and ownership</td>
+</tr>
+
+<tr>
+<td><code>chmod</code></td>
+<td>Change permissions</td>
+</tr>
+
+<tr>
+<td><code>chown</code></td>
+<td>Change ownership</td>
+</tr>
+
+<tr>
+<td><code>chgrp</code></td>
+<td>Change group ownership</td>
+</tr>
+
+<tr>
+<td><code>sudo</code></td>
+<td>Execute with elevated privileges</td>
+</tr>
+
+<tr>
+<td><code>visudo</code></td>
+<td>Safely edit sudo configuration</td>
+</tr>
+
+<tr>
+<td><code>umask</code></td>
+<td>Default permission mask</td>
+</tr>
+
+<tr>
+<td><code>getfacl</code></td>
+<td>View ACL</td>
+</tr>
+
+<tr>
+<td><code>setfacl</code></td>
+<td>Modify ACL</td>
+</tr>
+
+<tr>
+<td><code>ssh</code></td>
+<td>Remote secure login</td>
+</tr>
+
+<tr>
+<td><code>usermod -aG</code></td>
+<td>Add user to supplementary group</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — LINUX SECURITY</h2>
+
+<div class="note">
+
+<strong>User</strong>
+→ Identity on Linux.
+
+<br><br>
+
+<strong>Group</strong>
+→ Collection of users.
+
+<br><br>
+
+<strong>root</strong>
+→ Superuser.
+
+<br><br>
+
+<strong>r</strong>
+→ Read = 4.
+
+<br><br>
+
+<strong>w</strong>
+→ Write = 2.
+
+<br><br>
+
+<strong>x</strong>
+→ Execute = 1.
+
+<br><br>
+
+<strong>chmod</strong>
+→ Change permissions.
+
+<br><br>
+
+<strong>chown</strong>
+→ Change ownership.
+
+<br><br>
+
+<strong>chgrp</strong>
+→ Change group.
+
+<br><br>
+
+<strong>sudo</strong>
+→ Execute command with elevated privileges.
+
+<br><br>
+
+<strong>umask</strong>
+→ Controls default permission mask.
+
+<br><br>
+
+<strong>SUID / SGID / Sticky Bit</strong>
+→ Special permissions.
+
+<br><br>
+
+<strong>ACL</strong>
+→ Fine-grained permissions.
+
+<br><br>
+
+<strong>SSH</strong>
+→ Secure remote access.
+
+<br><br>
+
+<strong>chmod 755</strong>
+→ rwxr-xr-x
+
+<br><br>
+
+<strong>chmod 644</strong>
+→ rw-r--r--
+
+<br><br>
+
+<strong>chmod 777</strong>
+→ rwxrwxrwx → generally avoid.
+
+<br><br>
+
+<strong>🔥 Permission Denied</strong>
+
+<br><br>
+
+whoami
+
+↓
+
+id
+
+↓
+
+ls -l
+
+↓
+
+Check owner/group
+
+↓
+
+Check permissions
+
+↓
+
+Check parent directory
+
+↓
+
+Check ACL
+
+↓
+
+Apply least privilege fix
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL INTERVIEW -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🎤 FINAL INTERVIEW QUESTIONS</h2>
+
+<p>
+
+<strong>Q:</strong> What is chmod?
+
+<br>
+<strong>A:</strong> Changes file and directory permissions.
+
+<br><br>
+
+<strong>Q:</strong> What is chown?
+
+<br>
+<strong>A:</strong> Changes file or directory ownership.
+
+<br><br>
+
+<strong>Q:</strong> What does 755 mean?
+
+<br>
+<strong>A:</strong> Owner rwx, group r-x, others r-x.
+
+<br><br>
+
+<strong>Q:</strong> What does 644 mean?
+
+<br>
+<strong>A:</strong> Owner rw-, group r--, others r--.
+
+<br><br>
+
+<strong>Q:</strong> Why avoid 777?
+
+<br>
+<strong>A:</strong> It gives excessive permissions to everyone.
+
+<br><br>
+
+<strong>Q:</strong> What is sudo?
+
+<br>
+<strong>A:</strong> Allows authorized users to execute commands with
+elevated privileges.
+
+<br><br>
+
+<strong>Q:</strong> What is umask?
+
+<br>
+<strong>A:</strong> Controls permission bits masked from newly
+created files and directories.
+
+<br><br>
+
+<strong>Q:</strong> What is ACL?
+
+<br>
+<strong>A:</strong> Provides fine-grained access control beyond the
+basic owner/group/other permission model.
+
+<br><br>
+
+<strong>Q:</strong> What is SSH?
+
+<br>
+<strong>A:</strong> Secure protocol for remote login and command
+execution.
+
+<br><br>
+
+<strong>Q:</strong> How do you troubleshoot Permission Denied?
+
+<br>
+<strong>A:</strong> Check current user, ownership, group,
+permissions, parent directory permissions and ACLs, then apply
+the minimum required fix.
+
+</p>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🔐 Linux • Security & Permissions</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

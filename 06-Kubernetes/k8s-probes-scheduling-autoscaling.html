@@ -1,0 +1,1901 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Kubernetes Probes, Scheduling and Autoscaling - DevOps Interview Guide">
+<title>Kubernetes Probes, Scheduling & Autoscaling - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+ul,ol{padding-left:25px}
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border:1px solid #475569;
+    border-radius:20px;
+    margin:4px;
+    color:#cbd5e1;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">❤️‍🩹⚙️📈</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Probes, Scheduling & Autoscaling</span></h1>
+
+<p>
+Interview-focused guide covering Liveness, Readiness and Startup
+Probes, resource requests and limits, QoS, scheduling, taints,
+tolerations, affinity, HPA, VPA, Cluster Autoscaler and
+real-time production scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Big Picture</h2>
+
+<p>
+Three important areas control how Kubernetes keeps applications
+healthy and places workloads efficiently:
+</p>
+
+<div class="flow">
+
+<strong>Probes</strong>
+<br>
+"Is my application healthy and ready?"
+
+<br><br>↓
+
+<strong>Scheduling</strong>
+<br>
+"Where should this Pod run?"
+
+<br><br>↓
+
+<strong>Autoscaling</strong>
+<br>
+"How many Pods or nodes do I need?"
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A production API suddenly receives heavy traffic.
+
+Readiness probes prevent unhealthy Pods from receiving traffic.
+The scheduler places Pods on suitable nodes. HPA increases the
+number of application replicas when the workload requires more
+capacity. If the cluster needs more nodes, Cluster Autoscaler can
+adjust node capacity when supported/configured.
+
+</div>
+
+</div>
+
+
+<!-- ================= PROBES ================= -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What are Kubernetes Probes?</h2>
+
+<div class="answer">
+
+Kubernetes probes are health checks used by the kubelet to determine
+the state of a containerized application.
+
+The three important probes are:
+
+<br><br>
+
+<strong>1. Liveness Probe</strong> → Is the application still alive?
+
+<br>
+
+<strong>2. Readiness Probe</strong> → Can the application receive traffic?
+
+<br>
+
+<strong>3. Startup Probe</strong> → Has the slow-starting application finished starting?
+
+</div>
+
+<div class="flow">
+
+Application
+<br>
+↓
+<br>
+<strong>Startup</strong>
+→ "Has startup completed?"
+<br>
+↓
+<strong>Liveness</strong>
+→ "Is it still alive?"
+<br>
+↓
+<strong>Readiness</strong>
+→ "Can it receive traffic?"
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Liveness Probe</h2>
+
+<div class="answer">
+
+A liveness probe determines whether a container is still functioning.
+
+If the liveness probe repeatedly fails, Kubernetes may restart the
+container according to the Pod's restart policy and probe behavior.
+
+</div>
+
+<h3>HTTP example</h3>
+
+<pre><code>livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time:</strong>
+
+A Java application gets stuck internally and stops responding to
+health requests.
+
+The liveness probe detects the failure and Kubernetes can restart
+the affected container.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Readiness Probe</h2>
+
+<div class="answer">
+
+A readiness probe determines whether a container is ready to serve
+traffic.
+
+When readiness fails, Kubernetes removes the Pod from the endpoints
+of Services that select it, so the Pod should not receive normal
+Service traffic.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>readinessProbe:
+  httpGet:
+    path: /ready
+    port: 8080
+
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 3</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time:</strong>
+
+A new application Pod starts successfully but is still loading
+configuration and establishing database connections.
+
+The container is alive, but not ready.
+
+Readiness probe remains failed, so the Pod does not receive
+application traffic until it becomes ready.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Startup Probe</h2>
+
+<div class="answer">
+
+A startup probe is designed for applications that take a long time
+to initialize.
+
+While the startup probe has not succeeded, Kubernetes does not run
+the liveness and readiness probes in the normal way.
+
+This prevents a slow-starting application from being incorrectly
+restarted by an aggressive liveness probe.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>startupProbe:
+  httpGet:
+    path: /startup
+    port: 8080
+
+  periodSeconds: 10
+  failureThreshold: 30</code></pre>
+
+<div class="scenario">
+
+A legacy Java application takes several minutes to load a large
+application context.
+
+Without a startup probe, liveness could fail during startup and
+continually restart the application.
+
+Startup probe solves this type of problem.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Liveness vs Readiness vs Startup</h2>
+
+<table>
+
+<tr>
+<th>Probe</th>
+<th>Main Question</th>
+<th>Failure Effect</th>
+</tr>
+
+<tr>
+<td>Liveness</td>
+<td>Is the application alive?</td>
+<td>Container may be restarted.</td>
+</tr>
+
+<tr>
+<td>Readiness</td>
+<td>Can it receive traffic?</td>
+<td>Pod is removed from Service traffic.</td>
+</tr>
+
+<tr>
+<td>Startup</td>
+<td>Has startup completed?</td>
+<td>Protects slow-starting applications during initialization.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+"Liveness checks whether the application is still healthy enough to
+continue running. Readiness checks whether it is ready to serve
+traffic. Startup is useful for slow-starting applications and gives
+them enough time to initialize before normal liveness and readiness
+checks take effect."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Probe Types</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>Usage</th>
+</tr>
+
+<tr>
+<td>httpGet</td>
+<td>Sends an HTTP request to an endpoint.</td>
+</tr>
+
+<tr>
+<td>tcpSocket</td>
+<td>Checks whether a TCP connection can be established.</td>
+</tr>
+
+<tr>
+<td>exec</td>
+<td>Runs a command inside the container.</td>
+</tr>
+
+<tr>
+<td>grpc</td>
+<td>Performs a gRPC health check where supported/configured.</td>
+</tr>
+
+</table>
+
+<h3>TCP example</h3>
+
+<pre><code>readinessProbe:
+  tcpSocket:
+    port: 8080
+  periodSeconds: 10</code></pre>
+
+<h3>Exec example</h3>
+
+<pre><code>livenessProbe:
+  exec:
+    command:
+    - cat
+    - /tmp/healthy
+
+  periodSeconds: 10</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 7. Probe Timing Parameters</h2>
+
+<table>
+
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>initialDelaySeconds</td>
+<td>Wait before starting the probe.</td>
+</tr>
+
+<tr>
+<td>periodSeconds</td>
+<td>How frequently the probe runs.</td>
+</tr>
+
+<tr>
+<td>timeoutSeconds</td>
+<td>How long to wait for a probe response.</td>
+</tr>
+
+<tr>
+<td>failureThreshold</td>
+<td>Number of consecutive failures before failure is acted upon.</td>
+</tr>
+
+<tr>
+<td>successThreshold</td>
+<td>Number of successful checks required for recovery in supported probe contexts.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Bad Probe Configuration</h2>
+
+<div class="warning">
+
+A common production mistake is configuring an aggressive liveness
+probe that fails while the application is still initializing.
+
+This can cause:
+
+<br><br>
+
+Pod starts → liveness fails → container restarts → application starts
+again → liveness fails → restart loop.
+
+</div>
+
+<div class="interview">
+
+Use a Startup Probe for slow initialization and configure liveness
+and readiness according to real application behavior rather than
+using arbitrary values.
+
+</div>
+
+</div>
+
+
+<!-- ================= RESOURCES ================= -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. CPU and Memory Requests</h2>
+
+<div class="answer">
+
+A resource request tells Kubernetes how much CPU or memory a
+container needs for scheduling purposes.
+
+The scheduler uses resource requests when deciding whether a Pod
+can fit on a node.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"</code></pre>
+
+<div class="scenario">
+
+If a Pod requests:
+
+<code>cpu: 500m</code>
+
+the scheduler looks for a node with enough allocatable CPU according
+to the Pod's requested resources.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Resource Limits</h2>
+
+<div class="answer">
+
+A resource limit defines the maximum amount of a resource a
+container is allowed to consume, subject to Kubernetes behavior and
+the resource type.
+
+</div>
+
+<pre><code>resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+
+  limits:
+    cpu: "500m"
+    memory: "512Mi"</code></pre>
+
+<div class="warning">
+
+Memory is especially important.
+
+If a container exceeds its memory limit and is terminated due to
+memory pressure, you may see an <strong>OOMKilled</strong> state.
+
+CPU overuse is generally throttled rather than causing the same
+kind of OOM termination.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Requests vs Limits</h2>
+
+<table>
+
+<tr>
+<th>Requests</th>
+<th>Limits</th>
+</tr>
+
+<tr>
+<td>Used mainly for scheduling.</td>
+<td>Defines an upper resource boundary.</td>
+</tr>
+
+<tr>
+<td>Influences whether Pod fits on a node.</td>
+<td>Controls resource consumption according to Kubernetes semantics.</td>
+</tr>
+
+<tr>
+<td>Important for capacity planning.</td>
+<td>Important for workload protection.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Simple answer:</strong>
+
+"Requests tell Kubernetes how much resource the Pod needs for
+scheduling, while limits define the maximum resource boundary for
+the container."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is CPU millicore?</h2>
+
+<div class="answer">
+
+CPU can be represented in millicores.
+
+<pre><code>1000m = 1 CPU core
+500m  = 0.5 CPU
+250m  = 0.25 CPU
+100m  = 0.1 CPU</code></pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. QoS Classes</h2>
+
+<div class="answer">
+
+Kubernetes assigns Pods a Quality of Service class based on their
+resource requests and limits.
+
+</div>
+
+<table>
+
+<tr>
+<th>QoS</th>
+<th>Concept</th>
+</tr>
+
+<tr>
+<td>Guaranteed</td>
+<td>Every container has CPU and memory requests and limits set, with matching values for the relevant resources.</td>
+</tr>
+
+<tr>
+<td>Burstable</td>
+<td>Pod does not meet Guaranteed criteria but has at least some resource requests/limits.</td>
+</tr>
+
+<tr>
+<td>BestEffort</td>
+<td>No CPU or memory requests/limits are specified.</td>
+</tr>
+
+</table>
+
+<h3>Check QoS</h3>
+
+<pre><code>kubectl get pod &lt;pod-name&gt; -o jsonpath='{.status.qosClass}'</code></pre>
+
+</div>
+
+
+<!-- ================= SCHEDULING ================= -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. What is Kubernetes Scheduling?</h2>
+
+<div class="answer">
+
+The Kubernetes scheduler selects an appropriate node for a newly
+created Pod that is not yet assigned to a node.
+
+It considers factors such as resource availability, constraints,
+affinity, taints and tolerations, topology and other scheduling
+rules.
+
+</div>
+
+<div class="flow">
+
+Pod Created
+<br>
+↓
+<br>
+Scheduler
+<br>
+↓
+<br>
+Filter unsuitable nodes
+<br>
+↓
+<br>
+Score eligible nodes
+<br>
+↓
+<br>
+Select node
+<br>
+↓
+<br>
+Kubelet starts Pod
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What happens if a Pod is Pending?</h2>
+
+<div class="answer">
+
+A Pod may remain Pending when Kubernetes cannot find a suitable node
+for it.
+
+Common causes include:
+
+<ul>
+<li>Insufficient CPU.</li>
+<li>Insufficient memory.</li>
+<li>Taints without matching tolerations.</li>
+<li>Node affinity rules.</li>
+<li>NodeSelector mismatch.</li>
+<li>Storage topology constraints.</li>
+<li>Resource requests are too large.</li>
+</ul>
+
+</div>
+
+<h3>First troubleshooting command</h3>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+<p>
+Check the Events section for scheduler messages explaining why nodes
+were rejected.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. nodeSelector</h2>
+
+<div class="answer">
+
+<code>nodeSelector</code> is a simple way to constrain a Pod to nodes
+having specific labels.
+
+</div>
+
+<h3>Label a node</h3>
+
+<pre><code>kubectl label nodes worker-1 workload=backend</code></pre>
+
+<h3>Pod</h3>
+
+<pre><code>spec:
+  nodeSelector:
+    workload: backend</code></pre>
+
+<div class="scenario">
+
+Use case:
+
+A team has dedicated nodes for backend workloads.
+
+The nodes are labeled:
+
+<code>workload=backend</code>
+
+Pods using nodeSelector are scheduled only onto nodes with that
+label.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Taints</h2>
+
+<div class="answer">
+
+A taint is placed on a node to repel Pods that do not have a matching
+toleration.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>kubectl taint nodes worker-1 dedicated=backend:NoSchedule</code></pre>
+
+<p>
+Now normal Pods without a matching toleration should not be
+scheduled onto that node.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Tolerations</h2>
+
+<div class="answer">
+
+A toleration allows a Pod to tolerate a matching node taint.
+
+It does not automatically force the Pod onto that node.
+
+</div>
+
+<pre><code>tolerations:
+- key: "dedicated"
+  operator: "Equal"
+  value: "backend"
+  effect: "NoSchedule"</code></pre>
+
+<div class="interview">
+
+<strong>Important:</strong>
+
+Taint = node says "keep Pods away."
+
+Toleration = Pod says "I am allowed to run here."
+
+Toleration alone does not mean "schedule me here."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Taint Effects</h2>
+
+<table>
+
+<tr>
+<th>Effect</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>NoSchedule</td>
+<td>New Pods without a matching toleration are not scheduled.</td>
+</tr>
+
+<tr>
+<td>PreferNoSchedule</td>
+<td>Scheduler tries to avoid placing Pods there when possible.</td>
+</tr>
+
+<tr>
+<td>NoExecute</td>
+<td>Can prevent scheduling and can evict existing Pods that do not tolerate the taint.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Node Affinity</h2>
+
+<div class="answer">
+
+Node affinity provides more expressive rules for selecting nodes
+based on labels.
+
+It is more flexible than a simple nodeSelector.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: workload
+          operator: In
+          values:
+          - backend</code></pre>
+
+<div class="scenario">
+
+Use node affinity when scheduling rules become more complex than a
+simple exact label match.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 21. required vs preferred affinity</h2>
+
+<table>
+
+<tr>
+<th>requiredDuringScheduling...</th>
+<th>preferredDuringScheduling...</th>
+</tr>
+
+<tr>
+<td>Hard requirement.</td>
+<td>Soft preference.</td>
+</tr>
+
+<tr>
+<td>Pod cannot be scheduled if requirement is not satisfied.</td>
+<td>Scheduler tries to satisfy it but can use another node.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Pod Affinity and Anti-Affinity</h2>
+
+<div class="answer">
+
+Pod affinity can encourage Pods to run near other Pods.
+
+Pod anti-affinity can encourage Pods to run away from other Pods.
+
+</div>
+
+<div class="scenario">
+
+<strong>High availability example:</strong>
+
+Suppose an application has three replicas.
+
+You do not want all replicas on the same node because a node failure
+could take all replicas down.
+
+Pod anti-affinity can help spread replicas across nodes.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Real-Time Scheduling Design</h2>
+
+<div class="scenario">
+
+Production application:
+
+<ul>
+<li>Backend nodes labeled <code>workload=backend</code>.</li>
+<li>Backend nodes tainted with <code>dedicated=backend:NoSchedule</code>.</li>
+<li>Backend Pods have a matching toleration.</li>
+<li>Node affinity ensures they prefer/require backend nodes.</li>
+<li>Pod anti-affinity spreads replicas across nodes.</li>
+</ul>
+
+This creates controlled workload placement and better failure
+distribution.
+
+</div>
+
+</div>
+
+
+<!-- ================= AUTOSCALING ================= -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. What is Kubernetes Autoscaling?</h2>
+
+<div class="answer">
+
+Autoscaling automatically adjusts resources or capacity according
+to workload requirements.
+
+The major autoscaling mechanisms are:
+
+<br><br>
+
+<strong>HPA</strong> → Changes number of Pod replicas.
+
+<br>
+
+<strong>VPA</strong> → Adjusts resource requests/limits recommendations
+or updates according to its configured mode.
+
+<br>
+
+<strong>Cluster Autoscaler</strong> → Adjusts node-group capacity
+when configured and supported.
+
+</div>
+
+<div class="flow">
+
+Traffic increases
+<br>
+↓
+<br>
+HPA
+<br>
+↓
+<br>
+More Pods
+<br>
+↓
+<br>
+Insufficient node capacity
+<br>
+↓
+<br>
+Cluster Autoscaler
+<br>
+↓
+<br>
+More Nodes
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. HPA — Horizontal Pod Autoscaler</h2>
+
+<div class="answer">
+
+HPA automatically adjusts the number of Pod replicas based on
+configured metrics such as CPU, memory or custom/external metrics.
+
+</div>
+
+<h3>Basic HPA</h3>
+
+<pre><code>apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name: api-hpa
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api
+
+  minReplicas: 2
+  maxReplicas: 10
+
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. How HPA works</h2>
+
+<div class="flow">
+
+Metrics
+<br>
+↓
+<br>
+Metrics API / metrics source
+<br>
+↓
+<br>
+HPA Controller
+<br>
+↓
+<br>
+Compare current vs target
+<br>
+↓
+<br>
+Change Deployment replica count
+<br>
+↓
+<br>
+Scheduler
+<br>
+↓
+<br>
+New Pods
+
+</div>
+
+<div class="scenario">
+
+If average CPU utilization rises above the configured target, HPA
+can increase replicas, subject to its configured behavior and
+limits.
+
+When load decreases, HPA can scale down after stabilization and
+cooldown behavior as configured.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Why are resource requests important for HPA?</h2>
+
+<div class="answer">
+
+For CPU utilization-based HPA, utilization is calculated relative to
+the container's requested CPU.
+
+Therefore, correctly configured resource requests are important for
+meaningful utilization-based scaling.
+
+</div>
+
+<div class="warning">
+
+If requests are missing or badly sized, CPU utilization-based HPA
+behavior may not work as expected.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. VPA — Vertical Pod Autoscaler</h2>
+
+<div class="answer">
+
+VPA adjusts or recommends CPU and memory resource requests for Pods.
+
+It is focused on the resources assigned to individual Pods rather
+than changing the number of replicas.
+
+</div>
+
+<table>
+
+<tr>
+<th>HPA</th>
+<th>VPA</th>
+</tr>
+
+<tr>
+<td>Changes number of Pods.</td>
+<td>Changes/recommends Pod resource sizing.</td>
+</tr>
+
+<tr>
+<td>Horizontal scaling.</td>
+<td>Vertical scaling.</td>
+</tr>
+
+<tr>
+<td>Useful when workload replica count should respond to demand.</td>
+<td>Useful when individual Pod resource sizing needs optimization.</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+HPA and VPA can interact in problematic ways if both attempt to use
+the same resource metric for scaling decisions. Design their
+configuration carefully.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 29. Cluster Autoscaler</h2>
+
+<div class="answer">
+
+Cluster Autoscaler adjusts the number of nodes in a cluster or node
+group based on unschedulable Pods and underutilized capacity,
+according to its configuration and cloud integration.
+
+</div>
+
+<div class="scenario">
+
+Example:
+
+HPA increases replicas from 4 to 12.
+
+The current nodes do not have enough capacity for the new Pods.
+
+Some Pods remain Pending.
+
+Cluster Autoscaler can increase node-group capacity so the scheduler
+can place those Pods.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. HPA vs VPA vs Cluster Autoscaler</h2>
+
+<table>
+
+<tr>
+<th>Tool</th>
+<th>What changes?</th>
+</tr>
+
+<tr>
+<td>HPA</td>
+<td>Number of Pods</td>
+</tr>
+
+<tr>
+<td>VPA</td>
+<td>Pod CPU/Memory sizing</td>
+</tr>
+
+<tr>
+<td>Cluster Autoscaler</td>
+<td>Number of Nodes</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy memory trick:</strong>
+
+HPA = More/Fewer Pods
+
+<br>
+
+VPA = Bigger/Smaller Pods
+
+<br>
+
+Cluster Autoscaler = More/Fewer Nodes
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. HPA needs Metrics</h2>
+
+<div class="answer">
+
+Resource-based HPA depends on metrics being available through the
+cluster's metrics infrastructure.
+
+A common Kubernetes setup uses Metrics Server for basic resource
+metrics.
+
+</div>
+
+<h3>Check</h3>
+
+<pre><code>kubectl top nodes
+kubectl top pods</code></pre>
+
+<div class="warning">
+
+If <code>kubectl top</code> does not work, investigate the metrics
+pipeline before assuming HPA itself is broken.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 32. HPA not scaling — Troubleshooting</h2>
+
+<div class="scenario">
+
+Possible reasons:
+
+<ul>
+<li>Metrics are unavailable.</li>
+<li>Target workload is incorrect.</li>
+<li>CPU requests are missing or poorly configured.</li>
+<li>HPA min/max replicas prevent expected scaling.</li>
+<li>Metric target is not being reached.</li>
+<li>Custom metrics configuration is broken.</li>
+</ul>
+
+</div>
+
+<h3>Commands</h3>
+
+<pre><code>kubectl get hpa
+kubectl describe hpa &lt;hpa-name&gt;
+
+kubectl top pods
+kubectl top nodes
+
+kubectl get deployment &lt;deployment-name&gt;</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 33. Real-Time HPA Scenario</h2>
+
+<div class="scenario">
+
+An e-commerce application normally runs with 3 replicas.
+
+During a flash sale, traffic increases dramatically.
+
+CPU usage increases.
+
+HPA detects the increased metric and scales:
+
+<pre><code>3 Pods
+↓
+5 Pods
+↓
+8 Pods
+↓
+10 Pods</code></pre>
+
+If the existing cluster does not have enough capacity, some new
+Pods may remain Pending.
+
+Cluster Autoscaler can then add nodes when its configuration and
+cloud provider integration allow it.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 34. Why Pods can remain Pending even after HPA scales?</h2>
+
+<div class="answer">
+
+HPA only changes the desired number of replicas.
+
+It does not automatically create node capacity.
+
+If the cluster has no available resources, newly requested Pods can
+remain Pending until capacity becomes available.
+
+</div>
+
+<div class="flow">
+
+HPA
+→ More Pods
+
+<br>↓<br>
+
+Scheduler
+→ Needs Node Capacity
+
+<br>↓<br>
+
+No Capacity
+→ Pods Pending
+
+<br>↓<br>
+
+Cluster Autoscaler
+→ More Nodes
+
+<br>↓<br>
+
+Scheduler
+→ Pods Placed
+
+</div>
+
+</div>
+
+
+<!-- SCENARIOS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 35. Production Scenario — Application becomes unhealthy</h2>
+
+<div class="scenario">
+
+<strong>Situation:</strong>
+
+Application is running but is no longer responding correctly.
+
+<strong>Solution:</strong>
+
+Use liveness to detect a stuck application and allow Kubernetes to
+restart the affected container.
+
+Readiness should separately prevent unhealthy instances from
+receiving traffic.
+
+</div>
+
+<div class="interview">
+
+Never use readiness as a replacement for liveness.
+
+They solve different problems.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 36. Production Scenario — Slow startup</h2>
+
+<div class="scenario">
+
+A Java application requires 2 minutes to start.
+
+A liveness probe begins too early and kills the application before
+startup completes.
+
+<strong>Fix:</strong>
+
+Use a startup probe or appropriately design initial startup timing,
+then allow liveness/readiness to perform their normal functions after
+startup.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 37. Production Scenario — Pod won't schedule</h2>
+
+<div class="scenario">
+
+Pod is Pending.
+
+First command:
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Check Events.
+
+If the message says insufficient CPU/memory, inspect:
+
+<pre><code>kubectl describe nodes</code></pre>
+
+If it mentions taints, inspect:
+
+<pre><code>kubectl describe node &lt;node-name&gt;</code></pre>
+
+Then check Pod tolerations and scheduling rules.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 38. Production Scenario — HPA not scaling</h2>
+
+<div class="scenario">
+
+Check in this order:
+
+<pre><code>kubectl get hpa
+kubectl describe hpa &lt;hpa-name&gt;
+
+kubectl top pods
+kubectl top nodes
+
+kubectl get deployment &lt;deployment-name&gt;</code></pre>
+
+Then verify resource requests, metric availability, target values
+and HPA min/max replica settings.
+
+</div>
+
+</div>
+
+
+<!-- INTERVIEW -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 39. Most Frequently Asked Interview Questions</h2>
+
+<ol>
+
+<li>What are Kubernetes probes?</li>
+
+<li>What is a liveness probe?</li>
+
+<li>What is a readiness probe?</li>
+
+<li>What is a startup probe?</li>
+
+<li>Liveness vs readiness?</li>
+
+<li>Why do we need startup probes?</li>
+
+<li>What probe types are available?</li>
+
+<li>What happens when readiness fails?</li>
+
+<li>What happens when liveness fails?</li>
+
+<li>What is initialDelaySeconds?</li>
+
+<li>What are CPU and memory requests?</li>
+
+<li>What are resource limits?</li>
+
+<li>Requests vs limits?</li>
+
+<li>What is OOMKilled?</li>
+
+<li>What are Kubernetes QoS classes?</li>
+
+<li>What is Kubernetes scheduling?</li>
+
+<li>What is nodeSelector?</li>
+
+<li>What are taints and tolerations?</li>
+
+<li>Does toleration force a Pod onto a node?</li>
+
+<li>What is node affinity?</li>
+
+<li>What is pod anti-affinity?</li>
+
+<li>Why is a Pod stuck in Pending?</li>
+
+<li>What is HPA?</li>
+
+<li>How does HPA work?</li>
+
+<li>What is VPA?</li>
+
+<li>What is Cluster Autoscaler?</li>
+
+<li>HPA vs VPA?</li>
+
+<li>HPA vs Cluster Autoscaler?</li>
+
+<li>Why is HPA not scaling?</li>
+
+<li>Why can Pods remain Pending after HPA scales?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Can readiness failure restart a container?</li>
+
+<li>Can liveness failure remove a Pod from Service traffic?</li>
+
+<li>Can startup and liveness be used together?</li>
+
+<li>What happens if the health endpoint itself is broken?</li>
+
+<li>How do you design probes for a database-backed API?</li>
+
+<li>What happens when CPU request is too high?</li>
+
+<li>What happens when memory limit is exceeded?</li>
+
+<li>How does Kubernetes choose a node?</li>
+
+<li>What is the difference between taint and nodeSelector?</li>
+
+<li>Can a Pod with a toleration run on any node?</li>
+
+<li>What is preferred vs required affinity?</li>
+
+<li>How do you spread replicas across nodes?</li>
+
+<li>Why is HPA not scaling even though CPU is high?</li>
+
+<li>What happens when HPA creates more Pods but nodes have no capacity?</li>
+
+<li>Can HPA and VPA be used together?</li>
+
+<li>How would you design autoscaling for an e-commerce application?</li>
+
+</ul>
+
+</div>
+
+
+<!-- COMMANDS -->
+
+<div class="card">
+
+<h2>🧠 Final Command Cheat Sheet</h2>
+
+<pre><code># Pods
+kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl get pod &lt;pod-name&gt; -o yaml
+
+# Nodes
+kubectl get nodes
+kubectl describe node &lt;node-name&gt;
+
+# Resources
+kubectl top pods
+kubectl top nodes
+
+# HPA
+kubectl get hpa
+kubectl describe hpa &lt;hpa-name&gt;
+
+# Deployments
+kubectl get deployment
+kubectl describe deployment &lt;deployment-name&gt;
+
+# Labels
+kubectl get nodes --show-labels
+
+kubectl label node &lt;node-name&gt; workload=backend
+
+# Taints
+kubectl taint node &lt;node-name&gt; dedicated=backend:NoSchedule
+
+# Events
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+</div>
+
+
+<!-- FINAL REVISION -->
+
+<div class="card">
+
+<h2>🚀 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Liveness</strong>
+→ Restart unhealthy container
+
+<br><br>
+
+<strong>Readiness</strong>
+→ Control traffic eligibility
+
+<br><br>
+
+<strong>Startup</strong>
+→ Protect slow startup
+
+<br><br>
+
+<strong>Requests</strong>
+→ Scheduling requirement
+
+<br><br>
+
+<strong>Limits</strong>
+→ Resource boundary
+
+<br><br>
+
+<strong>nodeSelector</strong>
+→ Simple node selection
+
+<br><br>
+
+<strong>Taint</strong>
+→ Repel Pods
+
+<br><br>
+
+<strong>Toleration</strong>
+→ Allow Pod to tolerate taint
+
+<br><br>
+
+<strong>Affinity</strong>
+→ Advanced placement rules
+
+<br><br>
+
+<strong>HPA</strong>
+→ More/Fewer Pods
+
+<br><br>
+
+<strong>VPA</strong>
+→ Adjust Pod resource sizing
+
+<br><br>
+
+<strong>Cluster Autoscaler</strong>
+→ More/Fewer Nodes
+
+</div>
+
+</div>
+
+
+<!-- INTERVIEW ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Probes, Scheduling and Autoscaling"</h2>
+
+<div class="interview">
+
+"Kubernetes probes help maintain application availability.
+
+I use liveness probes to detect containers that are unhealthy and
+need restarting, readiness probes to control whether a Pod should
+receive traffic, and startup probes for applications that take a
+long time to initialize.
+
+For scheduling, Kubernetes uses the scheduler to select suitable
+nodes based on resources and constraints. I can use nodeSelector,
+node affinity, taints and tolerations, and pod anti-affinity to
+control workload placement.
+
+For resource management, I define CPU and memory requests for
+scheduling and limits to establish resource boundaries.
+
+For autoscaling, HPA adjusts the number of Pods based on metrics,
+VPA adjusts or recommends Pod resource sizing, and Cluster
+Autoscaler adjusts node capacity when configured.
+
+In a production environment, I combine these features carefully:
+probes protect application health, scheduling controls placement,
+and autoscaling handles changing workload demand."
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+⚙️ Kubernetes Probes • Scheduling • Autoscaling
+
+<br><br>
+
+Nandu's DevOps Interview Master Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux Advanced Network Troubleshooting</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d
+}
+.back{color:#94a3b8;text-decoration:none}
+.icon{font-size:50px;margin:20px 0 5px}
+h1{font-size:clamp(30px,5vw,48px);margin:0}
+h1 span{color:#93c5fd}
+header p{max-width:850px;margin:12px auto;color:#9ca8c0}
+.container{width:min(1000px,92%);margin:auto;padding:40px 0 80px}
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0
+}
+.number{color:#64748b;font-size:12px;font-weight:800}
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px
+}
+h2{margin:5px 0 12px;font-size:25px}
+h3{color:#93c5fd}
+p,li{color:#c2ccde}
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1
+}
+code{
+    background:#080d18;
+    color:#bfdbfe;
+    padding:3px 7px;
+    border-radius:5px
+}
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0
+}
+.example strong{color:#93c5fd}
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px
+}
+.answer strong{color:#93c5fd}
+.warning{
+    background:rgba(248,113,113,.06);
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:0 10px 10px 0;
+    margin:20px 0
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left
+}
+th{color:#93c5fd;background:#111a2e}
+.note{
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0
+}
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">🛠️</div>
+
+<h1>Linux <span>Advanced Network Troubleshooting</span></h1>
+
+<p>
+Practical network diagnosis, DNS, ports, routes, traceroute,
+TCP connectivity, HTTP troubleshooting and real-world DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ================================================= -->
+
+<!-- 01 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h2>Why is Network Troubleshooting Important in DevOps?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+Applications in DevOps environments depend heavily on network
+communication between users, load balancers, containers,
+Kubernetes services, databases, APIs and cloud resources.
+</p>
+
+<div class="flow">
+
+User
+
+↓
+
+DNS
+
+↓
+
+Load Balancer
+
+↓
+
+Application
+
+↓
+
+Database
+
+</div>
+
+<p>
+A failure at any layer can make an application appear unavailable.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Network troubleshooting is important in DevOps because modern
+applications depend on communication between multiple services.
+I troubleshoot systematically from DNS and connectivity through
+ports, routing, firewalls and application-level responses."
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 02 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h2>What is traceroute?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+<code>traceroute</code> is used to identify the network hops
+between the source system and a destination.
+</p>
+
+<pre>traceroute google.com</pre>
+
+<p>
+On some Linux distributions, the command may need to be installed
+first.
+</p>
+
+<div class="example">
+
+<strong>Why use it?</strong>
+
+<p>
+If a remote server is unreachable, traceroute can help identify
+where along the network path packets stop receiving expected
+responses.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Traceroute helps identify the network path and intermediate hops
+between a source and destination, which can help locate routing
+or connectivity problems."
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 03 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 03</div>
+
+<h2>What is the difference between ping and traceroute?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<table>
+
+<tr>
+<th>ping</th>
+<th>traceroute</th>
+</tr>
+
+<tr>
+<td>Tests basic reachability</td>
+<td>Shows network path/hops</td>
+</tr>
+
+<tr>
+<td>Measures response time</td>
+<td>Helps identify path issues</td>
+</tr>
+
+<tr>
+<td>Usually targets one destination</td>
+<td>Shows intermediate routing hops</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Ping checks basic reachability and latency, while traceroute
+helps identify the path and intermediate hops taken toward the
+destination."
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 04 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 04</div>
+
+<h2>What is curl -v?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+The <code>-v</code> option makes curl display detailed information
+about the connection.
+</p>
+
+<pre>curl -v http://localhost:8080</pre>
+
+<p>
+It can reveal useful details such as connection attempts,
+request/response headers and TLS-related information for HTTPS.
+</p>
+
+<div class="example">
+
+<strong>Useful for:</strong>
+
+<ul>
+<li>HTTP connection debugging</li>
+<li>Checking response headers</li>
+<li>Understanding redirects</li>
+<li>Troubleshooting TLS/HTTPS</li>
+<li>Verifying application endpoints</li>
+</ul>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 05 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 05</div>
+
+<h2>How do you check only HTTP response headers?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<pre>curl -I https://example.com</pre>
+
+<p>
+This sends a HEAD request when supported and displays response
+headers without retrieving the normal response body.
+</p>
+
+<div class="example">
+
+<strong>Useful headers</strong>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: ...
+Server: ...
+</pre>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 06 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 06</div>
+
+<h2>How do you test a specific TCP port?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY USEFUL</span>
+
+<p>
+A simple approach is using tools such as <code>nc</code> when
+available.
+</p>
+
+<pre>nc -zv server-ip 8080</pre>
+
+<p>
+This can help determine whether a TCP connection to the specified
+port can be established.
+</p>
+
+<div class="warning">
+
+<strong>⚠️ Remember</strong>
+
+<p>
+A successful TCP connection only proves that the network path and
+port are reachable. It does not prove that the application itself
+is functioning correctly.
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 07 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 07</div>
+
+<h2>What is localhost?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+<code>localhost</code> refers to the local machine itself.
+It commonly resolves to loopback addresses such as:
+</p>
+
+<pre>
+127.0.0.1
+::1
+</pre>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<pre>curl http://localhost:8080</pre>
+
+<p>
+This tests the application from the same machine rather than from
+another network host.
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 08 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h2>Why test localhost first?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p>
+Testing localhost helps separate application problems from
+external network problems.
+</p>
+
+<div class="flow">
+
+curl localhost:8080
+
+↓
+
+Works?
+
+↓
+
+YES → Investigate external network
+
+NO → Investigate application/service
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I test the application locally first. If localhost works but
+remote access fails, I focus on network, firewall, routing or
+security controls. If localhost itself fails, I investigate the
+application or service."
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 09 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 09</div>
+
+<h2>What is a socket?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A socket is an endpoint used for network communication.
+A network connection is commonly associated with an IP address,
+port and transport protocol.
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<pre>
+192.168.1.10:8080
+</pre>
+
+<p>
+This identifies an endpoint using an IP address and port.
+</p>
+
+</div>
+
+<p>
+The <code>ss</code> command is commonly used to inspect sockets.
+</p>
+
+<pre>ss -tulpn</pre>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 10 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 10</div>
+
+<h2>What is a listening port?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A listening port indicates that a service is waiting for incoming
+network connections.
+</p>
+
+<pre>ss -lntp</pre>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+If an application is expected on port 8080 but no process is
+listening on 8080, remote clients cannot establish a normal TCP
+connection to that service.
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 11 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h2>What does 0.0.0.0 mean when a service binds to it?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+When a service listens on <code>0.0.0.0</code> for IPv4, it
+generally means it is listening on all IPv4 interfaces on that
+host, subject to firewall and network controls.
+</p>
+
+<pre>ss -lntp</pre>
+
+<div class="example">
+
+<strong>Compare</strong>
+
+<pre>
+127.0.0.1:8080
+</pre>
+
+<p>
+Usually accessible only locally.
+
+<pre>
+0.0.0.0:8080
+</pre>
+
+<p>
+Generally listening on all IPv4 interfaces.
+</p>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Security Note</strong>
+
+<p>
+Listening on all interfaces does not mean the service should be
+publicly exposed. Firewall, security groups and network design
+still matter.
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 12 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 12</div>
+
+<h2>How do you check DNS resolution step by step?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<pre>
+hostname
+nslookup example.com
+dig example.com
+cat /etc/resolv.conf
+</pre>
+
+<div class="flow">
+
+Hostname
+
+↓
+
+Resolver Configuration
+
+↓
+
+DNS Query
+
+↓
+
+DNS Response
+
+↓
+
+IP Address
+
+↓
+
+Application Connection
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I first verify the hostname and use nslookup or dig to check
+whether DNS returns an expected address. If resolution fails, I
+inspect resolver configuration and DNS infrastructure."
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 13 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 13</div>
+
+<h2>DNS works but application still fails — why?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+<p>
+Successful DNS resolution only proves that the hostname can be
+resolved. The application can still fail because of:
+</p>
+
+<ul>
+<li>Wrong port</li>
+<li>Firewall/security-group rules</li>
+<li>Routing issues</li>
+<li>Service not running</li>
+<li>Application errors</li>
+<li>TLS problems</li>
+<li>Load balancer health issues</li>
+</ul>
+
+<div class="flow">
+
+DNS ✓
+
+↓
+
+IP ✓
+
+↓
+
+TCP Connection ?
+
+↓
+
+Port ?
+
+↓
+
+Application ?
+
+↓
+
+HTTP Response ?
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 14 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 14</div>
+
+<h2>HTTP Status Codes Every DevOps Engineer Should Know</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<table>
+
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+
+<tr>
+<td>201</td>
+<td>Created</td>
+</tr>
+
+<tr>
+<td>301 / 302</td>
+<td>Redirect</td>
+</tr>
+
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+</tr>
+
+<tr>
+<td>401</td>
+<td>Authentication required/failed</td>
+</tr>
+
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+</tr>
+
+<tr>
+<td>404</td>
+<td>Not Found</td>
+</tr>
+
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+</tr>
+
+<tr>
+<td>502</td>
+<td>Bad Gateway</td>
+</tr>
+
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+</tr>
+
+<tr>
+<td>504</td>
+<td>Gateway Timeout</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 15 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 15</div>
+
+<h2>502 Bad Gateway</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+A 502 response commonly means a gateway or proxy received an
+invalid or unsuccessful response from an upstream server.
+</p>
+
+<div class="flow">
+
+User
+
+↓
+
+Nginx / Load Balancer
+
+↓
+
+Upstream Application
+
+↓
+
+❌ Failure
+
+↓
+
+502
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Is backend application running?</li>
+<li>Is backend port correct?</li>
+<li>Can proxy reach backend?</li>
+<li>Is backend returning a valid response?</li>
+<li>Check application and proxy logs.</li>
+</ul>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 16 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 16</div>
+
+<h2>503 Service Unavailable</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+503 generally means the service is currently unavailable.
+Possible causes include overloaded services, unavailable
+upstreams, maintenance or unhealthy backend instances.
+</p>
+
+<div class="example">
+
+<strong>DevOps approach</strong>
+
+<pre>
+systemctl status app
+journalctl -u app
+ss -lntp
+curl localhost:8080
+</pre>
+
+<p>
+For load-balanced environments, also check backend health and
+target registration.
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 17 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 17</div>
+
+<h2>504 Gateway Timeout</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+A 504 commonly means a gateway or proxy did not receive a timely
+response from an upstream service.
+</p>
+
+<div class="flow">
+
+Client
+
+↓
+
+Proxy / Load Balancer
+
+↓
+
+Backend
+
+↓
+
+No timely response
+
+↓
+
+504
+
+</div>
+
+<p>
+Investigate backend latency, network connectivity, application
+performance and timeout configuration.
+</p>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 18 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 18</div>
+
+<h2>What is TLS/HTTPS troubleshooting?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+HTTPS adds TLS encryption to HTTP. Problems can occur because of
+certificate validation, hostname mismatch, expired certificates,
+unsupported protocols or trust-chain issues.
+</p>
+
+<pre>curl -v https://example.com</pre>
+
+<div class="example">
+
+<strong>Check:</strong>
+
+<ul>
+<li>Certificate validity</li>
+<li>Hostname</li>
+<li>Certificate chain</li>
+<li>Server configuration</li>
+<li>Client trust store</li>
+<li>System time</li>
+</ul>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 19 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 19</div>
+
+<h2>How does system time affect HTTPS?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+TLS certificate validation depends on time validity. If a system
+clock is significantly incorrect, certificates may appear not
+yet valid or expired.
+</p>
+
+<pre>date</pre>
+
+<p>
+On systemd-based systems:
+</p>
+
+<pre>timedatectl</pre>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 20 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME SCENARIO 20</div>
+
+<h2>Website is not opening</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST PRACTICE</span>
+
+<div class="flow">
+
+1. DNS
+
+↓
+
+2. IP Reachability
+
+↓
+
+3. TCP Port
+
+↓
+
+4. HTTP Response
+
+↓
+
+5. Application
+
+↓
+
+6. Logs
+
+</div>
+
+<h3>Commands</h3>
+
+<pre>
+nslookup app.example.com
+
+ping server-ip
+
+nc -zv server-ip 443
+
+curl -v https://app.example.com
+
+ss -lntp
+
+journalctl -u nginx
+</pre>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"I troubleshoot from the outside inward. First I verify DNS,
+then network reachability, then TCP port connectivity, then the
+HTTP response. If the request reaches the server but fails, I
+inspect the proxy, application and system logs."
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 21 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME SCENARIO 21</div>
+
+<h2>Application works on localhost but not from another machine</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<div class="flow">
+
+localhost works ✓
+
+↓
+
+Check listening address
+
+↓
+
+Check firewall
+
+↓
+
+Check security group
+
+↓
+
+Check routing
+
+↓
+
+Check client connectivity
+
+</div>
+
+<h3>First checks</h3>
+
+<pre>
+ss -lntp
+ip addr
+ip route
+curl localhost:8080
+</pre>
+
+<div class="example">
+
+<strong>Common cause</strong>
+
+<p>
+The application may be bound only to <code>127.0.0.1</code>.
+In that case, remote systems cannot directly connect to it.
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 22 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME SCENARIO 22</div>
+
+<h2>Port is listening but connection still fails</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+If <code>ss</code> shows the port listening but clients cannot
+connect, investigate:
+</p>
+
+<ul>
+<li>Listening address</li>
+<li>Firewall rules</li>
+<li>Cloud security groups</li>
+<li>Network ACLs</li>
+<li>Routing</li>
+<li>Load balancer configuration</li>
+<li>Client-side restrictions</li>
+</ul>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A listening socket proves the application has opened the port,
+but external connectivity can still fail because of binding,
+firewall, security-group, routing or load-balancer issues."
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 23 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">QUESTION 23</div>
+
+<h2>Layer-by-Layer Network Troubleshooting</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST REMEMBER</span>
+
+<div class="flow">
+
+<strong>Layer 1</strong><br>
+Physical / Interface
+
+↓
+
+<strong>Layer 2</strong><br>
+Network Interface / Link
+
+↓
+
+<strong>Layer 3</strong><br>
+IP / Routing
+
+↓
+
+<strong>Layer 4</strong><br>
+TCP / UDP / Ports
+
+↓
+
+<strong>Layer 7</strong><br>
+HTTP / DNS / Application
+
+</div>
+
+<div class="note">
+
+<strong>Memory Trick</strong>
+
+<p>
+Interface → IP → Route → Port → Application
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 24 -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<div class="number">🧠 FINAL REVISION</div>
+
+<h2>Linux Advanced Network Troubleshooting</h2>
+
+<div class="note">
+
+<strong>traceroute</strong>
+→ Shows network path/hops.
+
+<br><br>
+
+<strong>curl -v</strong>
+→ Detailed HTTP/HTTPS debugging.
+
+<br><br>
+
+<strong>curl -I</strong>
+→ Inspect HTTP response headers.
+
+<br><br>
+
+<strong>nc</strong>
+→ Test TCP connectivity to a port.
+
+<br><br>
+
+<strong>localhost</strong>
+→ Local machine / loopback.
+
+<br><br>
+
+<strong>Listening Port</strong>
+→ Service waiting for incoming connections.
+
+<br><br>
+
+<strong>127.0.0.1</strong>
+→ Loopback address.
+
+<br><br>
+
+<strong>0.0.0.0</strong>
+→ All IPv4 interfaces when used as a bind/listen address.
+
+<br><br>
+
+<strong>200</strong>
+→ Successful HTTP response.
+
+<br><br>
+
+<strong>404</strong>
+→ Resource not found.
+
+<br><br>
+
+<strong>502</strong>
+→ Gateway/upstream response problem.
+
+<br><br>
+
+<strong>503</strong>
+→ Service unavailable.
+
+<br><br>
+
+<strong>504</strong>
+→ Gateway timeout.
+
+<br><br>
+
+<strong>Network Debug Flow</strong>
+→ DNS → IP → Route → Port → Application → Logs.
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- INTERVIEW -->
+
+<!-- ================================================= -->
+
+<article class="card">
+
+<h2>🎤 FINAL INTERVIEW QUESTIONS</h2>
+
+<p>
+
+<strong>Q:</strong> What is traceroute?
+
+<br>
+<strong>A:</strong> A tool used to identify network hops between
+source and destination.
+
+<br><br>
+
+<strong>Q:</strong> Difference between ping and traceroute?
+
+<br>
+<strong>A:</strong> Ping tests basic reachability; traceroute
+helps identify the network path.
+
+<br><br>
+
+<strong>Q:</strong> What does curl -v do?
+
+<br>
+<strong>A:</strong> Shows detailed HTTP/HTTPS connection and
+response information.
+
+<br><br>
+
+<strong>Q:</strong> What does localhost mean?
+
+<br>
+<strong>A:</strong> The local machine, commonly represented by
+127.0.0.1 for IPv4.
+
+<br><br>
+
+<strong>Q:</strong> What is a listening port?
+
+<br>
+<strong>A:</strong> A port where a service is waiting for incoming
+network connections.
+
+<br><br>
+
+<strong>Q:</strong> Application works locally but not remotely.
+What do you check?
+
+<br>
+<strong>A:</strong> Binding address, firewall, security groups,
+routing and network connectivity.
+
+<br><br>
+
+<strong>Q:</strong> DNS resolves but application doesn't work.
+Why?
+
+<br>
+<strong>A:</strong> DNS only confirms name resolution. The port,
+service, firewall, routing or application can still fail.
+
+<br><br>
+
+<strong>Q:</strong> What is 502?
+
+<br>
+<strong>A:</strong> A gateway/proxy received an invalid or
+unsuccessful response from an upstream server.
+
+<br><br>
+
+<strong>Q:</strong> What is 504?
+
+<br>
+<strong>A:</strong> A gateway/proxy timed out waiting for an
+upstream response.
+
+</p>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🛠️ Linux • Advanced Network Troubleshooting</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

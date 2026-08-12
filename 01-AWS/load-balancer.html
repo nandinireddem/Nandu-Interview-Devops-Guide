@@ -1,0 +1,2874 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>AWS Load Balancer Interview Questions | Nandu's DevOps Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+    body {
+        background:
+            radial-gradient(circle at 90% 5%, rgba(14, 165, 233, 0.08), transparent 28%),
+            #0b1020;
+    }
+
+    .page-header {
+        padding: 50px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #101a30, #111827, #0b1020);
+        border-bottom: 1px solid #29334c;
+    }
+
+    .back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #9da9c4;
+        text-decoration: none;
+    }
+
+    .back:hover {
+        color: #38bdf8;
+    }
+
+    .page-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(36px, 6vw, 60px);
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 span {
+        color: #38bdf8;
+    }
+
+    .page-header p {
+        max-width: 900px;
+        margin: auto;
+        color: #9ca8c4;
+        line-height: 1.7;
+    }
+
+    .content {
+        width: min(1000px, 92%);
+        margin: auto;
+        padding: 50px 0 80px;
+    }
+
+    .quick-map {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin-bottom: 50px;
+    }
+
+    .map-item {
+        padding: 16px;
+        background: #121a30;
+        border: 1px solid #27324b;
+        border-radius: 12px;
+        color: #aab5cf;
+        font-size: 13px;
+    }
+
+    .map-item strong {
+        color: #ffffff;
+    }
+
+    .priority-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 50px 0 25px;
+    }
+
+    .priority-title h2 {
+        font-size: 27px;
+    }
+
+    .line {
+        flex: 1;
+        height: 1px;
+        background: #29334c;
+    }
+
+    .question {
+        margin-bottom: 25px;
+        padding: 28px;
+        background: linear-gradient(145deg, #141d35, #10172a);
+        border: 1px solid #29344e;
+        border-radius: 18px;
+    }
+
+    .question:hover {
+        border-color: #475569;
+    }
+
+    .question-number {
+        color: #7582a2;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+        line-height: 1.45;
+        margin-bottom: 20px;
+    }
+
+    .label {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: #7dd3fc;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+    }
+
+    .answer {
+        color: #c2cbe0;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .example {
+        padding: 18px 20px;
+        margin: 18px 0;
+        border-left: 4px solid #38bdf8;
+        background: rgba(56, 189, 248, 0.06);
+        border-radius: 0 10px 10px 0;
+    }
+
+    .example strong {
+        color: #7dd3fc;
+    }
+
+    .example p {
+        color: #b7c2d8;
+        margin-top: 6px;
+        line-height: 1.75;
+    }
+
+    .interview-answer {
+        padding: 18px 20px;
+        margin-top: 18px;
+        background: #111a30;
+        border-radius: 12px;
+        border: 1px solid #303c59;
+    }
+
+    .interview-answer strong {
+        color: #60a5fa;
+    }
+
+    .interview-answer p {
+        color: #c4cee1;
+        line-height: 1.75;
+    }
+
+    .followup {
+        padding: 18px 20px;
+        background: #0d1426;
+        border-radius: 12px;
+        border: 1px solid #222d46;
+    }
+
+    .followup strong {
+        color: #8fa3ff;
+    }
+
+    .followup ul {
+        margin-top: 8px;
+        padding-left: 20px;
+        color: #9ba7c0;
+    }
+
+    .followup li {
+        margin: 5px 0;
+    }
+
+    .flow {
+        padding: 20px;
+        margin: 20px 0;
+        background: #0d1426;
+        border: 1px solid #26314a;
+        border-radius: 12px;
+        text-align: center;
+        color: #c6d0e4;
+        line-height: 2;
+        overflow-x: auto;
+    }
+
+    .important {
+        padding: 22px;
+        margin: 30px 0;
+        border-radius: 14px;
+        background: rgba(56, 189, 248, 0.05);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        color: #b8c4dc;
+        line-height: 1.8;
+    }
+
+    pre {
+        overflow-x: auto;
+        margin-top: 10px;
+        padding: 18px;
+        background: #080d19;
+        border-radius: 10px;
+        border: 1px solid #202b43;
+        color: #cbd5e1;
+    }
+
+    .compare {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+
+    .compare th,
+    .compare td {
+        border: 1px solid #29344e;
+        padding: 14px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .compare th {
+        background: #18223a;
+        color: #e2e8f0;
+    }
+
+    .compare td {
+        color: #b7c2d8;
+        background: #10172a;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: #7582a2;
+        border-top: 1px solid #222d46;
+    }
+
+    footer span {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+        .content {
+            width: 94%;
+        }
+
+        .question {
+            padding: 22px;
+        }
+
+        .compare {
+            font-size: 13px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+```
+<a href="index.html" class="back">
+    ← Back to AWS
+</a>
+
+<div class="page-icon">⚖️</div>
+
+<h1>
+    AWS <span>Load Balancer</span>
+</h1>
+
+<p>
+    Complete AWS Elastic Load Balancing interview preparation —
+    concepts, ALB, NLB, target groups, listeners, health checks,
+    routing, troubleshooting and production scenarios.
+</p>
+```
+
+</header>
+
+<main class="content">
+
+```
+<!-- PRIORITY MAP -->
+
+<section class="quick-map">
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐⭐</strong><br>
+        Must Know
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐</strong><br>
+        High Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐</strong><br>
+        Medium
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐</strong><br>
+        Less Frequent
+    </div>
+
+    <div class="map-item">
+        <strong>⭐</strong><br>
+        Bonus
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐⭐ Must Know</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q1 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 01</div>
+
+    <h3>What is a Load Balancer?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ MOST FREQUENTLY ASKED
+    </span>
+
+    <p class="answer">
+
+        A load balancer distributes incoming application traffic
+        across multiple backend targets such as EC2 instances,
+        containers or IP addresses.
+
+        Its main purpose is to improve:
+
+        <br><br>
+
+        → Availability
+
+        <br>
+        → Scalability
+
+        <br>
+        → Fault tolerance
+
+        <br>
+        → Traffic distribution
+
+    </p>
+
+    <div class="flow">
+
+        👤 Users
+
+        →
+
+        ⚖️ Load Balancer
+
+        →
+
+        🖥️ EC2-A
+
+        <br>
+        ↓
+
+        🖥️ EC2-B
+
+        <br>
+        ↓
+
+        🖥️ EC2-C
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose an application has three EC2 instances.
+
+            Instead of users connecting directly to one EC2
+            instance, they connect to the Load Balancer.
+
+            The Load Balancer distributes requests among
+            healthy backend instances.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A Load Balancer distributes incoming traffic across
+            multiple healthy backend targets. It improves
+            application availability, scalability and fault
+            tolerance by preventing traffic from depending on
+            a single server."
+
+        </p>
+
+    </div>
+
+    <div class="followup">
+
+        <strong>🔎 Common Follow-ups</strong>
+
+        <ul>
+            <li>What are the types of AWS Load Balancers?</li>
+            <li>What is ALB?</li>
+            <li>What is NLB?</li>
+            <li>What is a Target Group?</li>
+            <li>What is a Listener?</li>
+            <li>How does health checking work?</li>
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q2 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 02</div>
+
+    <h3>What are the types of AWS Load Balancers?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        AWS Elastic Load Balancing provides several load
+        balancing options.
+
+        The major ones to know are:
+
+        <br><br>
+
+        <strong>1. Application Load Balancer (ALB)</strong>
+
+        <br>
+        Layer 7 HTTP/HTTPS load balancing.
+
+        <br><br>
+
+        <strong>2. Network Load Balancer (NLB)</strong>
+
+        <br>
+        Layer 4 TCP/UDP/TLS load balancing.
+
+        <br><br>
+
+        <strong>3. Gateway Load Balancer (GWLB)</strong>
+
+        <br>
+        Used to deploy and scale network virtual appliances.
+
+        <br><br>
+
+        <strong>4. Classic Load Balancer (CLB)</strong>
+
+        <br>
+        Older generation load balancer. For new architectures,
+        ALB or NLB is generally preferred depending on the
+        requirement.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The main AWS Elastic Load Balancing options are
+            Application Load Balancer, Network Load Balancer,
+            Gateway Load Balancer and the older Classic Load
+            Balancer. ALB is mainly used for HTTP/HTTPS
+            applications, NLB for high-performance Layer 4
+            traffic, and GWLB for network appliances."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q3 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 03</div>
+
+    <h3>What is an Application Load Balancer (ALB)?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ MUST KNOW FOR DEVOPS
+    </span>
+
+    <p class="answer">
+
+        An Application Load Balancer operates at
+        <strong>Layer 7</strong> of the OSI model.
+
+        It is designed for HTTP and HTTPS applications.
+
+        ALB can make routing decisions based on application-level
+        information such as:
+
+        <br><br>
+
+        → Hostname
+
+        <br>
+        → URL path
+
+        <br>
+        → HTTP headers
+
+        <br>
+        → Query parameters
+
+    </p>
+
+    <div class="flow">
+
+        User
+
+        →
+
+        ALB : 443
+
+        →
+
+        Target Group
+
+        →
+
+        EC2 : 8080
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Path-Based Routing Example</strong>
+
+        <p>
+
+            `/api/*`
+
+            →
+
+            API target group
+
+            <br><br>
+
+            `/web/*`
+
+            →
+
+            Web target group
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Application Load Balancer is a Layer 7 load
+            balancer designed for HTTP and HTTPS traffic. It
+            supports advanced application-level routing such
+            as host-based and path-based routing."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q4 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 04</div>
+
+    <h3>What is a Network Load Balancer (NLB)?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        A Network Load Balancer operates primarily at
+        <strong>Layer 4</strong>.
+
+        It is designed for high-performance network traffic
+        such as TCP, UDP and TLS use cases.
+
+        NLB is useful when very high throughput, low latency,
+        static IP requirements or non-HTTP protocols are needed.
+
+    </p>
+
+    <div class="flow">
+
+        Client
+
+        →
+
+        NLB
+
+        →
+
+        TCP / UDP
+
+        →
+
+        Target
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            If an application uses a custom TCP protocol rather
+            than HTTP, NLB can be a better fit than ALB.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Network Load Balancer is a Layer 4 load balancer
+            designed for high-performance TCP, UDP and TLS
+            traffic. It is useful when low latency, high
+            throughput or network-level load balancing is
+            required."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q5 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 05</div>
+
+    <h3>What is the difference between ALB and NLB?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ INTERVIEW FAVORITE
+    </span>
+
+    <table class="compare">
+
+        <tr>
+            <th>Feature</th>
+            <th>ALB</th>
+            <th>NLB</th>
+        </tr>
+
+        <tr>
+            <td>OSI Layer</td>
+            <td>Layer 7</td>
+            <td>Layer 4</td>
+        </tr>
+
+        <tr>
+            <td>Main Traffic</td>
+            <td>HTTP / HTTPS</td>
+            <td>TCP / UDP / TLS</td>
+        </tr>
+
+        <tr>
+            <td>Path Routing</td>
+            <td>Yes</td>
+            <td>No HTTP path routing</td>
+        </tr>
+
+        <tr>
+            <td>Host Routing</td>
+            <td>Yes</td>
+            <td>No HTTP host routing</td>
+        </tr>
+
+        <tr>
+            <td>Typical Use</td>
+            <td>Web applications / APIs</td>
+            <td>High-performance network traffic</td>
+        </tr>
+
+    </table>
+
+    <div class="example">
+
+        <strong>💡 Easy Memory Trick</strong>
+
+        <p>
+
+            <strong>ALB = Application-level decisions</strong>
+
+            <br>
+
+            "Which URL or hostname?"
+
+            <br><br>
+
+            <strong>NLB = Network-level decisions</strong>
+
+            <br>
+
+            "Which TCP/UDP target?"
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "ALB works at Layer 7 and is mainly used for HTTP/HTTPS
+            applications with features such as host and path
+            based routing. NLB works at Layer 4 and is designed
+            for high-performance TCP, UDP and TLS traffic."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q6 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 06</div>
+
+    <h3>What is a Target Group?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ MUST KNOW
+    </span>
+
+    <p class="answer">
+
+        A Target Group is a logical group of backend targets
+        that a load balancer sends traffic to.
+
+        Depending on the load balancer and configuration,
+        targets can include:
+
+        <br><br>
+
+        → EC2 instances
+
+        <br>
+        → IP addresses
+
+        <br>
+        → Containers through supported integrations
+
+        <br>
+        → Lambda functions for ALB use cases
+
+    </p>
+
+    <div class="flow">
+
+        ALB
+
+        →
+
+        Target Group
+
+        →
+
+        EC2-1
+
+        <br>
+        ↓
+
+        EC2-2
+
+        <br>
+        ↓
+
+        EC2-3
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            An ALB receives HTTPS traffic on port 443.
+
+            The target group may forward that traffic to
+            application servers listening on port 8080.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A target group is a logical collection of backend
+            targets that receive traffic from a load balancer.
+            It also contains settings such as the target port
+            and health check configuration."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q7 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 07</div>
+
+    <h3>What is a Listener?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        A Listener checks for incoming connection requests on
+        a configured protocol and port.
+
+        For example:
+
+    </p>
+
+    <pre>
+```
+
+HTTPS : 443
+HTTP  : 80 </pre>
+
+```
+    <p class="answer">
+
+        The listener then uses listener rules to determine
+        where the request should go.
+
+    </p>
+
+    <div class="flow">
+
+        Client
+
+        →
+
+        Listener : 443
+
+        →
+
+        Listener Rule
+
+        →
+
+        Target Group
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A listener checks for incoming connection requests
+            on a configured protocol and port. For an ALB,
+            listener rules can then route requests to the
+            appropriate target group."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q8 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 08</div>
+
+    <h3>What is a health check in a Load Balancer?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY FREQUENT
+    </span>
+
+    <p class="answer">
+
+        A health check allows the load balancer to determine
+        whether a registered target is healthy enough to receive
+        traffic.
+
+        For an HTTP application, an example health check might be:
+
+    </p>
+
+    <pre>
+```
+
+Protocol: HTTP
+Port: 8080
+Path: /health </pre>
+
+```
+    <p class="answer">
+
+        If the target fails health checks, the load balancer
+        stops routing new traffic to that unhealthy target.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose we have:
+
+            <br><br>
+
+            EC2-A → healthy
+
+            <br>
+
+            EC2-B → unhealthy
+
+            <br>
+
+            EC2-C → healthy
+
+            <br><br>
+
+            The Load Balancer sends traffic only to the healthy
+            targets.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A load balancer health check periodically verifies
+            whether a registered target is healthy. If a target
+            fails the configured health checks, the load
+            balancer stops sending new traffic to it until it
+            becomes healthy again."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q9 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 09</div>
+
+    <h3>What is path-based routing?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ ALB FAVORITE
+    </span>
+
+    <p class="answer">
+
+        Path-based routing allows an ALB to route requests to
+        different target groups depending on the URL path.
+
+    </p>
+
+    <div class="flow">
+
+        /api/*
+
+        →
+
+        API Target Group
+
+        <br><br>
+
+        /payment/*
+
+        →
+
+        Payment Target Group
+
+        <br><br>
+
+        /web/*
+
+        →
+
+        Web Target Group
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Microservices Example</strong>
+
+        <p>
+
+            A single ALB can expose:
+
+            <br><br>
+
+            example.com/api
+
+            → API service
+
+            <br>
+
+            example.com/payment
+
+            → Payment service
+
+            <br>
+
+            example.com/orders
+
+            → Order service
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Path-based routing allows an ALB to route HTTP or
+            HTTPS requests to different target groups based on
+            the URL path. It is commonly used in microservices
+            architectures."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q10 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 10</div>
+
+    <h3>What is host-based routing?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ COMMON
+    </span>
+
+    <p class="answer">
+
+        Host-based routing allows an ALB to route requests based
+        on the hostname in the HTTP request.
+
+    </p>
+
+    <div class="flow">
+
+        api.example.com
+
+        →
+
+        API Target Group
+
+        <br><br>
+
+        web.example.com
+
+        →
+
+        Web Target Group
+
+        <br><br>
+
+        admin.example.com
+
+        →
+
+        Admin Target Group
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Host-based routing allows an Application Load
+            Balancer to route HTTP or HTTPS requests to
+            different target groups based on the requested
+            hostname."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q11 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 11</div>
+
+    <h3>How does an ALB distribute traffic?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐
+    </span>
+
+    <p class="answer">
+
+        The ALB receives client requests through its listener,
+        evaluates listener rules and forwards matching requests
+        to a target group.
+
+        The target group contains registered targets and
+        health-check information.
+
+        Only healthy targets are eligible to receive new
+        traffic.
+
+    </p>
+
+    <div class="flow">
+
+        Client
+
+        ↓
+
+        ALB
+
+        ↓
+
+        Listener
+
+        ↓
+
+        Listener Rule
+
+        ↓
+
+        Target Group
+
+        ↓
+
+        Healthy Targets
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The ALB accepts client requests through a listener,
+            evaluates its listener rules, selects the relevant
+            target group and forwards the request to eligible
+            healthy targets."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q12 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 12</div>
+
+    <h3>Why do we use a Load Balancer with Auto Scaling?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ DEVOPS FAVORITE
+    </span>
+
+    <p class="answer">
+
+        Auto Scaling changes the number of backend instances
+        according to demand.
+
+        The Load Balancer provides a stable entry point and
+        distributes traffic across the currently healthy
+        instances.
+
+    </p>
+
+    <div class="flow">
+
+        Users
+
+        ↓
+
+        Load Balancer
+
+        ↓
+
+        Auto Scaling Group
+
+        ↓
+
+        EC2-1
+
+        EC2-2
+
+        EC2-3
+
+        ↕
+
+        Scale Out / Scale In
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            During normal traffic:
+
+            <br>
+            2 EC2 instances
+
+            <br><br>
+
+            During high traffic:
+
+            <br>
+            Auto Scaling launches additional instances.
+
+            <br><br>
+
+            The Load Balancer automatically routes traffic
+            to the healthy registered instances.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Auto Scaling manages the number of backend instances,
+            while the Load Balancer distributes traffic among
+            healthy instances. Together they provide scalability
+            and high availability."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐ High Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q13 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 13</div>
+
+    <h3>What is cross-zone load balancing?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        Cross-zone load balancing allows load balancing across
+        targets in different Availability Zones rather than
+        restricting distribution to targets associated with
+        only the receiving zone.
+
+        Exact behavior and configuration details depend on the
+        load balancer type.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            AZ-A has 2 healthy targets.
+
+            <br>
+
+            AZ-B has 5 healthy targets.
+
+            <br><br>
+
+            Cross-zone behavior can help distribute traffic
+            more evenly across available targets according to
+            the load balancer's configuration.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Cross-zone load balancing allows a load balancer
+            to distribute traffic across targets in multiple
+            Availability Zones. The exact default and
+            configuration behavior depends on the load balancer
+            type."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q14 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 14</div>
+
+    <h3>What is connection draining / deregistration delay?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ COMMON
+    </span>
+
+    <p class="answer">
+
+        When a target is being removed from service, the load
+        balancer can allow existing connections or requests to
+        complete instead of immediately terminating traffic.
+
+        This helps prevent users from experiencing interrupted
+        requests during deployments or scale-in events.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 DevOps Deployment Example</strong>
+
+        <p>
+
+            During deployment, an old application server is
+            removed.
+
+            Instead of killing active requests immediately,
+            deregistration delay allows existing traffic to
+            finish while new traffic is sent to healthy targets.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Deregistration delay allows existing connections or
+            requests to finish when a target is being removed
+            from service. It helps provide graceful deployments
+            and reduces interrupted requests."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q15 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 15</div>
+
+    <h3>Can an ALB route traffic to different ports?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐
+    </span>
+
+    <p class="answer">
+
+        Yes.
+
+        The Load Balancer listener can accept traffic on one
+        port and the target group can forward it to a configured
+        target port.
+
+    </p>
+
+    <div class="flow">
+
+        Client
+
+        →
+
+        HTTPS : 443
+
+        →
+
+        ALB
+
+        →
+
+        Target Group
+
+        →
+
+        EC2 : 8080
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Users access:
+
+            <br>
+
+            HTTPS : 443
+
+            <br><br>
+
+            Application servers listen on:
+
+            <br>
+
+            HTTP : 8080
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Yes. A load balancer can listen on one port and
+            forward traffic to a target group configured for
+            another target port, depending on the protocol and
+            load balancer configuration."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q16 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 16</div>
+
+    <h3>Where should an internet-facing ALB be deployed?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        An internet-facing ALB is associated with subnets that
+        have network connectivity suitable for internet-facing
+        access, typically public subnets in multiple
+        Availability Zones.
+
+        The ALB itself provides the public-facing entry point;
+        backend application instances can remain in private
+        subnets.
+
+    </p>
+
+    <div class="flow">
+
+        🌐 Internet
+
+        ↓
+
+        Public Subnets
+
+        ↓
+
+        ALB
+
+        ↓
+
+        Private App Subnets
+
+        ↓
+
+        Application Servers
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An internet-facing ALB is placed across appropriate
+            public subnets in multiple Availability Zones.
+            Backend application servers can remain in private
+            subnets and receive traffic from the ALB."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q17 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 17</div>
+
+    <h3>What is an internal Load Balancer?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐
+    </span>
+
+    <p class="answer">
+
+        An internal load balancer is reachable through private
+        network connectivity rather than being directly
+        internet-facing.
+
+        It is useful for internal applications and service-to-
+        service communication.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Microservices Example</strong>
+
+        <p>
+
+            Public ALB:
+
+            <br>
+            Internet → Frontend
+
+            <br><br>
+
+            Internal ALB:
+
+            <br>
+            Frontend → Internal API services
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An internal Load Balancer provides a private entry
+            point for applications inside a VPC or connected
+            networks. It is commonly used for internal service
+            communication."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q18 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 18</div>
+
+    <h3>What is SSL/TLS termination at the Load Balancer?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ VERY IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        SSL/TLS termination means the Load Balancer handles the
+        HTTPS encryption/decryption from the client.
+
+        For example:
+
+    </p>
+
+    <div class="flow">
+
+        Client
+
+        →
+
+        HTTPS : 443
+
+        →
+
+        ALB
+
+        →
+
+        HTTP : 8080
+
+        →
+
+        Application
+
+    </div>
+
+    <p class="answer">
+
+        This can reduce the TLS processing burden on backend
+        servers.
+
+        The exact architecture should be selected based on
+        security requirements.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "TLS termination means the load balancer terminates
+            the client's HTTPS connection. It decrypts the
+            request and can forward it to backend targets using
+            the configured protocol and port."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐ Medium Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q19 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 19</div>
+
+    <h3>What is weighted routing in ALB?</h3>
+
+    <span class="label">
+        ⭐⭐⭐
+    </span>
+
+    <p class="answer">
+
+        ALB listener rules can use weighted forwarding to send
+        different proportions of traffic to multiple target
+        groups.
+
+        This is useful for controlled releases and testing.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Canary Deployment</strong>
+
+        <p>
+
+            Version 1:
+
+            <br>
+            90% traffic
+
+            <br><br>
+
+            Version 2:
+
+            <br>
+            10% traffic
+
+            <br><br>
+
+            If version 2 is stable, the percentage can be
+            increased gradually.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Weighted forwarding allows an ALB listener rule to
+            distribute traffic across multiple target groups
+            using configured weights. It can be useful for
+            canary or controlled deployments."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q20 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 20</div>
+
+    <h3>What happens when all targets become unhealthy?</h3>
+
+    <span class="label">
+        ⭐⭐⭐ TROUBLESHOOTING
+    </span>
+
+    <p class="answer">
+
+        If the target group has no healthy targets, requests
+        cannot be successfully served by normal healthy-target
+        routing.
+
+        The exact response and behavior depend on the
+        load-balancer configuration and failure scenario.
+
+        The first troubleshooting step is to determine why
+        the health checks are failing.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 What to check</strong>
+
+        <p>
+
+            → Health check path
+
+            <br>
+            → Health check port
+
+            <br>
+            → Application process
+
+            <br>
+            → Security Group
+
+            <br>
+            → NACL
+
+            <br>
+            → Route table
+
+            <br>
+            → Application response code
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "If all targets are unhealthy, the load balancer has
+            no healthy backend target to serve normal traffic.
+            I would immediately troubleshoot the health check
+            path, port, application response and network
+            security configuration."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q21 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 21</div>
+
+    <h3>Can a Load Balancer distribute traffic across multiple Availability Zones?</h3>
+
+    <span class="label">
+        ⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        Yes.
+
+        For high availability, load balancers are commonly
+        configured across multiple Availability Zones.
+
+        Backend targets can also be distributed across
+        multiple Availability Zones.
+
+    </p>
+
+    <div class="flow">
+
+        Internet
+
+        ↓
+
+        ALB
+
+        ↙          ↘
+
+        AZ-A        AZ-B
+
+        ↓            ↓
+
+        EC2         EC2
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Yes. AWS load balancers can be configured across
+            multiple Availability Zones. This improves
+            availability and helps applications continue
+            operating if one Availability Zone has a problem."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q22 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 22</div>
+
+    <h3>What is sticky session / session persistence?</h3>
+
+    <span class="label">
+        ⭐⭐⭐
+    </span>
+
+    <p class="answer">
+
+        Sticky sessions allow a client's requests to be routed
+        to the same target for a period of time, when the
+        relevant load balancer feature is enabled and supported.
+
+        This can be useful for applications that maintain
+        session state locally on a backend server.
+
+    </p>
+
+    <div class="important">
+
+        💡 Better architecture:
+
+        Whenever possible, design applications to be
+        stateless and store session state in shared services
+        such as databases or caches rather than relying on
+        one specific backend instance.
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Sticky sessions keep a client's requests associated
+            with the same backend target for a configured period.
+            They can help legacy stateful applications, but
+            stateless application design is generally preferred."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐ Less Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q23 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 23</div>
+
+    <h3>What is the difference between internet-facing and internal ALB?</h3>
+
+    <span class="label">
+        ⭐⭐
+    </span>
+
+    <table class="compare">
+
+        <tr>
+            <th>Feature</th>
+            <th>Internet-Facing</th>
+            <th>Internal</th>
+        </tr>
+
+        <tr>
+            <td>Purpose</td>
+            <td>Internet-facing applications</td>
+            <td>Private applications</td>
+        </tr>
+
+        <tr>
+            <td>Client</td>
+            <td>Internet users</td>
+            <td>Private clients / services</td>
+        </tr>
+
+        <tr>
+            <td>Typical Subnets</td>
+            <td>Public subnets</td>
+            <td>Private/internal subnets</td>
+        </tr>
+
+    </table>
+
+</article>
+
+
+<!-- Q24 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 24</div>
+
+    <h3>What is Gateway Load Balancer?</h3>
+
+    <span class="label">
+        ⭐⭐
+    </span>
+
+    <p class="answer">
+
+        Gateway Load Balancer is designed for deploying,
+        scaling and managing virtual network appliances such
+        as firewalls, intrusion detection systems and other
+        security appliances.
+
+        It operates using network-level technologies suited
+        for transparent appliance insertion.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Traffic can be inspected by a security appliance
+            fleet before reaching application workloads.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Gateway Load Balancer is used to deploy and scale
+            third-party and custom virtual network appliances,
+            such as firewalls and inspection systems."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐ Bonus</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q25 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 25</div>
+
+    <h3>Can we use an ALB for non-HTTP traffic?</h3>
+
+    <span class="label">
+        ⭐
+    </span>
+
+    <p class="answer">
+
+        ALB is designed for HTTP and HTTPS application traffic.
+
+        If the application requires general TCP or UDP
+        load balancing, an NLB is normally considered instead.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "ALB is designed for HTTP and HTTPS application
+            traffic. For TCP or UDP network-level load balancing,
+            NLB is generally the appropriate choice."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     🎯 REAL TIME SCENARIOS
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🎯 Real-Time Load Balancer Scenarios</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Scenario 1 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 01</div>
+
+    <h3>
+        ALB is reachable, but it returns 503. How do you troubleshoot?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        A common cause is that the target group does not have
+        healthy targets.
+
+        I would check:
+
+        <br><br>
+
+        1. Target group health status
+
+        <br>
+
+        2. Health check path
+
+        <br>
+
+        3. Health check port
+
+        <br>
+
+        4. Application is running
+
+        <br>
+
+        5. Security group allows ALB → target traffic
+
+        <br>
+
+        6. NACLs
+
+        <br>
+
+        7. Application response
+
+        <br>
+
+        8. Target registration
+
+    </p>
+
+    <div class="flow">
+
+        Client
+
+        →
+
+        ALB ✅
+
+        →
+
+        Target Group ❌
+
+        →
+
+        No Healthy Target
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would first check the target group's health
+            status. Then I would verify the health check path,
+            port, application process, target registration and
+            security group and NACL rules between the ALB and
+            the backend."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 2 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 02</div>
+
+    <h3>
+        Target is registered but showing unhealthy. What do you check?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ INTERVIEW FAVORITE
+    </span>
+
+    <p class="answer">
+
+        I follow the traffic path.
+
+        <br><br>
+
+        <strong>Step 1:</strong>
+
+        Check health check protocol.
+
+        <br><br>
+
+        <strong>Step 2:</strong>
+
+        Check health check port.
+
+        <br><br>
+
+        <strong>Step 3:</strong>
+
+        Check health check path.
+
+        <br><br>
+
+        <strong>Step 4:</strong>
+
+        Test the application locally on the EC2 instance.
+
+        <pre>
+```
+
+curl http://localhost:8080/health </pre>
+
+```
+        <strong>Step 5:</strong>
+
+        Check the EC2 security group.
+
+        It should allow traffic from the Load Balancer's
+        security group on the application port.
+
+        <br><br>
+
+        <strong>Step 6:</strong>
+
+        Check NACL and routing.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would verify the health check configuration first,
+            then test the endpoint directly from the instance.
+            After that I would check the target security group,
+            NACLs, routing and application logs."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 3 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 03</div>
+
+    <h3>
+        ALB works but users cannot reach the application. What will you check?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐
+    </span>
+
+    <p class="answer">
+
+        I would check the complete request path:
+
+    </p>
+
+    <div class="flow">
+
+        DNS
+
+        →
+
+        ALB
+
+        →
+
+        Listener
+
+        →
+
+        Target Group
+
+        →
+
+        Health Check
+
+        →
+
+        Application
+
+    </div>
+
+    <p class="answer">
+
+        Specifically:
+
+        <br><br>
+
+        → DNS record
+
+        <br>
+
+        → ALB listener
+
+        <br>
+
+        → Security Group
+
+        <br>
+
+        → Target group
+
+        <br>
+
+        → Target health
+
+        <br>
+
+        → Application port
+
+        <br>
+
+        → Application logs
+
+    </p>
+
+</article>
+
+
+<!-- Scenario 4 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 04</div>
+
+    <h3>
+        You deploy a new version and suddenly all targets become unhealthy. What could be wrong?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ DEVOPS SCENARIO
+    </span>
+
+    <p class="answer">
+
+        Possible reasons:
+
+        <br><br>
+
+        → New application is listening on a different port
+
+        <br>
+
+        → Health check path changed
+
+        <br>
+
+        → Application startup takes longer
+
+        <br>
+
+        → Security group changed
+
+        <br>
+
+        → Environment variable/configuration issue
+
+        <br>
+
+        → Application returns an unexpected status code
+
+        <br>
+
+        → Deployment broke the health endpoint
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Production Approach</strong>
+
+        <p>
+
+            First check target health details.
+
+            Then check application logs.
+
+            Test the health endpoint directly.
+
+            If necessary, rollback the deployment.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "After a deployment I would first compare the new
+            version's port and health endpoint with the target
+            group configuration. Then I would check application
+            logs and target health details. If the new release
+            is confirmed as the cause, I would rollback or shift
+            traffic back to the previous healthy version."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 5 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 05</div>
+
+    <h3>
+        How would you design a highly available ALB architecture?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ ARCHITECTURE
+    </span>
+
+    <div class="flow">
+
+        🌐 Users
+
+        ↓
+
+        ⚖️ ALB
+
+        ↙             ↘
+
+        AZ-A           AZ-B
+
+        ↓               ↓
+
+        App-1           App-2
+
+        ↓               ↓
+
+        Private Database Tier
+
+    </div>
+
+    <p class="answer">
+
+        I would:
+
+        <br><br>
+
+        → Use multiple Availability Zones
+
+        <br>
+
+        → Place the ALB across multiple subnets/AZs
+
+        <br>
+
+        → Run backend instances across multiple AZs
+
+        <br>
+
+        → Configure health checks
+
+        <br>
+
+        → Use Auto Scaling where appropriate
+
+        <br>
+
+        → Keep application servers private where possible
+
+        <br>
+
+        → Use security groups with least privilege
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would deploy the ALB across multiple Availability
+            Zones and place backend application instances across
+            multiple AZs. I would configure health checks and
+            Auto Scaling, keep backend instances private where
+            possible and use security groups to allow only the
+            required traffic."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     🛠️ CLI
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🛠️ Important AWS CLI Commands</h2>
+    <div class="line"></div>
+</div>
+
+
+<article class="question">
+
+    <h3>Load Balancer CLI Commands</h3>
+
+    <span class="label">
+        LIST LOAD BALANCERS
+    </span>
+
+    <pre>
+```
+
+aws elbv2 describe-load-balancers </pre>
+
+```
+    <span class="label">
+        LIST TARGET GROUPS
+    </span>
+
+    <pre>
+```
+
+aws elbv2 describe-target-groups </pre>
+
+```
+    <span class="label">
+        CHECK TARGET HEALTH
+    </span>
+
+    <pre>
+```
+
+aws elbv2 describe-target-health 
+--target-group-arn YOUR_TARGET_GROUP_ARN </pre>
+
+```
+    <span class="label">
+        LIST LISTENERS
+    </span>
+
+    <pre>
+```
+
+aws elbv2 describe-listeners 
+--load-balancer-arn YOUR_LOAD_BALANCER_ARN </pre>
+
+```
+    <span class="label">
+        LIST LISTENER RULES
+    </span>
+
+    <pre>
+```
+
+aws elbv2 describe-rules 
+--listener-arn YOUR_LISTENER_ARN </pre>
+
+```
+    <span class="label">
+        LIST LOAD BALANCER ATTRIBUTES
+    </span>
+
+    <pre>
+```
+
+aws elbv2 describe-load-balancer-attributes 
+--load-balancer-arn YOUR_LOAD_BALANCER_ARN </pre>
+
+```
+    <span class="label">
+        LIST TARGET GROUP ATTRIBUTES
+    </span>
+
+    <pre>
+```
+
+aws elbv2 describe-target-group-attributes 
+--target-group-arn YOUR_TARGET_GROUP_ARN </pre>
+
+```
+</article>
+
+
+<!-- =====================================================
+     🧠 REVISION
+====================================================== -->
+
+<div class="important">
+
+    <strong>🧠 Load Balancer One-Minute Revision</strong>
+
+    <br><br>
+
+    <strong>
+        Load Balancer
+    </strong>
+
+    = Distributes traffic across backend targets.
+
+    <br><br>
+
+    <strong>
+        ALB
+    </strong>
+
+    = Layer 7 = HTTP/HTTPS = Host/Path routing.
+
+    <br><br>
+
+    <strong>
+        NLB
+    </strong>
+
+    = Layer 4 = TCP/UDP/TLS = High performance.
+
+    <br><br>
+
+    <strong>
+        Target Group
+    </strong>
+
+    = Backend targets + health checks.
+
+    <br><br>
+
+    <strong>
+        Listener
+    </strong>
+
+    = Protocol + Port + Rules.
+
+    <br><br>
+
+    <strong>
+        Health Check
+    </strong>
+
+    = Determines whether target is healthy.
+
+    <br><br>
+
+    <strong>
+        Path Routing
+    </strong>
+
+    = `/api` → API target group.
+
+    <br><br>
+
+    <strong>
+        Host Routing
+    </strong>
+
+    = `api.example.com` → API target group.
+
+    <br><br>
+
+    <strong>
+        ALB + Auto Scaling
+    </strong>
+
+    = Scalable + highly available application.
+
+    <br><br>
+
+    <strong>
+        Production Flow
+    </strong>
+
+    <br><br>
+
+    🌐 User
+
+    →
+
+    DNS
+
+    →
+
+    ⚖️ ALB
+
+    →
+
+    Listener
+
+    →
+
+    Target Group
+
+    →
+
+    Healthy Application
+
+</div>
+```
+
+</main>
+
+<footer>
+
+```
+<p>⚖️ AWS Load Balancer Interview Preparation</p>
+
+<span>
+    Nandu's DevOps Interview Master Guide • 2026
+</span>
+```
+
+</footer>
+
+</body>
+
+</html>
+

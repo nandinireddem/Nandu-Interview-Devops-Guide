@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Docker Security - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔐</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Docker <span>Security</span></h1>
+
+<p>
+High-priority Docker security concepts for DevOps interviews:
+non-root containers, image scanning, secrets, capabilities,
+privileged mode, Docker socket security, resource controls and
+production security practices.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="card intro">
+
+<strong>⭐⭐⭐⭐⭐ DOCKER SECURITY — MUST KNOW</strong>
+
+<p>
+Docker security is about reducing the attack surface of container
+images, containers, the Docker daemon and the host system.
+</p>
+
+<div class="flow">
+
+Source Code
+<br>
+↓
+<br>
+Secure Dockerfile
+<br>
+↓
+<br>
+Image Scan
+<br>
+↓
+<br>
+Trusted Image
+<br>
+↓
+<br>
+Non-Root Container
+<br>
+↓
+<br>
+Runtime Security
+<br>
+↓
+<br>
+Monitoring
+<br>
+↓
+<br>
+Secure Deployment
+
+</div>
+
+<div class="answer">
+
+<strong>Interview definition:</strong>
+
+Docker security involves securing the image supply chain, Dockerfile,
+container runtime, secrets, daemon, host interaction and deployment
+environment to reduce vulnerabilities and unauthorized access.
+
+</div>
+
+</div>
+
+
+<!-- SHARED RESPONSIBILITY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What Does Docker Security Include?</h2>
+
+<table>
+
+<tr>
+<th>Layer</th>
+<th>Security Focus</th>
+</tr>
+
+<tr>
+<td>Source Code</td>
+<td>Secure dependencies and avoid committed secrets.</td>
+</tr>
+
+<tr>
+<td>Dockerfile</td>
+<td>Trusted base images, non-root user, minimal packages.</td>
+</tr>
+
+<tr>
+<td>Image</td>
+<td>Vulnerability scanning and provenance.</td>
+</tr>
+
+<tr>
+<td>Container</td>
+<td>Least privilege, capabilities and filesystem controls.</td>
+</tr>
+
+<tr>
+<td>Docker Daemon</td>
+<td>Restrict access to Docker control interfaces.</td>
+</tr>
+
+<tr>
+<td>Host</td>
+<td>Patch OS and protect Docker runtime.</td>
+</tr>
+
+<tr>
+<td>Network</td>
+<td>Restrict unnecessary connectivity.</td>
+</tr>
+
+<tr>
+<td>Secrets</td>
+<td>Use dedicated secret-management mechanisms.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- ROOT -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 2. Why Should Containers Not Run as Root?</h2>
+
+<div class="answer">
+
+By default, some containers may run processes as root inside the
+container. Running applications as a dedicated non-root user follows
+the principle of least privilege and can reduce the impact of a
+container compromise.
+
+</div>
+
+<h3>Dockerfile example</h3>
+
+<pre><code>FROM node:22-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN addgroup -S appgroup \
+    && adduser -S appuser -G appgroup
+
+USER appuser
+
+CMD ["node","server.js"]</code></pre>
+
+<div class="warning">
+
+Non-root containers are an important defense, but they do not replace
+other security controls.
+
+</div>
+
+</div>
+
+
+<!-- USER -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. USER Instruction</h2>
+
+<pre><code>USER appuser</code></pre>
+
+<div class="answer">
+
+The Dockerfile <code>USER</code> instruction specifies the user that
+will run subsequent commands and, unless overridden, the main
+container process.
+
+</div>
+
+<h3>Check the running user</h3>
+
+<pre><code>docker exec &lt;container&gt; id</code></pre>
+
+<div class="scenario">
+
+<strong>Interview scenario:</strong>
+
+An application does not require root privileges.
+
+I would create a dedicated application user and switch to it with
+<code>USER</code> before starting the application.
+
+</div>
+
+</div>
+
+
+<!-- VULNERABILITIES -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 4. Container Image Vulnerabilities</h2>
+
+<div class="answer">
+
+Container images can contain vulnerable operating-system packages,
+application dependencies or libraries.
+
+</div>
+
+<h3>Common causes</h3>
+
+<ul>
+<li>Old base images</li>
+<li>Unpatched OS packages</li>
+<li>Outdated application dependencies</li>
+<li>Unused packages</li>
+<li>Unmaintained libraries</li>
+<li>Untrusted third-party images</li>
+</ul>
+
+<div class="flow">
+
+Base Image
+<br>
++
+<br>
+OS Packages
+<br>
++
+<br>
+Application Dependencies
+<br>
+↓
+<br>
+Potential Vulnerabilities
+
+</div>
+
+</div>
+
+
+<!-- TRIVY -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 5. Image Scanning with Trivy</h2>
+
+<div class="answer">
+
+Trivy is a security scanner commonly used to detect vulnerabilities
+and other security issues in container images and related artifacts.
+
+</div>
+
+<pre><code>trivy image myapp:1.0</code></pre>
+
+<h3>Typical CI/CD flow</h3>
+
+<div class="flow">
+
+Build Image
+<br>
+↓
+<br>
+Trivy Scan
+<br>
+↓
+<br>
+Vulnerabilities?
+<br>
+↓
+<br>
+Fail / Continue
+<br>
+↓
+<br>
+Registry
+<br>
+↓
+<br>
+Deployment
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I would integrate image scanning into CI/CD so that known
+high-severity vulnerabilities can be detected before an image is
+promoted to a production environment."
+
+</div>
+
+</div>
+
+
+<!-- SEVERITY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Vulnerability Severity</h2>
+
+<p>
+Security scanners commonly classify vulnerabilities by severity,
+for example:
+</p>
+
+<table>
+
+<tr>
+<th>Severity</th>
+<th>Typical Interpretation</th>
+</tr>
+
+<tr>
+<td>CRITICAL</td>
+<td>Very high potential impact; usually requires immediate attention.</td>
+</tr>
+
+<tr>
+<td>HIGH</td>
+<td>Significant risk requiring prompt remediation.</td>
+</tr>
+
+<tr>
+<td>MEDIUM</td>
+<td>Moderate risk evaluated according to environment and exposure.</td>
+</tr>
+
+<tr>
+<td>LOW</td>
+<td>Lower-risk finding that should still be tracked.</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+A scanner finding does not automatically mean the application is
+exploitable in your exact environment. Teams should assess severity,
+exposure, exploitability and business impact.
+
+</div>
+
+</div>
+
+
+<!-- MINIMAL IMAGE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Why Use Minimal Base Images?</h2>
+
+<div class="answer">
+
+A smaller runtime image generally contains fewer packages and
+components, which can reduce the attack surface and image size.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>FROM python:3.13-slim</code></pre>
+
+<p>
+Minimal does not automatically mean secure. The image must still be
+maintained and scanned.
+</p>
+
+</div>
+
+
+<!-- TRUSTED -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Use Trusted Base Images</h2>
+
+<div class="answer">
+
+Base images should come from trusted sources and should be regularly
+updated and scanned.
+
+</div>
+
+<h3>Bad practice</h3>
+
+<pre><code>FROM random-image:latest</code></pre>
+
+<h3>Better practice</h3>
+
+<pre><code>FROM python:3.13-slim</code></pre>
+
+<p>
+In enterprise environments, organizations may also maintain approved
+internal base images.
+</p>
+
+</div>
+
+
+<!-- LATEST -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 9. Why Avoid latest in Production?</h2>
+
+<pre><code>FROM nginx:latest</code></pre>
+
+<div class="answer">
+
+The <code>latest</code> tag is mutable. A future build can therefore
+use a different image than an earlier build.
+
+</div>
+
+<p>Prefer controlled versions:</p>
+
+<pre><code>FROM nginx:1.29-alpine</code></pre>
+
+<p>
+For stronger reproducibility, an image digest can be pinned.
+</p>
+
+</div>
+
+
+<!-- SECRETS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 10. How Should Secrets Be Handled?</h2>
+
+<div class="warning">
+
+Never hardcode passwords, API keys, cloud credentials or private
+keys into Dockerfiles or source code.
+
+</div>
+
+<h3>Do not do this</h3>
+
+<pre><code>ENV AWS_SECRET_ACCESS_KEY=supersecret</code></pre>
+
+<h3>Better options</h3>
+
+<ul>
+<li>Cloud secret managers</li>
+<li>CI/CD secret stores</li>
+<li>Runtime secret injection</li>
+<li>Docker/Swarm secrets where applicable</li>
+<li>Kubernetes Secrets with appropriate protection</li>
+</ul>
+
+<div class="interview">
+
+"I would keep secrets outside the image and inject them at deployment
+or runtime using the platform's secret-management mechanism."
+
+</div>
+
+</div>
+
+
+<!-- IMAGE HISTORY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Why Deleting a Secret From Dockerfile Is Not Enough</h2>
+
+<div class="scenario">
+
+Suppose a secret was accidentally included in an image layer.
+
+Later you remove the line from the Dockerfile.
+
+That does not necessarily make the previously built image or its
+layers safe.
+
+</div>
+
+<h3>Correct response</h3>
+
+<ol>
+<li>Immediately rotate/revoke the exposed credential.</li>
+<li>Stop using the compromised credential.</li>
+<li>Remove the secret from source/history where appropriate.</li>
+<li>Rebuild the image.</li>
+<li>Scan the new image.</li>
+<li>Review registry and CI/CD exposure.</li>
+</ol>
+
+<div class="warning">
+
+Treat an exposed credential as compromised. Do not assume deleting
+the visible file makes the credential safe.
+
+</div>
+
+</div>
+
+
+<!-- DOCKER SOCKET -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 12. Why Is /var/run/docker.sock Sensitive?</h2>
+
+<pre><code>-v /var/run/docker.sock:/var/run/docker.sock</code></pre>
+
+<div class="answer">
+
+The Docker socket provides access to the Docker daemon API. Giving a
+container access to the host Docker socket can effectively grant very
+powerful control over Docker-managed resources.
+
+</div>
+
+<div class="warning">
+
+Do not mount the Docker socket into containers unless there is a
+specific, well-understood requirement and the security implications
+have been accepted.
+
+</div>
+
+<h3>Interview question</h3>
+
+<p>
+<strong>Why is Docker socket access dangerous?</strong>
+</p>
+
+<p>
+Because access to the Docker daemon can allow powerful operations
+against containers, images, volumes and potentially the host.
+</p>
+
+</div>
+
+
+<!-- PRIVILEGED -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 13. What Does --privileged Do?</h2>
+
+<pre><code>docker run --privileged myimage</code></pre>
+
+<div class="answer">
+
+Privileged mode significantly expands the capabilities available to
+a container and reduces many of Docker's normal isolation
+restrictions.
+
+</div>
+
+<div class="warning">
+
+Avoid <code>--privileged</code> unless there is a legitimate,
+documented requirement. It should not be used as a default solution
+for permission problems.
+
+</div>
+
+</div>
+
+
+<!-- CAPABILITIES -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 14. Linux Capabilities</h2>
+
+<div class="answer">
+
+Linux capabilities divide traditional root privileges into smaller
+privilege sets. Docker can add or drop capabilities for containers.
+
+</div>
+
+<h3>Drop unnecessary capabilities</h3>
+
+<pre><code>docker run \
+  --cap-drop=ALL \
+  myimage</code></pre>
+
+<h3>Add only what is required</h3>
+
+<pre><code>docker run \
+  --cap-drop=ALL \
+  --cap-add=NET_BIND_SERVICE \
+  myimage</code></pre>
+
+<div class="interview">
+
+<strong>Principle:</strong>
+
+Give the container only the privileges it actually needs.
+
+</div>
+
+</div>
+
+
+<!-- READ ONLY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Read-Only Root Filesystem</h2>
+
+<pre><code>docker run \
+  --read-only \
+  myimage</code></pre>
+
+<div class="answer">
+
+A read-only root filesystem prevents normal writes to the container's
+root filesystem.
+
+</div>
+
+<p>
+If the application needs writable storage, explicitly provide the
+required writable volume or temporary filesystem.
+</p>
+
+<h3>Example</h3>
+
+<pre><code>docker run \
+  --read-only \
+  --tmpfs /tmp \
+  myimage</code></pre>
+
+</div>
+
+
+<!-- NETWORK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Container Network Security</h2>
+
+<div class="answer">
+
+Containers should only communicate with the services they actually
+need to reach.
+
+</div>
+
+<h3>Good practices</h3>
+
+<ul>
+<li>Use dedicated Docker networks.</li>
+<li>Do not expose unnecessary ports.</li>
+<li>Publish only required host ports.</li>
+<li>Separate application tiers where appropriate.</li>
+<li>Restrict external access with firewalls/security groups.</li>
+</ul>
+
+<div class="flow">
+
+Internet
+<br>
+↓
+<br>
+Reverse Proxy
+<br>
+↓
+<br>
+Application Network
+<br>
+↓
+<br>
+Backend
+<br>
+↓
+<br>
+Database Network
+
+</div>
+
+</div>
+
+
+<!-- PORTS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. EXPOSE vs Published Ports</h2>
+
+<table>
+
+<tr>
+<th>EXPOSE</th>
+<th>-p / --publish</th>
+</tr>
+
+<tr>
+<td>Documents the container port in image metadata.</td>
+<td>Publishes a container port through the host.</td>
+</tr>
+
+<tr>
+<td>Does not make the port externally reachable by itself.</td>
+<td>Creates host-to-container port mapping.</td>
+</tr>
+
+</table>
+
+<pre><code>EXPOSE 8080</code></pre>
+
+<pre><code>docker run -p 8080:8080 myimage</code></pre>
+
+</div>
+
+
+<!-- RESOURCE LIMITS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Resource Limits</h2>
+
+<div class="answer">
+
+Resource limits can reduce the impact of runaway or compromised
+containers consuming excessive host resources.
+
+</div>
+
+<h3>Memory</h3>
+
+<pre><code>docker run --memory=512m myimage</code></pre>
+
+<h3>CPU</h3>
+
+<pre><code>docker run --cpus="1.0" myimage</code></pre>
+
+<div class="scenario">
+
+<strong>Production scenario:</strong>
+
+A container has a memory leak and continuously consumes host memory.
+
+A suitable memory limit can prevent that single container from
+consuming unlimited memory and affecting other workloads.
+
+</div>
+
+</div>
+
+
+<!-- PIDS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 19. PID Limits</h2>
+
+<pre><code>docker run --pids-limit=100 myimage</code></pre>
+
+<div class="answer">
+
+A PID limit restricts the number of processes that a container can
+create.
+
+This can help reduce the impact of process-exhaustion attacks or
+runaway applications.
+
+</div>
+
+</div>
+
+
+<!-- SECCOMP -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 20. Seccomp</h2>
+
+<div class="answer">
+
+Seccomp is a Linux kernel security mechanism that can restrict the
+system calls a process is allowed to make.
+
+Docker uses a default seccomp profile unless configured otherwise.
+
+</div>
+
+<div class="scenario">
+
+The goal is to reduce the available kernel attack surface by limiting
+unnecessary system calls.
+
+</div>
+
+</div>
+
+
+<!-- APPARMOR SELINUX -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 21. AppArmor and SELinux</h2>
+
+<table>
+
+<tr>
+<th>Technology</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>AppArmor</td>
+<td>Mandatory access-control mechanism based on application profiles.</td>
+</tr>
+
+<tr>
+<td>SELinux</td>
+<td>Mandatory access-control framework using security labels and policies.</td>
+</tr>
+
+</table>
+
+<p>
+Both can provide additional host-level controls around what processes
+and containers are allowed to access.
+</p>
+
+</div>
+
+
+<!-- DOCKER DAEMON -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 22. Why Protect the Docker Daemon?</h2>
+
+<div class="answer">
+
+The Docker daemon has powerful control over containers, images,
+networks, volumes and host resources.
+
+Therefore, unauthorized access to the daemon is highly sensitive.
+
+</div>
+
+<h3>Best practices</h3>
+
+<ul>
+<li>Restrict access to the Docker socket.</li>
+<li>Do not expose the daemon unnecessarily.</li>
+<li>Use appropriate access controls.</li>
+<li>Protect the host operating system.</li>
+<li>Keep Docker components updated.</li>
+</ul>
+
+</div>
+
+
+<!-- SOCKET VS CLI -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 23. Docker CLI vs Docker Daemon</h2>
+
+<div class="flow">
+
+Docker CLI
+<br>
+↓
+<br>
+Docker API
+<br>
+↓
+<br>
+Docker Daemon
+<br>
+↓
+<br>
+Containers / Images / Networks / Volumes
+
+</div>
+
+<div class="answer">
+
+The Docker CLI is a client. The Docker daemon performs the actual
+management operations.
+
+</div>
+
+</div>
+
+
+<!-- SUPPLY CHAIN -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 24. Container Supply-Chain Security</h2>
+
+<div class="flow">
+
+Source Code
+<br>
+↓
+<br>
+Dependencies
+<br>
+↓
+<br>
+Dockerfile
+<br>
+↓
+<br>
+Base Image
+<br>
+↓
+<br>
+Build
+<br>
+↓
+<br>
+Security Scan
+<br>
+↓
+<br>
+Image Signing / Provenance
+<br>
+↓
+<br>
+Registry
+<br>
+↓
+<br>
+Deployment
+
+</div>
+
+<h3>Important controls</h3>
+
+<ul>
+<li>Trusted base images</li>
+<li>Dependency scanning</li>
+<li>Image vulnerability scanning</li>
+<li>Image provenance</li>
+<li>Controlled registries</li>
+<li>Access control</li>
+<li>Immutable versioning</li>
+<li>Continuous monitoring</li>
+</ul>
+
+</div>
+
+
+<!-- REGISTRY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 25. Secure Container Registry Practices</h2>
+
+<ul>
+<li>Use private repositories for sensitive images.</li>
+<li>Restrict push/pull permissions.</li>
+<li>Enable vulnerability scanning.</li>
+<li>Use immutable/versioned image tags where possible.</li>
+<li>Remove obsolete vulnerable images according to policy.</li>
+<li>Protect registry credentials.</li>
+<li>Use image signing/provenance where supported.</li>
+</ul>
+
+<div class="scenario">
+
+A CI pipeline should authenticate to the registry using a short-lived
+or securely stored credential rather than exposing a developer's
+personal password.
+
+</div>
+
+</div>
+
+
+<!-- CI SECURITY -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 26. Docker Security in CI/CD</h2>
+
+<div class="flow">
+
+Git Push
+<br>
+↓
+<br>
+Build Image
+<br>
+↓
+<br>
+Lint / Validate
+<br>
+↓
+<br>
+Dependency Scan
+<br>
+↓
+<br>
+Trivy Image Scan
+<br>
+↓
+<br>
+Policy Check
+<br>
+↓
+<br>
+Push Approved Image
+<br>
+↓
+<br>
+Deploy
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I would shift security left by scanning dependencies and container
+images during CI. Images that violate the team's security policy
+should not be promoted to production."
+
+</div>
+
+</div>
+
+
+<!-- ROOT SCENARIO -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Scenario — Container Is Running as Root</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+A production container runs its application as UID 0.
+
+<br><br>
+
+<strong>Approach:</strong>
+
+Create a dedicated user, ensure the application files have the
+correct ownership, switch to that user with <code>USER</code>, then
+test the application.
+
+</div>
+
+</div>
+
+
+<!-- TRIVY SCENARIO -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Scenario — Trivy Finds Critical Vulnerabilities</h2>
+
+<div class="scenario">
+
+<strong>Do not simply ignore the scan.</strong>
+
+<br><br>
+
+First identify which package is vulnerable and whether a fixed
+version is available.
+
+Then update the base image or dependency, rebuild the image and scan
+again.
+
+</div>
+
+<div class="flow">
+
+Critical Finding
+<br>
+↓
+<br>
+Identify Package
+<br>
+↓
+<br>
+Find Fixed Version
+<br>
+↓
+<br>
+Update
+<br>
+↓
+<br>
+Rebuild
+<br>
+↓
+<br>
+Rescan
+<br>
+↓
+<br>
+Deploy
+
+</div>
+
+</div>
+
+
+<!-- SOCKET SCENARIO -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Scenario — Container Requests Docker Socket</h2>
+
+<div class="scenario">
+
+<strong>Question:</strong>
+
+A monitoring or automation container asks for:
+
+<pre><code>/var/run/docker.sock</code></pre>
+
+Would you approve it immediately?
+
+<br><br>
+
+<strong>Answer:</strong>
+
+No. I would first understand why the access is required, assess the
+security implications, look for alternatives and restrict access as
+much as possible.
+
+</div>
+
+</div>
+
+
+<!-- PRIVILEGED SCENARIO -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Scenario — Developer Uses --privileged</h2>
+
+<div class="warning">
+
+Do not treat <code>--privileged</code> as a general fix for permission
+errors.
+
+</div>
+
+<div class="interview">
+
+"I would identify the exact operation requiring additional
+privileges and grant only the necessary capability or device access,
+instead of enabling full privileged mode."
+
+</div>
+
+</div>
+
+
+<!-- INCIDENT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Scenario — Secret Found in Docker Image</h2>
+
+<div class="scenario">
+
+<strong>Immediate actions:</strong>
+
+<ol>
+<li>Revoke or rotate the secret.</li>
+<li>Determine where it was exposed.</li>
+<li>Remove it from source and image build process.</li>
+<li>Clean repository history if necessary.</li>
+<li>Rebuild the image.</li>
+<li>Scan the rebuilt image.</li>
+<li>Check logs, registries and CI systems for exposure.</li>
+</ol>
+
+</div>
+
+<div class="warning">
+
+The first priority is credential rotation, not merely deleting the
+secret from a file.
+
+</div>
+
+</div>
+
+
+<!-- BEST PRACTICES -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 32. Docker Security Best Practices</h2>
+
+<table>
+
+<tr>
+<th>Practice</th>
+<th>Reason</th>
+</tr>
+
+<tr>
+<td>Non-root user</td>
+<td>Reduce process privileges.</td>
+</tr>
+
+<tr>
+<td>Minimal image</td>
+<td>Reduce attack surface.</td>
+</tr>
+
+<tr>
+<td>Trusted base image</td>
+<td>Reduce supply-chain risk.</td>
+</tr>
+
+<tr>
+<td>Image scanning</td>
+<td>Identify known vulnerabilities.</td>
+</tr>
+
+<tr>
+<td>No hardcoded secrets</td>
+<td>Prevent credential exposure.</td>
+</tr>
+
+<tr>
+<td>Drop capabilities</td>
+<td>Reduce Linux privileges.</td>
+</tr>
+
+<tr>
+<td>Read-only filesystem</td>
+<td>Reduce unauthorized filesystem changes.</td>
+</tr>
+
+<tr>
+<td>Resource limits</td>
+<td>Reduce resource exhaustion impact.</td>
+</tr>
+
+<tr>
+<td>Restricted Docker socket</td>
+<td>Protect Docker daemon control.</td>
+</tr>
+
+<tr>
+<td>Controlled networking</td>
+<td>Reduce unnecessary connectivity.</td>
+</tr>
+
+<tr>
+<td>Versioned images</td>
+<td>Improve reproducibility.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- MOST ASKED -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Asked Docker Security Questions</h2>
+
+<ol>
+
+<li>Why should Docker containers not run as root?</li>
+
+<li>How do you run a Docker container as a non-root user?</li>
+
+<li>What is Docker image scanning?</li>
+
+<li>What is Trivy?</li>
+
+<li>How do you integrate Trivy into CI/CD?</li>
+
+<li>How do you handle secrets in Docker?</li>
+
+<li>Why should secrets not be stored in Dockerfiles?</li>
+
+<li>Why is Docker socket access dangerous?</li>
+
+<li>What is privileged mode?</li>
+
+<li>Why should --privileged be avoided?</li>
+
+<li>What are Linux capabilities?</li>
+
+<li>What is --cap-drop?</li>
+
+<li>What is a read-only root filesystem?</li>
+
+<li>Why use minimal base images?</li>
+
+<li>Why should latest be avoided in production?</li>
+
+<li>What is container image supply-chain security?</li>
+
+<li>How do you secure a Docker registry?</li>
+
+<li>How do you limit container resources?</li>
+
+<li>What is seccomp?</li>
+
+<li>What are AppArmor and SELinux?</li>
+
+<li>How would you respond to a critical image vulnerability?</li>
+
+<li>How would you handle a leaked secret?</li>
+
+<li>How would you secure Docker in production?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-Up Questions</h2>
+
+<ul>
+
+<li>Is running as non-root enough to secure a container?</li>
+
+<li>Does a smaller image automatically mean a secure image?</li>
+
+<li>Can a Docker image contain secrets even after deleting the file?</li>
+
+<li>Why is Docker socket equivalent to powerful host access?</li>
+
+<li>What is the difference between --cap-drop and --privileged?</li>
+
+<li>Why would you use a read-only filesystem?</li>
+
+<li>How do resource limits improve security?</li>
+
+<li>How would you prioritize vulnerabilities found by Trivy?</li>
+
+<li>What would you do if the base image has a critical CVE?</li>
+
+<li>How would you prevent vulnerable images from reaching production?</li>
+
+<li>How would you secure a private container registry?</li>
+
+<li>What is defense in depth for containers?</li>
+
+</ul>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Final Docker Security Cheat Sheet</h2>
+
+<pre><code># Run as limited user
+docker run --user 10001 myimage
+
+# Memory limit
+docker run --memory=512m myimage
+
+# CPU limit
+docker run --cpus="1.0" myimage
+
+# Read-only filesystem
+docker run --read-only myimage
+
+# Temporary writable area
+docker run --read-only --tmpfs /tmp myimage
+
+# Drop capabilities
+docker run --cap-drop=ALL myimage
+
+# Check image
+trivy image myimage:1.0
+
+# Check running containers
+docker ps
+
+# Inspect container
+docker inspect &lt;container&gt;
+
+# Check running user
+docker exec &lt;container&gt; id
+
+# Check image history
+docker history myimage:1.0</code></pre>
+
+</div>
+
+
+<!-- RAPID REVISION -->
+
+<div class="card">
+
+<h2>🚀 60-Second Docker Security Revision</h2>
+
+<div class="flow">
+
+<strong>Trusted Image</strong>
+<br>
+↓
+<br>
+<strong>Minimal Base</strong>
+<br>
+↓
+<br>
+<strong>Secure Dockerfile</strong>
+<br>
+↓
+<br>
+<strong>Non-Root User</strong>
+<br>
+↓
+<br>
+<strong>Image Scan</strong>
+<br>
+↓
+<br>
+<strong>No Hardcoded Secrets</strong>
+<br>
+↓
+<br>
+<strong>Drop Capabilities</strong>
+<br>
+↓
+<br>
+<strong>Read-Only FS</strong>
+<br>
+↓
+<br>
+<strong>Resource Limits</strong>
+<br>
+↓
+<br>
+<strong>Restricted Network</strong>
+<br>
+↓
+<br>
+<strong>Protected Docker Daemon</strong>
+<br>
+↓
+<br>
+<strong>Secure CI/CD</strong>
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE -->
+
+<div class="card">
+
+<h2>🎯 Explain Docker Security in 1 Minute</h2>
+
+<div class="interview">
+
+"Docker security starts from the image build process and continues
+through container runtime and deployment.
+
+I would use trusted and appropriately minimal base images, scan
+images for vulnerabilities using tools such as Trivy, and keep
+dependencies updated.
+
+Containers should run as non-root users whenever possible, and I
+would avoid unnecessary privileges such as privileged mode or
+excessive Linux capabilities.
+
+Secrets should never be hardcoded into Dockerfiles or images. They
+should be injected securely through the deployment platform or a
+secret-management solution.
+
+I would also restrict Docker socket access, control network exposure,
+use resource limits, and consider read-only filesystems and security
+profiles.
+
+In CI/CD, I would scan images before pushing or promoting them and
+apply security policies before production deployment.
+
+The overall principle is least privilege, minimal attack surface,
+secure supply chain and defense in depth."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔐 Docker • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git & GitHub Final Revision - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+.intro strong{color:#93c5fd}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.priority{
+    font-weight:800;
+    white-space:nowrap;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐙</div>
+
+<a href="index.html" class="back">← Back to Git & GitHub</a>
+
+<h1>Git & GitHub <span>Final Revision</span></h1>
+
+<p>
+Last-minute DevOps interview revision — only the most important
+questions, commands, concepts, follow-ups and real-time scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ FINAL GIT INTERVIEW REVISION</strong>
+
+<p>
+This is the final revision page for Git & GitHub.
+Detailed concepts are covered in the previous Git sections.
+Use this page for last-minute interview preparation.
+</p>
+
+<div class="flow">
+
+Working Tree
+<br>
+↓ <code>git add</code>
+<br>
+Staging Area
+<br>
+↓ <code>git commit</code>
+<br>
+Local Repository
+<br>
+↓ <code>git push</code>
+<br>
+GitHub Remote
+<br>
+↓
+<br>
+Pull Request
+<br>
+↓
+<br>
+Code Review + CI
+<br>
+↓
+<br>
+Merge / Release
+<br>
+↓
+<br>
+Deployment
+
+</div>
+
+</div>
+
+
+<!-- 1 FUNDAMENTALS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Git Fundamentals</h2>
+
+<h3>Q1. What is Git?</h3>
+
+<div class="answer">
+Git is a distributed version control system used to track changes
+in source code and enable developers to collaborate safely.
+</div>
+
+<h3>Q2. Why is Git distributed?</h3>
+
+<div class="answer">
+Each developer normally has a complete local repository containing
+the project history, so many Git operations can be performed locally.
+</div>
+
+<h3>Q3. Git vs GitHub?</h3>
+
+<table>
+<tr>
+<th>Git</th>
+<th>GitHub</th>
+</tr>
+
+<tr>
+<td>Version control system</td>
+<td>Hosting and collaboration platform</td>
+</tr>
+
+<tr>
+<td>Runs locally</td>
+<td>Provides remote repositories</td>
+</tr>
+
+<tr>
+<td>Tracks project history</td>
+<td>Provides PRs, reviews, issues and CI integrations</td>
+</tr>
+</table>
+
+<h3>Q4. What is a Git repository?</h3>
+
+<div class="answer">
+A Git repository contains project files together with Git metadata
+and version history.
+</div>
+
+<h3>Q5. What are Working Tree, Staging Area and Repository?</h3>
+
+<table>
+
+<tr>
+<th>Area</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Working Tree</td>
+<td>Current files and modifications</td>
+</tr>
+
+<tr>
+<td>Staging Area</td>
+<td>Changes selected for the next commit</td>
+</tr>
+
+<tr>
+<td>Repository</td>
+<td>Committed project history</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 2 COMMANDS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Must-Know Git Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>git init</code></td>
+<td>Initialize repository</td>
+</tr>
+
+<tr>
+<td><code>git clone &lt;url&gt;</code></td>
+<td>Clone repository</td>
+</tr>
+
+<tr>
+<td><code>git status</code></td>
+<td>Check repository status</td>
+</tr>
+
+<tr>
+<td><code>git add .</code></td>
+<td>Stage changes</td>
+</tr>
+
+<tr>
+<td><code>git commit -m "message"</code></td>
+<td>Create commit</td>
+</tr>
+
+<tr>
+<td><code>git log</code></td>
+<td>View history</td>
+</tr>
+
+<tr>
+<td><code>git diff</code></td>
+<td>View changes</td>
+</tr>
+
+<tr>
+<td><code>git branch</code></td>
+<td>List branches</td>
+</tr>
+
+<tr>
+<td><code>git switch -c feature</code></td>
+<td>Create and switch branch</td>
+</tr>
+
+<tr>
+<td><code>git merge branch</code></td>
+<td>Merge branch</td>
+</tr>
+
+<tr>
+<td><code>git rebase branch</code></td>
+<td>Rebase branch</td>
+</tr>
+
+<tr>
+<td><code>git fetch</code></td>
+<td>Download remote changes</td>
+</tr>
+
+<tr>
+<td><code>git pull</code></td>
+<td>Fetch and integrate changes</td>
+</tr>
+
+<tr>
+<td><code>git push</code></td>
+<td>Upload commits</td>
+</tr>
+
+<tr>
+<td><code>git stash</code></td>
+<td>Temporarily save uncommitted changes</td>
+</tr>
+
+<tr>
+<td><code>git reset</code></td>
+<td>Move HEAD / branch reference</td>
+</tr>
+
+<tr>
+<td><code>git revert</code></td>
+<td>Create reversing commit</td>
+</tr>
+
+<tr>
+<td><code>git reflog</code></td>
+<td>View local reference history</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 3 BRANCH -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Branches & Branching</h2>
+
+<h3>What is a branch?</h3>
+
+<div class="answer">
+A branch is a movable reference to a commit that allows independent
+development without directly changing another branch.
+</div>
+
+<h3>Why use branches?</h3>
+
+<ul>
+<li>Feature isolation</li>
+<li>Parallel development</li>
+<li>Bug fixes</li>
+<li>Code review</li>
+<li>Production protection</li>
+</ul>
+
+<pre><code>main
+ ├── feature/login
+ ├── feature/payment
+ └── bugfix/api-error</code></pre>
+
+<pre><code>git branch
+git switch main
+git switch -c feature/login
+git branch -d feature/login</code></pre>
+
+</div>
+
+
+<!-- 4 MERGE REBASE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Merge vs Rebase</h2>
+
+<table>
+
+<tr>
+<th>Merge</th>
+<th>Rebase</th>
+</tr>
+
+<tr>
+<td>Combines histories</td>
+<td>Replays commits onto another base</td>
+</tr>
+
+<tr>
+<td>Can create merge commit</td>
+<td>Usually creates linear history</td>
+</tr>
+
+<tr>
+<td>Does not rewrite existing commits</td>
+<td>Rewrites commit history</td>
+</tr>
+
+<tr>
+<td>Safer for shared branches</td>
+<td>Use carefully on shared branches</td>
+</tr>
+
+</table>
+
+<pre><code>git switch main
+git merge feature/login
+
+git switch feature/login
+git rebase main</code></pre>
+
+<div class="warning">
+Avoid rebasing shared commits when other developers depend on them.
+</div>
+
+</div>
+
+
+<!-- 5 CONFLICT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Merge Conflict</h2>
+
+<h3>What is a merge conflict?</h3>
+
+<div class="answer">
+A merge conflict occurs when Git cannot automatically determine
+which changes should be kept.
+</div>
+
+<pre><code>git merge feature/login
+
+# Resolve conflicting files
+
+git add .
+git commit</code></pre>
+
+<h3>During rebase</h3>
+
+<pre><code>git rebase main
+
+# Resolve conflict
+
+git add .
+git rebase --continue</code></pre>
+
+<h3>Abort</h3>
+
+<pre><code>git merge --abort
+git rebase --abort</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+I inspect the conflicting files, understand both changes,
+resolve the conflict carefully, stage the resolved files and
+complete the merge or rebase.
+
+</div>
+
+</div>
+
+
+<!-- 6 RESET REVERT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Reset vs Revert</h2>
+
+<table>
+
+<tr>
+<th>Reset</th>
+<th>Revert</th>
+</tr>
+
+<tr>
+<td>Moves HEAD / branch reference</td>
+<td>Creates a new reversing commit</td>
+</tr>
+
+<tr>
+<td>Can rewrite local history</td>
+<td>Preserves existing history</td>
+</tr>
+
+<tr>
+<td>Useful for local work</td>
+<td>Preferred for shared history</td>
+</tr>
+
+</table>
+
+<h3>Reset modes</h3>
+
+<pre><code>git reset --soft HEAD~1
+git reset --mixed HEAD~1
+git reset --hard HEAD~1</code></pre>
+
+<h3>Revert</h3>
+
+<pre><code>git revert &lt;commit-id&gt;</code></pre>
+
+<div class="warning">
+Be careful with <code>git reset --hard</code> because uncommitted
+changes can be lost.
+</div>
+
+</div>
+
+
+<!-- 7 STASH -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Git Stash</h2>
+
+<h3>Why use stash?</h3>
+
+<div class="answer">
+Git stash temporarily stores uncommitted changes so you can switch
+to another task without creating an unfinished commit.
+</div>
+
+<pre><code>git stash
+git stash list
+git stash pop
+git stash apply
+git stash drop</code></pre>
+
+<div class="scenario">
+
+You are working on a feature when an urgent production bug arrives.
+Stash the unfinished work, switch to the bugfix branch, fix the issue,
+then restore your previous work.
+
+</div>
+
+</div>
+
+
+<!-- 8 REMOTE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Remote, Fetch, Pull & Push</h2>
+
+<h3>What is origin?</h3>
+
+<div class="answer">
+<code>origin</code> is the conventional default name for a remote
+repository.
+</div>
+
+<pre><code>git remote -v
+git remote add origin &lt;URL&gt;
+
+git fetch origin
+git pull origin main
+git push origin main</code></pre>
+
+<table>
+
+<tr>
+<th>Fetch</th>
+<th>Pull</th>
+</tr>
+
+<tr>
+<td>Downloads remote updates</td>
+<td>Downloads and integrates changes</td>
+</tr>
+
+<tr>
+<td>Does not merge into current branch</td>
+<td>Can update current branch</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 9 PR -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. GitHub Pull Request</h2>
+
+<div class="answer">
+A Pull Request is a request to merge changes from one branch into
+another, usually with code review and automated checks.
+</div>
+
+<div class="flow">
+
+Feature Branch
+<br>
+↓
+<br>
+Push
+<br>
+↓
+<br>
+Pull Request
+<br>
+↓
+<br>
+Code Review
+<br>
+↓
+<br>
+CI Checks
+<br>
+↓
+<br>
+Approval
+<br>
+↓
+<br>
+Merge
+
+</div>
+
+<h3>Why are PRs important?</h3>
+
+<ul>
+<li>Code review</li>
+<li>CI validation</li>
+<li>Quality control</li>
+<li>Audit trail</li>
+<li>Team collaboration</li>
+</ul>
+
+</div>
+
+
+<!-- 10 PROTECTION -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Branch Protection</h2>
+
+<ul>
+<li>Require Pull Requests</li>
+<li>Require approvals</li>
+<li>Require CI checks</li>
+<li>Restrict direct pushes</li>
+<li>Protect production branches</li>
+</ul>
+
+<div class="scenario">
+
+A developer accidentally pushes untested code to <code>main</code>.
+Branch protection with PR reviews and required CI checks can prevent
+unsafe direct changes.
+
+</div>
+
+</div>
+
+
+<!-- 11 TAGS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Git Tags & Releases</h2>
+
+<div class="answer">
+Tags identify specific versions or release points in Git history.
+</div>
+
+<pre><code>git tag
+
+git tag -a v1.0.0 -m "Release v1.0.0"
+
+git push origin v1.0.0
+
+git push origin --tags
+
+git show v1.0.0</code></pre>
+
+<h3>Semantic Versioning</h3>
+
+<pre><code>MAJOR.MINOR.PATCH
+
+1.4.2
+
+1 = breaking change
+4 = new feature
+2 = bug fix</code></pre>
+
+<div class="interview">
+
+CI/CD pipelines can use release tags such as <code>v2.0.0</code>
+to trigger controlled production deployments.
+
+</div>
+
+</div>
+
+
+<!-- 12 CHERRY PICK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Cherry-Pick</h2>
+
+<div class="answer">
+Cherry-pick applies the changes from a specific commit onto the
+current branch.
+</div>
+
+<pre><code>git cherry-pick &lt;commit-id&gt;</code></pre>
+
+<div class="scenario">
+
+A bug fix exists in development, but production needs only that
+specific fix. Cherry-pick the required commit instead of merging
+all development changes.
+
+</div>
+
+<pre><code>git cherry-pick &lt;commit-id>
+
+# Resolve conflict
+git add .
+git cherry-pick --continue
+
+# Abort
+git cherry-pick --abort</code></pre>
+
+</div>
+
+
+<!-- 13 REFLOG -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Reflog & Recovery</h2>
+
+<div class="answer">
+Reflog records local movements of references such as HEAD and branch
+pointers.
+</div>
+
+<pre><code>git reflog</code></pre>
+
+<div class="scenario">
+
+If a developer accidentally resets a branch and appears to lose a
+commit, reflog can often help locate the previous commit reference.
+
+</div>
+
+<pre><code>git reflog
+
+git reset --hard &lt;recovered-commit&gt;</code></pre>
+
+<div class="warning">
+Reflog is primarily local and is not a permanent remote backup.
+</div>
+
+</div>
+
+
+<!-- 14 LOG -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. Git Log & Investigation</h2>
+
+<pre><code>git log
+git log --oneline
+git log --graph --oneline --all
+git show &lt;commit-id&gt;
+
+git diff
+git diff HEAD
+git diff main..feature</code></pre>
+
+<h3>Best interview command</h3>
+
+<pre><code>git log --oneline --graph --decorate --all</code></pre>
+
+</div>
+
+
+<!-- 15 GITIGNORE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. .gitignore</h2>
+
+<div class="answer">
+<code>.gitignore</code> specifies files and directories that Git should
+normally ignore when detecting untracked files.
+</div>
+
+<pre><code>.env
+*.log
+node_modules/
+.terraform/
+*.tfstate
+*.pem</code></pre>
+
+<div class="warning">
+Adding a file to <code>.gitignore</code> does not automatically remove
+a file that is already tracked.
+</div>
+
+</div>
+
+
+<!-- 16 CLEAN -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 16. Git Clean</h2>
+
+<div class="answer">
+<code>git clean</code> removes untracked files from the working tree.
+</div>
+
+<pre><code>git clean -n
+git clean -f</code></pre>
+
+<div class="warning">
+Always use <code>git clean -n</code> first to inspect what would be removed.
+</div>
+
+</div>
+
+
+<!-- 17 HOOKS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. Git Hooks</h2>
+
+<div class="answer">
+Git hooks are scripts that execute automatically at specific Git
+lifecycle events.
+</div>
+
+<ul>
+<li>pre-commit</li>
+<li>commit-msg</li>
+<li>pre-push</li>
+<li>post-merge</li>
+</ul>
+
+<div class="scenario">
+A pre-commit hook can run formatting, linting or validation before
+allowing a commit.
+</div>
+
+</div>
+
+
+<!-- 18 BISECT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. Git Bisect</h2>
+
+<div class="answer">
+Git bisect uses binary search through commit history to identify
+the commit that introduced a bug.
+</div>
+
+<pre><code>git bisect start
+git bisect bad
+git bisect good &lt;known-good-commit&gt;
+
+# Continue marking commits good/bad
+
+git bisect reset</code></pre>
+
+</div>
+
+
+<!-- 19 SUBMODULE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 19. Git Submodules</h2>
+
+<div class="answer">
+A Git submodule allows one repository to include another repository
+at a specific commit.
+</div>
+
+<pre><code>git submodule add &lt;repository-url&gt;
+git submodule update --init --recursive</code></pre>
+
+</div>
+
+
+<!-- 20 LFS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 20. Git LFS</h2>
+
+<div class="answer">
+Git LFS is designed for large files by keeping pointers in Git while
+large objects are managed separately.
+</div>
+
+<p>
+It is useful for large binaries, media and other files that are not
+ideal for normal Git object storage.
+</p>
+
+</div>
+
+
+<!-- 21 SECURITY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Git Security</h2>
+
+<h3>Should secrets be committed?</h3>
+
+<div class="answer">
+<strong>No.</strong> Passwords, API keys, AWS credentials, tokens and
+private keys should never be committed to Git.
+</div>
+
+<h3>Best practices</h3>
+
+<ul>
+<li>Environment variables</li>
+<li>Secret managers</li>
+<li>GitHub encrypted secrets</li>
+<li>Secret scanning</li>
+<li>Credential rotation</li>
+<li>Never commit private keys</li>
+</ul>
+
+<div class="warning">
+
+If a secret is accidentally pushed, deleting the file is not enough.
+Treat the credential as compromised and rotate it immediately.
+
+</div>
+
+</div>
+
+
+<!-- 22 CI CD -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Git + CI/CD</h2>
+
+<div class="flow">
+
+Git Push
+<br>
+↓
+<br>
+GitHub
+<br>
+↓
+<br>
+CI Trigger
+<br>
+↓
+<br>
+Build
+<br>
+↓
+<br>
+Test
+<br>
+↓
+<br>
+Security Scan
+<br>
+↓
+<br>
+Docker Build
+<br>
+↓
+<br>
+Registry
+<br>
+↓
+<br>
+Deployment
+
+</div>
+
+<h3>Common CI/CD triggers</h3>
+
+<ul>
+<li>Push</li>
+<li>Pull Request</li>
+<li>Tag</li>
+<li>Schedule</li>
+<li>Manual trigger</li>
+</ul>
+
+<div class="interview">
+
+Git acts as the source of truth for application code and CI/CD
+configuration. Pushes and Pull Requests can trigger CI, while tags
+can trigger controlled release pipelines.
+
+</div>
+
+</div>
+
+
+<!-- 23 WORKFLOW -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. DevOps Git Workflow</h2>
+
+<pre><code>main
+ │
+ ├── feature/login
+ │       ↓
+ │   Pull Request
+ │       ↓
+ │   CI Checks
+ │       ↓
+ │   Code Review
+ │       ↓
+ │      Merge
+ │
+ └── Release Tag
+         ↓
+       Build
+         ↓
+      Deploy</code></pre>
+
+<ol>
+<li>Create feature branch</li>
+<li>Make changes</li>
+<li>Commit changes</li>
+<li>Push branch</li>
+<li>Create Pull Request</li>
+<li>Run CI checks</li>
+<li>Review</li>
+<li>Merge</li>
+<li>Create release tag</li>
+<li>Deploy</li>
+</ol>
+
+</div>
+
+
+<!-- 24 SCENARIOS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Most Important Real-Time Scenarios</h2>
+
+<h3>Scenario 1 — Bad code pushed to main</h3>
+
+<div class="scenario">
+Use <code>git revert</code> for a shared branch because it preserves
+history through a new reversing commit.
+</div>
+
+<pre><code>git revert &lt;bad-commit&gt;
+git push origin main</code></pre>
+
+
+<h3>Scenario 2 — Accidentally deleted commit</h3>
+
+<div class="scenario">
+Use <code>git reflog</code> to locate the previous commit and recover it.
+</div>
+
+<pre><code>git reflog
+git reset --hard &lt;commit-id&gt;</code></pre>
+
+
+<h3>Scenario 3 — Only one production fix is required</h3>
+
+<div class="scenario">
+Use <code>git cherry-pick</code> instead of merging an entire development
+branch.
+</div>
+
+<pre><code>git switch production
+git cherry-pick &lt;fix-commit&gt;</code></pre>
+
+
+<h3>Scenario 4 — Branch is behind main</h3>
+
+<pre><code>git fetch origin
+
+# Merge approach
+git merge origin/main
+
+# Rebase approach
+git rebase origin/main</code></pre>
+
+
+<h3>Scenario 5 — Push rejected</h3>
+
+<div class="scenario">
+The remote contains commits that your local branch does not have.
+Fetch and integrate the remote changes before pushing again.
+</div>
+
+<pre><code>git fetch origin
+git pull --rebase origin main
+git push origin main</code></pre>
+
+<div class="warning">
+Do not blindly use <code>git push --force</code> on a shared branch.
+</div>
+
+</div>
+
+
+<!-- 25 PRODUCTION -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Production Rollback Scenario</h2>
+
+<div class="scenario">
+
+A production deployment failed.
+
+First identify the currently deployed version and the last known-good
+release. If releases are tagged, redeploy the known-good version or
+immutable artifact instead of rewriting production Git history.
+
+</div>
+
+<pre><code>git tag
+git show v1.4.0</code></pre>
+
+<div class="flow">
+
+Known-Good Tag
+<br>
+↓
+<br>
+Known-Good Artifact
+<br>
+↓
+<br>
+Redeploy
+<br>
+↓
+<br>
+Verify
+
+</div>
+
+</div>
+
+
+<!-- 26 TRAPS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 26. Common Git Interview Traps</h2>
+
+<table>
+
+<tr>
+<th>Question</th>
+<th>Correct Answer</th>
+</tr>
+
+<tr>
+<td>Is GitHub Git?</td>
+<td>No. Git is the version control system; GitHub is a hosting and collaboration platform.</td>
+</tr>
+
+<tr>
+<td>Does git fetch merge?</td>
+<td>No. It downloads remote updates without merging them.</td>
+</tr>
+
+<tr>
+<td>Does git pull only download?</td>
+<td>No. It fetches and integrates changes.</td>
+</tr>
+
+<tr>
+<td>Is reset the same as revert?</td>
+<td>No. Reset moves references; revert creates a reversing commit.</td>
+</tr>
+
+<tr>
+<td>Is rebase always better than merge?</td>
+<td>No. It depends on the workflow and shared-history requirements.</td>
+</tr>
+
+<tr>
+<td>Does .gitignore remove tracked files?</td>
+<td>No.</td>
+</tr>
+
+<tr>
+<td>Can deleting a secret remove it completely?</td>
+<td>No. Rotate the secret and clean history when appropriate.</td>
+</tr>
+
+<tr>
+<td>Can reflog recover everything?</td>
+<td>No. It is local and entries can expire.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 27 TOP QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Top Git Interview Questions</h2>
+
+<ol>
+
+<li>What is Git?</li>
+<li>Git vs GitHub?</li>
+<li>Why is Git distributed?</li>
+<li>What is a repository?</li>
+<li>Explain working tree, staging area and repository.</li>
+<li>What is a commit?</li>
+<li>What is HEAD?</li>
+<li>What is a branch?</li>
+<li>Why do we use branches?</li>
+<li>Merge vs rebase?</li>
+<li>What is a merge conflict?</li>
+<li>How do you resolve a conflict?</li>
+<li>Reset vs revert?</li>
+<li>Explain soft, mixed and hard reset.</li>
+<li>What is Git stash?</li>
+<li>Stash pop vs stash apply?</li>
+<li>Fetch vs pull?</li>
+<li>What is origin?</li>
+<li>What is a Pull Request?</li>
+<li>What is branch protection?</li>
+<li>What are Git tags?</li>
+<li>What is semantic versioning?</li>
+<li>What is cherry-pick?</li>
+<li>What is reflog?</li>
+<li>How do you recover a lost commit?</li>
+<li>What is .gitignore?</li>
+<li>What are Git hooks?</li>
+<li>What is git bisect?</li>
+<li>How does Git integrate with CI/CD?</li>
+<li>How do you handle secrets in Git?</li>
+<li>How do you rollback production?</li>
+<li>What happens when git push is rejected?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 28 FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-Up Questions</h2>
+
+<ul>
+
+<li>What happens internally during git commit?</li>
+<li>What is HEAD?</li>
+<li>What is detached HEAD?</li>
+<li>What is fast-forward merge?</li>
+<li>When would you choose merge over rebase?</li>
+<li>Why avoid rebasing shared history?</li>
+<li>When would you use cherry-pick?</li>
+<li>How do you undo the last commit?</li>
+<li>How do you recover a deleted branch?</li>
+<li>How do you find the commit that introduced a bug?</li>
+<li>How do you remove an accidentally committed secret?</li>
+<li>How do tags help CI/CD?</li>
+<li>How do protected branches improve production safety?</li>
+
+</ul>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Final Git Command Cheat Sheet</h2>
+
+<pre><code># Repository
+git init
+git clone &lt;url&gt;
+
+# Status / History
+git status
+git log --oneline
+git log --graph --oneline --all
+git show &lt;commit&gt;
+git diff
+
+# Stage / Commit
+git add .
+git commit -m "message"
+
+# Branch
+git branch
+git switch main
+git switch -c feature/name
+git branch -d feature/name
+
+# Merge
+git merge feature/name
+
+# Rebase
+git rebase main
+git rebase --abort
+git rebase --continue
+
+# Remote
+git remote -v
+git fetch origin
+git pull origin main
+git push origin main
+
+# Stash
+git stash
+git stash list
+git stash pop
+git stash apply
+git stash drop
+
+# Reset / Revert
+git reset --soft HEAD~1
+git reset --mixed HEAD~1
+git reset --hard HEAD~1
+git revert &lt;commit&gt;
+
+# Tags
+git tag
+git tag -a v1.0.0 -m "Release"
+git push origin v1.0.0
+
+# Cherry-pick
+git cherry-pick &lt;commit&gt;
+git cherry-pick --continue
+git cherry-pick --abort
+
+# Recovery
+git reflog
+
+# Clean
+git clean -n
+git clean -f
+
+# Bug Investigation
+git bisect start
+git bisect good
+git bisect bad
+git bisect reset</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second Git Revision</h2>
+
+<div class="flow">
+
+<strong>Git</strong>
+<br>
+Version Control
+<br><br>
+
+<strong>Working Tree</strong>
+→ <code>git add</code>
+→ <strong>Staging</strong>
+→ <code>git commit</code>
+→ <strong>Local Repo</strong>
+→ <code>git push</code>
+→ <strong>Remote</strong>
+
+<br><br>
+
+<strong>Branch</strong>
+→ Feature Development
+
+<br><br>
+
+<strong>Merge</strong>
+→ Combine Histories
+
+<br><br>
+
+<strong>Rebase</strong>
+→ Replay Commits
+
+<br><br>
+
+<strong>Conflict</strong>
+→ Resolve → Add → Continue
+
+<br><br>
+
+<strong>Reset</strong>
+→ Move References
+
+<br><br>
+
+<strong>Revert</strong>
+→ Reverse with New Commit
+
+<br><br>
+
+<strong>Stash</strong>
+→ Temporarily Save Work
+
+<br><br>
+
+<strong>Cherry-Pick</strong>
+→ Apply Specific Commit
+
+<br><br>
+
+<strong>Reflog</strong>
+→ Recover Local References
+
+<br><br>
+
+<strong>Tag</strong>
+→ Version / Release
+
+<br><br>
+
+<strong>GitHub PR</strong>
+→ Review → CI → Merge
+
+<br><br>
+
+<strong>CI/CD</strong>
+→ Build → Test → Scan → Deploy
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 Explain Git in 1 Minute</h2>
+
+<div class="interview">
+
+Git is a distributed version control system used to track source
+code changes and enable collaboration.
+
+Developers normally work on feature branches, commit their changes
+and push them to a remote repository such as GitHub.
+
+A Pull Request is then used for code review and automated CI checks
+before merging changes into the main branch.
+
+Git provides commands such as merge, rebase, reset, revert, stash,
+cherry-pick and reflog for handling different development scenarios.
+
+In DevOps, Git acts as the source of truth for application code and
+CI/CD configuration. Tags can identify releases and commits or tags
+can trigger automated build, test, security scanning and deployment
+pipelines.
+
+For production safety, I would use protected branches, code review,
+CI validation, secure secret management and controlled releases.
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+🐙 Git & GitHub • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

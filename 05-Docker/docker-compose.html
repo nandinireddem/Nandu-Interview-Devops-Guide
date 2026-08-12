@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Docker Compose - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Docker <span>Compose</span></h1>
+
+<p>
+Multi-container application management using Docker Compose,
+YAML configuration, services, dependencies, environment variables,
+networks, volumes and real-time DevOps scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="card intro">
+
+<strong>⭐⭐⭐⭐⭐ DOCKER COMPOSE — MUST KNOW</strong>
+
+<p>
+Docker Compose is used to define and manage multi-container
+applications using a YAML configuration file.
+</p>
+
+<div class="flow">
+
+docker-compose.yml
+<br>
+↓
+<br>
+Services
+<br>
+↓
+<br>
+Networks + Volumes + Configuration
+<br>
+↓
+<br>
+Multiple Containers
+<br>
+↓
+<br>
+Application Stack
+
+</div>
+
+<div class="answer">
+<strong>Interview definition:</strong>
+Docker Compose is a tool for defining and running multi-container
+applications using a YAML file that describes services, networks,
+volumes and configuration.
+</div>
+
+</div>
+
+
+<!-- WHY COMPOSE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Why Do We Need Docker Compose?</h2>
+
+<div class="answer">
+Running multiple containers manually can become difficult.
+Compose allows the entire application stack to be described as
+configuration and started with a small number of commands.
+</div>
+
+<h3>Example application</h3>
+
+<ul>
+<li>Frontend</li>
+<li>Backend API</li>
+<li>MySQL</li>
+<li>Redis</li>
+</ul>
+
+<div class="flow">
+
+Frontend
+↓
+<br>
+Backend
+↓
+<br>
+MySQL
+<br>
++
+<br>
+Redis
+
+</div>
+
+<p>
+Instead of maintaining many separate <code>docker run</code>
+commands, these services can be defined in one Compose file.
+</p>
+
+</div>
+
+
+<!-- FILE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is docker-compose.yml?</h2>
+
+<div class="answer">
+The Compose YAML file defines how the application's services should
+be built, configured, connected and run.
+</div>
+
+<h3>Basic structure</h3>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend:1.0
+    ports:
+      - "8080:8080"
+
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: example</code></pre>
+
+<p>
+Modern Docker Compose uses the <code>docker compose</code> command.
+The older <code>docker-compose</code> command is also seen in older
+projects.
+</p>
+
+</div>
+
+
+<!-- SERVICES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What is a Service in Docker Compose?</h2>
+
+<div class="answer">
+A service represents a containerized application component defined
+inside the Compose configuration.
+</div>
+
+<pre><code>services:
+
+  frontend:
+    image: nginx
+
+  backend:
+    image: my-backend
+
+  database:
+    image: mysql:8</code></pre>
+
+<div class="scenario">
+
+Here:
+
+<strong>frontend</strong> → service
+
+<strong>backend</strong> → service
+
+<strong>database</strong> → service
+
+Compose uses these definitions to create and manage the
+corresponding containers.
+
+</div>
+
+</div>
+
+
+<!-- IMAGE VS BUILD -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. image vs build</h2>
+
+<table>
+
+<tr>
+<th>image</th>
+<th>build</th>
+</tr>
+
+<tr>
+<td>Uses an existing Docker image.</td>
+<td>Builds an image from a Dockerfile/context.</td>
+</tr>
+
+<tr>
+<td>Useful for official or prebuilt images.</td>
+<td>Useful for your application source code.</td>
+</tr>
+
+</table>
+
+<h3>Using an image</h3>
+
+<pre><code>services:
+  nginx:
+    image: nginx:latest</code></pre>
+
+<h3>Using build</h3>
+
+<pre><code>services:
+  backend:
+    build: ./backend</code></pre>
+
+<h3>Build with Dockerfile</h3>
+
+<pre><code>services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile</code></pre>
+
+</div>
+
+
+<!-- PORTS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 5. Ports in Compose</h2>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend
+    ports:
+      - "8080:8080"</code></pre>
+
+<div class="answer">
+The left side is the host port and the right side is the
+container port.
+</div>
+
+<div class="flow">
+
+Host :8080
+<br>
+↓
+<br>
+Backend Container :8080
+
+</div>
+
+<p>
+Port publishing is mainly needed when the service must be reached
+from outside the Compose network.
+</p>
+
+</div>
+
+
+<!-- ENVIRONMENT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Environment Variables</h2>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+      APP_ENV: production</code></pre>
+
+<h3>Using .env</h3>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}</code></pre>
+
+<p><strong>.env</strong></p>
+
+<pre><code>DB_HOST=database
+DB_PORT=3306</code></pre>
+
+<div class="warning">
+
+Do not put real passwords, API keys or cloud credentials directly
+into source-controlled Compose files.
+
+</div>
+
+</div>
+
+
+<!-- VOLUMES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Volumes in Compose</h2>
+
+<p>
+Compose can define named volumes for persistent application data.
+</p>
+
+<pre><code>services:
+
+  database:
+    image: mysql:8
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:</code></pre>
+
+<div class="flow">
+
+MySQL Container
+<br>
+↓
+<br>
+/var/lib/mysql
+<br>
+↓
+<br>
+mysql-data
+<br>
+↓
+<br>
+Persistent Storage
+
+</div>
+
+</div>
+
+
+<!-- NETWORK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Networks in Compose</h2>
+
+<p>
+Compose can create networks that allow services to communicate.
+</p>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend
+    networks:
+      - app-network
+
+  database:
+    image: mysql:8
+    networks:
+      - app-network
+
+networks:
+  app-network:</code></pre>
+
+<div class="answer">
+Services on the same Compose network can normally communicate
+using their service names.
+</div>
+
+</div>
+
+
+<!-- SERVICE DNS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Service Name as Hostname</h2>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend
+
+  database:
+    image: mysql:8</code></pre>
+
+<p>
+The backend can normally reach the database using:
+</p>
+
+<pre><code>DB_HOST=database</code></pre>
+
+<div class="warning">
+
+Do not use the container IP as the application's permanent database
+hostname. Service names provide a more stable Compose-level
+communication mechanism.
+
+</div>
+
+</div>
+
+
+<!-- DEPENDS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. depends_on</h2>
+
+<h3>Why use depends_on?</h3>
+
+<div class="answer">
+It expresses a startup/shutdown dependency between Compose services.
+</div>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8</code></pre>
+
+<div class="warning">
+
+<strong>Important interview point:</strong>
+
+<code>depends_on</code> controls service dependency/startup ordering,
+but it does not automatically guarantee that the database is ready
+to accept connections.
+
+</div>
+
+</div>
+
+
+<!-- HEALTHCHECK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Healthchecks</h2>
+
+<p>
+A healthcheck can be used to determine whether a service is actually
+ready or healthy.
+</p>
+
+<pre><code>services:
+
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping -h localhost -pexample
+      interval: 10s
+      timeout: 5s
+      retries: 5</code></pre>
+
+<p>
+Healthchecks are useful when an application depends on another
+service becoming operational rather than merely starting.
+</p>
+
+</div>
+
+
+<!-- RESTART -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Restart Policies</h2>
+
+<pre><code>services:
+
+  backend:
+    image: my-backend
+    restart: unless-stopped</code></pre>
+
+<table>
+
+<tr>
+<th>Policy</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>no</code></td>
+<td>Do not automatically restart.</td>
+</tr>
+
+<tr>
+<td><code>always</code></td>
+<td>Restart the container according to Docker's restart behavior.</td>
+</tr>
+
+<tr>
+<td><code>on-failure</code></td>
+<td>Restart when the container exits with a failure.</td>
+</tr>
+
+<tr>
+<td><code>unless-stopped</code></td>
+<td>Restart unless it has been explicitly stopped.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- COMMANDS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Most Important Docker Compose Commands</h2>
+
+<pre><code># Start services
+docker compose up
+
+# Start in background
+docker compose up -d
+
+# Build images
+docker compose build
+
+# Build and start
+docker compose up --build
+
+# List services/containers
+docker compose ps
+
+# View logs
+docker compose logs
+
+# Follow logs
+docker compose logs -f
+
+# Logs for one service
+docker compose logs backend
+
+# Stop and remove Compose resources
+docker compose down
+
+# Execute command inside service container
+docker compose exec backend sh
+
+# Restart services
+docker compose restart
+
+# Pull configured images
+docker compose pull</code></pre>
+
+</div>
+
+
+<!-- UP DOWN -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. docker compose up vs down</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>docker compose up</code></td>
+<td>Creates/starts the application services.</td>
+</tr>
+
+<tr>
+<td><code>docker compose up -d</code></td>
+<td>Runs services in detached mode.</td>
+</tr>
+
+<tr>
+<td><code>docker compose up --build</code></td>
+<td>Builds images and starts services.</td>
+</tr>
+
+<tr>
+<td><code>docker compose down</code></td>
+<td>Stops and removes Compose-created containers and networks.</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+Be aware of persistent volumes before using destructive cleanup
+options. Do not remove database storage accidentally.
+
+</div>
+
+</div>
+
+
+<!-- REAL WORLD -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Real-Time Backend + MySQL Example</h2>
+
+<h3>docker-compose.yml</h3>
+
+<pre><code>services:
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_NAME: appdb
+      DB_USER: appuser
+      DB_PASSWORD: example
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: rootexample
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping -h localhost -prootexample
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql-data:</code></pre>
+
+<div class="flow">
+
+Developer
+<br>
+↓
+<br>
+docker compose up
+<br>
+↓
+<br>
+Backend Container
+<br>
+↓
+<br>
+Compose Network
+<br>
+↓
+<br>
+Database Container
+<br>
+↓
+<br>
+mysql-data Volume
+
+</div>
+
+</div>
+
+
+<!-- THREE TIER -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Three-Tier Application Using Compose</h2>
+
+<pre><code>services:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:</code></pre>
+
+<div class="scenario">
+
+<strong>Architecture:</strong>
+
+Frontend handles user requests.
+
+Backend handles business logic.
+
+Database stores persistent data.
+
+Compose manages the complete local multi-container stack.
+
+</div>
+
+</div>
+
+
+<!-- PROJECT STRUCTURE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. Typical Compose Project Structure</h2>
+
+<pre><code>my-project/
+│
+├── docker-compose.yml
+├── .env
+│
+├── frontend/
+│   ├── Dockerfile
+│   └── source-code
+│
+├── backend/
+│   ├── Dockerfile
+│   └── source-code
+│
+└── README.md</code></pre>
+
+<p>
+This structure keeps service-specific Dockerfiles close to their
+application source while Compose coordinates the overall stack.
+</p>
+
+</div>
+
+
+<!-- COMPOSE OVERRIDES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. Development vs Production Configuration</h2>
+
+<p>
+Teams may use different Compose configurations for different
+environments.
+</p>
+
+<pre><code>docker-compose.yml
+docker-compose.dev.yml
+docker-compose.prod.yml</code></pre>
+
+<div class="scenario">
+
+For example, development might mount source code into the container
+for rapid iteration, while production should generally use a
+versioned image rather than a developer's local source directory.
+
+</div>
+
+</div>
+
+
+<!-- SECRETS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Secrets in Docker Compose</h2>
+
+<div class="warning">
+
+Never commit production passwords, AWS credentials, private keys or
+API tokens into a Git repository.
+
+</div>
+
+<h3>Better approaches</h3>
+
+<ul>
+<li>Environment-specific secret injection</li>
+<li>CI/CD secret stores</li>
+<li>Cloud secret managers</li>
+<li>Docker/Swarm secrets where applicable</li>
+<li>Kubernetes Secrets for Kubernetes deployments</li>
+</ul>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I would avoid hardcoding secrets in Compose files. For production,
+I would inject secrets through the CI/CD or deployment platform and
+prefer a dedicated secret-management solution."
+
+</div>
+
+</div>
+
+
+<!-- TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Docker Compose Troubleshooting</h2>
+
+<h3>Step 1 — Check services</h3>
+
+<pre><code>docker compose ps</code></pre>
+
+<h3>Step 2 — Check logs</h3>
+
+<pre><code>docker compose logs backend
+
+docker compose logs database</code></pre>
+
+<h3>Step 3 — Inspect container</h3>
+
+<pre><code>docker inspect &lt;container&gt;</code></pre>
+
+<h3>Step 4 — Enter container</h3>
+
+<pre><code>docker compose exec backend sh</code></pre>
+
+<h3>Step 5 — Verify configuration</h3>
+
+<pre><code>docker compose config</code></pre>
+
+<p>Check:</p>
+
+<ul>
+<li>Environment variables</li>
+<li>Port mappings</li>
+<li>Service names</li>
+<li>Network configuration</li>
+<li>Volume mounts</li>
+<li>Healthchecks</li>
+<li>Application logs</li>
+</ul>
+
+</div>
+
+
+<!-- COMMON ISSUES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Common Interview Scenarios</h2>
+
+<h3>Scenario 1 — Backend cannot connect to database</h3>
+
+<div class="scenario">
+
+Check whether both services are running, whether they share the
+appropriate network, whether the backend uses the database service
+name as hostname, and whether the database is actually ready.
+
+</div>
+
+<h3>Scenario 2 — Port already in use</h3>
+
+<pre><code>docker compose ps
+
+docker ps</code></pre>
+
+<p>
+Choose another host port or stop the process/container occupying
+the required port.
+</p>
+
+<h3>Scenario 3 — Database data disappeared</h3>
+
+<div class="scenario">
+
+Check whether the database was using a persistent named volume.
+Containers should not be treated as the durable storage layer for
+database data.
+
+</div>
+
+<h3>Scenario 4 — Configuration changed but container still uses old value</h3>
+
+<pre><code>docker compose up -d --build</code></pre>
+
+<p>
+Also verify the effective Compose configuration and environment
+variables.
+</p>
+
+</div>
+
+
+<!-- INTERVIEW -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Asked Docker Compose Questions</h2>
+
+<ol>
+
+<li>What is Docker Compose?</li>
+
+<li>Why do we use Docker Compose?</li>
+
+<li>What is a Compose service?</li>
+
+<li>What is docker-compose.yml?</li>
+
+<li>What is the difference between image and build?</li>
+
+<li>How do you expose ports in Compose?</li>
+
+<li>How do services communicate with each other?</li>
+
+<li>How does service-name DNS work?</li>
+
+<li>What is depends_on?</li>
+
+<li>Does depends_on guarantee application readiness?</li>
+
+<li>What are healthchecks?</li>
+
+<li>How do you persist database data in Compose?</li>
+
+<li>How do you provide environment variables?</li>
+
+<li>What is a .env file?</li>
+
+<li>How do you start Compose services?</li>
+
+<li>How do you run Compose in detached mode?</li>
+
+<li>How do you view service logs?</li>
+
+<li>How do you execute a command inside a Compose service?</li>
+
+<li>What does docker compose down do?</li>
+
+<li>How would you troubleshoot a Compose application?</li>
+
+</ol>
+
+</div>
+
+
+<!-- DEVOPS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Docker Compose in a DevOps Workflow</h2>
+
+<div class="flow">
+
+Developer
+<br>
+↓
+<br>
+Git Push
+<br>
+↓
+<br>
+CI Pipeline
+<br>
+↓
+<br>
+Build Docker Images
+<br>
+↓
+<br>
+Test with Docker Compose
+<br>
+↓
+<br>
+Security Scanning
+<br>
+↓
+<br>
+Push Versioned Images
+<br>
+↓
+<br>
+Deploy to Target Platform
+
+</div>
+
+<div class="answer">
+
+Compose is especially useful for local development, integration
+testing and environments where a multi-container application needs
+to be started consistently.
+
+</div>
+
+</div>
+
+
+<!-- COMMAND CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Final Docker Compose Cheat Sheet</h2>
+
+<pre><code># Start
+docker compose up
+
+# Detached
+docker compose up -d
+
+# Build
+docker compose build
+
+# Build + Start
+docker compose up --build
+
+# Status
+docker compose ps
+
+# Logs
+docker compose logs
+docker compose logs -f
+docker compose logs backend
+
+# Execute
+docker compose exec backend sh
+
+# Restart
+docker compose restart
+
+# Stop/remove
+docker compose down
+
+# Pull images
+docker compose pull
+
+# Validate/evaluate configuration
+docker compose config</code></pre>
+
+</div>
+
+
+<!-- RAPID REVISION -->
+
+<div class="card">
+
+<h2>🚀 60-Second Docker Compose Revision</h2>
+
+<div class="flow">
+
+<strong>Compose</strong>
+<br>
+Multi-container application management
+
+<br><br>
+
+<strong>YAML</strong>
+<br>
+Defines services, networks and volumes
+
+<br><br>
+
+<strong>Service</strong>
+<br>
+Application component
+
+<br><br>
+
+<strong>image</strong>
+<br>
+Use existing image
+
+<br><br>
+
+<strong>build</strong>
+<br>
+Build image from Dockerfile/context
+
+<br><br>
+
+<strong>depends_on</strong>
+<br>
+Defines service dependency
+
+<br><br>
+
+<strong>healthcheck</strong>
+<br>
+Checks service health/readiness
+
+<br><br>
+
+<strong>volumes</strong>
+<br>
+Persistent data
+
+<br><br>
+
+<strong>networks</strong>
+<br>
+Service communication
+
+<br><br>
+
+<strong>.env</strong>
+<br>
+Configuration values
+
+<br><br>
+
+<strong>docker compose up</strong>
+<br>
+Start application stack
+
+<br><br>
+
+<strong>docker compose down</strong>
+<br>
+Stop/remove Compose resources
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 Explain Docker Compose in 1 Minute</h2>
+
+<div class="interview">
+
+"Docker Compose is used to define and run multi-container
+applications from a YAML configuration file.
+
+For example, a typical application may contain frontend, backend
+and database services. Instead of running each container manually,
+I can define these services in a Compose file.
+
+Each service can specify an image or build context, ports,
+environment variables, volumes, networks and dependencies.
+
+Services can communicate using their Compose service names, and
+named volumes can be used to persist database data.
+
+I can start the complete stack using docker compose up -d,
+check logs with docker compose logs, inspect the services with
+docker compose ps, and stop the stack using docker compose down.
+
+In a DevOps workflow, Compose is useful for local development,
+integration testing and consistent multi-container environments."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🐳 Docker • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloud Pricing & Cost Optimization | Nandu's DevOps Interview Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+body{
+    background:
+    radial-gradient(circle at 10% 5%,rgba(16,185,129,.10),transparent 30%),
+    radial-gradient(circle at 90% 15%,rgba(59,130,246,.10),transparent 30%),
+    #0b1020;
+}
+
+.page-header{
+    padding:50px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#101d2b,#111827,#0b1020);
+    border-bottom:1px solid #29334c;
+}
+
+.back{
+    color:#9da9c4;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#6ee7b7;
+}
+
+.page-icon{
+    font-size:52px;
+    margin-top:25px;
+}
+
+.page-header h1{
+    font-size:clamp(34px,6vw,58px);
+    margin:10px 0;
+}
+
+.page-header h1 span{
+    color:#6ee7b7;
+}
+
+.page-header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8c4;
+    line-height:1.7;
+}
+
+.content{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:50px 0 80px;
+}
+
+.quick-map{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:45px;
+}
+
+.map-item{
+    padding:16px;
+    background:#121a30;
+    border:1px solid #29334c;
+    border-radius:12px;
+    color:#aab5cf;
+    font-size:13px;
+}
+
+.map-item strong{
+    color:#fff;
+}
+
+.priority-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:50px 0 25px;
+}
+
+.priority-title h2{
+    font-size:27px;
+}
+
+.line{
+    flex:1;
+    height:1px;
+    background:#29334c;
+}
+
+.question{
+    margin-bottom:25px;
+    padding:28px;
+    background:linear-gradient(145deg,#141d35,#10172a);
+    border:1px solid #29344e;
+    border-radius:18px;
+}
+
+.question h3{
+    font-size:20px;
+    line-height:1.45;
+    margin-bottom:16px;
+}
+
+.question-number{
+    color:#7582a2;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.label{
+    display:inline-block;
+    margin-bottom:12px;
+    color:#6ee7b7;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+}
+
+.answer{
+    color:#c2cbe0;
+    line-height:1.8;
+    margin-bottom:18px;
+}
+
+.example{
+    padding:18px 20px;
+    margin:18px 0;
+    border-left:4px solid #6ee7b7;
+    background:rgba(110,231,183,.06);
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{
+    color:#6ee7b7;
+}
+
+.example p{
+    color:#b7c2d8;
+    line-height:1.75;
+    margin-top:7px;
+}
+
+.interview-answer{
+    padding:18px 20px;
+    margin-top:18px;
+    background:#111a30;
+    border-radius:12px;
+    border:1px solid #303c59;
+}
+
+.interview-answer strong{
+    color:#6ee7b7;
+}
+
+.interview-answer p{
+    color:#c4cee1;
+    line-height:1.75;
+}
+
+.important{
+    padding:22px;
+    margin:30px 0;
+    border-radius:14px;
+    background:rgba(110,231,183,.05);
+    border:1px solid rgba(110,231,183,.2);
+    color:#b8c4dc;
+    line-height:1.8;
+}
+
+.flow{
+    padding:20px;
+    margin:20px 0;
+    background:#0d1426;
+    border:1px solid #26314a;
+    border-radius:12px;
+    text-align:center;
+    color:#c6d0e4;
+    line-height:2;
+    overflow-x:auto;
+}
+
+.scenario{
+    border-left:4px solid #6ee7b7;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    padding:14px;
+    border:1px solid #2b3650;
+    text-align:left;
+    color:#c2cce0;
+}
+
+th{
+    color:#6ee7b7;
+    background:#111a2e;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    color:#7582a2;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+<a href="index.html" class="back">← Back to Cloud Fundamentals</a>
+
+<div class="page-icon">💰</div>
+
+<h1>Cloud Pricing & <span>Cost Optimization</span></h1>
+
+<p>
+Understand how cloud services are charged, how organizations
+control cloud spending, and how to answer real-world
+cost-optimization questions in DevOps interviews.
+</p>
+
+</header>
+
+<main class="content">
+
+<section class="quick-map">
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐⭐</strong><br>
+Must Know
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐</strong><br>
+High Priority
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐</strong><br>
+Medium
+</div>
+
+<div class="map-item">
+<strong>⭐⭐</strong><br>
+Less Asked
+</div>
+
+<div class="map-item">
+<strong>🎯</strong><br>
+Scenarios
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐⭐⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐⭐ Very Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 01</div>
+
+<h3>What is the Pay-as-you-go model in Cloud Computing?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+Pay-as-you-go means paying for the cloud resources you consume
+according to the applicable pricing model and usage instead of
+purchasing all infrastructure upfront.
+
+You can provision resources when required and stop or remove
+them when they are no longer needed.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+
+A company needs an EC2 server for a temporary project.
+
+Instead of purchasing a physical server, it launches an EC2
+instance and pays according to the applicable EC2 pricing model
+and usage.
+
+When the workload is finished, the resource can be terminated.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Pay-as-you-go is a cloud pricing approach where customers pay
+for the resources they consume according to the service's
+pricing model, rather than making a large upfront investment in
+physical infrastructure."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 02</div>
+
+<h3>What are the major Cloud Pricing Models?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Common cloud purchasing/pricing options include:
+
+<br><br>
+
+→ On-Demand
+
+<br>
+→ Reserved capacity / Reserved Instances
+
+<br>
+→ Savings Plans
+
+<br>
+→ Spot Instances
+
+<br>
+→ Free Tier where applicable
+
+</p>
+
+<div class="important">
+
+<strong>🧠 Easy Memory</strong>
+
+<br><br>
+
+On-Demand → Flexibility
+
+<br>
+
+Reserved → Commitment
+
+<br>
+
+Savings Plans → Flexible commitment to usage
+
+<br>
+
+Spot → Use spare cloud capacity at variable discounted pricing,
+with interruption risk
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 03</div>
+
+<h3>What is On-Demand pricing?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+On-Demand pricing allows you to use eligible cloud resources
+without a long-term commitment.
+
+You pay according to the service's applicable usage-based pricing.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+You need an EC2 instance for a short-term development workload.
+
+You can launch it without committing to a long-term purchase
+model.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"On-Demand pricing provides flexibility because there is no
+long-term capacity commitment. It is useful for short-term,
+unpredictable or changing workloads."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 04</div>
+
+<h3>What are Reserved Instances?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Reserved Instances are a purchasing option for certain AWS
+services where you make a commitment for a defined term in
+exchange for discounted pricing compared with equivalent
+On-Demand usage.
+
+The exact discount and flexibility depend on the service and
+reservation configuration.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Real-Time Example</strong>
+
+<p>
+
+Suppose a production workload requires a stable compute
+capacity for a long period.
+
+Instead of using only On-Demand pricing, the organization may
+consider a suitable reservation to reduce the effective compute
+cost.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Reserved Instances are a commitment-based purchasing option
+that can provide lower effective pricing for predictable
+workloads compared with On-Demand usage."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 05</div>
+
+<h3>What are AWS Savings Plans?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Savings Plans provide discounted pricing in exchange for a
+commitment to a consistent amount of eligible usage, measured
+per hour, over a specified term.
+
+They can offer more flexibility than traditional instance
+reservations depending on the Savings Plan type.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+An organization has predictable compute usage but may change
+instance families or move workloads between eligible compute
+services.
+
+A suitable Savings Plan may provide more flexibility while
+reducing effective compute cost.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 06</div>
+
+<h3>What is a Spot Instance?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p class="answer">
+
+A Spot Instance uses spare AWS compute capacity and can provide
+significant discounts compared with On-Demand pricing.
+
+The important point is that Spot capacity can be interrupted by
+AWS when the capacity is needed back.
+
+Therefore, Spot is best suited for workloads that can tolerate
+interruption.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Good Use Cases</strong>
+
+<p>
+
+→ Batch processing
+
+<br>
+
+→ Fault-tolerant workloads
+
+<br>
+
+→ Data processing
+
+<br>
+
+→ Flexible background jobs
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Spot Instances use spare AWS compute capacity at discounted
+pricing. Because the capacity can be interrupted, I would use
+Spot for fault-tolerant or interruptible workloads rather than
+critical workloads that require uninterrupted compute."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 07</div>
+
+<h3>What is the difference between On-Demand, Reserved and Spot?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Main Idea</th>
+<th>Best For</th>
+</tr>
+
+<tr>
+<td>On-Demand</td>
+<td>Flexible usage without long-term commitment</td>
+<td>Short-term / unpredictable workloads</td>
+</tr>
+
+<tr>
+<td>Reserved</td>
+<td>Commitment for discounted effective pricing</td>
+<td>Predictable workloads</td>
+</tr>
+
+<tr>
+<td>Spot</td>
+<td>Spare capacity at discounted pricing</td>
+<td>Interruptible workloads</td>
+</tr>
+
+</table>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"On-Demand is best when flexibility is important. Reserved
+capacity can reduce cost for predictable workloads with a
+commitment. Spot is useful for fault-tolerant workloads that can
+handle interruption."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 08</div>
+
+<h3>What is CapEx vs OpEx?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+<strong>CapEx</strong> means Capital Expenditure.
+
+It is spending on assets that generally require upfront
+investment, such as purchasing physical servers and data-center
+equipment.
+
+<br><br>
+
+<strong>OpEx</strong> means Operational Expenditure.
+
+It refers to ongoing operating costs.
+
+Cloud computing commonly shifts much infrastructure spending
+from large upfront capital purchases toward usage-based
+operational spending.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+
+Traditional data center:
+
+<br>
+
+Buy servers → CapEx
+
+<br><br>
+
+Cloud:
+
+<br>
+
+Consume cloud resources → Operating expense model
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"CapEx is upfront investment in physical assets such as servers
+and data-center infrastructure. OpEx is ongoing operational
+spending. Cloud computing can reduce large upfront infrastructure
+investment by using usage-based operating expenses."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 09</div>
+
+<h3>What is Cloud Cost Optimization?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Cloud cost optimization means controlling cloud spending while
+still meeting application performance, availability, security
+and business requirements.
+
+The goal is not simply to make everything as cheap as possible.
+
+The goal is to get the required business value from the cloud
+with efficient resource usage.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+If a development EC2 instance runs 24/7 even though developers
+use it only during working hours, scheduling it to stop outside
+working hours can reduce unnecessary cost.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Cloud cost optimization is the continuous process of reducing
+unnecessary cloud spending while maintaining the required
+performance, reliability, security and business outcomes."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐ High Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 10</div>
+
+<h3>How can you reduce AWS costs?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Some common approaches are:
+
+<br><br>
+
+→ Right-size resources
+
+<br>
+→ Stop unused development resources
+
+<br>
+→ Delete unused EBS volumes and snapshots where appropriate
+
+<br>
+→ Use appropriate commitment-based pricing for predictable
+workloads
+
+<br>
+→ Use Spot for suitable interruptible workloads
+
+<br>
+→ Use Auto Scaling
+
+<br>
+→ Monitor costs continuously
+
+<br>
+→ Apply tags for cost allocation
+
+<br>
+→ Review storage lifecycle policies
+
+<br>
+→ Remove unused resources
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"I would start by identifying unused and underutilized
+resources, then right-size them. I would use Auto Scaling,
+appropriate purchasing options for predictable workloads, Spot
+where suitable, storage lifecycle policies, tagging and
+continuous cost monitoring."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 11</div>
+
+<h3>What is Right-Sizing?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Right-sizing means selecting the appropriate resource size for
+the actual workload instead of over-provisioning resources.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Suppose monitoring shows an application consistently uses very
+little CPU and memory on a large instance.
+
+Moving to an appropriately sized instance may reduce cost while
+still meeting performance requirements.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Right-sizing means matching cloud resource capacity to actual
+workload requirements. It helps avoid paying for unused
+capacity."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 12</div>
+
+<h3>Why is Auto Scaling useful for Cost Optimization?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Auto Scaling can increase capacity when demand increases and
+reduce capacity when demand decreases.
+
+This helps avoid running more resources than required.
+
+</p>
+
+<div class="flow">
+
+Low Traffic
+
+→
+
+Fewer Instances
+
+→
+
+Traffic Increases
+
+→
+
+More Instances
+
+→
+
+Traffic Decreases
+
+→
+
+Scale Down
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 13</div>
+
+<h3>How do unused resources increase cloud costs?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Cloud resources can continue generating charges while they are
+provisioned even if they are not actively being used, depending
+on the service and resource.
+
+Examples include idle compute resources, unattached storage and
+unnecessary snapshots.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Real-Time Example</strong>
+
+<p>
+
+A developer creates several EC2 instances for testing and
+forgets to terminate them after testing.
+
+Those resources may continue generating charges.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 14</div>
+
+<h3>What is AWS Cost Explorer?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+AWS Cost Explorer is a tool used to analyze and visualize AWS
+cost and usage data.
+
+It can help identify spending trends, services contributing to
+costs and changes over time.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"I use Cost Explorer to analyze AWS spending and usage trends,
+identify major cost drivers and investigate unexpected changes
+in cost."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 15</div>
+
+<h3>What are AWS Budgets?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+AWS Budgets allows organizations to create custom cost and usage
+budgets and receive notifications when actual or forecasted
+spending crosses defined thresholds.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+A project team can create a monthly budget and configure an
+alert when spending reaches a defined percentage of that budget.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 16</div>
+
+<h3>What is resource tagging and why is it useful for cost management?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Tags are key-value metadata attached to supported cloud
+resources.
+
+Organizations can use tags such as:
+
+<br><br>
+
+Environment = Production
+
+<br>
+
+Project = ECommerce
+
+<br>
+
+Team = DevOps
+
+<br>
+
+Owner = Nandu
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Cost Example</strong>
+
+<p>
+
+If multiple teams use the same AWS account, tags can help
+attribute eligible costs to projects, environments or teams.
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐ Medium Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 17</div>
+
+<h3>What is FinOps?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+FinOps is a collaborative practice that brings together
+engineering, finance and business teams to manage cloud costs
+and maximize business value from cloud usage.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Understanding</strong>
+
+<p>
+
+Developers understand the technical workload.
+
+<br>
+
+Finance understands spending.
+
+<br>
+
+Business understands the required value.
+
+<br><br>
+
+FinOps helps these teams make better cloud spending decisions
+together.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 18</div>
+
+<h3>What is the difference between Cost Optimization and Cost Cutting?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Cost cutting focuses primarily on reducing spending.
+
+Cost optimization focuses on getting the required business
+value at the most efficient cost while maintaining required
+performance, security and reliability.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Cost optimization is not simply reducing the bill. It is
+finding the most efficient architecture and resource usage while
+still meeting business and technical requirements."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 19</div>
+
+<h3>Why should development resources be stopped when not needed?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Development and testing environments may not need to run 24/7.
+
+Stopping resources outside working hours can reduce unnecessary
+usage-based costs for eligible services.
+
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+Development environment:
+
+<br>
+
+9 AM → Start
+
+<br>
+
+7 PM → Stop
+
+<br><br>
+
+Instead of running continuously.
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐ Less Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 20</div>
+
+<h3>What is a Cost Allocation Tag?</h3>
+
+<span class="label">⭐⭐</span>
+
+<p class="answer">
+
+A cost allocation tag is a tag that can be used to organize or
+attribute eligible cloud costs to categories such as projects,
+departments or environments.
+
+</p>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 21</div>
+
+<h3>Why should you monitor cloud costs continuously?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Cloud environments are dynamic. Resources can be created,
+scaled or changed frequently.
+
+Continuous monitoring helps identify unexpected spending,
+resource waste and unusual cost patterns early.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- 🎯 SCENARIOS -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>🎯 Real-Time Interview Scenarios</h2>
+<div class="line"></div>
+</div>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 01</div>
+
+<h3>
+Your AWS bill suddenly increased this month. What will you do?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p class="answer">
+
+I would not immediately delete resources.
+
+First I would identify the cost increase and determine which
+service, account, region or resource is responsible.
+
+</p>
+
+<div class="flow">
+
+Cost Increase
+
+↓
+
+Cost Explorer
+
+↓
+
+Identify Cost Driver
+
+↓
+
+Check Resource Usage
+
+↓
+
+Find Root Cause
+
+↓
+
+Right-Size / Stop / Change Pricing Model
+
+↓
+
+Monitor Again
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"First I would use AWS cost analysis tools to identify the
+service and usage responsible for the increase. Then I would
+check whether the increase is expected or caused by unused,
+misconfigured or over-provisioned resources. After identifying
+the root cause, I would right-size resources, remove
+unnecessary resources or select a more appropriate purchasing
+model, and finally monitor the cost to verify the improvement."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 02</div>
+
+<h3>
+A development EC2 instance runs 24/7 but is used only during office hours. What will you do?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+For a development environment, I would consider an automated
+schedule to stop the instance outside working hours and start it
+again when required, provided the workload supports this.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"I would automate start and stop schedules for the development
+environment so that compute resources are not running when they
+are not needed. I would also verify dependencies and ensure
+stopping the instance does not affect required data or services."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 03</div>
+
+<h3>
+Your production workload runs continuously and has predictable usage. Which pricing approach would you investigate?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+I would evaluate commitment-based pricing such as Reserved
+Instances or an appropriate Savings Plan, depending on the
+service and workload characteristics.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"Because the workload is stable and predictable, I would analyze
+its historical usage and evaluate a suitable commitment-based
+pricing option. I would compare the effective cost and
+flexibility before making the decision."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 04</div>
+
+<h3>
+You have a batch-processing workload that can tolerate interruption. What would you consider?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+I would consider Spot Instances for eligible compute workloads
+because the workload can tolerate interruption.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"Since the workload is fault-tolerant and can tolerate
+interruption, I would evaluate Spot capacity to reduce compute
+cost. I would also design the workload so it can recover or
+restart if capacity is interrupted."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 05</div>
+
+<h3>
+Your EC2 instance is very large but monitoring shows consistently low utilization. What will you do?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+I would analyze CPU, memory, network and application performance
+requirements before choosing a smaller instance.
+
+This is a classic right-sizing opportunity.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"I would review historical utilization and application
+requirements and select a smaller instance only if it can still
+meet performance and reliability requirements. This is called
+right-sizing."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- 🧠 QUICK FIRE -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>🧠 Quick-Fire Interview Questions</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<h3>Rapid Revision</h3>
+
+<p class="answer">
+
+<strong>Q:</strong> What is Pay-as-you-go?
+
+<br>
+<strong>A:</strong> Pay according to applicable resource usage and pricing.
+
+<br><br>
+
+<strong>Q:</strong> What is On-Demand?
+
+<br>
+<strong>A:</strong> Flexible usage without long-term commitment.
+
+<br><br>
+
+<strong>Q:</strong> What are Reserved Instances?
+
+<br>
+<strong>A:</strong> Commitment-based purchasing option for predictable workloads.
+
+<br><br>
+
+<strong>Q:</strong> What is a Savings Plan?
+
+<br>
+<strong>A:</strong> Commitment to eligible usage in exchange for discounted pricing.
+
+<br><br>
+
+<strong>Q:</strong> What is Spot?
+
+<br>
+<strong>A:</strong> Spare capacity at discounted pricing with interruption risk.
+
+<br><br>
+
+<strong>Q:</strong> What is Right-Sizing?
+
+<br>
+<strong>A:</strong> Matching resource capacity to actual workload requirements.
+
+<br><br>
+
+<strong>Q:</strong> What is Cost Optimization?
+
+<br>
+<strong>A:</strong> Efficiently managing cloud spending while meeting technical and business requirements.
+
+<br><br>
+
+<strong>Q:</strong> What is Cost Explorer?
+
+<br>
+<strong>A:</strong> Tool for analyzing AWS cost and usage.
+
+<br><br>
+
+<strong>Q:</strong> What are AWS Budgets?
+
+<br>
+<strong>A:</strong> Tool for setting cost/usage budgets and receiving alerts.
+
+<br><br>
+
+<strong>Q:</strong> What is FinOps?
+
+<br>
+<strong>A:</strong> Collaborative approach to managing cloud financial efficiency.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>🧠 FINAL REVISION — CLOUD PRICING</h2>
+<div class="line"></div>
+</div>
+
+<div class="important">
+
+<strong>Pay-as-you-go</strong>
+
+→ Pay based on applicable usage and pricing.
+
+<br><br>
+
+<strong>On-Demand</strong>
+
+→ Flexibility.
+
+<br><br>
+
+<strong>Reserved</strong>
+
+→ Commitment for predictable workloads.
+
+<br><br>
+
+<strong>Savings Plans</strong>
+
+→ Commitment-based discounted pricing with flexibility depending
+on plan type.
+
+<br><br>
+
+<strong>Spot</strong>
+
+→ Spare capacity + discount + interruption risk.
+
+<br><br>
+
+<strong>CapEx</strong>
+
+→ Upfront capital investment.
+
+<br><br>
+
+<strong>OpEx</strong>
+
+→ Ongoing operational spending.
+
+<br><br>
+
+<strong>Right-Sizing</strong>
+
+→ Match resource size with actual workload.
+
+<br><br>
+
+<strong>Auto Scaling</strong>
+
+→ Match capacity with changing demand.
+
+<br><br>
+
+<strong>Cost Explorer</strong>
+
+→ Analyze cost and usage.
+
+<br><br>
+
+<strong>AWS Budgets</strong>
+
+→ Set budgets + alerts.
+
+<br><br>
+
+<strong>Tagging</strong>
+
+→ Organize resources and support cost allocation.
+
+<br><br>
+
+<strong>FinOps</strong>
+
+→ Engineering + Finance + Business collaboration.
+
+</div>
+
+</main>
+
+<footer>
+
+<p>💰 Cloud Pricing & Cost Optimization</p>
+
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

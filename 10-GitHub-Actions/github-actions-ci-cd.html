@@ -1,0 +1,1203 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Actions CI/CD - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+.icon{font-size:48px}
+h1{font-size:clamp(30px,5vw,48px);margin:5px 0}
+h1 span{color:#93c5fd}
+header p{color:#9ca8b8;max-width:850px;margin:auto}
+.back{color:#94a3b8;text-decoration:none}
+.container{width:min(1100px,92%);margin:auto;padding:40px 0}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:27px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:17px;
+    border-radius:8px
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:22px;
+    margin:18px 0
+}
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    padding:18px;
+    border-radius:10px
+}
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:17px;
+    border-radius:8px
+}
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:8px
+}
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto;
+    border:1px solid #1e293b
+}
+code{
+    color:#c4b5fd;
+    background:#020617;
+    padding:2px 5px;
+    border-radius:4px
+}
+pre code{color:#e5e7eb;padding:0}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:11px;
+    text-align:left;
+    vertical-align:top
+}
+th{background:#172033;color:#93c5fd}
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    margin:3px;
+    border:1px solid #334155;
+    border-radius:20px;
+    background:#172033;
+    color:#fbbf24
+}
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="icon">🚀</div>
+
+<a class="back" href="index.html">← Back to GitHub Actions</a>
+
+<h1>GitHub Actions <span>CI/CD</span></h1>
+
+<p>
+Practical CI/CD implementation using GitHub Actions,
+Docker, container registries, AWS and Kubernetes.
+</p>
+</header>
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. GitHub Actions CI/CD Architecture</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+GitHub Repository
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Checkout
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Security Scan
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Amazon ECR
+<br>↓<br>
+Kubernetes / EKS
+<br>↓<br>
+Application
+
+</div>
+
+<div class="answer">
+This is a common cloud-native CI/CD flow. GitHub Actions performs
+the automation, ECR stores the container image, and Kubernetes runs
+the application.
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Basic CI Pipeline</h2>
+
+<pre><code>name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Build
+        run: npm run build</code></pre>
+
+<div class="answer">
+This pipeline validates code whenever changes are pushed or a pull
+request is created.
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. CI Pipeline with Docker</h2>
+
+<pre><code>name: Docker CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  docker-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -t myapp:${{ github.sha }} .
+
+      - name: List Docker Images
+        run: docker images</code></pre>
+
+<div class="answer">
+Using <code>github.sha</code> gives the image a unique identifier
+associated with the commit that produced it.
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Docker Build → Registry Flow</h2>
+
+<div class="flow">
+
+Source Code
+<br>↓<br>
+Dockerfile
+<br>↓<br>
+docker build
+<br>↓<br>
+Docker Image
+<br>↓<br>
+docker tag
+<br>↓<br>
+Registry Login
+<br>↓<br>
+docker push
+<br>↓<br>
+Container Registry
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Push Docker Image to Docker Hub</h2>
+
+<pre><code>- name: Login to Docker Hub
+  uses: docker/login-action@v3
+  with:
+    username: ${{ secrets.DOCKER_USERNAME }}
+    password: ${{ secrets.DOCKER_PASSWORD }}
+
+- name: Build Image
+  run: docker build -t myuser/myapp:${{ github.sha }} .
+
+- name: Push Image
+  run: docker push myuser/myapp:${{ github.sha }}</code></pre>
+
+<div class="warning">
+Docker Hub credentials should be stored in GitHub Secrets and never
+hard-coded in the workflow.
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. GitHub Actions + Amazon ECR</h2>
+
+<div class="answer">
+Amazon ECR can be used as the private container registry for images
+that will later be deployed to AWS workloads such as EKS or ECS.
+</div>
+
+<div class="flow">
+
+GitHub
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Docker Build
+<br>↓<br>
+AWS Authentication
+<br>↓<br>
+ECR Login
+<br>↓<br>
+Push Image
+<br>↓<br>
+EKS / ECS
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. ECR Login Example</h2>
+
+<pre><code>- name: Configure AWS Credentials
+  uses: aws-actions/configure-aws-credentials@v4
+  with:
+    role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+    aws-region: ap-south-1
+
+- name: Login to Amazon ECR
+  id: login-ecr
+  uses: aws-actions/amazon-ecr-login@v2</code></pre>
+
+<div class="answer">
+For production, prefer short-lived credentials through GitHub OIDC
+and an AWS IAM role rather than storing long-lived AWS access keys.
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Complete Docker + ECR Pipeline</h2>
+
+<pre><code>name: Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: myapp
+
+jobs:
+
+  build-push:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Image
+        run: |
+          docker build \
+            -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }} .
+
+      - name: Push Image
+        run: |
+          docker push \
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}</code></pre>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Why Use GitHub OIDC with AWS?</h2>
+
+<div class="answer">
+
+GitHub Actions can use OpenID Connect to obtain temporary AWS
+credentials by assuming an IAM role.
+
+This avoids storing long-lived AWS access keys inside GitHub.
+
+</div>
+
+<div class="flow">
+
+GitHub Actions
+<br>↓<br>
+OIDC Token
+<br>↓<br>
+AWS IAM
+<br>↓<br>
+Assume Role
+<br>↓<br>
+Temporary Credentials
+<br>↓<br>
+AWS Resources
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. GitHub Actions + Kubernetes</h2>
+
+<div class="answer">
+After an image is pushed to a registry, the workflow can update a
+Kubernetes deployment directly or update a GitOps repository that
+ArgoCD reconciles.
+</div>
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Docker Image
+<br>↓<br>
+ECR
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Pods
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Kubernetes Deployment Example</h2>
+
+<pre><code>kubectl set image deployment/myapp \
+  myapp=123456789.dkr.ecr.ap-south-1.amazonaws.com/myapp:${GITHUB_SHA}
+
+kubectl rollout status deployment/myapp</code></pre>
+
+<div class="warning">
+Direct cluster deployment from CI is possible, but many production
+teams prefer GitOps so the desired state remains represented in Git.
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. GitHub Actions + ArgoCD GitOps</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Application Repository
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build + Test + Scan
+<br>↓<br>
+Docker Image
+<br>↓<br>
+ECR
+<br>↓<br>
+Update GitOps Manifest
+<br>↓<br>
+GitOps Repository
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+EKS
+<br>↓<br>
+Pods
+
+</div>
+
+<div class="answer">
+In this model, GitHub Actions handles CI and image creation, while
+ArgoCD handles continuous delivery and reconciliation.
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. GitHub Actions Updating a GitOps Repository</h2>
+
+<pre><code>- name: Update Image Tag
+  run: |
+    sed -i "s|image: .*|image: ${{ steps.login-ecr.outputs.registry }}/myapp:${{ github.sha }}|" \
+      k8s/deployment.yaml
+
+- name: Commit Changes
+  run: |
+    git config user.name "github-actions"
+    git config user.email "github-actions@github.com"
+    git add k8s/deployment.yaml
+    git commit -m "Update image to ${{ github.sha }}" || exit 0
+    git push</code></pre>
+
+<div class="answer">
+The exact implementation depends on repository structure. The key
+idea is that CI updates the desired state, and ArgoCD detects and
+reconciles that change.
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Multi-Stage CI/CD Pipeline</h2>
+
+<pre><code>jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t myapp:${{ github.sha }} .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploy application"</code></pre>
+
+<div class="flow">
+Test
+<br>↓<br>
+Build
+<br>↓<br>
+Deploy
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Pull Request CI</h2>
+
+<pre><code>on:
+
+  pull_request:
+    branches:
+      - main</code></pre>
+
+<div class="answer">
+Pull request workflows are useful for validating changes before
+they are merged into the main branch.
+</div>
+
+<div class="flow">
+Developer Branch
+<br>↓<br>
+Pull Request
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Security Checks
+<br>↓<br>
+Review
+<br>↓<br>
+Merge
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Branch-Based Deployment</h2>
+
+<pre><code>on:
+  push:
+    branches:
+      - develop
+      - staging
+      - main</code></pre>
+
+<table>
+
+<tr>
+<th>Branch</th>
+<th>Possible Environment</th>
+</tr>
+
+<tr>
+<td>develop</td>
+<td>Development</td>
+</tr>
+
+<tr>
+<td>staging</td>
+<td>Staging</td>
+</tr>
+
+<tr>
+<td>main</td>
+<td>Production</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Environment-Based Deployment</h2>
+
+<pre><code>jobs:
+
+  deploy-production:
+
+    environment: production
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Production deployment"</code></pre>
+
+<div class="answer">
+GitHub Environments can provide environment-specific secrets,
+protection rules and deployment controls.
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. CI/CD with Security Scanning</h2>
+
+<div class="flow">
+
+Checkout
+<br>↓<br>
+Build
+<br>↓<br>
+Unit Tests
+<br>↓<br>
+Code Quality
+<br>↓<br>
+Dependency Scan
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Container Scan
+<br>↓<br>
+Registry
+<br>↓<br>
+Deploy
+
+</div>
+
+<p>Common tools include:</p>
+
+<span class="badge">SonarQube</span>
+<span class="badge">Trivy</span>
+<span class="badge">Gitleaks</span>
+<span class="badge">Hadolint</span>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Docker Image Security</h2>
+
+<pre><code>- name: Scan Image
+  uses: aquasecurity/trivy-action@master
+  with:
+    image-ref: myapp:${{ github.sha }}
+    severity: CRITICAL,HIGH
+    exit-code: '1'</code></pre>
+
+<div class="answer">
+The pipeline can fail when security policy thresholds are violated.
+The exact action version and security policy should be reviewed
+before using it in production.
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Deployment Strategies</h2>
+
+<table>
+
+<tr>
+<th>Strategy</th>
+<th>Idea</th>
+</tr>
+
+<tr>
+<td>Rolling</td>
+<td>Gradually replace old instances.</td>
+</tr>
+
+<tr>
+<td>Blue-Green</td>
+<td>Switch traffic between two environments.</td>
+</tr>
+
+<tr>
+<td>Canary</td>
+<td>Release to a small percentage first.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Rollback</h2>
+
+<div class="answer">
+A rollback restores a previously working version when a deployment
+causes unacceptable problems.
+</div>
+
+<pre><code>kubectl rollout status deployment/myapp
+
+kubectl rollout history deployment/myapp
+
+kubectl rollout undo deployment/myapp</code></pre>
+
+<div class="scenario">
+<strong>Production scenario:</strong><br>
+If error rates suddenly increase after deployment, first stabilize
+the service. Stop or roll back the release when appropriate, then
+investigate the root cause.
+</div>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Real-Time Scenario: Docker Push Failed</h2>
+
+<div class="scenario">
+
+<strong>Situation:</strong>
+
+Docker image builds successfully but push to ECR fails.
+
+<br><br>
+
+<strong>Check:</strong>
+
+1. AWS authentication.
+<br>
+2. IAM permissions.
+<br>
+3. ECR repository name.
+<br>
+4. AWS region.
+<br>
+5. Registry URL.
+<br>
+6. Image tag.
+<br>
+7. ECR login step.
+<br>
+8. OIDC trust relationship if OIDC is being used.
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Real-Time Scenario: Kubernetes Deployment Failed</h2>
+
+<div class="scenario">
+
+<strong>Situation:</strong>
+
+Pipeline succeeds until deployment, but Kubernetes deployment fails.
+
+<br><br>
+
+<strong>Check:</strong>
+
+<pre><code>kubectl get pods
+
+kubectl describe deployment myapp
+
+kubectl get events
+
+kubectl logs &lt;pod&gt;</code></pre>
+
+Then check:
+
+<br>
+• Image name/tag<br>
+• Registry authentication<br>
+• Deployment YAML<br>
+• Environment variables<br>
+• Secrets<br>
+• ConfigMaps<br>
+• Resource limits<br>
+• Probes
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Real-Time Scenario: ImagePullBackOff</h2>
+
+<div class="answer">
+
+ImagePullBackOff usually indicates Kubernetes is having trouble
+pulling the container image.
+
+Check:
+
+<br><br>
+
+1. Image repository.
+<br>
+2. Image tag.
+<br>
+3. Registry availability.
+<br>
+4. ImagePullSecrets if required.
+<br>
+5. Node/network access.
+<br>
+6. Registry permissions.
+
+</div>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Real-Time Scenario: CrashLoopBackOff</h2>
+
+<div class="answer">
+
+CrashLoopBackOff means the container starts and repeatedly exits,
+causing Kubernetes to restart it.
+
+Check:
+
+<pre><code>kubectl logs &lt;pod&gt;
+
+kubectl logs &lt;pod&gt; --previous
+
+kubectl describe pod &lt;pod&gt;</code></pre>
+
+Possible causes include:
+
+<br>
+• Application error<br>
+• Incorrect command<br>
+• Missing environment variable<br>
+• Missing secret/config<br>
+• Port/configuration problem<br>
+• Dependency failure
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Production-Grade CI/CD Flow</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+GitHub
+<br>↓<br>
+Pull Request
+<br>↓<br>
+CI
+<br>↓<br>
+Build + Test + SAST
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Container Scan
+<br>↓<br>
+ECR
+<br>↓<br>
+GitOps Repository
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+EKS
+<br>↓<br>
+Prometheus
+<br>↓<br>
+Grafana
+<br>↓<br>
+Alerting
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Best Practices</h2>
+
+<ul>
+
+<li>Keep workflows small and readable.</li>
+
+<li>Use reusable workflows where appropriate.</li>
+
+<li>Use least-privilege permissions.</li>
+
+<li>Prefer OIDC for AWS authentication.</li>
+
+<li>Never hard-code credentials.</li>
+
+<li>Use immutable image tags.</li>
+
+<li>Run automated tests before deployment.</li>
+
+<li>Scan dependencies and images.</li>
+
+<li>Protect production environments.</li>
+
+<li>Keep deployment configuration version-controlled.</li>
+
+<li>Monitor deployments.</li>
+
+<li>Have a rollback strategy.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>🎯 Interview-Ready Answer</h2>
+
+<div class="interview">
+
+"In a GitHub Actions CI/CD pipeline, I would trigger the workflow
+through a push or pull request.
+
+The pipeline first checks out the source code, installs dependencies,
+runs tests and performs code-quality and security checks.
+
+Then I build a Docker image and tag it with an immutable identifier
+such as the commit SHA. The image is pushed to Amazon ECR.
+
+For AWS authentication, I prefer GitHub OIDC with an IAM role so
+the workflow can obtain temporary credentials instead of storing
+long-lived AWS access keys.
+
+For deployment, I can deploy the image to Kubernetes directly, but
+for a GitOps architecture I would update the desired state in Git
+and let ArgoCD reconcile it into the EKS cluster.
+
+Finally, Prometheus and Grafana can be used to monitor the
+application and infrastructure."
+
+</div>
+
+</div>
+
+
+<!-- 29 -->
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+GitHub
+→ Source Code
+
+<br><br>
+
+GitHub Actions
+→ CI Automation
+
+<br><br>
+
+Build + Test + Scan
+→ Validation
+
+<br><br>
+
+Docker
+→ Container Image
+
+<br><br>
+
+ECR
+→ Image Registry
+
+<br><br>
+
+GitOps Repository
+→ Desired State
+
+<br><br>
+
+ArgoCD
+→ Continuous Delivery
+
+<br><br>
+
+EKS / Kubernetes
+→ Runtime
+
+<br><br>
+
+Prometheus + Grafana
+→ Monitoring
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+🏠 GitHub Actions Index
+</a>
+
+<br><br>
+
+<a href="github-actions.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: Core Concepts
+</a>
+
+<br><br>
+
+<a href="github-actions-security.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next → GitHub Actions Security
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+<footer>
+
+🚀 GitHub Actions CI/CD • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

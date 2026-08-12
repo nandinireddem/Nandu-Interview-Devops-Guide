@@ -1,0 +1,1192 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI/CD Final Revision - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+.icon{font-size:48px}
+h1{font-size:clamp(30px,5vw,48px);margin:5px 0}
+h1 span{color:#93c5fd}
+header p{color:#9ca8b8;max-width:850px;margin:auto}
+.back{color:#94a3b8;text-decoration:none}
+.container{width:min(1100px,92%);margin:auto;padding:40px 0}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:27px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:17px;
+    border-radius:8px
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:22px;
+    margin:18px 0
+}
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    padding:18px;
+    border-radius:10px
+}
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:17px;
+    border-radius:8px
+}
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto;
+    border:1px solid #1e293b
+}
+code{
+    color:#c4b5fd;
+    background:#020617;
+    padding:2px 5px;
+    border-radius:4px
+}
+pre code{color:#e5e7eb;padding:0}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:11px;
+    text-align:left;
+    vertical-align:top
+}
+th{background:#172033;color:#93c5fd}
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    margin:3px;
+    border:1px solid #334155;
+    border-radius:20px;
+    background:#172033;
+    color:#fbbf24
+}
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🚀</div>
+
+<a class="back" href="index.html">← Back to CI/CD</a>
+
+<h1>CI/CD <span>Final Revision</span></h1>
+
+<p>
+Last-minute interview revision covering CI/CD concepts,
+pipeline flow, Jenkins, GitHub Actions, Docker, Kubernetes,
+GitOps, security, deployment strategies and troubleshooting.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is CI/CD?</h2>
+
+<div class="answer">
+
+<strong>CI — Continuous Integration</strong>
+
+Developers frequently integrate code into a shared repository.
+Automated builds and tests validate the changes.
+
+<br><br>
+
+<strong>CD — Continuous Delivery / Continuous Deployment</strong>
+
+Continuous Delivery keeps validated changes ready for release.
+
+Continuous Deployment automatically releases validated changes
+to production.
+
+</div>
+
+<div class="flow">
+
+Developer
+<br>↓
+<br>
+Git Push
+<br>↓
+<br>
+Build
+<br>↓
+<br>
+Test
+<br>↓
+<br>
+Security Scan
+<br>↓
+<br>
+Package / Docker Image
+<br>↓
+<br>
+Deploy
+<br>↓
+<br>
+Monitor
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. CI/CD Pipeline Stages</h2>
+
+<table>
+
+<tr>
+<th>Stage</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Source</td>
+<td>Developer commits code to Git.</td>
+</tr>
+
+<tr>
+<td>Build</td>
+<td>Compile/package the application.</td>
+</tr>
+
+<tr>
+<td>Test</td>
+<td>Run automated tests.</td>
+</tr>
+
+<tr>
+<td>Code Quality</td>
+<td>Analyze code quality and bugs.</td>
+</tr>
+
+<tr>
+<td>Security</td>
+<td>Scan dependencies, source and images.</td>
+</tr>
+
+<tr>
+<td>Package</td>
+<td>Create artifact or container image.</td>
+</tr>
+
+<tr>
+<td>Registry</td>
+<td>Store build artifacts/images.</td>
+</tr>
+
+<tr>
+<td>Deploy</td>
+<td>Release application to an environment.</td>
+</tr>
+
+<tr>
+<td>Monitor</td>
+<td>Observe health, performance and errors.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Complete DevOps CI/CD Flow</h2>
+
+<div class="flow">
+
+Git / GitHub
+<br>↓
+<br>
+Jenkins / GitHub Actions
+<br>↓
+<br>
+Build
+<br>↓
+<br>
+Unit Tests
+<br>↓
+<br>
+SonarQube
+<br>↓
+<br>
+Trivy / Security Scan
+<br>↓
+<br>
+Docker Build
+<br>↓
+<br>
+ECR / Docker Registry
+<br>↓
+<br>
+Kubernetes
+<br>↓
+<br>
+ArgoCD / GitOps
+<br>↓
+<br>
+Prometheus + Grafana
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. CI vs CD</h2>
+
+<table>
+
+<tr>
+<th>CI</th>
+<th>CD</th>
+</tr>
+
+<tr>
+<td>Integrates code frequently</td>
+<td>Delivers/releases code</td>
+</tr>
+
+<tr>
+<td>Builds application</td>
+<td>Deploys application</td>
+</tr>
+
+<tr>
+<td>Runs automated tests</td>
+<td>Runs deployment processes</td>
+</tr>
+
+<tr>
+<td>Finds integration problems early</td>
+<td>Reduces release effort/risk</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Continuous Delivery vs Deployment</h2>
+
+<div class="answer">
+
+<strong>Continuous Delivery:</strong>
+
+The application is automatically built, tested and prepared for
+release, but production release may require approval or another
+controlled step.
+
+<br><br>
+
+<strong>Continuous Deployment:</strong>
+
+Every change that passes the required automated checks can be
+automatically deployed to production.
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Jenkins Role</h2>
+
+<div class="answer">
+
+Jenkins is an automation server commonly used to implement CI/CD
+pipelines.
+
+It can integrate with Git, build tools, Docker, security scanners,
+cloud platforms and Kubernetes.
+
+</div>
+
+<pre><code>Git
+ ↓
+Jenkins
+ ↓
+Build
+ ↓
+Test
+ ↓
+Docker
+ ↓
+Registry
+ ↓
+Kubernetes</code></pre>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. GitHub Actions Role</h2>
+
+<div class="answer">
+
+GitHub Actions provides CI/CD automation directly inside GitHub.
+Workflows are defined using YAML files under:
+
+<code>.github/workflows/</code>
+
+</div>
+
+<pre><code>Git Push
+   ↓
+GitHub Actions
+   ↓
+Build
+   ↓
+Test
+   ↓
+Docker
+   ↓
+Deploy</code></pre>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Docker in CI/CD</h2>
+
+<div class="answer">
+
+Docker packages the application and its runtime dependencies into a
+container image.
+
+This helps create consistent environments between development,
+testing and deployment.
+
+</div>
+
+<pre><code>docker build -t myapp:1.0 .
+
+docker tag myapp:1.0 registry/myapp:1.0
+
+docker push registry/myapp:1.0</code></pre>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Why Use Image Tags?</h2>
+
+<div class="answer">
+
+Tags identify different versions of an image.
+
+A strong CI/CD practice is to use immutable identifiers such as
+commit SHA or release version.
+
+</div>
+
+<pre><code>myapp:1.0.0
+myapp:1.1.0
+
+myapp:git-a83f91c</code></pre>
+
+<div class="warning">
+
+Avoid relying only on <code>latest</code> for production deployments
+because it does not clearly identify the exact application version.
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Artifact Repository</h2>
+
+<div class="answer">
+
+An artifact repository stores build outputs such as packages,
+libraries or container images.
+
+Examples include:
+
+</div>
+
+<span class="badge">Amazon ECR</span>
+<span class="badge">Docker Hub</span>
+<span class="badge">JFrog Artifactory</span>
+
+<div class="flow">
+
+Build
+<br>↓
+<br>
+Artifact
+<br>↓
+<br>
+Repository
+<br>↓
+<br>
+Deployment
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Kubernetes Role in CI/CD</h2>
+
+<div class="answer">
+
+Kubernetes provides the platform where containerized applications can
+be deployed, scaled, updated and managed.
+
+</div>
+
+<div class="flow">
+
+Docker Image
+<br>↓
+<br>
+Kubernetes Deployment
+<br>↓
+<br>
+Pods
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Users
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. GitOps</h2>
+
+<div class="answer">
+
+GitOps uses Git as the source of truth for desired infrastructure
+or application configuration.
+
+With ArgoCD, Kubernetes continuously compares the desired state in
+Git with the actual state in the cluster.
+
+</div>
+
+<div class="flow">
+
+Git
+<br>↓
+<br>
+Desired State
+<br>↓
+<br>
+ArgoCD
+<br>↓
+<br>
+Kubernetes
+<br>↓
+<br>
+Actual State
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. CI vs GitOps CD</h2>
+
+<table>
+
+<tr>
+<th>CI</th>
+<th>GitOps CD</th>
+</tr>
+
+<tr>
+<td>Builds and validates application</td>
+<td>Reconciles deployment state</td>
+</tr>
+
+<tr>
+<td>Creates image</td>
+<td>Deploys image/configuration</td>
+</tr>
+
+<tr>
+<td>Usually triggered by source changes</td>
+<td>Continuously watches desired state</td>
+</tr>
+
+<tr>
+<td>Jenkins/GitHub Actions</td>
+<td>ArgoCD</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Blue-Green Deployment</h2>
+
+<div class="flow">
+
+Blue
+<br>
+Current Production
+<br>↓
+<br>
+Green
+<br>
+New Version
+<br>↓
+<br>
+Test Green
+<br>↓
+<br>
+Switch Traffic
+<br>↓
+<br>
+Green Production
+
+</div>
+
+<div class="answer">
+
+Blue-Green keeps two environments so traffic can be switched between
+the current and new versions.
+
+Rollback can be fast by switching traffic back.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Canary Deployment</h2>
+
+<div class="flow">
+
+Version 1
+<br>↓
+<br>
+90% Traffic
+<br><br>
+
+Version 2
+<br>↓
+<br>
+10% Traffic
+<br>↓
+<br>
+Monitor
+<br>↓
+<br>
+Increase Gradually
+
+</div>
+
+<div class="answer">
+
+Canary deployment releases a new version to a small percentage of
+users first. If metrics remain healthy, traffic is gradually
+increased.
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Rolling Deployment</h2>
+
+<div class="answer">
+
+A rolling deployment gradually replaces old application instances
+with new ones rather than replacing everything simultaneously.
+
+</div>
+
+<div class="flow">
+
+Old Pods
+<br>↓
+<br>
+New Pod
+<br>↓
+<br>
+Healthy?
+<br>↓
+<br>
+Replace More
+<br>↓
+<br>
+All New Pods
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Rollback</h2>
+
+<div class="answer">
+
+Rollback returns the application to a known-good version when a
+release causes unacceptable problems.
+
+</div>
+
+<pre><code>kubectl rollout history deployment/myapp
+
+kubectl rollout undo deployment/myapp
+
+kubectl rollout status deployment/myapp</code></pre>
+
+<div class="warning">
+
+Application rollback does not automatically make a destructive
+database migration reversible.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Pipeline Security</h2>
+
+<ul>
+
+<li>Never hard-code credentials.</li>
+
+<li>Use secret management.</li>
+
+<li>Apply least privilege.</li>
+
+<li>Scan source and dependencies.</li>
+
+<li>Scan container images.</li>
+
+<li>Protect production environments.</li>
+
+<li>Use short-lived/federated credentials where possible.</li>
+
+<li>Do not expose secrets in logs.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. DevSecOps Pipeline</h2>
+
+<div class="flow">
+
+Code
+<br>↓
+<br>
+SAST / Code Quality
+<br>↓
+<br>
+Dependency Scan
+<br>↓
+<br>
+Build
+<br>↓
+<br>
+Container Scan
+<br>↓
+<br>
+Registry
+<br>↓
+<br>
+Deploy
+<br>↓
+<br>
+Runtime Monitoring
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Pipeline Failure Troubleshooting</h2>
+
+<div class="flow">
+
+Pipeline Failed
+<br>↓
+<br>
+Find Failed Stage
+<br>↓
+<br>
+Read Logs
+<br>↓
+<br>
+Compare Last Successful Build
+<br>↓
+<br>
+Identify Root Cause
+<br>↓
+<br>
+Fix
+<br>↓
+<br>
+Verify
+<br>↓
+<br>
+Prevent Recurrence
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Common CI/CD Failures</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Things to Check</th>
+</tr>
+
+<tr>
+<td>Git checkout failure</td>
+<td>Repository, branch, credentials, network.</td>
+</tr>
+
+<tr>
+<td>Build failure</td>
+<td>Dependencies, runtime, source changes.</td>
+</tr>
+
+<tr>
+<td>Test failure</td>
+<td>Test logs and recent code changes.</td>
+</tr>
+
+<tr>
+<td>Docker build failure</td>
+<td>Dockerfile, build context, base image.</td>
+</tr>
+
+<tr>
+<td>Docker push failure</td>
+<td>Registry, authentication, permissions, tag.</td>
+</tr>
+
+<tr>
+<td>ImagePullBackOff</td>
+<td>Image name, tag, registry credentials.</td>
+</tr>
+
+<tr>
+<td>CrashLoopBackOff</td>
+<td>Application logs, configuration, startup command.</td>
+</tr>
+
+<tr>
+<td>Readiness failure</td>
+<td>Probe path, port, application health.</td>
+</tr>
+
+<tr>
+<td>ArgoCD OutOfSync</td>
+<td>Git desired state vs cluster state.</td>
+</tr>
+
+<tr>
+<td>Production 5xx</td>
+<td>Application, Pods, Service, Ingress, recent release.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Most Important Kubernetes Commands</h2>
+
+<pre><code>kubectl get pods
+
+kubectl get deployments
+
+kubectl get svc
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl logs &lt;pod&gt;
+
+kubectl logs &lt;pod&gt; --previous
+
+kubectl get events
+
+kubectl rollout status deployment/myapp
+
+kubectl rollout history deployment/myapp
+
+kubectl rollout undo deployment/myapp</code></pre>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Most Important Terraform Commands</h2>
+
+<pre><code>terraform fmt
+
+terraform init
+
+terraform validate
+
+terraform plan
+
+terraform apply
+
+terraform destroy</code></pre>
+
+<div class="answer">
+
+Typical workflow:
+
+<code>fmt → init → validate → plan → apply</code>
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. CI/CD Interview Scenarios</h2>
+
+<ol>
+
+<li>Jenkins pipeline suddenly fails. How do you troubleshoot?</li>
+
+<li>Git webhook is not triggering Jenkins. What will you check?</li>
+
+<li>Docker build succeeds but image push fails. What do you check?</li>
+
+<li>Kubernetes Pod shows ImagePullBackOff. How do you troubleshoot?</li>
+
+<li>Pod is in CrashLoopBackOff. What will you check?</li>
+
+<li>Deployment is stuck. What commands do you use?</li>
+
+<li>Readiness probe is failing. What does it mean?</li>
+
+<li>Production errors increase immediately after deployment. What will you do?</li>
+
+<li>How do you perform a rollback?</li>
+
+<li>ArgoCD shows OutOfSync. What does it mean?</li>
+
+<li>Pipeline works manually but fails in Jenkins. Why?</li>
+
+<li>How do you perform zero-downtime deployment?</li>
+
+<li>How do you secure CI/CD credentials?</li>
+
+<li>Why can a CI pipeline pass while production still fails?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>🎯 25. Best Interview Answer: Explain Your CI/CD Pipeline</h2>
+
+<div class="interview">
+
+"In my CI/CD approach, developers push code to GitHub, which triggers
+the CI pipeline.
+
+The pipeline checks out the code, builds the application and runs
+automated tests. I can integrate code-quality and security scanning
+before creating the Docker image.
+
+The Docker image is tagged with a unique version such as the commit
+SHA and pushed to a container registry such as Amazon ECR.
+
+For deployment, Kubernetes runs the application, while GitOps tools
+such as ArgoCD can continuously reconcile the desired deployment
+state from Git.
+
+Finally, monitoring with Prometheus and Grafana helps detect
+application and infrastructure issues.
+
+If a production deployment causes problems, I prioritize restoring
+service, stop the rollout or rollback to a known-good version, and
+then perform root-cause analysis."
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>🧠 26. One-Minute Final Revision</h2>
+
+<div class="flow">
+
+<strong>Git</strong>
+→ Source Control
+
+<br>↓<br>
+
+<strong>Jenkins / GitHub Actions</strong>
+→ CI Automation
+
+<br>↓<br>
+
+<strong>Build + Test + Scan</strong>
+→ Validate
+
+<br>↓<br>
+
+<strong>Docker</strong>
+→ Package
+
+<br>↓<br>
+
+<strong>ECR / Registry</strong>
+→ Store
+
+<br>↓<br>
+
+<strong>Kubernetes</strong>
+→ Run
+
+<br>↓<br>
+
+<strong>ArgoCD</strong>
+→ GitOps Delivery
+
+<br>↓<br>
+
+<strong>Prometheus + Grafana</strong>
+→ Monitor
+
+<br><br>
+
+<strong>Failure:</strong>
+Detect → Troubleshoot → Recover → Prevent
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>🔥 Final CI/CD Interview Checklist</h2>
+
+<ul>
+
+<li>⭐⭐⭐⭐⭐ CI vs CD</li>
+
+<li>⭐⭐⭐⭐⭐ Pipeline stages</li>
+
+<li>⭐⭐⭐⭐⭐ Jenkins</li>
+
+<li>⭐⭐⭐⭐⭐ GitHub Actions</li>
+
+<li>⭐⭐⭐⭐⭐ Docker in CI/CD</li>
+
+<li>⭐⭐⭐⭐⭐ Artifact repositories</li>
+
+<li>⭐⭐⭐⭐⭐ Kubernetes deployment</li>
+
+<li>⭐⭐⭐⭐⭐ GitOps / ArgoCD</li>
+
+<li>⭐⭐⭐⭐⭐ Rolling / Blue-Green / Canary</li>
+
+<li>⭐⭐⭐⭐⭐ Rollback</li>
+
+<li>⭐⭐⭐⭐⭐ CI/CD security</li>
+
+<li>⭐⭐⭐⭐⭐ Troubleshooting scenarios</li>
+
+<li>⭐⭐⭐⭐⭐ Production deployment failure</li>
+
+</ul>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+🏠 Back to CI/CD Index
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🚀 CI/CD Final Revision • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

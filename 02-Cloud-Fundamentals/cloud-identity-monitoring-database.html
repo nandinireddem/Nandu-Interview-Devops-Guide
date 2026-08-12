@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Identity, Monitoring & Database Fundamentals</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111b33,#101827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+.icon{
+    font-size:52px;
+    margin-top:25px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,52px);
+    margin:10px 0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.map{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:12px;
+    margin-bottom:45px;
+}
+
+.map div{
+    padding:15px;
+    background:#121a2d;
+    border:1px solid #29344d;
+    border-radius:12px;
+    text-align:center;
+    color:#aeb9cf;
+}
+
+.section{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:55px 0 25px;
+}
+
+.section h2{
+    margin:0;
+    font-size:27px;
+}
+
+.line{
+    height:1px;
+    background:#29344d;
+    flex:1;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.number{
+    font-size:12px;
+    color:#74819e;
+    font-weight:800;
+}
+
+.priority{
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    display:inline-block;
+    margin:8px 0 12px;
+}
+
+h3{
+    font-size:21px;
+    margin:5px 0 15px;
+}
+
+p{
+    color:#c2ccde;
+}
+
+.example{
+    background:rgba(147,197,253,.06);
+    border-left:4px solid #93c5fd;
+    border-radius:0 10px 10px 0;
+    padding:18px 20px;
+    margin:20px 0;
+}
+
+.example strong{
+    color:#93c5fd;
+}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{
+    color:#93c5fd;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+    color:#cbd5e1;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    padding:14px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+td{
+    color:#c2ccde;
+}
+
+.note{
+    padding:20px;
+    border-radius:14px;
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    margin:25px 0;
+}
+
+.scenario{
+    border-left:4px solid #93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#74819e;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Cloud Fundamentals</a>
+
+<div class="icon">🔐📊🗄️</div>
+
+<h1>Cloud Identity, Monitoring <span>& Database Fundamentals</span></h1>
+
+<p>
+Interview-focused concepts covering Shared Responsibility,
+Cloud Identity, IAM, Monitoring, Logging and Database
+Fundamentals.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="map">
+
+<div><strong>⭐⭐⭐⭐⭐</strong><br>Must Know</div>
+<div><strong>⭐⭐⭐⭐</strong><br>High Priority</div>
+<div><strong>⭐⭐⭐</strong><br>Medium</div>
+<div><strong>⭐⭐</strong><br>Least Asked</div>
+<div><strong>🎯</strong><br>Scenarios</div>
+
+</div>
+
+<!-- ===================================================== -->
+
+<!-- SHARED RESPONSIBILITY -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Shared Responsibility</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h3>What is the Shared Responsibility Model?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The Shared Responsibility Model defines which security
+responsibilities are handled by the cloud provider and which
+responsibilities remain with the customer.
+</p>
+
+<div class="flow">
+
+Cloud Provider <br>
+↓
+Security <strong>OF</strong> the Cloud <br><br>
+Customer <br>
+↓
+Security <strong>IN</strong> the Cloud
+
+</div>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+The cloud provider is responsible for physical data centers,
+physical networking and underlying infrastructure.
+
+The customer is responsible for things such as data,
+identities, permissions and configuration according to the
+service being used.
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The Shared Responsibility Model defines how security
+responsibilities are divided between the cloud provider and the
+customer. The provider is responsible for security of the
+underlying cloud infrastructure, while the customer remains
+responsible for security and configuration within the cloud
+according to the services they use."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h3>What does the cloud provider manage?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+The provider generally manages the underlying physical and
+cloud infrastructure, including data centers, physical
+hardware, networking infrastructure and foundational services.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The provider manages the physical infrastructure and the
+security of the underlying cloud environment, including data
+centers, hardware and foundational infrastructure."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 03</div>
+
+<h3>What does the customer manage?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Customer responsibilities depend on the service, but can include
+data, identities, access permissions, application configuration,
+operating systems for some services, network configuration and
+security settings.
+</p>
+
+<div class="example">
+
+<strong>🔥 EC2 Example</strong>
+
+<p>
+AWS manages the physical server and underlying infrastructure.
+
+The customer manages the guest operating system, installed
+software, IAM permissions, security configuration and application
+data.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 04</div>
+
+<h3>Does the cloud provider secure everything automatically?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW TRICK QUESTION</span>
+
+<p>
+No.
+
+Using a cloud provider does not remove the customer's security
+responsibilities.
+
+Incorrect IAM permissions, exposed storage, weak credentials,
+insecure applications or misconfigured resources can still
+create security risks.
+
+</p>
+
+<div class="answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+"No. Cloud security is a shared responsibility. The provider
+secures the underlying cloud infrastructure, but the customer
+must securely configure identities, permissions, data and
+resources according to the service."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- IAM -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Cloud Identity & IAM</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 05</div>
+
+<h3>What is IAM?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+IAM stands for Identity and Access Management.
+
+IAM controls:
+
+<br><br>
+→ Who can access resources <br>
+→ What they can access <br>
+→ What actions they can perform
+
+</p>
+
+<div class="flow">
+
+Identity <br>
+↓
+Authentication <br>
+↓
+Authorization <br>
+↓
+Resource Access
+
+</div>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+A DevOps engineer may be allowed to read logs and deploy
+applications but may not be allowed to delete production
+databases.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"IAM is used to manage identities and control access to cloud
+resources. It determines who can access a resource and what
+actions that identity is allowed to perform."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 06</div>
+
+<h3>What is Authentication?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Authentication verifies the identity of a user, application or
+system.
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+Username + password, MFA or another identity mechanism is used
+to prove who you are.
+</p>
+
+</div>
+
+<div class="note">
+
+<strong>🧠 Memory Trick</strong>
+
+<br><br>
+Authentication → <strong>Who are you?</strong> <br>
+Authorization → <strong>What are you allowed to do?</strong>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 07</div>
+
+<h3>What is Authorization?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Authorization determines what an authenticated identity is
+allowed to access or perform.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+A user successfully logs in.
+
+Authentication → User is verified.
+
+Authorization → User is allowed to read an S3 bucket but not
+delete objects.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h3>Authentication vs Authorization?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+
+<tr>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+
+<tr>
+<td>Verifies identity</td>
+<td>Determines permissions</td>
+</tr>
+
+<tr>
+<td>Who are you?</td>
+<td>What can you do?</td>
+</tr>
+
+<tr>
+<td>Login / MFA</td>
+<td>Policies / Permissions</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Authentication verifies who the user is, while authorization
+determines what that authenticated user is allowed to access or
+perform."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 09</div>
+
+<h3>What is the Principle of Least Privilege?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+Least privilege means giving an identity only the permissions
+required to perform its job and no unnecessary permissions.
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+A monitoring application only needs permission to read metrics.
+
+It does NOT need permission to terminate EC2 instances.
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Least privilege means granting only the minimum permissions
+required to perform a task. It reduces the impact of accidental
+or unauthorized actions."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 10</div>
+
+<h3>Why is MFA important?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+MFA, or Multi-Factor Authentication, adds an additional
+verification factor beyond a password.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+Password + authenticator code.
+
+Even if the password is compromised, the attacker may still
+need the second factor.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h3>What is a cloud IAM policy?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+An IAM policy is a set of permissions that defines which actions
+are allowed or denied on specified resources under defined
+conditions.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+Allow:
+
+<br>
+→ Read objects from a specific storage location.
+
+Deny:
+
+<br>
+→ Delete objects.
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- MONITORING -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Cloud Monitoring & Logging</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 12</div>
+
+<h3>What is Cloud Monitoring?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Cloud monitoring is the process of collecting and observing
+metrics and health information from cloud resources and
+applications.
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+Monitor:
+
+<br>
+→ CPU utilization
+<br>
+→ Memory
+<br>
+→ Network traffic
+<br>
+→ Request count
+<br>
+→ Error rate
+<br>
+→ Latency
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Cloud monitoring collects and analyzes metrics and health
+information from infrastructure and applications so that teams
+can detect problems, understand performance and take corrective
+actions."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 13</div>
+
+<h3>What is logging?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Logging records events and activities generated by systems,
+applications and infrastructure.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+Application logs may contain:
+
+<br>
+→ Request information
+<br>
+→ Errors
+<br>
+→ Authentication events
+<br>
+→ Application events
+
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 14</div>
+
+<h3>Monitoring vs Logging?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+
+<tr>
+<th>Monitoring</th>
+<th>Logging</th>
+</tr>
+
+<tr>
+<td>Observes metrics and health</td>
+<td>Records events and messages</td>
+</tr>
+
+<tr>
+<td>CPU = 90%</td>
+<td>Application error message</td>
+</tr>
+
+<tr>
+<td>Helps identify performance problems</td>
+<td>Helps investigate events and failures</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Monitoring focuses mainly on metrics and system health, while
+logging records detailed events and messages. Monitoring can tell
+me that something is wrong, while logs often help me understand
+what happened."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 15</div>
+
+<h3>What is an alert?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+An alert is a notification generated when a defined condition
+or threshold is met.
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+CPU utilization > 80%
+
+↓
+
+Monitoring detects threshold
+
+↓
+
+Alert
+
+↓
+
+DevOps engineer investigates
+
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 16</div>
+
+<h3>Why is monitoring important in DevOps?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+Monitoring helps DevOps teams detect failures, identify
+performance bottlenecks, understand system behavior and respond
+to incidents.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Monitoring is important in DevOps because it provides visibility
+into infrastructure and applications. It helps teams detect
+issues early, troubleshoot incidents, measure performance and
+improve reliability."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DATABASE -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Cloud Database Fundamentals</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 17</div>
+
+<h3>What is a cloud database?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A cloud database is a database service hosted or managed within
+a cloud environment.
+</p>
+
+<p>
+Cloud databases can be relational or non-relational depending
+on application requirements.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A cloud database is a database service provided or hosted in a
+cloud environment. Depending on the workload, organizations can
+choose relational or non-relational database technologies."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 18</div>
+
+<h3>What is a relational database?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+A relational database stores structured data in tables made up
+of rows and columns and typically uses SQL for querying and
+managing data.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Customers table:
+
+<br><br>
+
+ID | Name | Email
+
+<br>
+1 | Nandu | nandu@example.com
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A relational database stores structured data in tables with
+rows and columns and commonly uses SQL. It is suitable for
+workloads that require structured relationships and transactional
+consistency."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 19</div>
+
+<h3>What is a NoSQL database?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+NoSQL databases are non-relational databases designed for
+flexible data models and large-scale distributed workloads.
+Different NoSQL systems use models such as key-value,
+document, column-family or graph.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+A user profile can be represented as a document containing
+different attributes without requiring a fixed relational table
+structure.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"NoSQL databases are non-relational databases designed for
+flexible data models and scalable distributed workloads. They
+are useful when the application does not require a traditional
+relational table structure."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 20</div>
+
+<h3>SQL vs NoSQL — What is the difference?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+
+<tr>
+<th>SQL / Relational</th>
+<th>NoSQL</th>
+</tr>
+
+<tr>
+<td>Tables and relationships</td>
+<td>Flexible data models</td>
+</tr>
+
+<tr>
+<td>Structured schema</td>
+<td>Often flexible schema</td>
+</tr>
+
+<tr>
+<td>SQL queries</td>
+<td>Database-specific query models</td>
+</tr>
+
+<tr>
+<td>Strong fit for relational transactions</td>
+<td>Strong fit for many distributed/flexible workloads</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Relational databases organize structured data into related
+tables and use SQL, while NoSQL databases provide flexible data
+models and are commonly used for horizontally scalable
+distributed workloads. The choice depends on application
+requirements."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 21</div>
+
+<h3>What is a primary key?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A primary key uniquely identifies each record in a relational
+table.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+Customer ID can uniquely identify each customer.
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 22</div>
+
+<h3>What is a database transaction?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A transaction is a logical unit of database work that should be
+processed according to the database's consistency and transaction
+rules.
+</p>
+
+<div class="example">
+
+<strong>🔥 Banking Example</strong>
+
+<p>
+
+Transfer ₹1,000:
+
+<br><br>
+
+Debit Account A
+
+↓
+
+Credit Account B
+
+<br><br>
+
+The transaction should not leave the system in an incorrect
+partial state.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 23</div>
+
+<h3>What is a managed database service?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+A managed database service is a cloud database offering where
+the provider handles many operational tasks such as
+infrastructure provisioning, maintenance and certain backup or
+patching operations depending on the service.
+</p>
+
+<div class="example">
+
+<strong>🔥 AWS Example</strong>
+
+<p>
+Amazon RDS is a managed relational database service.
+
+The provider handles many infrastructure-level operational
+tasks, while the customer still manages database configuration,
+data, access and other responsibilities depending on the
+service.
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A managed database service reduces operational overhead by
+having the cloud provider manage much of the underlying
+infrastructure and database operations. The exact division of
+responsibility depends on the service."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SCENARIOS -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>🎯 Real-Time Interview Scenarios</h2>
+<div class="line"></div>
+</div>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 01</div>
+
+<h3>
+A developer needs access only to read application logs. What permissions would you give?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ LEAST PRIVILEGE</span>
+
+<p>
+I would create or use an identity with only the required
+read-only permissions for the relevant logging resources.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+"I would follow least privilege and provide only the read
+permissions required for the relevant logs. I would avoid
+granting write, administrative or resource-deletion permissions
+because they are not required for the developer's task."
+</p>
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 02</div>
+
+<h3>
+An application suddenly becomes slow. How would monitoring help?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+I would check relevant metrics such as CPU, memory, network,
+request count, latency, error rate and database performance.
+Then I would correlate the metrics with logs to identify the
+root cause.
+</p>
+
+<div class="flow">
+
+User Reports Slowness
+
+↓
+
+Monitoring Metrics
+
+↓
+
+Identify Abnormal Metric
+
+↓
+
+Application Logs
+
+↓
+
+Root Cause
+
+↓
+
+Fix / Scale / Optimize
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 03</div>
+
+<h3>
+A company needs strong relationships between customer, order and payment data. Which database type would you consider?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+A relational database would generally be a strong candidate
+because the data has structured relationships and transactional
+requirements.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+"I would consider a relational database because customer, order
+and payment information has structured relationships and may
+require transactional consistency."
+</p>
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 04</div>
+
+<h3>
+An application has highly variable traffic and needs a highly scalable data store with a flexible data model. What would you consider?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+Depending on the workload, a NoSQL database could be considered
+because many NoSQL systems are designed for distributed,
+horizontally scalable workloads and flexible data models.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+"I would evaluate a NoSQL database if the application requires a
+flexible data model and large-scale distributed access. I would
+still make the final choice based on consistency, access
+patterns, query requirements and workload characteristics."
+</p>
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 05</div>
+
+<h3>
+A cloud storage resource was accidentally made publicly accessible. Whose responsibility is that?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ SHARED RESPONSIBILITY</span>
+
+<p>
+The exact responsibility depends on the service, but incorrect
+resource permissions and configuration are generally customer
+responsibilities.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+"Under the Shared Responsibility Model, the provider secures
+the underlying cloud infrastructure, while the customer is
+responsible for securely configuring resources, identities and
+access permissions. Therefore, an incorrectly configured public
+storage resource is generally a customer-side configuration
+issue."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- QUICK FIRE -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>🧠 Quick-Fire Revision</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<h3>Rapid Interview Questions</h3>
+
+<p>
+
+<strong>Q:</strong> Shared Responsibility Model?
+
+<br>
+<strong>A:</strong> Security responsibilities are divided between
+provider and customer.
+
+<br><br>
+
+<strong>Q:</strong> Security OF the cloud?
+
+<br>
+<strong>A:</strong> Primarily provider responsibility.
+
+<br><br>
+
+<strong>Q:</strong> Security IN the cloud?
+
+<br>
+<strong>A:</strong> Customer responsibilities depending on the
+service.
+
+<br><br>
+
+<strong>Q:</strong> IAM?
+
+<br>
+<strong>A:</strong> Identity and Access Management.
+
+<br><br>
+
+<strong>Q:</strong> Authentication?
+
+<br>
+<strong>A:</strong> Verifies identity.
+
+<br><br>
+
+<strong>Q:</strong> Authorization?
+
+<br>
+<strong>A:</strong> Determines permissions.
+
+<br><br>
+
+<strong>Q:</strong> Least privilege?
+
+<br>
+<strong>A:</strong> Minimum permissions required.
+
+<br><br>
+
+<strong>Q:</strong> MFA?
+
+<br>
+<strong>A:</strong> Additional authentication factor.
+
+<br><br>
+
+<strong>Q:</strong> Monitoring?
+
+<br>
+<strong>A:</strong> Observing metrics and system health.
+
+<br><br>
+
+<strong>Q:</strong> Logging?
+
+<br>
+<strong>A:</strong> Recording system/application events.
+
+<br><br>
+
+<strong>Q:</strong> Alert?
+
+<br>
+<strong>A:</strong> Notification triggered by a condition.
+
+<br><br>
+
+<strong>Q:</strong> Relational database?
+
+<br>
+<strong>A:</strong> Structured tables and relationships.
+
+<br><br>
+
+<strong>Q:</strong> NoSQL?
+
+<br>
+<strong>A:</strong> Non-relational database with flexible data models.
+
+<br><br>
+
+<strong>Q:</strong> Managed database?
+
+<br>
+<strong>A:</strong> Provider manages many operational infrastructure
+tasks.
+
+<br><br>
+
+<strong>Q:</strong> Primary key?
+
+<br>
+<strong>A:</strong> Uniquely identifies a record.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>🧠 FINAL REVISION — IDENTITY, MONITORING & DATABASE</h2>
+<div class="line"></div>
+</div>
+
+<div class="note">
+
+<strong>Shared Responsibility</strong>
+
+→ Provider + Customer share security responsibilities.
+
+<br><br>
+
+<strong>Authentication</strong>
+
+→ Who are you?
+
+<br><br>
+
+<strong>Authorization</strong>
+
+→ What can you do?
+
+<br><br>
+
+<strong>Least Privilege</strong>
+
+→ Give only required permissions.
+
+<br><br>
+
+<strong>MFA</strong>
+
+→ Additional verification factor.
+
+<br><br>
+
+<strong>Monitoring</strong>
+
+→ Metrics + system health.
+
+<br><br>
+
+<strong>Logging</strong>
+
+→ Events + detailed records.
+
+<br><br>
+
+<strong>Alert</strong>
+
+→ Notification when a condition occurs.
+
+<br><br>
+
+<strong>Relational Database</strong>
+
+→ Tables + relationships + SQL.
+
+<br><br>
+
+<strong>NoSQL</strong>
+
+→ Flexible data models + distributed workloads.
+
+<br><br>
+
+<strong>Managed Database</strong>
+
+→ Provider manages many operational tasks.
+
+<br><br>
+
+<strong>🧠 Golden Interview Line</strong>
+
+<br><br>
+
+"Cloud services reduce infrastructure management, but they do
+not eliminate customer responsibilities. I would secure
+identities using least privilege and MFA, monitor
+infrastructure and applications using metrics and logs, and
+select the database model based on workload, consistency,
+scalability and data-access requirements."
+
+</div>
+
+</main>
+
+<footer>
+
+<p>🔐📊🗄️ Cloud Identity, Monitoring & Database Fundamentals</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

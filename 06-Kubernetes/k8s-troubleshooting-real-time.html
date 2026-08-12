@@ -1,0 +1,1642 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes Troubleshooting & Real-Time Scenarios - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+ul,ol{padding-left:25px}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🛠️☸️</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Troubleshooting & Real-Time Scenarios</span></h1>
+
+<p>
+Interview-focused troubleshooting guide covering Pod failures,
+CrashLoopBackOff, ImagePullBackOff, Pending Pods, Services,
+Networking, DNS, ConfigMaps, Secrets, Storage, Probes, Resources,
+Deployments, Nodes, Ingress and real-time production scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Kubernetes Troubleshooting Mindset</h2>
+
+<p>
+In production, do not randomly change Kubernetes resources.
+Troubleshoot from the outside toward the application and identify
+the exact failing layer.
+</p>
+
+<div class="flow">
+
+<strong>1. Check Status</strong>
+<br>
+↓
+<br>
+<strong>2. Describe Resource</strong>
+<br>
+↓
+<br>
+<strong>3. Check Events</strong>
+<br>
+↓
+<br>
+<strong>4. Check Logs</strong>
+<br>
+↓
+<br>
+<strong>5. Check Dependencies</strong>
+<br>
+↓
+<br>
+<strong>6. Fix Root Cause</strong>
+<br>
+↓
+<br>
+<strong>7. Verify Recovery</strong>
+
+</div>
+
+<div class="scenario">
+
+<strong>Golden interview line:</strong>
+
+"I first identify which Kubernetes layer is failing, then I use
+status, describe, events and logs to narrow down the root cause
+before making a change."
+
+</div>
+
+</div>
+
+
+<!-- BASIC FLOW -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. First Commands to Run</h2>
+
+<pre><code>kubectl get pods
+kubectl get pods -o wide
+
+kubectl get svc
+kubectl get deployments
+
+kubectl get nodes
+
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+<p>
+These commands provide the initial health picture of the cluster
+and workload.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Describe the Problem Resource</h2>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl describe deployment &lt;deployment-name&gt;
+
+kubectl describe service &lt;service-name&gt;
+
+kubectl describe node &lt;node-name&gt;</code></pre>
+
+<div class="answer">
+
+The <code>describe</code> output is especially useful for conditions,
+events, scheduling failures, mounts, probes and other Kubernetes
+control-plane information.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Check Pod Logs</h2>
+
+<pre><code>kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; -c &lt;container-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl logs -f &lt;pod-name&gt;</code></pre>
+
+<div class="scenario">
+
+If a container crashed and restarted, use:
+
+<pre><code>kubectl logs &lt;pod-name&gt; --previous</code></pre>
+
+This is often critical for finding the error from the previous
+container instance.
+
+</div>
+
+</div>
+
+
+<!-- POD STATES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Pod is Pending</h2>
+
+<div class="answer">
+
+A Pending Pod has not successfully reached the running state.
+Common causes include insufficient resources, scheduling
+constraints, taints, node availability or volume-related issues.
+
+</div>
+
+<h3>Check</h3>
+
+<pre><code>kubectl get pod &lt;pod-name&gt;
+kubectl describe pod &lt;pod-name&gt;
+kubectl get nodes
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+Pod requests:
+
+<pre><code>cpu: 4
+memory: 8Gi</code></pre>
+
+But available nodes cannot satisfy the request.
+
+The scheduler cannot place the Pod, so it remains Pending.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. CrashLoopBackOff</h2>
+
+<div class="answer">
+
+CrashLoopBackOff means the container repeatedly starts, crashes and
+Kubernetes backs off before restarting it again.
+
+It is a symptom, not the root cause.
+
+</div>
+
+<h3>Commands</h3>
+
+<pre><code>kubectl get pod &lt;pod-name&gt;
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous</code></pre>
+
+<div class="scenario">
+
+<strong>Possible causes:</strong>
+
+<ul>
+<li>Application startup failure</li>
+<li>Wrong environment variable</li>
+<li>Missing Secret</li>
+<li>Missing ConfigMap</li>
+<li>Wrong command/entrypoint</li>
+<li>Database connection failure</li>
+<li>Probe configuration problem</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. ImagePullBackOff / ErrImagePull</h2>
+
+<div class="answer">
+
+Kubernetes cannot pull the requested container image.
+
+</div>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl get pod &lt;pod-name&gt; -o yaml</code></pre>
+
+<div class="scenario">
+
+Check:
+
+<ul>
+<li>Image name</li>
+<li>Image tag</li>
+<li>Registry availability</li>
+<li>ImagePullSecrets</li>
+<li>Registry credentials</li>
+<li>Network connectivity</li>
+</ul>
+
+Example:
+
+<pre><code>image: myregistry/payment:v5</code></pre>
+
+If tag <code>v5</code> does not exist, the Pod cannot pull it.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Pod stuck in ContainerCreating</h2>
+
+<div class="answer">
+
+ContainerCreating indicates Kubernetes is still preparing the
+container. The exact cause is shown through Pod events and
+description.
+
+</div>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+<div class="scenario">
+
+Common causes:
+
+<ul>
+<li>Volume mount problems</li>
+<li>Secret or ConfigMap mount issues</li>
+<li>Container runtime problems</li>
+<li>Network setup problems</li>
+<li>Image pulling</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 8. Pod is Running but application is not working</h2>
+
+<div class="answer">
+
+Running only means the container process is running. It does not
+guarantee that the application is healthy or reachable.
+
+</div>
+
+<div class="flow">
+
+Pod Running
+<br>
+≠
+<br>
+Application Healthy
+
+</div>
+
+<pre><code>kubectl logs &lt;pod-name&gt;
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl get ingress</code></pre>
+
+</div>
+
+
+<!-- DEPLOYMENTS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Deployment rollout is stuck</h2>
+
+<pre><code>kubectl get deployment
+
+kubectl rollout status deployment &lt;deployment-name&gt;
+
+kubectl rollout history deployment &lt;deployment-name&gt;
+
+kubectl describe deployment &lt;deployment-name&gt;</code></pre>
+
+<div class="scenario">
+
+Check whether new Pods are failing because of:
+
+<ul>
+<li>Bad image</li>
+<li>Failed probes</li>
+<li>Insufficient resources</li>
+<li>Configuration errors</li>
+<li>Scheduling problems</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Rollback a failed Deployment</h2>
+
+<pre><code>kubectl rollout history deployment myapp
+
+kubectl rollout undo deployment myapp
+
+kubectl rollout status deployment myapp</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time scenario:</strong>
+
+A new application version is deployed and starts returning errors.
+
+If the previous version was healthy:
+
+<pre><code>kubectl rollout undo deployment myapp</code></pre>
+
+Then investigate the new version separately.
+
+</div>
+
+</div>
+
+
+<!-- SERVICE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Service not reaching Pods</h2>
+
+<div class="answer">
+
+The Service selects Pods using labels.
+
+If the selector does not match Pod labels, the Service can have no
+backend endpoints.
+
+</div>
+
+<pre><code>kubectl get svc myapp-service -o yaml
+
+kubectl get pods --show-labels
+
+kubectl get endpoints myapp-service</code></pre>
+
+<div class="scenario">
+
+Service selector:
+
+<pre><code>selector:
+  app: frontend</code></pre>
+
+Pod label:
+
+<pre><code>labels:
+  app: backend</code></pre>
+
+No match → no endpoints.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Service has no endpoints</h2>
+
+<pre><code>kubectl get endpoints &lt;service-name&gt;
+
+kubectl get endpointslices
+
+kubectl get pods --show-labels
+
+kubectl describe service &lt;service-name&gt;</code></pre>
+
+<div class="answer">
+
+If the Service has no endpoints, verify the selector, Pod labels,
+Pod readiness and namespace.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Service connection refused</h2>
+
+<div class="scenario">
+
+Check the complete path:
+
+<pre><code>Client
+ ↓
+Service
+ ↓
+TargetPort
+ ↓
+ContainerPort
+ ↓
+Application Process</code></pre>
+
+Verify:
+
+<pre><code>kubectl get svc &lt;service-name&gt; -o yaml
+
+kubectl get pod &lt;pod-name&gt; -o yaml
+
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+A common mistake is configuring the Service
+<code>targetPort</code> differently from the port where the
+application is actually listening.
+
+</div>
+
+</div>
+
+
+<!-- NETWORKING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Kubernetes DNS troubleshooting</h2>
+
+<pre><code>kubectl get svc
+
+kubectl get pods -n kube-system
+
+kubectl exec -it &lt;pod-name&gt; -- nslookup &lt;service-name&gt;</code></pre>
+
+<div class="scenario">
+
+If:
+
+<pre><code>backend-service</code></pre>
+
+is in the same namespace, the application can normally resolve it
+using the Service DNS name.
+
+For cross-namespace communication:
+
+<pre><code>backend-service.backend.svc.cluster.local</code></pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Pod-to-Pod communication fails</h2>
+
+<pre><code>kubectl get pods -o wide
+
+kubectl exec -it &lt;pod-name&gt; -- ping &lt;pod-ip&gt;
+
+kubectl exec -it &lt;pod-name&gt; -- curl http://&lt;service-name&gt;:&lt;port&gt;</code></pre>
+
+Check:
+
+<ul>
+<li>Pod IPs</li>
+<li>Services</li>
+<li>NetworkPolicies</li>
+<li>DNS</li>
+<li>Container ports</li>
+<li>Application listening address</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 16. NetworkPolicy blocking traffic</h2>
+
+<div class="answer">
+
+NetworkPolicies can restrict which Pods are allowed to communicate
+with other Pods.
+
+</div>
+
+<pre><code>kubectl get networkpolicy
+
+kubectl describe networkpolicy &lt;policy-name&gt;</code></pre>
+
+<div class="warning">
+
+When troubleshooting networking, do not forget NetworkPolicies.
+A Pod and Service can appear healthy while traffic is intentionally
+blocked by policy.
+
+</div>
+
+</div>
+
+
+<!-- CONFIG -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. ConfigMap not found</h2>
+
+<pre><code>kubectl get configmap -n &lt;namespace&gt;
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl get configmap &lt;configmap-name&gt; -n &lt;namespace&gt;</code></pre>
+
+<div class="answer">
+
+ConfigMaps are namespace-scoped. Verify the name and namespace.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Secret not found</h2>
+
+<pre><code>kubectl get secrets -n &lt;namespace&gt;
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl get secret &lt;secret-name&gt; -n &lt;namespace&gt;</code></pre>
+
+Check:
+
+<ul>
+<li>Secret name</li>
+<li>Namespace</li>
+<li>Referenced key</li>
+<li>Workload configuration</li>
+</ul>
+
+</div>
+
+
+<!-- PROBES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Liveness Probe failure</h2>
+
+<div class="answer">
+
+A liveness probe determines whether the container is still alive.
+Repeated liveness failure can cause Kubernetes to restart the
+container.
+
+</div>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Look for events such as probe failures.
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+Application starts slowly but liveness probe checks too early.
+
+The container may repeatedly restart even though the application
+would eventually become healthy.
+
+Use appropriate startup/readiness/liveness probe configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Readiness Probe failure</h2>
+
+<div class="answer">
+
+Readiness determines whether the Pod should receive traffic.
+
+A failed readiness probe normally removes the Pod from Service
+endpoints while allowing the container to continue running.
+
+</div>
+
+<div class="flow">
+
+Readiness Failure
+<br>
+↓
+<br>
+Pod remains running
+<br>
+↓
+<br>
+Removed from Service traffic
+<br>
+↓
+<br>
+Application recovers
+<br>
+↓
+<br>
+Traffic resumes
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 21. Startup Probe</h2>
+
+<div class="answer">
+
+Startup probes are useful for slow-starting applications.
+
+They give the application time to start before liveness/readiness
+checks become active according to the configured probe behavior.
+
+</div>
+
+<div class="scenario">
+
+Examples include:
+
+<ul>
+<li>Large Java applications</li>
+<li>Applications with long initialization</li>
+<li>Services that load large models or configuration</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- RESOURCES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. OOMKilled</h2>
+
+<div class="answer">
+
+OOMKilled means the container was terminated because it exceeded an
+available memory limit or otherwise encountered memory pressure
+leading to an out-of-memory termination.
+
+</div>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl get pod &lt;pod-name&gt; -o yaml
+
+kubectl top pod &lt;pod-name&gt;</code></pre>
+
+<div class="scenario">
+
+If a container has:
+
+<pre><code>resources:
+  limits:
+    memory: 256Mi</code></pre>
+
+and the application needs significantly more memory, it may be
+terminated.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. CPU throttling / high CPU</h2>
+
+<pre><code>kubectl top pods
+
+kubectl top nodes
+
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Check:
+
+<ul>
+<li>CPU requests</li>
+<li>CPU limits</li>
+<li>Application behavior</li>
+<li>Traffic increase</li>
+<li>Autoscaling</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Node NotReady</h2>
+
+<pre><code>kubectl get nodes
+
+kubectl describe node &lt;node-name&gt;
+
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+Possible causes:
+
+<ul>
+<li>Kubelet failure</li>
+<li>Node resource pressure</li>
+<li>Network problems</li>
+<li>Disk pressure</li>
+<li>Container runtime issues</li>
+<li>Cloud infrastructure failure</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Node memory or disk pressure</h2>
+
+<pre><code>kubectl describe node &lt;node-name&gt;</code></pre>
+
+Look for conditions such as:
+
+<pre><code>MemoryPressure
+DiskPressure
+PIDPressure
+Ready</code></pre>
+
+<div class="scenario">
+
+If a node has insufficient disk space, image pulls, container
+creation or other workloads may start failing.
+
+Investigate node-level disk usage and container runtime storage.
+
+</div>
+
+</div>
+
+
+<!-- STORAGE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. PVC stuck in Pending</h2>
+
+<pre><code>kubectl get pvc
+
+kubectl describe pvc &lt;pvc-name&gt;
+
+kubectl get storageclass
+
+kubectl get pv</code></pre>
+
+<div class="answer">
+
+Check whether the requested StorageClass exists and whether a
+suitable volume can be dynamically provisioned.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Pod cannot mount volume</h2>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl describe pvc &lt;pvc-name&gt;
+
+kubectl get pv
+
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+Common causes:
+
+<ul>
+<li>PVC not bound</li>
+<li>Wrong volume name</li>
+<li>StorageClass issue</li>
+<li>Access mode mismatch</li>
+<li>CSI driver problem</li>
+</ul>
+
+</div>
+
+
+<!-- RBAC -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Forbidden error</h2>
+
+<div class="scenario">
+
+Example:
+
+<pre><code>Error from server (Forbidden)</code></pre>
+
+This commonly indicates an RBAC authorization problem.
+
+Check:
+
+<pre><code>kubectl auth can-i get pods
+
+kubectl auth can-i create deployments
+
+kubectl get role
+kubectl get rolebinding
+
+kubectl get clusterrole
+kubectl get clusterrolebinding</code></pre>
+
+</div>
+
+<div class="answer">
+
+The key question is:
+
+<strong>"Does this identity have permission to perform this action
+on this resource in this namespace?"</strong>
+
+</div>
+
+</div>
+
+
+<!-- INGRESS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Ingress returns 404 / 502</h2>
+
+<pre><code>kubectl get ingress
+
+kubectl describe ingress &lt;ingress-name&gt;
+
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl get pods</code></pre>
+
+<div class="scenario">
+
+<strong>404:</strong>
+
+Often check host/path/routing configuration.
+
+<br><br>
+
+<strong>502/503:</strong>
+
+Often check backend Service, endpoints, application port and Pod
+health.
+
+</div>
+
+</div>
+
+
+<!-- DNS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 30. CoreDNS troubleshooting</h2>
+
+<pre><code>kubectl get pods -n kube-system
+
+kubectl get svc -n kube-system
+
+kubectl logs -n kube-system -l k8s-app=kube-dns</code></pre>
+
+<div class="scenario">
+
+If applications cannot resolve Service names, investigate CoreDNS
+Pods, Service configuration and network connectivity.
+
+</div>
+
+</div>
+
+
+<!-- EVENTS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Why are Kubernetes Events important?</h2>
+
+<div class="answer">
+
+Events often provide the fastest clue about scheduling, image pulls,
+mount failures, probe failures and other resource-level problems.
+
+</div>
+
+<pre><code>kubectl get events --sort-by=.lastTimestamp
+
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+<div class="interview">
+
+When troubleshooting, I usually check Events alongside logs because
+Events describe what Kubernetes itself observed while logs show what
+the application process reported.
+
+</div>
+
+</div>
+
+
+<!-- REAL TIME SCENARIOS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 32. Scenario — Website is completely down</h2>
+
+<div class="scenario">
+
+Start from the outside and move inward:
+
+<pre><code>DNS
+ ↓
+Load Balancer
+ ↓
+Ingress
+ ↓
+Service
+ ↓
+Endpoints
+ ↓
+Pods
+ ↓
+Application
+ ↓
+Database</code></pre>
+
+Commands:
+
+<pre><code>kubectl get ingress
+kubectl get svc
+kubectl get endpoints
+kubectl get pods
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+Do not immediately restart everything.
+
+Identify the first broken layer.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 33. Scenario — Pods are running but users get errors</h2>
+
+<div class="answer">
+
+Running Pods do not necessarily mean healthy applications.
+
+</div>
+
+<pre><code>kubectl get pods
+kubectl get endpoints
+kubectl get svc
+kubectl logs &lt;pod-name&gt;
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Check:
+
+<ul>
+<li>Readiness</li>
+<li>Application logs</li>
+<li>Service routing</li>
+<li>Backend dependencies</li>
+<li>Database connectivity</li>
+<li>Ingress</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 34. Scenario — New deployment caused outage</h2>
+
+<div class="scenario">
+
+First stabilize the service.
+
+<pre><code>kubectl rollout status deployment myapp
+
+kubectl rollout history deployment myapp
+
+kubectl rollout undo deployment myapp</code></pre>
+
+After recovery:
+
+<ul>
+<li>Inspect application logs.</li>
+<li>Compare old and new configuration.</li>
+<li>Check image version.</li>
+<li>Check probes.</li>
+<li>Check resource changes.</li>
+<li>Reproduce the issue safely.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 35. Scenario — Application cannot connect to database</h2>
+
+<div class="scenario">
+
+Check:
+
+<pre><code>kubectl logs &lt;pod-name&gt;
+
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl get secret
+
+kubectl get configmap</code></pre>
+
+Then verify:
+
+<ul>
+<li>Database Service name</li>
+<li>DNS resolution</li>
+<li>Database port</li>
+<li>Credentials</li>
+<li>NetworkPolicy</li>
+<li>Database availability</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 36. Scenario — High restart count</h2>
+
+<pre><code>kubectl get pods
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous</code></pre>
+
+Possible causes:
+
+<ul>
+<li>CrashLoopBackOff</li>
+<li>OOMKilled</li>
+<li>Liveness probe failure</li>
+<li>Application crash</li>
+<li>Dependency failure</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 37. Scenario — Pod cannot schedule</h2>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl get nodes
+
+kubectl describe node &lt;node-name&gt;</code></pre>
+
+Check:
+
+<ul>
+<li>CPU/memory availability</li>
+<li>Taints and tolerations</li>
+<li>Node selectors</li>
+<li>Affinity/anti-affinity</li>
+<li>Pod resource requests</li>
+</ul>
+
+</div>
+
+
+<!-- SYSTEMATIC PROCESS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 38. Production Troubleshooting Method</h2>
+
+<div class="flow">
+
+<strong>STEP 1</strong>
+<br>
+Identify symptom
+
+<br><br>↓
+
+<strong>STEP 2</strong>
+<br>
+Check resource status
+
+<br><br>↓
+
+<strong>STEP 3</strong>
+<br>
+Describe resource
+
+<br><br>↓
+
+<strong>STEP 4</strong>
+<br>
+Check Events
+
+<br><br>↓
+
+<strong>STEP 5</strong>
+<br>
+Check application logs
+
+<br><br>↓
+
+<strong>STEP 6</strong>
+<br>
+Check dependencies
+
+<br><br>↓
+
+<strong>STEP 7</strong>
+<br>
+Apply minimal safe fix
+
+<br><br>↓
+
+<strong>STEP 8</strong>
+<br>
+Verify health
+
+<br><br>↓
+
+<strong>STEP 9</strong>
+<br>
+Document root cause
+
+</div>
+
+</div>
+
+
+<!-- COMMAND CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Kubernetes Troubleshooting Command Cheat Sheet</h2>
+
+<pre><code># Cluster
+kubectl get nodes
+kubectl get nodes -o wide
+kubectl describe node &lt;node-name&gt;
+
+# Pods
+kubectl get pods
+kubectl get pods -o wide
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt; --previous
+kubectl logs &lt;pod-name&gt; -c &lt;container-name&gt;
+
+# Deployments
+kubectl get deployments
+kubectl describe deployment &lt;deployment-name&gt;
+kubectl rollout status deployment &lt;deployment-name&gt;
+kubectl rollout history deployment &lt;deployment-name&gt;
+kubectl rollout undo deployment &lt;deployment-name&gt;
+
+# Services
+kubectl get svc
+kubectl describe svc &lt;service-name&gt;
+kubectl get endpoints
+kubectl get endpointslices
+
+# Config
+kubectl get configmaps
+kubectl get secrets
+
+# Storage
+kubectl get pv
+kubectl get pvc
+kubectl get storageclass
+kubectl describe pvc &lt;pvc-name&gt;
+
+# Resources
+kubectl top nodes
+kubectl top pods
+
+# RBAC
+kubectl auth can-i get pods
+kubectl auth can-i create deployments
+
+# Networking
+kubectl get networkpolicy
+kubectl get ingress
+kubectl get ingressclass
+
+# Events
+kubectl get events --sort-by=.lastTimestamp
+
+# Debug
+kubectl exec -it &lt;pod-name&gt; -- sh</code></pre>
+
+</div>
+
+
+<!-- INTERVIEW QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+<li>How do you troubleshoot a Kubernetes Pod?</li>
+<li>What does CrashLoopBackOff mean?</li>
+<li>How do you troubleshoot ImagePullBackOff?</li>
+<li>Why is a Pod stuck in Pending?</li>
+<li>How do you troubleshoot ContainerCreating?</li>
+<li>How do you troubleshoot OOMKilled?</li>
+<li>How do you troubleshoot a Service with no endpoints?</li>
+<li>How do you troubleshoot Service connectivity?</li>
+<li>How do you troubleshoot DNS?</li>
+<li>How do you troubleshoot an Ingress?</li>
+<li>How do you troubleshoot a failed Deployment?</li>
+<li>How do you rollback a Deployment?</li>
+<li>How do you troubleshoot readiness probe failures?</li>
+<li>How do you troubleshoot liveness probe failures?</li>
+<li>What is the difference between readiness and liveness?</li>
+<li>How do you troubleshoot a PVC stuck in Pending?</li>
+<li>How do you troubleshoot Node NotReady?</li>
+<li>How do you troubleshoot RBAC Forbidden errors?</li>
+<li>How do you troubleshoot high CPU?</li>
+<li>How do you troubleshoot high memory?</li>
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+<li>What is the first command you run when a Pod fails?</li>
+<li>Why is kubectl describe useful?</li>
+<li>Why would you use --previous with logs?</li>
+<li>What information do Kubernetes Events provide?</li>
+<li>What is the difference between Pod status and application health?</li>
+<li>How do you identify why a Pod cannot be scheduled?</li>
+<li>How do you troubleshoot a Service with no endpoints?</li>
+<li>How do you troubleshoot DNS from inside a Pod?</li>
+<li>How do you identify an OOMKilled container?</li>
+<li>How do you troubleshoot a failed volume mount?</li>
+<li>How do you troubleshoot an Ingress 404?</li>
+<li>How do you troubleshoot an Ingress 502/503?</li>
+<li>How do you troubleshoot an RBAC Forbidden error?</li>
+<li>How do you handle a production outage caused by a deployment?</li>
+<li>When would you rollback instead of debugging in place?</li>
+<li>How do you prevent the same production issue from happening again?</li>
+</ul>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "How do you troubleshoot Kubernetes?"</h2>
+
+<div class="interview">
+
+"I follow a systematic approach rather than randomly changing
+resources.
+
+First, I identify the affected resource and check its status using
+kubectl get. Then I use kubectl describe to inspect conditions and
+Events. For application-level problems, I check container logs and
+previous logs if the container restarted.
+
+If the problem involves networking, I check Services, endpoints,
+DNS, NetworkPolicies and Ingress. For scheduling issues, I check
+nodes, resource requests, taints, tolerations and affinity. For
+storage problems, I check PVs, PVCs and StorageClasses.
+
+For deployment failures, I check rollout status and history and,
+if necessary, rollback to the last known healthy version.
+
+Finally, I verify that the application is healthy and document the
+root cause and preventive action.
+
+My goal is not just to restart the Pod, but to identify and fix the
+actual root cause."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🚀 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Pending</strong>
+→ Scheduling / resources / constraints
+
+<br><br>
+
+<strong>CrashLoopBackOff</strong>
+→ Container repeatedly crashing
+
+<br><br>
+
+<strong>ImagePullBackOff</strong>
+→ Image cannot be pulled
+
+<br><br>
+
+<strong>OOMKilled</strong>
+→ Memory-related termination
+
+<br><br>
+
+<strong>No Endpoints</strong>
+→ Selector / labels / readiness
+
+<br><br>
+
+<strong>Readiness Failure</strong>
+→ Pod removed from traffic
+
+<br><br>
+
+<strong>Liveness Failure</strong>
+→ Container may be restarted
+
+<br><br>
+
+<strong>PVC Pending</strong>
+→ Storage provisioning/binding issue
+
+<br><br>
+
+<strong>Forbidden</strong>
+→ RBAC authorization issue
+
+<br><br>
+
+<strong>Node NotReady</strong>
+→ Investigate kubelet/node health
+
+<br><br>
+
+<strong>Golden Flow</strong>
+→ get → describe → events → logs → dependencies → fix → verify
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+🛠️ Kubernetes Troubleshooting & Real-Time Scenarios
+
+<br><br>
+
+Nandu's DevOps Interview Master Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

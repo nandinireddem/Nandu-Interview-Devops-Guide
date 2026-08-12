@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes - DevOps Interview Guide</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.6;
+}
+
+header{
+    text-align:center;
+    padding:60px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.icon{
+    font-size:55px;
+}
+
+h1{
+    font-size:clamp(34px,5vw,54px);
+    margin:10px 0;
+}
+
+h1 span{
+    color:#60a5fa;
+}
+
+header p{
+    max-width:850px;
+    margin:15px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro{
+    background:#121a2d;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:30px;
+    text-align:center;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:20px;
+}
+
+.card{
+    display:block;
+    text-decoration:none;
+    color:#e5e7eb;
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:25px;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#60a5fa;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.card-icon{
+    font-size:34px;
+}
+
+.card h2{
+    color:#60a5fa;
+    margin:10px 0;
+    font-size:20px;
+}
+
+.card p{
+    color:#9ca8c0;
+    margin:0;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:15px;
+    padding:5px 10px;
+    border-radius:20px;
+    background:#172554;
+    color:#93c5fd;
+    font-size:12px;
+}
+
+.final{
+    margin-top:30px;
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:22px;
+    border-radius:10px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">☸️</div>
+
+<h1>Kubernetes <span>DevOps Interview Guide</span></h1>
+
+<p>
+Complete Kubernetes preparation covering fundamentals, workloads,
+services, storage, security, scheduling, autoscaling, ingress,
+Helm, monitoring, troubleshooting and real-time scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="intro">
+
+<h2>🎯 Kubernetes Learning Path</h2>
+
+<p>
+Study the main concepts first, then move to production concepts and
+finally revise the real-time scenarios before interviews.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<a class="card" href="kubernetes-basics.html">
+
+<div class="card-icon">☸️</div>
+
+<h2>01. Kubernetes Basics</h2>
+
+<p>
+Kubernetes architecture, cluster components, Pods, Nodes,
+Namespaces, kubectl and core concepts.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+</a>
+
+
+<a class="card" href="kubernetes-workloads.html">
+
+<div class="card-icon">🚀</div>
+
+<h2>02. Workloads</h2>
+
+<p>
+Pods, Deployments, ReplicaSets, StatefulSets, DaemonSets,
+Jobs, CronJobs and workload management.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+</a>
+
+
+<a class="card" href="kubernetes-services-networking.html">
+
+<div class="card-icon">🌐</div>
+
+<h2>03. Services & Networking</h2>
+
+<p>
+ClusterIP, NodePort, LoadBalancer, service discovery,
+DNS, networking and traffic flow.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+</a>
+
+
+<a class="card" href="k8s-configmaps-secrets.html">
+
+<div class="card-icon">🔑</div>
+
+<h2>04. ConfigMaps & Secrets</h2>
+
+<p>
+Application configuration, environment variables, Secrets,
+volume mounts and secure configuration management.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+</a>
+
+
+<a class="card" href="k8s-storage-pv-pvc.html">
+
+<div class="card-icon">💾</div>
+
+<h2>05. Storage: PV & PVC</h2>
+
+<p>
+PersistentVolumes, PersistentVolumeClaims, StorageClasses,
+dynamic provisioning and persistent application storage.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+</a>
+
+
+<a class="card" href="k8s-config-storage.html">
+
+<div class="card-icon">📦</div>
+
+<h2>06. Configuration & Storage</h2>
+
+<p>
+Additional configuration and storage concepts used in
+real Kubernetes deployments.
+</p>
+
+<span class="badge">⭐⭐⭐⭐ SUPPORTING</span>
+
+</a>
+
+
+<a class="card" href="k8s-rbac-security.html">
+
+<div class="card-icon">🔐</div>
+
+<h2>07. RBAC & Security</h2>
+
+<p>
+Users, Roles, RoleBindings, ServiceAccounts, permissions,
+security practices and access control.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+</a>
+
+
+<a class="card" href="k8s-probes-scheduling-autoscaling.html">
+
+<div class="card-icon">⚡</div>
+
+<h2>08. Probes, Scheduling & Autoscaling</h2>
+
+<p>
+Liveness, readiness, startup probes, scheduling,
+taints, tolerations, affinity and HPA.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+</a>
+
+
+<a class="card" href="k8s-ingress-helm-monitoring.html">
+
+<div class="card-icon">📊</div>
+
+<h2>09. Ingress, Helm & Monitoring</h2>
+
+<p>
+Ingress, Helm charts, releases, Prometheus, Grafana and
+Kubernetes observability concepts.
+</p>
+
+<span class="badge">⭐⭐⭐⭐ IMPORTANT</span>
+
+</a>
+
+
+<a class="card" href="k8s-troubleshooting-real-time.html">
+
+<div class="card-icon">🔥</div>
+
+<h2>10. Troubleshooting & Real-Time</h2>
+
+<p>
+CrashLoopBackOff, ImagePullBackOff, Pending Pods, networking,
+resource issues and production troubleshooting scenarios.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ INTERVIEW</span>
+
+</a>
+
+
+<a class="card" href="kubernetes-final-revision.html">
+
+<div class="card-icon">🎯</div>
+
+<h2>11. Final Revision</h2>
+
+<p>
+Overall Kubernetes revision covering architecture, workloads,
+networking, storage, security, troubleshooting and key commands.
+</p>
+
+<span class="badge">🔥 FINAL REVISION</span>
+
+</a>
+
+
+</div>
+
+
+<div class="final">
+
+<strong>🔥 Recommended Interview Order</strong>
+
+<br><br>
+
+Basics → Workloads → Services & Networking →
+ConfigMaps & Secrets → Storage → RBAC & Security →
+Probes & Scheduling → Ingress & Helm →
+Troubleshooting → Final Revision
+
+<br><br>
+
+<strong>Tip:</strong> Don't memorize every Kubernetes command.
+Understand the architecture, traffic flow, workload behavior and
+troubleshooting approach.
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+☸️ Kubernetes • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

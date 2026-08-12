@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>AWS EBS & EFS Interview Questions | Nandu's DevOps Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+    body {
+        background:
+            radial-gradient(circle at 90% 5%, rgba(14, 165, 233, 0.08), transparent 28%),
+            #0b1020;
+    }
+
+    .page-header {
+        padding: 50px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #101a30, #111827, #0b1020);
+        border-bottom: 1px solid #29334c;
+    }
+
+    .page-header h1 {
+        font-size: clamp(36px, 6vw, 58px);
+        margin: 10px 0;
+    }
+
+    .page-header h1 span {
+        color: #38bdf8;
+    }
+
+    .page-header p {
+        max-width: 900px;
+        margin: auto;
+        color: #9ca8c4;
+        line-height: 1.7;
+    }
+
+    .back {
+        color: #9da9c4;
+        text-decoration: none;
+    }
+
+    .back:hover {
+        color: #38bdf8;
+    }
+
+    .page-icon {
+        font-size: 50px;
+        margin-top: 25px;
+    }
+
+    .content {
+        width: min(1000px, 92%);
+        margin: auto;
+        padding: 50px 0 80px;
+    }
+
+    .quick-map {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin-bottom: 50px;
+    }
+
+    .map-item {
+        padding: 16px;
+        background: #121a30;
+        border: 1px solid #27324b;
+        border-radius: 12px;
+        color: #aab5cf;
+        font-size: 13px;
+    }
+
+    .map-item strong {
+        color: #ffffff;
+    }
+
+    .priority-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 50px 0 25px;
+    }
+
+    .priority-title h2 {
+        font-size: 27px;
+    }
+
+    .line {
+        flex: 1;
+        height: 1px;
+        background: #29334c;
+    }
+
+    .question {
+        margin-bottom: 25px;
+        padding: 28px;
+        background: linear-gradient(145deg, #141d35, #10172a);
+        border: 1px solid #29344e;
+        border-radius: 18px;
+    }
+
+    .question:hover {
+        border-color: #475569;
+    }
+
+    .question-number {
+        color: #7582a2;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+        line-height: 1.45;
+        margin-bottom: 18px;
+    }
+
+    .label {
+        display: inline-block;
+        margin-bottom: 10px;
+        color: #7dd3fc;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .7px;
+    }
+
+    .answer {
+        color: #c2cbe0;
+        line-height: 1.8;
+        margin-bottom: 18px;
+    }
+
+    .example {
+        padding: 18px 20px;
+        margin: 18px 0;
+        border-left: 4px solid #38bdf8;
+        background: rgba(56, 189, 248, .06);
+        border-radius: 0 10px 10px 0;
+    }
+
+    .example strong {
+        color: #7dd3fc;
+    }
+
+    .example p {
+        color: #b7c2d8;
+        line-height: 1.75;
+        margin-top: 7px;
+    }
+
+    .interview-answer {
+        padding: 18px 20px;
+        margin-top: 18px;
+        background: #111a30;
+        border-radius: 12px;
+        border: 1px solid #303c59;
+    }
+
+    .interview-answer strong {
+        color: #60a5fa;
+    }
+
+    .interview-answer p {
+        color: #c4cee1;
+        line-height: 1.75;
+    }
+
+    .followup {
+        padding: 18px 20px;
+        background: #0d1426;
+        border-radius: 12px;
+        border: 1px solid #222d46;
+    }
+
+    .followup strong {
+        color: #8fa3ff;
+    }
+
+    .followup ul {
+        margin-top: 8px;
+        padding-left: 20px;
+        color: #9ba7c0;
+    }
+
+    .followup li {
+        margin: 6px 0;
+    }
+
+    .flow {
+        padding: 20px;
+        margin: 20px 0;
+        background: #0d1426;
+        border: 1px solid #26314a;
+        border-radius: 12px;
+        text-align: center;
+        color: #c6d0e4;
+        line-height: 2;
+        overflow-x: auto;
+    }
+
+    .important {
+        padding: 22px;
+        margin: 30px 0;
+        border-radius: 14px;
+        background: rgba(56, 189, 248, .05);
+        border: 1px solid rgba(56, 189, 248, .2);
+        color: #b8c4dc;
+        line-height: 1.8;
+    }
+
+    pre {
+        overflow-x: auto;
+        margin-top: 10px;
+        padding: 18px;
+        background: #080d19;
+        border-radius: 10px;
+        border: 1px solid #202b43;
+        color: #cbd5e1;
+    }
+
+    .compare {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    .compare th,
+    .compare td {
+        border: 1px solid #29344e;
+        padding: 14px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .compare th {
+        background: #18223a;
+        color: #e2e8f0;
+    }
+
+    .compare td {
+        color: #b7c2d8;
+        background: #10172a;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: #7582a2;
+        border-top: 1px solid #222d46;
+    }
+
+    footer span {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+        .content {
+            width: 94%;
+        }
+
+        .question {
+            padding: 22px;
+        }
+
+        .compare {
+            font-size: 13px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+```
+<a href="index.html" class="back">← Back to AWS</a>
+
+<div class="page-icon">💾</div>
+
+<h1>AWS <span>EBS & EFS</span></h1>
+
+<p>
+    Complete interview preparation for Amazon EBS and EFS —
+    concepts, storage types, performance, snapshots,
+    encryption, mounting, troubleshooting and real-time
+    DevOps scenarios.
+</p>
+```
+
+</header>
+
+<main class="content">
+
+```
+<!-- PRIORITY MAP -->
+
+<section class="quick-map">
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐⭐</strong><br>
+        Must Know
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐</strong><br>
+        High Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐</strong><br>
+        Medium
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐</strong><br>
+        Less Frequent
+    </div>
+
+    <div class="map-item">
+        <strong>⭐</strong><br>
+        Bonus
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐⭐ Must Know</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q1 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 01</div>
+
+    <h3>What is Amazon EBS?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MOST FREQUENTLY ASKED</span>
+
+    <p class="answer">
+
+        Amazon EBS stands for <strong>Elastic Block Store</strong>.
+
+        It provides persistent block-level storage volumes
+        that can be attached to EC2 instances.
+
+        Think of EBS like a virtual hard disk for an EC2
+        instance.
+
+    </p>
+
+    <div class="flow">
+
+        EC2 Instance
+
+        →
+
+        EBS Volume
+
+        →
+
+        Persistent Data
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Easy Example</strong>
+
+        <p>
+
+            Suppose an EC2 instance contains an application
+            and its data.
+
+            If the instance is stopped and started again,
+            the EBS volume can retain the data.
+
+            Therefore EBS provides persistent storage
+            separately from the compute instance.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Amazon EBS is a persistent block storage service
+            designed for EC2. An EBS volume can be attached to
+            an EC2 instance and is commonly used for operating
+            system disks, application data and databases."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q2 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 02</div>
+
+    <h3>What is the difference between EBS and instance store?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+    <table class="compare">
+
+        <tr>
+            <th>Feature</th>
+            <th>EBS</th>
+            <th>Instance Store</th>
+        </tr>
+
+        <tr>
+            <td>Storage Type</td>
+            <td>Persistent block storage</td>
+            <td>Temporary local storage</td>
+        </tr>
+
+        <tr>
+            <td>Data Persistence</td>
+            <td>Designed to persist independently of instance lifecycle</td>
+            <td>Data can be lost when the instance is stopped/terminated depending on lifecycle</td>
+        </tr>
+
+        <tr>
+            <td>Network Attached</td>
+            <td>Yes</td>
+            <td>Physically attached to host</td>
+        </tr>
+
+        <tr>
+            <td>Typical Use</td>
+            <td>OS, application data, databases</td>
+            <td>Temporary/cache/scratch workloads</td>
+        </tr>
+
+    </table>
+
+    <div class="example">
+
+        <strong>🧠 Easy Memory Trick</strong>
+
+        <p>
+
+            <strong>EBS = Persistent Disk</strong>
+
+            <br>
+
+            <strong>Instance Store = Temporary Local Disk</strong>
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EBS provides persistent block storage that is
+            independent from the lifecycle of the EC2 compute
+            resource. Instance store is temporary local storage
+            physically attached to the host and is suitable for
+            temporary data."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q3 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 03</div>
+
+    <h3>What are the main EBS volume types?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        The major EBS volume families you should know are:
+
+        <br><br>
+
+        <strong>gp3</strong>
+
+        <br>
+        General-purpose SSD. A common choice for general
+        workloads.
+
+        <br><br>
+
+        <strong>gp2</strong>
+
+        <br>
+        Previous-generation general-purpose SSD.
+
+        <br><br>
+
+        <strong>io2</strong>
+
+        <br>
+        Provisioned IOPS SSD for I/O-intensive workloads.
+
+        <br><br>
+
+        <strong>st1</strong>
+
+        <br>
+        Throughput-oriented HDD, suitable for large sequential
+        workloads.
+
+        <br><br>
+
+        <strong>sc1</strong>
+
+        <br>
+        Lower-cost HDD designed for infrequently accessed
+        throughput-oriented workloads.
+
+    </p>
+
+    <div class="important">
+
+        💡 In most modern general-purpose application
+        architectures, <strong>gp3</strong> is an important
+        volume type to understand.
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EBS provides different volume types based on
+            workload requirements. gp3 is commonly used for
+            general-purpose SSD workloads, io2 is used for
+            high-performance IOPS-intensive workloads, while
+            st1 and sc1 are throughput-oriented HDD options."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q4 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 04</div>
+
+    <h3>What is the difference between gp3 and io2?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+    <table class="compare">
+
+        <tr>
+            <th>Feature</th>
+            <th>gp3</th>
+            <th>io2</th>
+        </tr>
+
+        <tr>
+            <td>Type</td>
+            <td>General-purpose SSD</td>
+            <td>Provisioned IOPS SSD</td>
+        </tr>
+
+        <tr>
+            <td>Use Case</td>
+            <td>General applications</td>
+            <td>High I/O intensive workloads</td>
+        </tr>
+
+        <tr>
+            <td>Performance</td>
+            <td>Good general-purpose performance</td>
+            <td>High and predictable IOPS</td>
+        </tr>
+
+        <tr>
+            <td>Typical Workload</td>
+            <td>Web servers, applications, DevOps workloads</td>
+            <td>High-performance databases and critical I/O workloads</td>
+        </tr>
+
+    </table>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "gp3 is a general-purpose SSD suitable for most
+            application workloads, while io2 is designed for
+            workloads that require high and predictable IOPS,
+            such as demanding database workloads."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q5 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 05</div>
+
+    <h3>What is an EBS snapshot?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+    <p class="answer">
+
+        An EBS snapshot is a point-in-time backup of an EBS
+        volume.
+
+        Snapshots are stored in Amazon S3-managed infrastructure
+        and can be used to create new EBS volumes or restore
+        data.
+
+    </p>
+
+    <div class="flow">
+
+        EBS Volume
+
+        →
+
+        📸 Snapshot
+
+        →
+
+        Backup
+
+        →
+
+        New EBS Volume
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Before performing a risky production change,
+            you can create a snapshot of the relevant EBS
+            volume.
+
+            If recovery is required, the snapshot can be used
+            to create a new volume.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An EBS snapshot is a point-in-time backup of an
+            EBS volume. It can be used for backup, recovery,
+            migration and creating new EBS volumes."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q6 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 06</div>
+
+    <h3>What is Amazon EFS?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        Amazon EFS stands for <strong>Elastic File System</strong>.
+
+        It provides managed, elastic file storage that can be
+        accessed concurrently by multiple compute resources.
+
+        EFS uses the NFS protocol.
+
+    </p>
+
+    <div class="flow">
+
+        EC2-A
+
+        ↘
+
+        <br>
+
+        EC2-B
+
+        →
+
+        📁 EFS
+
+        ←
+
+        EC2-C
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose three EC2 instances are running a web
+            application and all need access to the same uploaded
+            files.
+
+            Instead of storing those files separately on each
+            EC2 instance, an EFS file system can provide shared
+            file storage.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Amazon EFS is a managed elastic file storage
+            service that provides shared file storage using
+            NFS. Multiple supported compute resources can mount
+            and access the same file system."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q7 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 07</div>
+
+    <h3>What is the difference between EBS and EFS?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ TOP INTERVIEW QUESTION</span>
+
+    <table class="compare">
+
+        <tr>
+            <th>Feature</th>
+            <th>EBS</th>
+            <th>EFS</th>
+        </tr>
+
+        <tr>
+            <td>Storage Model</td>
+            <td>Block storage</td>
+            <td>File storage</td>
+        </tr>
+
+        <tr>
+            <td>Access</td>
+            <td>Attached to EC2 according to supported configuration</td>
+            <td>Shared file system</td>
+        </tr>
+
+        <tr>
+            <td>Protocol</td>
+            <td>Block device</td>
+            <td>NFS</td>
+        </tr>
+
+        <tr>
+            <td>Multi-Instance Access</td>
+            <td>Limited by volume and attachment capabilities</td>
+            <td>Designed for concurrent access</td>
+        </tr>
+
+        <tr>
+            <td>Typical Use</td>
+            <td>OS disks, databases, application disks</td>
+            <td>Shared files, content, common application storage</td>
+        </tr>
+
+    </table>
+
+    <div class="example">
+
+        <strong>🧠 Easy Memory Trick</strong>
+
+        <p>
+
+            <strong>EBS = One virtual hard disk</strong>
+
+            <br><br>
+
+            <strong>EFS = Shared network file system</strong>
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EBS is block storage primarily attached to EC2,
+            while EFS is a managed shared file system accessed
+            using NFS. EBS is commonly used for operating
+            system and application disks, while EFS is useful
+            when multiple instances need shared files."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q8 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 08</div>
+
+    <h3>Can multiple EC2 instances access the same EFS?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ COMMON</span>
+
+    <p class="answer">
+
+        Yes.
+
+        EFS is designed to provide shared file storage that
+        multiple supported compute resources can access
+        concurrently.
+
+    </p>
+
+    <div class="flow">
+
+        EC2-1 ─┐
+
+        <br>
+
+        EC2-2 ─┼──→ EFS
+
+        <br>
+
+        EC2-3 ─┘
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Yes. Amazon EFS is a shared file system, so
+            multiple EC2 instances can mount and access the same
+            EFS file system concurrently."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q9 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 09</div>
+
+    <h3>Can EBS be attached to multiple EC2 instances?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ TRICK QUESTION</span>
+
+    <p class="answer">
+
+        The normal EBS usage model is one volume attached to one
+        EC2 instance at a time.
+
+        However, certain EBS volume types and supported EC2
+        configurations provide multi-attach capabilities.
+
+        Therefore, don't simply say "EBS can never be attached
+        to multiple instances."
+
+    </p>
+
+    <div class="important">
+
+        🎯 <strong>Interview Tip:</strong>
+
+        Say:
+
+        <br><br>
+
+        "Normally an EBS volume is attached to a single EC2
+        instance, but specific supported configurations such
+        as EBS Multi-Attach allow certain io2 volumes to be
+        attached to multiple supported instances in the same
+        Availability Zone."
+
+    </div>
+
+</article>
+
+
+<!-- Q10 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 10</div>
+
+    <h3>What is EBS encryption?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        EBS encryption protects data at rest on EBS volumes.
+
+        AWS Key Management Service (KMS) can be used to manage
+        the encryption keys.
+
+        Encryption can cover:
+
+        <br><br>
+
+        → Data at rest
+
+        <br>
+
+        → Snapshots
+
+        <br>
+
+        → Volumes created from encrypted snapshots
+
+        <br>
+
+        → Data moving between the instance and the EBS volume
+        depending on supported implementation
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EBS encryption protects EBS data at rest and uses
+            AWS KMS for key management. Encrypted snapshots and
+            volumes can also be created from encrypted EBS
+            resources."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q11 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 11</div>
+
+    <h3>What is EFS mount target?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+    <p class="answer">
+
+        An EFS mount target provides network access to an EFS
+        file system from a specific Availability Zone.
+
+        It is associated with a subnet and security group.
+
+        EC2 instances use the mount target to connect to the
+        EFS file system.
+
+    </p>
+
+    <div class="flow">
+
+        EC2 in AZ-A
+
+        →
+
+        Mount Target AZ-A
+
+        →
+
+        EFS
+
+        <br><br>
+
+        EC2 in AZ-B
+
+        →
+
+        Mount Target AZ-B
+
+        →
+
+        EFS
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An EFS mount target provides a network endpoint
+            through which resources in an Availability Zone can
+            access the EFS file system. It is created in a
+            subnet and associated with security groups."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q12 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 12</div>
+
+    <h3>How do you mount EFS on an EC2 instance?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ DEVOPS PRACTICAL</span>
+
+    <p class="answer">
+
+        A common approach is to install the EFS mount helper,
+        create a mount directory and mount the file system.
+
+    </p>
+
+    <pre>
+```
+
+sudo mkdir -p /mnt/efs
+
+sudo mount -t efs fs-XXXXXXXX:/ /mnt/efs </pre>
+
+```
+    <p class="answer">
+
+        The exact commands depend on the operating system and
+        whether encryption-in-transit is enabled.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Verify Mount</strong>
+
+        <pre>
+```
+
+df -h </pre>
+
+```
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would install the required EFS mount helper,
+            create a mount point and mount the EFS file system.
+            Then I would verify the mount using commands such
+            as df -h and confirm that security groups allow
+            NFS traffic."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐ High Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q13 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 13</div>
+
+    <h3>What is EBS volume resizing?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        EBS volumes can generally be modified to increase
+        storage capacity and, for supported volume types,
+        adjust performance characteristics.
+
+        After increasing the volume size, the operating system
+        filesystem may also need to be expanded.
+
+    </p>
+
+    <div class="flow">
+
+        AWS EBS Volume
+
+        →
+
+        Increase Size
+
+        →
+
+        OS Detects Larger Disk
+
+        →
+
+        Expand Partition / Filesystem
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Linux Example</strong>
+
+        <pre>
+```
+
+lsblk
+
+df -h </pre>
+
+```
+        <p>
+
+            After resizing the EBS volume in AWS, verify the
+            device and expand the partition/filesystem as
+            required by the operating system and filesystem type.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "After increasing an EBS volume size, I verify that
+            the operating system sees the larger block device.
+            Then I expand the partition and filesystem if
+            required so the application can use the additional
+            capacity."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q14 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 14</div>
+
+    <h3>What is the difference between EBS snapshot and AMI?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <table class="compare">
+
+        <tr>
+            <th>Snapshot</th>
+            <th>AMI</th>
+        </tr>
+
+        <tr>
+            <td>Backup of EBS volume</td>
+            <td>Machine image used to launch EC2 instances</td>
+        </tr>
+
+        <tr>
+            <td>Primarily storage-level backup</td>
+            <td>Instance template / image</td>
+        </tr>
+
+        <tr>
+            <td>Can create EBS volumes</td>
+            <td>Can launch EC2 instances</td>
+        </tr>
+
+    </table>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An EBS snapshot is a point-in-time backup of an EBS
+            volume. An AMI is a machine image that can be used
+            to launch EC2 instances and can reference one or
+            more snapshots."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q15 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 15</div>
+
+    <h3>What is EFS performance mode?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        EFS provides performance modes that determine how the
+        file system behaves for different workloads.
+
+        The key concept to remember is that performance mode
+        selection is related to workload characteristics and
+        throughput/latency requirements.
+
+    </p>
+
+    <div class="important">
+
+        💡 Interview focus:
+
+        Don't memorize random values.
+
+        Understand that EFS performance configuration should
+        match the application's file access pattern and
+        performance requirements.
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EFS performance configuration is selected based on
+            application access patterns and performance
+            requirements. I would evaluate the workload's
+            latency and throughput characteristics before
+            selecting the appropriate configuration."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q16 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 16</div>
+
+    <h3>What is EFS throughput mode?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        EFS throughput mode controls how throughput is provided
+        to the file system.
+
+        Modern EFS supports modes such as:
+
+        <br><br>
+
+        → Elastic
+
+        <br>
+        → Provisioned
+
+        <br>
+        → Bursting
+
+        <br><br>
+
+        The correct mode depends on workload characteristics
+        and traffic patterns.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EFS throughput mode determines how file-system
+            throughput is provided. Elastic can adapt to
+            workload demand, while Provisioned allows a
+            configured throughput level. Bursting uses a model
+            based on file system size and workload behavior."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q17 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 17</div>
+
+    <h3>What is EFS storage class?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        EFS supports storage classes designed for different
+        access patterns and cost requirements.
+
+        Common concepts include:
+
+        <br><br>
+
+        → EFS Standard
+
+        <br>
+
+        → EFS Infrequent Access
+
+        <br>
+
+        → EFS Archive
+
+        <br><br>
+
+        Lifecycle management can move files between appropriate
+        storage classes based on access patterns.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EFS provides storage classes for frequently and
+            infrequently accessed data, including Archive for
+            long-term infrequently accessed data. Lifecycle
+            policies can help optimize storage cost."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q18 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 18</div>
+
+    <h3>What security group rules are required for EFS?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ PRACTICAL</span>
+
+    <p class="answer">
+
+        EFS uses NFS.
+
+        Therefore, the EC2 instances that mount EFS need network
+        connectivity to the EFS mount target on the NFS port.
+
+    </p>
+
+    <pre>
+```
+
+NFS
+TCP
+Port 2049 </pre>
+
+```
+    <div class="flow">
+
+        EC2 Security Group
+
+        →
+
+        TCP 2049
+
+        →
+
+        EFS Mount Target Security Group
+
+    </div>
+
+    <div class="important">
+
+        🔐 Best Practice:
+
+        Allow TCP 2049 from the application's EC2 security
+        group rather than allowing it broadly from the entire
+        internet.
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EFS uses NFS, so the EC2 instances need network
+            access to the EFS mount target on TCP port 2049.
+            I would allow that traffic using security groups
+            with least privilege."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐ Medium Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q19 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 19</div>
+
+    <h3>What is EFS Access Point?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        An EFS Access Point provides an application-specific
+        entry point into an EFS file system.
+
+        It can enforce a configured root directory and POSIX
+        identity for access.
+
+        This is especially useful when multiple applications
+        share one EFS file system but should have isolated
+        access paths.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Application A:
+
+            <br>
+            `/app-a`
+
+            <br><br>
+
+            Application B:
+
+            <br>
+            `/app-b`
+
+            <br><br>
+
+            Each application can use a different access point.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An EFS Access Point provides an application-specific
+            access path into an EFS file system and can enforce
+            a POSIX identity and root directory."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q20 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 20</div>
+
+    <h3>What is EFS encryption in transit?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        EFS supports encryption at rest and encryption in
+        transit.
+
+        Encryption in transit protects data while it is moving
+        between the client and EFS.
+
+        TLS can be used through the EFS mount helper.
+
+    </p>
+
+    <pre>
+```
+
+sudo mount -t efs -o tls fs-XXXXXXXX:/ /mnt/efs </pre>
+
+```
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EFS supports encryption at rest and encryption in
+            transit. For encryption in transit, the EFS mount
+            helper can establish a TLS-protected connection."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q21 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 21</div>
+
+    <h3>What happens if an EC2 instance is terminated?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        The behavior depends on the EBS volume's
+        <strong>DeleteOnTermination</strong> setting.
+
+        For a root volume, it is commonly configured to delete
+        when the instance terminates.
+
+        Additional EBS volumes can be configured to persist
+        after instance termination.
+
+    </p>
+
+    <div class="important">
+
+        🎯 Interview Tip:
+
+        Always say:
+
+        <br><br>
+
+        "It depends on the DeleteOnTermination setting."
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Whether an EBS volume is deleted when an EC2
+            instance terminates depends on its DeleteOnTermination
+            configuration. I verify this setting before
+            terminating production instances."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐ Less Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q22 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 22</div>
+
+    <h3>What is EBS Multi-Attach?</h3>
+
+    <span class="label">⭐⭐</span>
+
+    <p class="answer">
+
+        EBS Multi-Attach allows a supported EBS volume to be
+        attached to multiple supported EC2 instances in the
+        same Availability Zone.
+
+        It is designed for specific clustered application
+        architectures and requires application-level
+        coordination to safely manage shared block storage.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EBS Multi-Attach allows certain supported io2
+            volumes to be attached to multiple supported EC2
+            instances in the same Availability Zone. The
+            application must be designed to safely coordinate
+            concurrent access."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q23 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 23</div>
+
+    <h3>Can EBS volumes be moved across Availability Zones?</h3>
+
+    <span class="label">⭐⭐</span>
+
+    <p class="answer">
+
+        An EBS volume is associated with a specific Availability
+        Zone.
+
+        To use its data in another Availability Zone, a common
+        approach is to create a snapshot and then create a new
+        volume from that snapshot in the target Availability
+        Zone.
+
+    </p>
+
+    <div class="flow">
+
+        EBS Volume
+
+        →
+
+        Snapshot
+
+        →
+
+        Target AZ
+
+        →
+
+        New EBS Volume
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An EBS volume is AZ-specific. To move its data to
+            another Availability Zone, I can create a snapshot
+            and create a new EBS volume from that snapshot in
+            the target AZ."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q24 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 24</div>
+
+    <h3>What is EFS One Zone?</h3>
+
+    <span class="label">⭐⭐</span>
+
+    <p class="answer">
+
+        EFS provides Regional file systems designed for
+        multi-AZ availability and One Zone file systems that
+        store data within a single Availability Zone.
+
+        One Zone can be useful for workloads where lower storage
+        cost is more important and the availability trade-off
+        is acceptable.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EFS One Zone stores data in a single Availability
+            Zone and can provide a lower-cost option for
+            appropriate workloads. Regional EFS provides
+            multi-AZ storage for higher availability."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐ Bonus Questions</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q25 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 25</div>
+
+    <h3>What is the difference between block, file and object storage?</h3>
+
+    <span class="label">⭐ IMPORTANT CONCEPT</span>
+
+    <table class="compare">
+
+        <tr>
+            <th>Storage</th>
+            <th>Example</th>
+            <th>Used For</th>
+        </tr>
+
+        <tr>
+            <td>Block</td>
+            <td>EBS</td>
+            <td>OS disks, databases, applications</td>
+        </tr>
+
+        <tr>
+            <td>File</td>
+            <td>EFS</td>
+            <td>Shared directories and files</td>
+        </tr>
+
+        <tr>
+            <td>Object</td>
+            <td>S3</td>
+            <td>Images, backups, logs, documents</td>
+        </tr>
+
+    </table>
+
+    <div class="example">
+
+        <strong>🧠 Easy Memory Trick</strong>
+
+        <p>
+
+            EBS → Disk
+
+            <br>
+
+            EFS → Folder
+
+            <br>
+
+            S3 → Bucket / Objects
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     🎯 REAL TIME SCENARIOS
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🎯 Real-Time EBS & EFS Scenarios</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Scenario 1 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 01</div>
+
+    <h3>
+        EC2 says the EBS volume is full. What will you do?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+    <p class="answer">
+
+        First I check disk usage:
+
+    </p>
+
+    <pre>
+```
+
+df -h </pre>
+
+```
+    <p class="answer">
+
+        Then identify which directories are consuming space:
+
+    </p>
+
+    <pre>
+```
+
+sudo du -sh /* 2>/dev/null </pre>
+
+```
+    <p class="answer">
+
+        Then:
+
+        <br><br>
+
+        1. Clean unnecessary data/logs if safe.
+
+        <br>
+
+        2. Increase EBS volume size if required.
+
+        <br>
+
+        3. Expand the partition/filesystem.
+
+        <br>
+
+        4. Verify using `df -h`.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would first identify what is consuming the disk
+            using df and du. If cleanup is not enough, I would
+            increase the EBS volume size and then expand the
+            filesystem. Finally, I would verify the available
+            space."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 2 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 02</div>
+
+    <h3>
+        EC2 cannot mount EFS. What will you check?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+    <p class="answer">
+
+        Follow the network path.
+
+        <br><br>
+
+        <strong>1. DNS</strong>
+
+        <br>
+        Confirm the instance can resolve the EFS endpoint.
+
+        <br><br>
+
+        <strong>2. Mount Target</strong>
+
+        <br>
+        Confirm the EFS mount target exists for the relevant
+        Availability Zone/network.
+
+        <br><br>
+
+        <strong>3. Security Group</strong>
+
+        <br>
+        Check TCP 2049.
+
+        <br><br>
+
+        <strong>4. Network ACL / Routing</strong>
+
+        <br>
+        Verify network connectivity.
+
+        <br><br>
+
+        <strong>5. EFS Mount Helper</strong>
+
+        <br>
+        Confirm required packages are installed.
+
+        <br><br>
+
+        <strong>6. File System Policy / IAM</strong>
+
+        <br>
+        If using IAM authorization, verify permissions.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would first check the EFS mount target and network
+            connectivity, especially TCP 2049. Then I would
+            verify DNS, security groups, NACLs, routing and the
+            EFS mount helper. If IAM authorization is enabled,
+            I would also verify the relevant permissions."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 3 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 03</div>
+
+    <h3>
+        Three EC2 instances need access to the same uploaded files. EBS or EFS?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ SCENARIO</span>
+
+    <p class="answer">
+
+        EFS is generally the better fit because the requirement
+        is shared file access across multiple instances.
+
+    </p>
+
+    <div class="flow">
+
+        EC2-1
+
+        ↘
+
+        <br>
+
+        EC2-2
+
+        →
+
+        EFS
+
+        ←
+
+        EC2-3
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would choose EFS because multiple EC2 instances
+            need concurrent access to the same shared file
+            system. EFS is designed for this shared file
+            storage requirement."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 4 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 04</div>
+
+    <h3>
+        Your database requires consistently high IOPS. Which EBS type would you consider?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        I would consider an appropriate provisioned-IOPS SSD
+        such as io2, after evaluating the database workload,
+        required IOPS, throughput, latency and cost.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "For a database requiring consistently high and
+            predictable IOPS, I would evaluate io2 because it
+            is designed for provisioned IOPS workloads. I would
+            still size it based on measured application
+            requirements."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 5 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 05</div>
+
+    <h3>
+        You terminated an EC2 instance and lost its root disk data. Why?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        The root EBS volume may have had
+        <strong>DeleteOnTermination</strong> enabled.
+
+        Before terminating an instance, production data should
+        be stored and protected according to the application's
+        backup and persistence requirements.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The root EBS volume may have been configured with
+            DeleteOnTermination enabled. I would check the
+            volume's lifecycle configuration and ensure
+            production data has appropriate backups before
+            terminating instances."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     🛠️ CLI
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🛠️ Important AWS CLI Commands</h2>
+    <div class="line"></div>
+</div>
+
+
+<article class="question">
+
+    <h3>EBS Commands</h3>
+
+    <span class="label">LIST EBS VOLUMES</span>
+
+    <pre>
+```
+
+aws ec2 describe-volumes </pre>
+
+```
+    <span class="label">LIST SNAPSHOTS</span>
+
+    <pre>
+```
+
+aws ec2 describe-snapshots --owner-ids self </pre>
+
+```
+    <span class="label">CHECK VOLUME STATUS</span>
+
+    <pre>
+```
+
+aws ec2 describe-volume-status </pre>
+
+```
+    <span class="label">CREATE SNAPSHOT</span>
+
+    <pre>
+```
+
+aws ec2 create-snapshot 
+--volume-id vol-XXXXXXXX 
+--description "Pre-change backup" </pre>
+
+```
+    <span class="label">MODIFY VOLUME</span>
+
+    <pre>
+```
+
+aws ec2 modify-volume 
+--volume-id vol-XXXXXXXX 
+--size 50 </pre>
+
+```
+    <br>
+
+    <h3>EFS Commands</h3>
+
+    <span class="label">LIST FILE SYSTEMS</span>
+
+    <pre>
+```
+
+aws efs describe-file-systems </pre>
+
+```
+    <span class="label">LIST MOUNT TARGETS</span>
+
+    <pre>
+```
+
+aws efs describe-mount-targets 
+--file-system-id fs-XXXXXXXX </pre>
+
+```
+    <span class="label">LIST ACCESS POINTS</span>
+
+    <pre>
+```
+
+aws efs describe-access-points 
+--file-system-id fs-XXXXXXXX </pre>
+
+```
+</article>
+
+
+<!-- =====================================================
+     🧠 REVISION
+====================================================== -->
+
+<div class="important">
+
+    <strong>🧠 EBS & EFS One-Minute Revision</strong>
+
+    <br><br>
+
+    <strong>EBS</strong>
+    = Persistent block storage.
+
+    <br><br>
+
+    <strong>EFS</strong>
+    = Managed shared file storage using NFS.
+
+    <br><br>
+
+    <strong>gp3</strong>
+    = General-purpose SSD.
+
+    <br><br>
+
+    <strong>io2</strong>
+    = Provisioned IOPS SSD for demanding workloads.
+
+    <br><br>
+
+    <strong>Snapshot</strong>
+    = Point-in-time backup of EBS volume.
+
+    <br><br>
+
+    <strong>EBS Encryption</strong>
+    = Encryption at rest using AWS KMS.
+
+    <br><br>
+
+    <strong>EFS Mount Target</strong>
+    = Network access point for EFS in an Availability Zone.
+
+    <br><br>
+
+    <strong>EFS Port</strong>
+    = NFS TCP 2049.
+
+    <br><br>
+
+    <strong>EBS</strong>
+    = Think "virtual hard disk".
+
+    <br><br>
+
+    <strong>EFS</strong>
+    = Think "shared network folder".
+
+    <br><br>
+
+    <strong>Most Important Comparison</strong>
+
+    <br><br>
+
+    EC2 OS / Database Disk → EBS
+
+    <br>
+
+    Shared Files Across Instances → EFS
+
+    <br>
+
+    Images / Backups / Objects → S3
+
+</div>
+```
+
+</main>
+
+<footer>
+
+```
+<p>💾 AWS EBS & EFS Interview Preparation</p>
+
+<span>
+    Nandu's DevOps Interview Master Guide • 2026
+</span>
+```
+
+</footer>
+
+</body>
+
+</html>

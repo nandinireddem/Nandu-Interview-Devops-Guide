@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git Branches & Merging - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:52px;
+    margin:20px 0 10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.question{
+    background:#121a2d;
+    border:1px solid #29344d;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+.question h2{
+    margin-top:0;
+    color:#93c5fd;
+    font-size:21px;
+}
+
+.badge{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    color:#93c5fd;
+    margin-bottom:10px;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin-top:15px;
+}
+
+.example{
+    background:#080d18;
+    border:1px solid #29344d;
+    border-radius:10px;
+    padding:18px;
+    margin-top:15px;
+}
+
+pre{
+    margin:0;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{color:#bfdbfe}
+
+.tip{
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:18px;
+    margin-top:15px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111827;
+}
+
+.diagram{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:25px;
+    margin-top:20px;
+}
+
+.box{
+    display:inline-block;
+    padding:14px 20px;
+    margin:7px;
+    border:1px solid #475569;
+    border-radius:10px;
+    background:#111827;
+}
+
+.arrow{
+    color:#93c5fd;
+    font-weight:bold;
+    font-size:20px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+
+ul,ol{padding-left:25px}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Git & GitHub Guide</a>
+
+<div class="icon">🌿</div>
+
+<h1>Git <span>Branches & Merging</span></h1>
+
+<p>
+Git branches, switching, merging, fast-forward merge,
+three-way merge, conflicts and real-time DevOps workflows.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<!-- Q1 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>1. What is a Git branch?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A Git branch is a movable pointer to a sequence of commits.
+It allows developers to work on different features or fixes
+independently without directly affecting the main branch.
+</p>
+
+<p>
+In simple terms, a branch provides an isolated line of
+development.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+main
+  |
+  A
+  |
+  B
+  |
+  C
+</pre>
+
+<p>
+We can create a feature branch from the current commit:
+</p>
+
+<pre>
+git branch feature-login
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>Interview Point:</strong>
+
+<p>
+Branches are mainly used to isolate development work such as
+features, bug fixes and release work.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>2. Why do we use Git branches?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+We use branches so multiple developers can work on different
+features or fixes independently.
+</p>
+
+<p>
+This reduces the risk of directly changing production or
+main development code.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+main
+ |
+ +---- feature-login
+ |
+ +---- feature-payment
+ |
+ +---- bugfix
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>DevOps Example:</strong>
+
+<p>
+One developer works on a login feature while another fixes a
+production bug. Both can work on separate branches and later
+merge their completed changes into the appropriate branch.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>3. How do you create a new branch?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+We can create a branch using <code>git branch</code>.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git branch feature-login
+</pre>
+
+<p>
+This creates the branch but does not switch to it.
+</p>
+
+<p>
+To create and switch to a branch:</p>
+
+<pre>
+git switch -c feature-login
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>4. How do you switch between branches?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Modern Git recommends <code>git switch</code> for changing
+branches.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git switch feature-login
+</pre>
+
+<p>
+Older Git workflows commonly use:</p>
+
+<pre>
+git checkout feature-login
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>Remember:</strong>
+
+<p>
+<code>git switch</code> is specifically designed for branch
+switching, while <code>git checkout</code> has multiple uses.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>5. How do you create and switch to a branch in one command?</h2>
+
+<div class="answer">
+
+<pre>
+git switch -c feature-login
+</pre>
+
+<p>
+Older syntax:</p>
+
+<pre>
+git checkout -b feature-login
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>6. How do you list Git branches?</h2>
+
+<div class="answer">
+
+<p>List local branches:</p>
+
+<pre>
+git branch
+</pre>
+
+<p>List local and remote branches:</p>
+
+<pre>
+git branch -a
+</pre>
+
+<p>List remote branches:</p>
+
+<pre>
+git branch -r
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>7. How do you rename a branch?</h2>
+
+<div class="answer">
+
+<p>
+Rename the current branch:
+</p>
+
+<pre>
+git branch -m new-name
+</pre>
+
+<p>
+Rename another local branch:
+</p>
+
+<pre>
+git branch -m old-name new-name
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>8. How do you delete a Git branch?</h2>
+
+<div class="answer">
+
+<p>
+Delete a merged local branch:
+</p>
+
+<pre>
+git branch -d feature-login
+</pre>
+
+<p>
+Force delete a branch:
+</p>
+
+<pre>
+git branch -D feature-login
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>Interview Point:</strong>
+
+<p>
+<code>-d</code> performs a safer deletion and normally refuses
+to delete a branch whose changes have not been merged.
+</p>
+
+<p>
+<code>-D</code> forces the deletion.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>9. What is Git merge?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Git merge combines changes from one branch into another branch.
+</p>
+
+<p>
+For example, after completing a feature, we can merge the
+feature branch into the main branch.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git switch main
+
+git merge feature-login
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>10. Explain a typical feature branch workflow.</h2>
+
+<div class="answer">
+
+<ol>
+<li>Start from the main branch.</li>
+<li>Create a feature branch.</li>
+<li>Develop the feature.</li>
+<li>Commit the changes.</li>
+<li>Push the branch to the remote repository.</li>
+<li>Create a Pull Request.</li>
+<li>Review and test the changes.</li>
+<li>Merge into the target branch.</li>
+</ol>
+
+</div>
+
+<div class="example">
+
+<pre>
+git switch main
+
+git pull origin main
+
+git switch -c feature-login
+
+# Make changes
+
+git add .
+
+git commit -m "Add login feature"
+
+git push -u origin feature-login
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q11 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>11. What is a fast-forward merge?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A fast-forward merge occurs when the target branch has not
+received any new commits after the feature branch was created.
+</p>
+
+<p>
+Git can simply move the target branch pointer forward without
+creating an additional merge commit.
+</p>
+
+</div>
+
+<div class="diagram">
+
+<div class="box">A</div>
+<div class="arrow">→</div>
+<div class="box">B</div>
+<div class="arrow">→</div>
+<div class="box">C</div>
+
+<p>Feature branch contains the latest commits.</p>
+
+<div class="arrow">↓</div>
+
+<div class="box">main pointer moves forward</div>
+
+</div>
+
+</div>
+
+
+<!-- Q12 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>12. What is a three-way merge?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A three-way merge occurs when both the target branch and the
+feature branch have diverged after a common ancestor.
+</p>
+
+<p>
+Git uses three commits to perform the merge:
+</p>
+
+<ul>
+<li>Common ancestor</li>
+<li>Tip of the current branch</li>
+<li>Tip of the branch being merged</li>
+</ul>
+
+</div>
+
+<div class="example">
+
+<pre>
+        feature
+           C
+          /
+A ---- B
+          \
+           D
+          main
+</pre>
+
+<p>
+Because both branches contain different commits after the
+common ancestor, Git may create a merge commit.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q13 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>13. What is a merge conflict?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A merge conflict occurs when Git cannot automatically determine
+which changes should be kept while combining branches.
+</p>
+
+<p>
+This commonly happens when two branches modify the same part
+of the same file differently.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+<<<<<<< HEAD
+production configuration
+=======
+development configuration
+>>>>>>> feature
+</pre>
+
+<p>
+The developer must manually decide which version should remain.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q14 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</div>
+
+<h2>14. How do you resolve a merge conflict?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<ol>
+<li>Identify the conflicted files.</li>
+<li>Open the files and inspect conflict markers.</li>
+<li>Choose or combine the correct changes.</li>
+<li>Remove the conflict markers.</li>
+<li>Stage the resolved file.</li>
+<li>Complete the merge commit if required.</li>
+</ol>
+
+</div>
+
+<div class="example">
+
+<pre>
+git status
+
+# Fix the conflicted file
+
+git add app.py
+
+git commit -m "Resolve merge conflict"
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>Important:</strong>
+
+<p>
+Never blindly accept changes during a production conflict.
+Understand which code should actually be preserved.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q15 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>15. What is the difference between git merge and git rebase?</h2>
+
+<table>
+
+<tr>
+<th>git merge</th>
+<th>git rebase</th>
+</tr>
+
+<tr>
+<td>Combines branch histories</td>
+<td>Replays commits on top of another base</td>
+</tr>
+
+<tr>
+<td>Can create a merge commit</td>
+<td>Usually creates a linear history</td>
+</tr>
+
+<tr>
+<td>Preserves existing commit topology</td>
+<td>Rewrites commit history</td>
+</tr>
+
+<tr>
+<td>Generally safer for shared branches</td>
+<td>Should be used carefully on shared branches</td>
+</tr>
+
+</table>
+
+<div class="tip">
+
+<strong>Interview Shortcut:</strong>
+
+<p>
+<strong>Merge = combine histories.</strong><br>
+<strong>Rebase = move/replay commits onto a new base.</strong>
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q16 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>16. How do you push a new branch to GitHub?</h2>
+
+<div class="answer">
+
+<p>
+After creating and committing the branch locally, use:
+</p>
+
+<pre>
+git push -u origin feature-login
+</pre>
+
+<p>
+The <code>-u</code> option establishes the upstream relationship,
+making future pushes and pulls easier.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q17 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>17. What is the difference between a local branch and a remote branch?</h2>
+
+<table>
+
+<tr>
+<th>Local Branch</th>
+<th>Remote-Tracking Branch</th>
+</tr>
+
+<tr>
+<td>Exists in the local repository</td>
+<td>Represents the state of a branch on a remote</td>
+</tr>
+
+<tr>
+<td>Example: main</td>
+<td>Example: origin/main</td>
+</tr>
+
+<tr>
+<td>Used for local development</td>
+<td>Used to track remote branch state</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q18 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ DEVOPS SCENARIO</div>
+
+<h2>18. Why should developers avoid directly working on the main branch?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Direct development on main can introduce incomplete,
+untested or unstable changes into the shared branch.
+</p>
+
+<p>
+Feature branches allow changes to be developed, tested,
+reviewed and validated before merging.
+</p>
+
+</div>
+
+<div class="diagram">
+
+<div class="box">Feature Branch</div>
+
+<div class="arrow">↓</div>
+
+<div class="box">Code Review</div>
+
+<div class="arrow">↓</div>
+
+<div class="box">CI Tests</div>
+
+<div class="arrow">↓</div>
+
+<div class="box">Main</div>
+
+</div>
+
+</div>
+
+
+<!-- Q19 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ REAL-TIME DEVOPS SCENARIO</div>
+
+<h2>19. How would you handle a production bug while working on a feature?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+I would not mix the production fix with my unfinished feature.
+I would create a separate bug-fix or hotfix branch from the
+appropriate production branch.
+</p>
+
+<div class="example">
+
+<pre>
+git switch main
+
+git pull origin main
+
+git switch -c hotfix-login
+
+# Fix the issue
+
+git add .
+
+git commit -m "Fix login production issue"
+
+git push -u origin hotfix-login
+</pre>
+
+<p>
+Then the change can go through review, testing and deployment.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Q20 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ CI/CD SCENARIO</div>
+
+<h2>20. How are Git branches used in CI/CD?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Different branches can trigger different CI/CD workflows
+depending on the organization's branching strategy.
+</p>
+
+</div>
+
+<div class="diagram">
+
+<div class="box">feature/*</div>
+<div class="arrow">↓</div>
+<div class="box">Build + Test</div>
+
+<div class="box">develop</div>
+<div class="arrow">↓</div>
+<div class="box">Integration Environment</div>
+
+<div class="box">main</div>
+<div class="arrow">↓</div>
+<div class="box">Production Pipeline</div>
+
+</div>
+
+<div class="tip">
+
+<strong>Example:</strong>
+
+<p>
+A feature branch may run unit tests and security scans.
+A merge into main may trigger the production deployment pipeline,
+depending on the organization's CI/CD design.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO -->
+
+<div class="question">
+
+<div class="badge">🔥 REAL-TIME SCENARIO</div>
+
+<h2>21. You are on the wrong branch and have uncommitted changes. What should you do?</h2>
+
+<div class="answer">
+
+<p>
+First, I would check the status and decide whether the changes
+should be committed or temporarily stashed.
+</p>
+
+<pre>
+git status
+git stash
+</pre>
+
+<p>
+Then switch to the correct branch:</p>
+
+<pre>
+git switch correct-branch
+</pre>
+
+<p>
+If needed, restore the changes:</p>
+
+<pre>
+git stash pop
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO -->
+
+<div class="question">
+
+<div class="badge">🔥 REAL-TIME SCENARIO</div>
+
+<h2>22. What happens if two developers modify the same lines?</h2>
+
+<div class="answer">
+
+<p>
+Git may detect a merge conflict when their branches are merged.
+The conflicting file must be reviewed manually and the correct
+changes selected before the merge can be completed.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- FOLLOW UP -->
+
+<div class="question">
+
+<div class="badge">🎯 FOLLOW-UP QUESTIONS</div>
+
+<h2>Important Branch Interview Questions</h2>
+
+<ul>
+
+<li>What is a Git branch?</li>
+
+<li>Why do we use branches?</li>
+
+<li>How do you create a branch?</li>
+
+<li>How do you switch branches?</li>
+
+<li>git switch vs git checkout?</li>
+
+<li>How do you delete a branch?</li>
+
+<li>git branch -d vs -D?</li>
+
+<li>What is Git merge?</li>
+
+<li>What is a fast-forward merge?</li>
+
+<li>What is a three-way merge?</li>
+
+<li>What is a merge conflict?</li>
+
+<li>How do you resolve a merge conflict?</li>
+
+<li>Merge vs rebase?</li>
+
+<li>How do you push a new branch?</li>
+
+<li>What is origin/main?</li>
+
+<li>What is a remote-tracking branch?</li>
+
+<li>Why use feature branches?</li>
+
+<li>How do branches fit into CI/CD?</li>
+
+<li>How do you handle a production hotfix?</li>
+
+</ul>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="question">
+
+<div class="badge">🧠 QUICK REVISION</div>
+
+<h2>Git Branches — One-Minute Revision</h2>
+
+<div class="example">
+
+<pre>
+git branch
+    ↓
+List branches
+
+git branch feature
+    ↓
+Create branch
+
+git switch feature
+    ↓
+Switch branch
+
+git switch -c feature
+    ↓
+Create + switch
+
+git branch -d feature
+    ↓
+Delete merged branch
+
+git branch -D feature
+    ↓
+Force delete
+
+git merge feature
+    ↓
+Merge feature into current branch
+
+git push -u origin feature
+    ↓
+Push new branch
+
+git status
+    ↓
+Check current branch / changes
+
+git branch -a
+    ↓
+View local + remote branches
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>🎯 Interview Shortcut:</strong>
+
+<p>
+<strong>
+Branch = isolated development<br>
+Switch = change branch<br>
+Merge = combine branches<br>
+Conflict = Git cannot decide automatically<br>
+Feature branch = safe development<br>
+Hotfix branch = production issue<br>
+Rebase = replay commits on new base
+</strong>
+</p>
+
+</div>
+
+</div>
+
+
+</main>
+
+<footer>
+
+🌿 Git & GitHub • DevOps Interview Master Guide<br>
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

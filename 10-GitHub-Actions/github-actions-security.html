@@ -1,0 +1,1271 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Actions Security - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+.icon{font-size:48px}
+h1{font-size:clamp(30px,5vw,48px);margin:5px 0}
+h1 span{color:#93c5fd}
+header p{color:#9ca8b8;max-width:850px;margin:auto}
+.back{color:#94a3b8;text-decoration:none}
+.container{width:min(1100px,92%);margin:auto;padding:40px 0}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:27px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:17px;
+    border-radius:8px
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:22px;
+    margin:18px 0
+}
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    padding:18px;
+    border-radius:10px
+}
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:17px;
+    border-radius:8px
+}
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:8px
+}
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto;
+    border:1px solid #1e293b
+}
+code{
+    color:#c4b5fd;
+    background:#020617;
+    padding:2px 5px;
+    border-radius:4px
+}
+pre code{color:#e5e7eb;padding:0}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:11px;
+    text-align:left;
+    vertical-align:top
+}
+th{background:#172033;color:#93c5fd}
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    margin:3px;
+    border:1px solid #334155;
+    border-radius:20px;
+    background:#172033;
+    color:#fbbf24
+}
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔐</div>
+
+<a class="back" href="index.html">← Back to GitHub Actions</a>
+
+<h1>GitHub Actions <span>Security</span></h1>
+
+<p>
+Secrets, GITHUB_TOKEN, permissions, OIDC, AWS IAM,
+least privilege, environments and real-time security scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Why is GitHub Actions Security Important?</h2>
+
+<div class="answer">
+
+GitHub Actions can access source code, cloud resources, deployment
+systems and secrets. A poorly secured workflow can therefore become
+an entry point into the infrastructure.
+
+The main security goals are:
+
+<br><br>
+
+• Protect credentials<br>
+• Limit permissions<br>
+• Secure workflow execution<br>
+• Prevent secret exposure<br>
+• Control production deployments<br>
+• Use short-lived credentials where possible
+
+</div>
+
+<div class="flow">
+
+GitHub Repository
+<br>↓<br>
+Workflow
+<br>↓<br>
+Credentials / Permissions
+<br>↓<br>
+Cloud Resources
+<br>↓<br>
+Production
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What are GitHub Secrets?</h2>
+
+<div class="answer">
+
+GitHub Secrets are encrypted values used to store sensitive
+information such as API tokens, passwords, private credentials and
+other secrets required by workflows.
+
+They should not be hard-coded directly into workflow files.
+
+</div>
+
+<pre><code>- name: Deploy
+
+  env:
+    API_TOKEN: ${{ secrets.API_TOKEN }}
+
+  run: ./deploy.sh</code></pre>
+
+<div class="warning">
+
+Never commit passwords, access keys, private keys or tokens directly
+into the repository.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Where Can Secrets Be Stored?</h2>
+
+<table>
+
+<tr>
+<th>Scope</th>
+<th>Use</th>
+</tr>
+
+<tr>
+<td>Repository Secret</td>
+<td>Used by workflows in a repository.</td>
+</tr>
+
+<tr>
+<td>Environment Secret</td>
+<td>Used for a specific environment such as production.</td>
+</tr>
+
+<tr>
+<td>Organization Secret</td>
+<td>Can be shared across selected repositories.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+For production deployments, environment-level controls can be useful
+because production credentials can be isolated from development
+workflows.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. How Do You Use Secrets?</h2>
+
+<pre><code>name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy Application
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
+        run: |
+          ./deploy.sh</code></pre>
+
+<div class="warning">
+
+Do not use commands such as:
+
+<pre><code>echo "${{ secrets.DEPLOY_TOKEN }}"</code></pre>
+
+because exposing secrets in logs is dangerous.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is GITHUB_TOKEN?</h2>
+
+<div class="answer">
+
+<code>GITHUB_TOKEN</code> is a token automatically provided to a
+GitHub Actions workflow for interacting with GitHub resources.
+
+Its permissions should be restricted to only what the workflow needs.
+
+</div>
+
+<pre><code>permissions:
+  contents: read</code></pre>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What are Workflow Permissions?</h2>
+
+<div class="answer">
+
+Permissions control what the workflow's GitHub token is allowed to
+access.
+
+A secure workflow should follow the principle of least privilege.
+
+</div>
+
+<pre><code>permissions:
+  contents: read</code></pre>
+
+<p>For example, if the workflow only needs to read repository files,
+do not give it unnecessary write permissions.</p>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Least Privilege</h2>
+
+<div class="answer">
+
+Least privilege means giving a workflow, user or service only the
+minimum permissions required to perform its task.
+
+</div>
+
+<div class="flow">
+
+Required Permission
+<br>↓<br>
+Minimum Access
+<br>↓<br>
+Perform Task
+<br>↓<br>
+No Unnecessary Privileges
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong><br>
+
+"I follow least privilege by restricting GitHub token permissions,
+limiting AWS IAM permissions and using separate roles for different
+environments."
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is GitHub OIDC?</h2>
+
+<div class="answer">
+
+OpenID Connect allows GitHub Actions to authenticate with supported
+cloud providers using short-lived identity credentials instead of
+storing long-lived cloud access keys in GitHub Secrets.
+
+</div>
+
+<div class="flow">
+
+GitHub Actions
+<br>↓<br>
+OIDC Identity Token
+<br>↓<br>
+Cloud Identity Provider
+<br>↓<br>
+IAM Role
+<br>↓<br>
+Temporary Credentials
+<br>↓<br>
+Cloud Resources
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Why Use OIDC with AWS?</h2>
+
+<div class="answer">
+
+Without OIDC, teams may store long-lived AWS access keys in GitHub
+Secrets.
+
+With OIDC, GitHub Actions can request temporary credentials by
+assuming an AWS IAM role.
+
+This reduces the risk associated with long-lived credentials.
+
+</div>
+
+<table>
+
+<tr>
+<th>Long-Lived Access Keys</th>
+<th>OIDC</th>
+</tr>
+
+<tr>
+<td>Credentials stored and rotated</td>
+<td>Short-lived credentials</td>
+</tr>
+
+<tr>
+<td>Higher credential exposure risk</td>
+<td>Reduced credential storage</td>
+</tr>
+
+<tr>
+<td>Manual credential management</td>
+<td>Federated identity</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. AWS OIDC Workflow</h2>
+
+<pre><code>permissions:
+  id-token: write
+  contents: read
+
+steps:
+
+  - name: Configure AWS Credentials
+    uses: aws-actions/configure-aws-credentials@v4
+    with:
+      role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+      aws-region: ap-south-1</code></pre>
+
+<div class="answer">
+
+The workflow requests an OIDC token and uses it to assume the
+configured AWS IAM role.
+
+The IAM role's trust policy determines which GitHub identities are
+allowed to assume it.
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. AWS IAM Role</h2>
+
+<div class="answer">
+
+The AWS IAM role defines what actions the GitHub Actions workflow can
+perform after authentication.
+
+For example, a deployment role may be allowed to push images to ECR
+or interact with specific deployment resources.
+
+</div>
+
+<div class="flow">
+
+GitHub Identity
+<br>↓<br>
+IAM Trust Policy
+<br>↓<br>
+IAM Role
+<br>↓<br>
+IAM Permissions Policy
+<br>↓<br>
+AWS Resources
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Trust Policy vs Permissions Policy</h2>
+
+<table>
+
+<tr>
+<th>Trust Policy</th>
+<th>Permissions Policy</th>
+</tr>
+
+<tr>
+<td>Defines who can assume the role.</td>
+<td>Defines what the role can do.</td>
+</tr>
+
+<tr>
+<td>Controls trusted identities.</td>
+<td>Controls allowed AWS actions.</td>
+</tr>
+
+<tr>
+<td>Authentication relationship.</td>
+<td>Authorization permissions.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy way to remember:</strong>
+
+<br><br>
+
+Trust Policy → <strong>"Who can use this role?"</strong>
+
+<br>
+
+Permissions Policy → <strong>"What can this role do?"</strong>
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Example: Restrict AWS Permissions</h2>
+
+<pre><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:PutImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload"
+      ],
+      "Resource": "*"
+    }
+  ]
+}</code></pre>
+
+<div class="answer">
+
+In a real environment, permissions should be designed according to
+the exact workflow requirements and resource scope.
+
+Avoid giving a CI workflow unrestricted administrator permissions.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Production Environment Protection</h2>
+
+<div class="answer">
+
+Production deployments should have additional controls such as:
+
+<br><br>
+
+• Required reviewers<br>
+• Environment-specific secrets<br>
+• Deployment restrictions<br>
+• Branch protection<br>
+• Approval gates<br>
+• Least-privilege credentials
+
+</div>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Pull Request
+<br>↓<br>
+Review
+<br>↓<br>
+CI Checks
+<br>↓<br>
+Production Approval
+<br>↓<br>
+Deployment
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Branch Protection</h2>
+
+<div class="answer">
+
+Branch protection helps prevent unsafe changes from being directly
+merged into important branches such as <code>main</code>.
+
+Typical controls include:
+
+<br><br>
+
+• Pull request requirement<br>
+• Required approvals<br>
+• Required status checks<br>
+• Restrict direct pushes<br>
+• Code review requirements
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Pull Request Security</h2>
+
+<div class="warning">
+
+Be careful when workflows execute code from untrusted pull requests,
+especially when those workflows have access to secrets or elevated
+permissions.
+
+</div>
+
+<div class="answer">
+
+A malicious change in a pull request should not be able to freely
+access production credentials or sensitive infrastructure.
+
+Use appropriate workflow triggers, permissions and approval controls.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Why is pull_request_target Sensitive?</h2>
+
+<div class="answer">
+
+<code>pull_request_target</code> runs in the context of the base
+repository and can have access to repository-level resources that
+ordinary pull request workflows may not have.
+
+Because of this, it must be used carefully when executing code or
+processing untrusted pull request content.
+
+</div>
+
+<div class="warning">
+
+<strong>Interview point:</strong><br>
+
+Never blindly execute untrusted pull request code with elevated
+permissions or access to sensitive secrets.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Third-Party Actions Security</h2>
+
+<div class="answer">
+
+GitHub Actions can use third-party actions from the marketplace or
+other repositories.
+
+However, an action executes code in the workflow environment, so its
+source and permissions should be reviewed.
+
+</div>
+
+<div class="scenario">
+
+<strong>Best practice:</strong>
+
+<br><br>
+
+• Prefer trusted actions.<br>
+• Review action source.<br>
+• Pin versions carefully.<br>
+• Minimize workflow permissions.<br>
+• Keep actions updated through a controlled process.
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 19. Why Pin Action Versions?</h2>
+
+<pre><code>- uses: actions/checkout@v4</code></pre>
+
+<div class="answer">
+
+Pinning an action version provides more predictable workflow behavior
+than blindly tracking an unknown moving version.
+
+For highly controlled environments, organizations may pin actions to
+specific commit SHAs according to their security policy.
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Secret Leakage Prevention</h2>
+
+<div class="answer">
+
+To reduce accidental secret exposure:
+
+<br><br>
+
+1. Never hard-code secrets.
+<br>
+2. Use GitHub Secrets or an external secret manager.
+<br>
+3. Do not print secrets in logs.
+<br>
+4. Restrict workflow permissions.
+<br>
+5. Avoid unnecessary secret access.
+<br>
+6. Rotate compromised credentials immediately.
+<br>
+7. Prefer short-lived credentials where possible.
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Secret Scanning</h2>
+
+<div class="answer">
+
+Secret scanning tools detect credentials or sensitive patterns that
+may have accidentally been committed to source control.
+
+Examples include:
+
+<br><br>
+
+<span class="badge">GitHub Secret Scanning</span>
+<span class="badge">Gitleaks</span>
+
+</div>
+
+<pre><code>gitleaks detect --source .</code></pre>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Security Pipeline</h2>
+
+<div class="flow">
+
+Checkout
+<br>↓<br>
+Dependency Scan
+<br>↓<br>
+Secret Scan
+<br>↓<br>
+SAST
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Container Scan
+<br>↓<br>
+Push Image
+<br>↓<br>
+Deploy
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 23. Security Contexts</h2>
+
+<div class="answer">
+
+GitHub Actions provides contexts such as:
+
+<br><br>
+
+<code>github</code> → repository, event and commit information
+
+<br><br>
+
+<code>secrets</code> → encrypted secrets
+
+<br><br>
+
+<code>env</code> → environment variables
+
+<br><br>
+
+<code>vars</code> → configuration variables
+
+<br><br>
+
+<code>steps</code> → outputs from previous steps
+
+<br><br>
+
+<code>needs</code> → outputs/status from dependent jobs
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Real-Time Scenario: AWS Authentication Failed</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+GitHub Actions cannot assume the AWS IAM role.
+
+<br><br>
+
+<strong>Check:</strong>
+
+1. OIDC provider configuration.
+<br>
+2. <code>id-token: write</code> permission.
+<br>
+3. IAM trust policy.
+<br>
+4. Repository/branch restrictions.
+<br>
+5. Role ARN.
+<br>
+6. AWS account.
+<br>
+7. Region.
+<br>
+8. GitHub workflow claims.
+
+</div>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Real-Time Scenario: Secret Not Available</h2>
+
+<div class="scenario">
+
+<strong>Possible causes:</strong>
+
+<br><br>
+
+• Incorrect secret name<br>
+• Secret belongs to another repository<br>
+• Environment not selected<br>
+• Workflow is running from an untrusted context<br>
+• Secret was deleted or renamed<br>
+• Incorrect expression syntax
+
+</div>
+
+<pre><code>${{ secrets.MY_SECRET }}</code></pre>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Real-Time Scenario: Secret Accidentally Committed</h2>
+
+<div class="answer">
+
+If a credential is committed to Git:
+
+<br><br>
+
+<strong>1.</strong> Revoke or rotate the credential immediately.
+<br><br>
+<strong>2.</strong> Remove it from the repository.
+<br><br>
+<strong>3.</strong> Check whether it was used maliciously.
+<br><br>
+<strong>4.</strong> Update the application/workflow to use secure storage.
+<br><br>
+<strong>5.</strong> Review repository history and access.
+<br><br>
+<strong>6.</strong> Add secret scanning/prevention controls.
+
+</div>
+
+<div class="warning">
+
+Deleting the secret from the latest commit alone does not make a
+previously exposed credential safe. Rotate it.
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Secure GitHub Actions Workflow</h2>
+
+<pre><code>name: Secure CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Secret Scan
+        run: |
+          echo "Run secret scanning here"</code></pre>
+
+<div class="answer">
+
+The important ideas are:
+
+<br><br>
+
+• Read-only permissions by default<br>
+• No unnecessary secrets<br>
+• Automated validation<br>
+• Security scanning<br>
+• Controlled deployment
+
+</div>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Security Checklist</h2>
+
+<ul>
+
+<li>Use least-privilege workflow permissions.</li>
+
+<li>Never hard-code credentials.</li>
+
+<li>Use GitHub Secrets for required sensitive values.</li>
+
+<li>Prefer OIDC for cloud authentication where supported.</li>
+
+<li>Use restricted AWS IAM roles.</li>
+
+<li>Protect production environments.</li>
+
+<li>Use branch protection.</li>
+
+<li>Review third-party actions.</li>
+
+<li>Use secret scanning.</li>
+
+<li>Scan dependencies and container images.</li>
+
+<li>Do not expose secrets in logs.</li>
+
+<li>Rotate credentials immediately after exposure.</li>
+
+<li>Be careful with untrusted pull requests.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Most Important Security Interview Questions</h2>
+
+<ol>
+
+<li>What are GitHub Secrets?</li>
+
+<li>What is GITHUB_TOKEN?</li>
+
+<li>How do you secure GitHub Actions?</li>
+
+<li>What is least privilege?</li>
+
+<li>What are workflow permissions?</li>
+
+<li>What is GitHub OIDC?</li>
+
+<li>Why use OIDC with AWS?</li>
+
+<li>What is an IAM trust policy?</li>
+
+<li>Trust policy vs permissions policy?</li>
+
+<li>How do you protect production deployments?</li>
+
+<li>How do you prevent secret leakage?</li>
+
+<li>What happens if an AWS OIDC authentication fails?</li>
+
+<li>How do you handle an accidentally committed secret?</li>
+
+<li>Why should third-party Actions be reviewed?</li>
+
+<li>Why are pull request workflows security-sensitive?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 30 -->
+
+<div class="card">
+
+<h2>🎯 Interview-Ready Answer</h2>
+
+<div class="interview">
+
+"To secure GitHub Actions, I start with least-privilege permissions
+for the GITHUB_TOKEN and avoid hard-coding credentials.
+
+For sensitive values, I use GitHub Secrets or an appropriate external
+secret-management solution.
+
+For AWS deployments, I prefer GitHub OIDC with an IAM role so the
+workflow receives temporary credentials instead of storing long-lived
+AWS access keys.
+
+I also protect production environments with approvals and branch
+protection, review third-party Actions, scan repositories for leaked
+secrets, and perform dependency and container security scans.
+
+For pull requests from untrusted sources, I make sure sensitive
+secrets and elevated permissions are not exposed unnecessarily."
+
+</div>
+
+</div>
+
+
+<!-- 31 -->
+
+<div class="card">
+
+<h2>🧠 60-Second Security Revision</h2>
+
+<div class="flow">
+
+Secrets
+→ Protect Sensitive Values
+
+<br><br>
+
+GITHUB_TOKEN
+→ GitHub API Access
+
+<br><br>
+
+Permissions
+→ Limit Token Access
+
+<br><br>
+
+Least Privilege
+→ Minimum Required Access
+
+<br><br>
+
+OIDC
+→ Short-Lived Cloud Identity
+
+<br><br>
+
+IAM Role
+→ AWS Authorization
+
+<br><br>
+
+Trust Policy
+→ Who Can Assume?
+
+<br><br>
+
+Permissions Policy
+→ What Can They Do?
+
+<br><br>
+
+Environment
+→ Deployment Protection
+
+<br><br>
+
+Secret Scanning
+→ Detect Leaked Credentials
+
+</div>
+
+</div>
+
+
+<!-- Navigation -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+🏠 GitHub Actions Index
+</a>
+
+<br><br>
+
+<a href="github-actions-ci-cd.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: GitHub Actions CI/CD
+</a>
+
+<br><br>
+
+<a href="github-actions-scenarios.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next → Real-Time Scenarios
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔐 GitHub Actions Security • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

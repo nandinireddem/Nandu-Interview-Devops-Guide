@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terraform - DevOps Interview Guide</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.6;
+}
+
+header{
+    text-align:center;
+    padding:60px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.icon{
+    font-size:55px;
+}
+
+h1{
+    font-size:clamp(34px,5vw,54px);
+    margin:10px 0;
+}
+
+h1 span{
+    color:#60a5fa;
+}
+
+header p{
+    max-width:800px;
+    margin:15px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro{
+    background:#121a2d;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:30px;
+    text-align:center;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.card{
+    display:block;
+    text-decoration:none;
+    color:#e5e7eb;
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:25px;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#60a5fa;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.card-icon{
+    font-size:34px;
+}
+
+.card h2{
+    color:#60a5fa;
+    margin:10px 0;
+    font-size:21px;
+}
+
+.card p{
+    color:#9ca8c0;
+    margin:0;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:15px;
+    padding:5px 10px;
+    border-radius:20px;
+    background:#172554;
+    color:#93c5fd;
+    font-size:12px;
+}
+
+.final{
+    margin-top:30px;
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:22px;
+    border-radius:10px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🏗️</div>
+
+<h1>Terraform <span>DevOps Interview Guide</span></h1>
+
+<p>
+Complete Terraform preparation from fundamentals to production
+scenarios, state management, modules, CI/CD and interview questions.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="intro">
+
+<h2>🎯 Terraform Learning Path</h2>
+
+<p>
+Study the files in order. The final revision file combines the most
+important concepts for quick interview preparation.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<a class="card" href="terraform-basics.html">
+
+<div class="card-icon">🏗️</div>
+
+<h2>01. Terraform Basics</h2>
+
+<p>
+Terraform, IaC, providers, resources, workflow, commands,
+configuration files and core concepts.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+</a>
+
+
+<a class="card" href="terraform-variables-modules.html">
+
+<div class="card-icon">🧩</div>
+
+<h2>02. Variables & Modules</h2>
+
+<p>
+Variables, tfvars, locals, outputs, data sources, modules,
+count, for_each and reusable infrastructure.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+</a>
+
+
+<a class="card" href="terraform-state-backends.html">
+
+<div class="card-icon">💾</div>
+
+<h2>03. State & Backends</h2>
+
+<p>
+Terraform state, remote backend, S3, locking, drift,
+state commands and state management.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+</a>
+
+
+<a class="card" href="terraform-advanced-concepts.html">
+
+<div class="card-icon">⚙️</div>
+
+<h2>04. Advanced Concepts</h2>
+
+<p>
+Lifecycle rules, depends_on, provisioners, imports,
+workspace concepts and advanced Terraform usage.
+</p>
+
+<span class="badge">⭐⭐⭐⭐ IMPORTANT</span>
+
+</a>
+
+
+<a class="card" href="terraform-real-time-scenarios.html">
+
+<div class="card-icon">🔥</div>
+
+<h2>05. Real-Time Scenarios</h2>
+
+<p>
+Production problems, state issues, drift, authentication,
+CI/CD failures and troubleshooting scenarios.
+</p>
+
+<span class="badge">⭐⭐⭐⭐⭐ INTERVIEW</span>
+
+</a>
+
+
+<a class="card" href="terraform-final-revision.html">
+
+<div class="card-icon">🚀</div>
+
+<h2>06. Final Revision</h2>
+
+<p>
+All major Terraform concepts, commands, interview questions,
+real-time examples and production mental models in one file.
+</p>
+
+<span class="badge">🔥 FINAL REVISION</span>
+
+</a>
+
+
+</div>
+
+
+<div class="final">
+
+<strong>🔥 Recommended Interview Order</strong>
+
+<br><br>
+
+Basics → Variables & Modules → State & Backends →
+Advanced Concepts → Real-Time Scenarios → Final Revision
+
+<br><br>
+
+<strong>Tip:</strong> Final revision is the last file to revise
+before the interview.
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🏗️ Terraform • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

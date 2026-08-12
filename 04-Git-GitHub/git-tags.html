@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git Tags & Releases - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+h1{
+    font-size:clamp(32px,5vw,50px);
+    margin:25px 0 0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+.intro strong{color:#93c5fd}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+}
+
+.success{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:25px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Git & GitHub</a>
+
+<h1>Git <span>Tags & Releases</span></h1>
+
+<p>
+Git tags, annotated tags, versioning, releases, rollback strategies
+and practical DevOps deployment workflows.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐ GIT TAGS — IMPORTANT FOR DEVOPS</strong>
+
+<p>
+Git tags are used to mark specific points in Git history, commonly
+for software releases such as <code>v1.0.0</code>,
+<code>v2.0.0</code> or <code>v2.1.3</code>.
+</p>
+
+<p>
+In DevOps, tags are especially useful for identifying exactly which
+version of source code was built and deployed.
+</p>
+
+</div>
+
+
+<!-- Q1 -->
+
+<div class="card">
+
+<h2>1. What is a Git Tag?</h2>
+
+<div class="answer">
+
+A <strong>Git tag</strong> is a reference that points to a specific
+Git object, commonly a commit.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>v1.0.0
+v1.1.0
+v2.0.0</code></pre>
+
+<p>
+Instead of remembering a commit hash, teams can use a meaningful
+version name to identify a release.
+</p>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+<br><br>
+
+"Git tags are used to mark specific points in the repository history.
+They are commonly used to identify software releases and stable
+versions."
+
+</div>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="card">
+
+<h2>2. Why are Git Tags important in DevOps?</h2>
+
+<div class="answer">
+
+Tags provide a stable reference to the exact source-code version
+used for a release or deployment.
+
+</div>
+
+<div class="flow">
+
+Code Changes
+<br>
+↓
+<br>
+Commit
+<br>
+↓
+<br>
+Git Tag <code>v1.0.0</code>
+<br>
+↓
+<br>
+CI Build
+<br>
+↓
+<br>
+Docker Image
+<br>
+↓
+<br>
+Production Deployment
+
+</div>
+
+<p>
+This makes releases traceable and helps teams identify exactly
+which version is running in an environment.
+</p>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="card">
+
+<h2>3. How do you list Git tags?</h2>
+
+<pre><code>git tag</code></pre>
+
+<h3>Example</h3>
+
+<pre><code>v1.0.0
+v1.1.0
+v1.2.0
+v2.0.0</code></pre>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="card">
+
+<h2>4. How do you create a lightweight tag?</h2>
+
+<pre><code>git tag v1.0.0</code></pre>
+
+<p>
+This creates a lightweight tag pointing to the current commit.
+</p>
+
+<h3>Tag a specific commit</h3>
+
+<pre><code>git tag v1.0.0 abc1234</code></pre>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="card">
+
+<h2>5. What is an annotated tag?</h2>
+
+<div class="answer">
+
+An annotated tag is a full Git object containing metadata such as
+the tagger, date and message.
+
+</div>
+
+<h3>Create one</h3>
+
+<pre><code>git tag -a v1.0.0 -m "Release version 1.0.0"</code></pre>
+
+<p>
+Annotated tags are generally preferred for official releases
+because they contain release metadata.
+</p>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="card">
+
+<h2>6. Lightweight Tag vs Annotated Tag</h2>
+
+<table>
+
+<tr>
+<th>Lightweight Tag</th>
+<th>Annotated Tag</th>
+</tr>
+
+<tr>
+<td>Simple reference</td>
+<td>Full Git object</td>
+</tr>
+
+<tr>
+<td>Minimal metadata</td>
+<td>Contains tagger, date and message</td>
+</tr>
+
+<tr>
+<td>Useful for simple references</td>
+<td>Preferred for official releases</td>
+</tr>
+
+<tr>
+<td><code>git tag v1.0.0</code></td>
+<td><code>git tag -a v1.0.0 -m "Release"</code></td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"A lightweight tag is a simple pointer to a commit. An annotated
+tag is a Git object containing metadata such as the tagger, date
+and message. Annotated tags are commonly preferred for releases."
+
+</div>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="card">
+
+<h2>7. How do you view information about a tag?</h2>
+
+<pre><code>git show v1.0.0</code></pre>
+
+<p>
+This displays information about the tag and the referenced commit.
+</p>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="card">
+
+<h2>8. How do you push a tag to GitHub?</h2>
+
+<h3>Push one tag</h3>
+
+<pre><code>git push origin v1.0.0</code></pre>
+
+<h3>Push all tags</h3>
+
+<pre><code>git push origin --tags</code></pre>
+
+<div class="warning">
+
+Creating a tag locally does not automatically make it available on
+the remote repository. You need to push it.
+
+</div>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="card">
+
+<h2>9. How do you delete a local tag?</h2>
+
+<pre><code>git tag -d v1.0.0</code></pre>
+
+<p>
+This removes the tag from your local repository.
+</p>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="card">
+
+<h2>10. How do you delete a remote tag?</h2>
+
+<pre><code>git push origin --delete v1.0.0</code></pre>
+
+<p>
+This removes the tag from the remote repository.
+</p>
+
+<h3>Alternative syntax</h3>
+
+<pre><code>git push origin :refs/tags/v1.0.0</code></pre>
+
+</div>
+
+
+<!-- Q11 -->
+
+<div class="card">
+
+<h2>11. How do you checkout a tag?</h2>
+
+<pre><code>git checkout v1.0.0</code></pre>
+
+<p>
+This places you at the commit referenced by the tag.
+</p>
+
+<div class="warning">
+
+If you make new commits from a tag without creating a branch, you
+can end up in a detached HEAD state.
+
+</div>
+
+</div>
+
+
+<!-- Q12 -->
+
+<div class="card">
+
+<h2>12. What is detached HEAD when checking out a tag?</h2>
+
+<div class="answer">
+
+A detached HEAD means HEAD points directly to a commit instead of
+pointing to a local branch.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git checkout v1.0.0</code></pre>
+
+<p>
+You can inspect or test that version safely. If you need to develop
+from that point, create a branch.
+</p>
+
+<pre><code>git switch -c hotfix-from-v1.0.0</code></pre>
+
+</div>
+
+
+<!-- Q13 -->
+
+<div class="card">
+
+<h2>13. How do you create a tag on a specific commit?</h2>
+
+<pre><code>git tag -a v1.0.0 abc1234 -m "Release v1.0.0"</code></pre>
+
+<p>
+The tag will point to the specified commit instead of the current
+HEAD.
+</p>
+
+</div>
+
+
+<!-- Q14 -->
+
+<div class="card">
+
+<h2>14. How do you list tags matching a pattern?</h2>
+
+<pre><code>git tag -l "v1.*"</code></pre>
+
+<h3>Example</h3>
+
+<pre><code>v1.0.0
+v1.1.0
+v1.2.0</code></pre>
+
+</div>
+
+
+<!-- Q15 -->
+
+<div class="card">
+
+<h2>15. What is semantic versioning?</h2>
+
+<div class="answer">
+
+Semantic Versioning commonly follows the format:
+
+<br><br>
+
+<strong>MAJOR.MINOR.PATCH</strong>
+
+</div>
+
+<table>
+
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>MAJOR</td>
+<td>Breaking or incompatible changes</td>
+</tr>
+
+<tr>
+<td>MINOR</td>
+<td>Backward-compatible new functionality</td>
+</tr>
+
+<tr>
+<td>PATCH</td>
+<td>Backward-compatible bug fixes</td>
+</tr>
+
+</table>
+
+<h3>Example</h3>
+
+<pre><code>1.4.2
+
+1 → Major
+4 → Minor
+2 → Patch</code></pre>
+
+</div>
+
+
+<!-- Q16 -->
+
+<div class="card">
+
+<h2>16. What is a GitHub Release?</h2>
+
+<div class="answer">
+
+A GitHub Release is a published release associated with a Git tag,
+providing a convenient way to distribute and document a specific
+version of a project.
+
+</div>
+
+<p>
+A release can include:
+</p>
+
+<ul>
+<li>Version number</li>
+<li>Release notes</li>
+<li>Changelog</li>
+<li>Links to source code</li>
+<li>Build artifacts</li>
+<li>Binary files</li>
+</ul>
+
+</div>
+
+
+<!-- Q17 -->
+
+<div class="card">
+
+<h2>17. Git Tag vs GitHub Release</h2>
+
+<table>
+
+<tr>
+<th>Git Tag</th>
+<th>GitHub Release</th>
+</tr>
+
+<tr>
+<td>Git reference</td>
+<td>GitHub publishing feature</td>
+</tr>
+
+<tr>
+<td>Points to a Git object</td>
+<td>Usually associated with a tag</td>
+</tr>
+
+<tr>
+<td>Can exist without GitHub</td>
+<td>Requires GitHub platform</td>
+</tr>
+
+<tr>
+<td>Used for version identification</td>
+<td>Used for publishing/documenting a release</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q18 -->
+
+<div class="card">
+
+<h2>18. Real-Time DevOps Scenario: Release a production version</h2>
+
+<p>
+Suppose version <code>1.4.0</code> has passed testing and is ready
+for production.
+</p>
+
+<pre><code>git switch main
+
+git pull origin main
+
+git tag -a v1.4.0 -m "Release v1.4.0"
+
+git push origin v1.4.0</code></pre>
+
+<div class="flow">
+
+Git Commit
+<br>
+↓
+<br>
+<code>v1.4.0</code>
+<br>
+↓
+<br>
+CI/CD Pipeline
+<br>
+↓
+<br>
+Build & Test
+<br>
+↓
+<br>
+Docker Image
+<br>
+↓
+<br>
+Production
+
+</div>
+
+</div>
+
+
+<!-- Q19 -->
+
+<div class="card">
+
+<h2>19. How can CI/CD use Git tags?</h2>
+
+<div class="answer">
+
+A CI/CD pipeline can be configured to trigger when a version tag
+is pushed.
+
+</div>
+
+<h3>Example concept</h3>
+
+<pre><code>git push origin v2.0.0
+
+        ↓
+
+CI/CD detects tag
+
+        ↓
+
+Build application
+
+        ↓
+
+Run tests
+
+        ↓
+
+Build Docker image
+
+        ↓
+
+Push image
+
+        ↓
+
+Deploy version 2.0.0</code></pre>
+
+<p>
+This creates a clear relationship between source-code versions and
+deployments.
+</p>
+
+</div>
+
+
+<!-- Q20 -->
+
+<div class="card">
+
+<h2>20. Why are immutable version tags useful in DevOps?</h2>
+
+<div class="answer">
+
+A release tag provides a stable identifier for the source version
+that was intended for a particular release.
+
+</div>
+
+<p>
+This improves:
+</p>
+
+<ul>
+<li>Traceability</li>
+<li>Rollback planning</li>
+<li>Release auditing</li>
+<li>Deployment tracking</li>
+<li>Incident investigation</li>
+</ul>
+
+<div class="warning">
+
+In production workflows, teams should establish a policy for
+protecting release tags and avoiding accidental tag movement.
+
+</div>
+
+</div>
+
+
+<!-- Q21 -->
+
+<div class="card">
+
+<h2>21. How would you rollback to an earlier tagged version?</h2>
+
+<p>
+First identify the desired stable tag.
+</p>
+
+<pre><code>git tag
+
+git show v1.3.0</code></pre>
+
+<p>
+For inspection or creating a branch from that version:
+</p>
+
+<pre><code>git switch -c rollback-v1.3.0 v1.3.0</code></pre>
+
+<p>
+In a real production environment, rollback is usually handled
+through the deployment system rather than rewriting the main
+branch history.
+</p>
+
+<div class="interview">
+
+<strong>DevOps interview point:</strong>
+
+<br><br>
+
+"I would prefer redeploying a known-good version such as a release
+tag or corresponding immutable artifact rather than rewriting
+production Git history."
+
+</div>
+
+</div>
+
+
+<!-- Q22 -->
+
+<div class="card">
+
+<h2>22. Can you move an existing tag?</h2>
+
+<div class="answer">
+
+Yes, technically a tag can be deleted and recreated at another
+commit, but moving an already-published release tag is generally
+discouraged.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git tag -d v1.0.0
+
+git tag v1.0.0 &lt;new-commit&gt;
+
+git push origin v1.0.0 --force</code></pre>
+
+<div class="warning">
+
+Avoid moving published production tags unless your team's release
+policy explicitly allows it. Prefer creating a new version such as
+<code>v1.0.1</code>.
+
+</div>
+
+</div>
+
+
+<!-- Q23 -->
+
+<div class="card">
+
+<h2>23. Real-Time Scenario: Production is running v2.1.0</h2>
+
+<p>
+An incident occurs and you discover that <code>v2.0.5</code> was
+the last known-good release.
+</p>
+
+<div class="flow">
+
+Production
+<br>
+↓
+<br>
+v2.1.0 ❌
+<br>
+↓
+<br>
+Known-good release
+<br>
+↓
+<br>
+v2.0.5 ✅
+<br>
+↓
+<br>
+Redeploy
+
+</div>
+
+<p>
+The tag provides a reliable reference for locating the source
+version associated with the earlier release.
+</p>
+
+</div>
+
+
+<!-- Q24 -->
+
+<div class="card">
+
+<h2>24. How do you find which commit a tag points to?</h2>
+
+<pre><code>git rev-list -n 1 v1.0.0</code></pre>
+
+<p>
+You can also inspect the tag with:
+</p>
+
+<pre><code>git show v1.0.0</code></pre>
+
+</div>
+
+
+<!-- Q25 -->
+
+<div class="card">
+
+<h2>25. Common Git Tag Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>git tag</code></td>
+<td>List tags</td>
+</tr>
+
+<tr>
+<td><code>git tag v1.0.0</code></td>
+<td>Create lightweight tag</td>
+</tr>
+
+<tr>
+<td><code>git tag -a v1.0.0 -m "Release"</code></td>
+<td>Create annotated tag</td>
+</tr>
+
+<tr>
+<td><code>git show v1.0.0</code></td>
+<td>Show tag information</td>
+</tr>
+
+<tr>
+<td><code>git push origin v1.0.0</code></td>
+<td>Push one tag</td>
+</tr>
+
+<tr>
+<td><code>git push origin --tags</code></td>
+<td>Push all tags</td>
+</tr>
+
+<tr>
+<td><code>git tag -d v1.0.0</code></td>
+<td>Delete local tag</td>
+</tr>
+
+<tr>
+<td><code>git push origin --delete v1.0.0</code></td>
+<td>Delete remote tag</td>
+</tr>
+
+<tr>
+<td><code>git tag -l "v1.*"</code></td>
+<td>List matching tags</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Common Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>What is a Git tag?</li>
+
+<li>Why do we use tags?</li>
+
+<li>What is the difference between lightweight and annotated tags?</li>
+
+<li>How do you create an annotated tag?</li>
+
+<li>How do you push a tag to GitHub?</li>
+
+<li>How do you delete a remote tag?</li>
+
+<li>What is a GitHub Release?</li>
+
+<li>Git tag vs GitHub Release?</li>
+
+<li>What is semantic versioning?</li>
+
+<li>How can CI/CD pipelines use Git tags?</li>
+
+<li>How do you rollback to a previous tagged version?</li>
+
+<li>What is detached HEAD?</li>
+
+<li>Can a Git tag be moved?</li>
+
+<li>Why should production release tags be protected?</li>
+
+</ul>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>Remember</th>
+</tr>
+
+<tr>
+<td>Tag</td>
+<td>Reference to a specific Git object/commit</td>
+</tr>
+
+<tr>
+<td>Annotated Tag</td>
+<td>Tag with metadata and message</td>
+</tr>
+
+<tr>
+<td>Release</td>
+<td>Published GitHub release associated with a version</td>
+</tr>
+
+<tr>
+<td>v1.2.3</td>
+<td>MAJOR.MINOR.PATCH</td>
+</tr>
+
+<tr>
+<td>Push tag</td>
+<td><code>git push origin v1.0.0</code></td>
+</tr>
+
+<tr>
+<td>Push all tags</td>
+<td><code>git push origin --tags</code></td>
+</tr>
+
+<tr>
+<td>Delete local</td>
+<td><code>git tag -d v1.0.0</code></td>
+</tr>
+
+<tr>
+<td>Delete remote</td>
+<td><code>git push origin --delete v1.0.0</code></td>
+</tr>
+
+<tr>
+<td>Inspect</td>
+<td><code>git show v1.0.0</code></td>
+</tr>
+
+</table>
+
+</div>
+
+</main>
+
+<footer>
+
+🐙 Git & GitHub • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

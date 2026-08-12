@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes Workloads - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">☸️</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Workloads</span></h1>
+
+<p>
+DevOps interview-focused guide covering Pods, Deployments, ReplicaSets,
+StatefulSets, DaemonSets, Jobs, CronJobs, rollout, scaling,
+self-healing and real-time workload scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ What Are Kubernetes Workloads?</h2>
+
+<div class="answer">
+
+A workload is an application running on Kubernetes.
+
+Kubernetes provides workload resources such as Deployments,
+StatefulSets, DaemonSets, Jobs and CronJobs to manage Pods according
+to the application's requirements.
+
+</div>
+
+<div class="flow">
+
+Application
+<br>
+↓
+<br>
+<strong>Workload Controller</strong>
+<br>
+↓
+<br>
+<strong>Pods</strong>
+<br>
+↓
+<br>
+Containers
+
+</div>
+
+<p>
+The key interview point is that we normally don't manually manage
+individual application Pods in production. Controllers manage the
+desired state of those Pods.
+</p>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a Pod?</h2>
+
+<div class="answer">
+
+A Pod is the smallest deployable unit in Kubernetes.
+
+A Pod can contain one or more containers that share the same
+network namespace and can share storage volumes.
+
+</div>
+
+<h3>Simple architecture</h3>
+
+<pre><code>Pod
+│
+├── Container
+│
+└── Container (optional)
+</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A normal web application may have one application container in a Pod.
+
+A sidecar architecture may have:
+
+Application Container
++
+Logging/Proxy Sidecar
+
+Both containers share the Pod's network namespace.
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why don't we usually create Pods directly?</h2>
+
+<div class="answer">
+
+A standalone Pod is not automatically recreated by Kubernetes if it
+fails.
+
+For production workloads, controllers such as Deployments manage
+Pods and maintain the desired number of replicas.
+
+</div>
+
+<table>
+
+<tr>
+<th>Standalone Pod</th>
+<th>Deployment</th>
+</tr>
+
+<tr>
+<td>Directly created</td>
+<td>Manages Pods through ReplicaSets</td>
+</tr>
+
+<tr>
+<td>No automatic desired replica management</td>
+<td>Maintains desired replicas</td>
+</tr>
+
+<tr>
+<td>Limited production use</td>
+<td>Common for stateless applications</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What is a Deployment?</h2>
+
+<div class="answer">
+
+A Deployment is a Kubernetes workload resource used mainly to manage
+stateless applications.
+
+It manages ReplicaSets, which in turn maintain the required number
+of Pods.
+
+</div>
+
+<div class="flow">
+
+Deployment
+<br>
+↓
+<br>
+ReplicaSet
+<br>
+↓
+<br>
+Pods
+<br>
+↓
+<br>
+Containers
+
+</div>
+
+<h3>Deployment responsibilities</h3>
+
+<ul>
+<li>Maintain desired replicas</li>
+<li>Rolling updates</li>
+<li>Rollback</li>
+<li>Scaling</li>
+<li>Self-healing through ReplicaSets</li>
+</ul>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Deployment YAML</h2>
+
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nginx-deployment
+
+spec:
+
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+
+      containers:
+
+      - name: nginx
+        image: nginx:1.27
+
+        ports:
+        - containerPort: 80</code></pre>
+
+<div class="answer">
+
+The Deployment declares that three Pods should normally exist,
+and the Pod template defines how those Pods should be created.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is ReplicaSet?</h2>
+
+<div class="answer">
+
+A ReplicaSet ensures that a specified number of Pod replicas are
+running.
+
+For example, if the desired replica count is 3 and one Pod fails,
+the ReplicaSet works to create a replacement Pod.
+
+</div>
+
+<div class="flow">
+
+Desired = 3
+<br><br>
+
+Pod 1 ✅
+&nbsp;&nbsp;
+Pod 2 ❌
+&nbsp;&nbsp;
+Pod 3 ✅
+<br><br>
+
+↓
+<br><br>
+
+ReplicaSet creates replacement
+<br><br>
+
+↓
+<br><br>
+
+Pod 1 ✅
+&nbsp;&nbsp;
+Pod 2 ✅
+&nbsp;&nbsp;
+Pod 3 ✅
+
+</div>
+
+<div class="warning">
+
+In normal application deployments, you generally create a Deployment
+rather than manually creating a ReplicaSet.
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Deployment vs ReplicaSet vs Pod</h2>
+
+<table>
+
+<tr>
+<th>Resource</th>
+<th>Main responsibility</th>
+</tr>
+
+<tr>
+<td>Pod</td>
+<td>Runs one or more containers.</td>
+</tr>
+
+<tr>
+<td>ReplicaSet</td>
+<td>Maintains the desired number of matching Pods.</td>
+</tr>
+
+<tr>
+<td>Deployment</td>
+<td>Manages ReplicaSets and provides rollout/rollback functionality.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"A Deployment manages ReplicaSets, and ReplicaSets maintain the
+desired number of Pods. The Pods actually run the containers."
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is self-healing in Kubernetes?</h2>
+
+<div class="answer">
+
+Self-healing means Kubernetes controllers continuously compare the
+actual state with the desired state and take corrective action when
+they differ.
+
+</div>
+
+<div class="scenario">
+
+Deployment requires:
+
+<strong>3 replicas</strong>
+
+Current state:
+
+<strong>2 healthy Pods</strong>
+
+Kubernetes detects the difference and creates another Pod.
+
+</div>
+
+<div class="flow">
+
+Desired State
+<br>
+3 Pods
+<br>
+↓
+<br>
+Actual State
+<br>
+2 Pods
+<br>
+↓
+<br>
+Controller
+<br>
+↓
+<br>
+Create Pod
+<br>
+↓
+<br>
+3 Pods
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What happens if a Pod crashes?</h2>
+
+<div class="answer">
+
+The exact behavior depends on how the Pod is managed.
+
+If it is managed by a Deployment/ReplicaSet, the controller ensures
+the desired replica count is maintained.
+
+Kubernetes may restart containers inside a Pod, and controllers may
+create replacement Pods when necessary.
+
+</div>
+
+<div class="scenario">
+
+Production example:
+
+A backend Deployment has 3 replicas.
+
+One Pod crashes.
+
+Kubernetes detects that the desired replica count is no longer met
+and creates a replacement so the application returns to the desired
+state.
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is Rolling Update?</h2>
+
+<div class="answer">
+
+A rolling update gradually replaces old Pods with new Pods instead
+of stopping the entire application at once.
+
+This helps reduce downtime during application updates.
+
+</div>
+
+<div class="flow">
+
+Old Version
+<br>
+3 Pods
+<br>
+↓
+<br>
+New Version starts
+<br>
+↓
+<br>
+Old Pods gradually removed
+<br>
+↓
+<br>
+New Pods become ready
+<br>
+↓
+<br>
+New Version
+<br>
+3 Pods
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. How do you update a Deployment?</h2>
+
+<pre><code>kubectl set image deployment/nginx-deployment \
+nginx=nginx:1.28</code></pre>
+
+<p>Check rollout:</p>
+
+<pre><code>kubectl rollout status deployment/nginx-deployment
+
+kubectl rollout history deployment/nginx-deployment</code></pre>
+
+<div class="interview">
+
+The Deployment creates a new ReplicaSet and gradually moves
+traffic/workload from the old version to the new version according
+to the rollout strategy.
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is Rollback?</h2>
+
+<div class="answer">
+
+Rollback means returning a Deployment to a previous revision when a
+new deployment has a problem.
+
+</div>
+
+<pre><code>kubectl rollout history deployment/nginx-deployment
+
+kubectl rollout undo deployment/nginx-deployment
+
+kubectl rollout status deployment/nginx-deployment</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time scenario:</strong>
+
+Version 2 of the application causes HTTP 500 errors after deployment.
+
+The DevOps engineer checks the rollout and quickly rolls back to
+the previously working version while investigating the issue.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is StatefulSet?</h2>
+
+<div class="answer">
+
+StatefulSet is a Kubernetes workload resource designed for stateful
+applications that require stable identity, stable network identity
+and/or persistent storage characteristics.
+
+</div>
+
+<h3>Typical examples</h3>
+
+<ul>
+<li>Databases</li>
+<li>Kafka</li>
+<li>ZooKeeper</li>
+<li>Distributed stateful systems</li>
+</ul>
+
+<div class="flow">
+
+StatefulSet
+<br>
+↓
+<br>
+pod-0
+<br>
+pod-1
+<br>
+pod-2
+<br>
+↓
+<br>
+Stable identities
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. StatefulSet vs Deployment</h2>
+
+<table>
+
+<tr>
+<th>Deployment</th>
+<th>StatefulSet</th>
+</tr>
+
+<tr>
+<td>Primarily stateless workloads</td>
+<td>Stateful workloads</td>
+</tr>
+
+<tr>
+<td>Pods are interchangeable</td>
+<td>Pods have stable identities</td>
+</tr>
+
+<tr>
+<td>Usually does not require stable Pod identity</td>
+<td>Stable network identity</td>
+</tr>
+
+<tr>
+<td>Storage is not inherently tied to Pod identity</td>
+<td>Can use stable persistent storage per Pod</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Simple answer:</strong>
+
+"Deployment is normally preferred for stateless applications,
+while StatefulSet is used when Pods need stable identity or
+persistent state characteristics."
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. StatefulSet Example</h2>
+
+<pre><code>apiVersion: apps/v1
+kind: StatefulSet
+
+metadata:
+  name: web
+
+spec:
+
+  serviceName: "web"
+
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: web
+
+  template:
+
+    metadata:
+      labels:
+        app: web
+
+    spec:
+
+      containers:
+
+      - name: nginx
+        image: nginx:1.27</code></pre>
+
+<p>
+The Pods can have stable ordinal identities such as:
+</p>
+
+<pre><code>web-0
+web-1
+web-2</code></pre>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What is DaemonSet?</h2>
+
+<div class="answer">
+
+A DaemonSet ensures that a Pod runs on each eligible node, or on
+each node matching the DaemonSet's scheduling constraints.
+
+</div>
+
+<h3>Common use cases</h3>
+
+<ul>
+<li>Node-level logging agents</li>
+<li>Monitoring agents</li>
+<li>Security agents</li>
+<li>Node networking components</li>
+</ul>
+
+<div class="flow">
+
+Node 1 → Agent Pod
+<br>
+Node 2 → Agent Pod
+<br>
+Node 3 → Agent Pod
+<br>
+Node 4 → Agent Pod
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+Suppose an organization runs a logging agent on every Kubernetes
+node to collect container logs.
+
+A DaemonSet can ensure each eligible node has one logging agent Pod.
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Deployment vs StatefulSet vs DaemonSet</h2>
+
+<table>
+
+<tr>
+<th>Workload</th>
+<th>Best suited for</th>
+</tr>
+
+<tr>
+<td>Deployment</td>
+<td>Stateless web applications and APIs</td>
+</tr>
+
+<tr>
+<td>StatefulSet</td>
+<td>Stateful applications requiring stable identity/storage</td>
+</tr>
+
+<tr>
+<td>DaemonSet</td>
+<td>One Pod per eligible node</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. What is a Job?</h2>
+
+<div class="answer">
+
+A Job creates one or more Pods and ensures that the required
+successful completions are achieved.
+
+Jobs are intended for tasks that run to completion rather than
+long-running services.
+
+</div>
+
+<h3>Examples</h3>
+
+<ul>
+<li>Database migration</li>
+<li>Batch processing</li>
+<li>Data processing</li>
+<li>One-time administrative task</li>
+</ul>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Job YAML</h2>
+
+<pre><code>apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: database-migration
+
+spec:
+
+  template:
+
+    spec:
+
+      restartPolicy: Never
+
+      containers:
+
+      - name: migration
+        image: myapp:1.0
+        command:
+        - /bin/sh
+        - -c
+        - "python migrate.py"</code></pre>
+
+<div class="scenario">
+
+The migration Pod runs the migration script.
+
+If the task completes successfully, the Job reaches completion.
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. What is CronJob?</h2>
+
+<div class="answer">
+
+A CronJob creates Jobs on a repeating schedule using a cron
+expression.
+
+</div>
+
+<h3>Typical use cases</h3>
+
+<ul>
+<li>Scheduled backups</li>
+<li>Cleanup tasks</li>
+<li>Reports</li>
+<li>Periodic data processing</li>
+</ul>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: batch/v1
+kind: CronJob
+
+metadata:
+  name: backup-job
+
+spec:
+
+  schedule: "0 2 * * *"
+
+  jobTemplate:
+
+    spec:
+
+      template:
+
+        spec:
+
+          restartPolicy: OnFailure
+
+          containers:
+
+          - name: backup
+            image: backup-image:1.0
+            command:
+            - /bin/sh
+            - -c
+            - "backup.sh"</code></pre>
+
+<p>
+This schedule runs approximately every day at 02:00 according to
+the CronJob's configured time interpretation.
+</p>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Job vs CronJob</h2>
+
+<table>
+
+<tr>
+<th>Job</th>
+<th>CronJob</th>
+</tr>
+
+<tr>
+<td>Runs a task to completion</td>
+<td>Creates Jobs on a schedule</td>
+</tr>
+
+<tr>
+<td>One-time/batch execution</td>
+<td>Recurring execution</td>
+</tr>
+
+<tr>
+<td>Example: migration</td>
+<td>Example: daily backup</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. What is desired state?</h2>
+
+<div class="answer">
+
+Desired state is the configuration that we tell Kubernetes we want.
+
+Kubernetes continuously works to make the actual state match the
+desired state.
+
+</div>
+
+<pre><code>replicas: 3</code></pre>
+
+<div class="scenario">
+
+Desired state = 3 Pods
+
+Actual state = 2 Pods
+
+Controller action = create another Pod
+
+Final state = 3 Pods
+
+</div>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. What is declarative configuration?</h2>
+
+<div class="answer">
+
+Declarative configuration describes the desired end state rather
+than specifying every individual operation required to reach it.
+
+Kubernetes controllers then work to achieve that state.
+
+</div>
+
+<pre><code>spec:
+  replicas: 3
+
+  containers:
+  - name: nginx
+    image: nginx:1.28</code></pre>
+
+<p>
+This configuration describes what should exist. Kubernetes handles
+the reconciliation process.
+</p>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. What is a Replica count?</h2>
+
+<div class="answer">
+
+The replica count specifies how many Pod replicas a workload should
+maintain.
+
+</div>
+
+<pre><code>spec:
+  replicas: 3</code></pre>
+
+<p>
+This is commonly used with Deployments and ReplicaSets.
+</p>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. How do you scale a Deployment?</h2>
+
+<h3>Imperative scaling</h3>
+
+<pre><code>kubectl scale deployment nginx-deployment --replicas=5</code></pre>
+
+<h3>Check</h3>
+
+<pre><code>kubectl get deployment
+
+kubectl get pods</code></pre>
+
+<h3>Declarative scaling</h3>
+
+<pre><code>spec:
+  replicas: 5</code></pre>
+
+<div class="scenario">
+
+Production example:
+
+Traffic increases during a sale.
+
+The application may need more replicas to handle increased demand.
+
+For long-term automated scaling, Horizontal Pod Autoscaler can be
+used when the application and cluster are configured appropriately.
+
+</div>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. What is HPA?</h2>
+
+<div class="answer">
+
+Horizontal Pod Autoscaler automatically adjusts the number of Pod
+replicas based on observed metrics such as CPU utilization,
+memory or configured custom/external metrics.
+
+</div>
+
+<div class="flow">
+
+Low Traffic
+<br>
+↓
+<br>
+2 Pods
+<br><br>
+
+Traffic increases
+<br>
+↓
+<br>
+HPA evaluates metrics
+<br>
+↓
+<br>
+5 Pods
+
+</div>
+
+<div class="warning">
+
+HPA does not increase the CPU or memory of an individual Pod.
+It changes the number of replicas.
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. HPA vs Vertical Scaling</h2>
+
+<table>
+
+<tr>
+<th>Horizontal Scaling</th>
+<th>Vertical Scaling</th>
+</tr>
+
+<tr>
+<td>Increase/decrease number of Pods</td>
+<td>Increase resources assigned to a Pod</td>
+</tr>
+
+<tr>
+<td>More replicas</td>
+<td>More CPU/memory</td>
+</tr>
+
+<tr>
+<td>HPA is commonly used</td>
+<td>VPA can be used in supported/configured environments</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. What are readiness and liveness probes?</h2>
+
+<h3>Readiness Probe</h3>
+
+<div class="answer">
+
+Determines whether a container is ready to receive traffic.
+
+If the readiness check fails, Kubernetes can remove the Pod from
+Service endpoints.
+
+</div>
+
+<h3>Liveness Probe</h3>
+
+<div class="answer">
+
+Determines whether a container is considered healthy enough to
+continue running. If the liveness probe repeatedly fails, kubelet
+can restart the container.
+
+</div>
+
+<div class="scenario">
+
+Application starts slowly.
+
+Without readiness:
+
+Traffic may reach the application before it is ready.
+
+With readiness:
+
+Traffic is sent only after the application passes its readiness
+check.
+
+</div>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Readiness vs Liveness vs Startup</h2>
+
+<table>
+
+<tr>
+<th>Probe</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Readiness</td>
+<td>Should this Pod receive traffic?</td>
+</tr>
+
+<tr>
+<td>Liveness</td>
+<td>Should this container be restarted?</td>
+</tr>
+
+<tr>
+<td>Startup</td>
+<td>Has a slow-starting application completed startup?</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy memory trick:</strong>
+
+<br><br>
+
+Readiness → "Can I send traffic?"
+
+<br>
+
+Liveness → "Is it still alive?"
+
+<br>
+
+Startup → "Has it finished starting?"
+
+</div>
+
+</div>
+
+
+<!-- 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 29. Deployment Strategy</h2>
+
+<p>
+Kubernetes Deployments commonly support strategies such as:
+</p>
+
+<ul>
+<li>RollingUpdate</li>
+<li>Recreate</li>
+</ul>
+
+<h3>RollingUpdate</h3>
+
+<div class="answer">
+
+Gradually replaces old Pods with new Pods.
+
+This is commonly preferred when application availability should be
+maintained during updates.
+
+</div>
+
+<h3>Recreate</h3>
+
+<div class="answer">
+
+Existing Pods are terminated before the new Pods are created.
+
+This can cause downtime and is useful only when the application's
+requirements justify it.
+
+</div>
+
+</div>
+
+
+<!-- 30 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. What are maxUnavailable and maxSurge?</h2>
+
+<div class="answer">
+
+During a RollingUpdate:
+
+<strong>maxUnavailable</strong> controls how many Pods can be
+unavailable during the update.
+
+<strong>maxSurge</strong> controls how many additional Pods can be
+created above the desired replica count during the update.
+
+</div>
+
+<pre><code>strategy:
+
+  type: RollingUpdate
+
+  rollingUpdate:
+
+    maxUnavailable: 1
+    maxSurge: 1</code></pre>
+
+<div class="scenario">
+
+If desired replicas = 3 and maxSurge = 1,
+
+Kubernetes can temporarily have up to 4 Pods during the rollout.
+
+</div>
+
+</div>
+
+
+<!-- 31 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Real-Time Scenario: New deployment is failing</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+A new application version is deployed, but Pods are failing.
+
+</div>
+
+<h3>Check Deployment</h3>
+
+<pre><code>kubectl get deployment
+
+kubectl describe deployment &lt;deployment&gt;</code></pre>
+
+<h3>Check ReplicaSets</h3>
+
+<pre><code>kubectl get rs</code></pre>
+
+<h3>Check Pods</h3>
+
+<pre><code>kubectl get pods
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl logs &lt;pod&gt;</code></pre>
+
+<h3>Rollback if required</h3>
+
+<pre><code>kubectl rollout undo deployment/&lt;deployment&gt;</code></pre>
+
+</div>
+
+
+<!-- 32 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 32. Real-Time Scenario: Pods are in CrashLoopBackOff</h2>
+
+<div class="answer">
+
+CrashLoopBackOff means a container is repeatedly starting and
+crashing, and Kubernetes is backing off before restarting it again.
+
+</div>
+
+<h3>Investigation</h3>
+
+<pre><code>kubectl get pods
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl logs &lt;pod&gt;
+
+kubectl logs &lt;pod&gt; --previous</code></pre>
+
+<div class="scenario">
+
+<strong>Possible causes:</strong>
+
+<ul>
+<li>Application error</li>
+<li>Wrong environment variable</li>
+<li>Missing configuration</li>
+<li>Incorrect command</li>
+<li>Dependency unavailable</li>
+<li>Permission problem</li>
+<li>Probe configuration issue</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 33 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 33. Real-Time Scenario: Pods are Pending</h2>
+
+<div class="answer">
+
+A Pending Pod has not successfully reached the running state.
+
+The scheduler may be unable to place it on a suitable node, or
+another condition may be preventing startup.
+
+</div>
+
+<pre><code>kubectl get pods
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl get nodes
+
+kubectl describe node &lt;node&gt;</code></pre>
+
+<div class="scenario">
+
+<strong>Common causes:</strong>
+
+<ul>
+<li>Insufficient CPU or memory</li>
+<li>Node selector mismatch</li>
+<li>Taints and tolerations</li>
+<li>Affinity rules</li>
+<li>Unbound persistent volume claim</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 34 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 34. Real-Time Scenario: Deployment says Available replicas are low</h2>
+
+<div class="answer">
+
+I would inspect the Deployment, ReplicaSet and Pods to identify why
+the desired replicas are not becoming available.
+
+</div>
+
+<pre><code>kubectl get deployment
+
+kubectl get rs
+
+kubectl get pods
+
+kubectl describe deployment &lt;deployment&gt;
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl logs &lt;pod&gt;</code></pre>
+
+<p>
+Readiness failures, image problems, resource issues and application
+startup failures are common areas to investigate.
+</p>
+
+</div>
+
+
+<!-- 35 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 35. Important Workload Commands</h2>
+
+<pre><code># Pods
+kubectl get pods
+
+kubectl get pods -o wide
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl logs &lt;pod&gt;
+
+kubectl logs &lt;pod&gt; --previous
+
+
+# Deployments
+kubectl get deployments
+
+kubectl describe deployment &lt;deployment&gt;
+
+kubectl rollout status deployment/&lt;deployment&gt;
+
+kubectl rollout history deployment/&lt;deployment&gt;
+
+kubectl rollout undo deployment/&lt;deployment&gt;
+
+
+# ReplicaSets
+kubectl get rs
+
+
+# Scaling
+kubectl scale deployment &lt;deployment&gt; --replicas=5
+
+
+# StatefulSets
+kubectl get statefulset
+
+
+# DaemonSets
+kubectl get daemonset
+
+
+# Jobs
+kubectl get jobs
+
+
+# CronJobs
+kubectl get cronjobs</code></pre>
+
+</div>
+
+
+<!-- 36 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is a Kubernetes workload?</li>
+
+<li>What is a Pod?</li>
+
+<li>Why do we use Deployments instead of standalone Pods?</li>
+
+<li>What is a Deployment?</li>
+
+<li>What is a ReplicaSet?</li>
+
+<li>Deployment vs ReplicaSet vs Pod?</li>
+
+<li>What is self-healing?</li>
+
+<li>What happens when a Pod crashes?</li>
+
+<li>What is a rolling update?</li>
+
+<li>How do you update a Deployment?</li>
+
+<li>How do you rollback a Deployment?</li>
+
+<li>What is StatefulSet?</li>
+
+<li>Deployment vs StatefulSet?</li>
+
+<li>What is DaemonSet?</li>
+
+<li>Where do you use DaemonSet?</li>
+
+<li>What is a Job?</li>
+
+<li>What is a CronJob?</li>
+
+<li>Job vs CronJob?</li>
+
+<li>What is desired state?</li>
+
+<li>What is declarative configuration?</li>
+
+<li>How do you scale a Deployment?</li>
+
+<li>What is HPA?</li>
+
+<li>Horizontal vs vertical scaling?</li>
+
+<li>What are readiness and liveness probes?</li>
+
+<li>Readiness vs liveness vs startup probe?</li>
+
+<li>What is RollingUpdate?</li>
+
+<li>What are maxUnavailable and maxSurge?</li>
+
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+
+<li>How do you troubleshoot Pending Pods?</li>
+
+<li>How do you troubleshoot a failed Deployment?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UP -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-Up Questions</h2>
+
+<ul>
+
+<li>What happens internally when you change a Deployment image?</li>
+
+<li>Why does a Deployment create a new ReplicaSet?</li>
+
+<li>How does a ReplicaSet know which Pods it manages?</li>
+
+<li>What happens when you delete a Pod managed by a Deployment?</li>
+
+<li>Can a Deployment manage stateful applications?</li>
+
+<li>Why is StatefulSet preferred for databases?</li>
+
+<li>Why does a DaemonSet create Pods on nodes?</li>
+
+<li>What happens when a new node joins the cluster with a DaemonSet?</li>
+
+<li>What happens when a node is removed?</li>
+
+<li>How does Kubernetes perform rollback?</li>
+
+<li>What causes CrashLoopBackOff?</li>
+
+<li>What causes ImagePullBackOff?</li>
+
+<li>Why would a Pod remain Pending?</li>
+
+<li>Why would readiness probe fail while liveness succeeds?</li>
+
+<li>How does HPA decide to increase replicas?</li>
+
+<li>What is the difference between desired and actual state?</li>
+
+</ul>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Final Kubernetes Workloads Cheat Sheet</h2>
+
+<pre><code>
+Pod
+→ Smallest deployable unit
+→ Runs containers
+
+Deployment
+→ Stateless applications
+→ Manages ReplicaSets
+→ Rolling updates
+→ Rollback
+→ Scaling
+
+ReplicaSet
+→ Maintains desired Pod replicas
+
+StatefulSet
+→ Stateful applications
+→ Stable identity
+→ Stable storage characteristics
+
+DaemonSet
+→ Pod on each eligible node
+→ Logging / monitoring agents
+
+Job
+→ One-time task
+→ Runs to completion
+
+CronJob
+→ Scheduled Jobs
+→ Backups / cleanup / reports
+
+HPA
+→ Automatically changes Pod replica count
+
+Readiness
+→ Can Pod receive traffic?
+
+Liveness
+→ Should container be restarted?
+
+Startup
+→ Has slow application finished starting?
+
+RollingUpdate
+→ Gradually replace old Pods
+
+Rollback
+→ Return to previous Deployment revision
+
+Self-Healing
+→ Actual state → Desired state
+</code></pre>
+
+</div>
+
+
+<!-- 60 SEC -->
+
+<div class="card">
+
+<h2>🚀 60-Second Kubernetes Workloads Revision</h2>
+
+<div class="flow">
+
+<strong>Pod</strong>
+<br>
+Smallest deployable unit
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>Deployment</strong>
+<br>
+Stateless applications
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>ReplicaSet</strong>
+<br>
+Maintains replicas
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>Rolling Update</strong>
+<br>
+New version gradually deployed
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>Rollback</strong>
+<br>
+Return to previous version
+<br><br>
+
+<strong>StatefulSet</strong>
+<br>
+Stable identity + state
+<br><br>
+
+<strong>DaemonSet</strong>
+<br>
+One Pod per eligible node
+<br><br>
+
+<strong>Job</strong>
+<br>
+One-time task
+<br><br>
+
+<strong>CronJob</strong>
+<br>
+Scheduled task
+<br><br>
+
+<strong>HPA</strong>
+<br>
+Automatically scales replicas
+
+</div>
+
+</div>
+
+
+<!-- FINAL INTERVIEW ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Kubernetes Workloads"</h2>
+
+<div class="interview">
+
+"Kubernetes workloads are resources used to run and manage
+applications in a Kubernetes cluster.
+
+A Pod is the smallest deployable unit and contains one or more
+containers. For stateless applications, I commonly use a
+Deployment. The Deployment manages ReplicaSets, and the ReplicaSet
+maintains the required number of Pods.
+
+Deployments also provide rolling updates, scaling and rollback.
+
+For stateful applications that need stable identity or persistent
+storage characteristics, I would use StatefulSet.
+
+DaemonSet is used when a Pod needs to run on each eligible node,
+for example a logging or monitoring agent.
+
+For tasks that need to run to completion, I would use a Job, and
+for scheduled recurring tasks, I would use a CronJob.
+
+Kubernetes continuously compares the actual state with the desired
+state and controllers work to maintain the desired state. This is
+one of the key reasons Kubernetes provides self-healing behavior.
+
+In production, I would also use readiness and liveness probes,
+appropriate resource configuration, controlled rolling updates and
+rollback mechanisms to maintain application availability."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+☸️ Kubernetes • Workloads
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

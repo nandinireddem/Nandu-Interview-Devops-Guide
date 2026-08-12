@@ -1,0 +1,2948 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>AWS VPC Interview Questions | Nandu's DevOps Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+    body {
+        background:
+            radial-gradient(circle at 90% 5%, rgba(99, 102, 241, 0.08), transparent 28%),
+            #0b1020;
+    }
+
+    .page-header {
+        padding: 50px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #10152d, #11182b, #0b1020);
+        border-bottom: 1px solid #29334c;
+    }
+
+    .back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #9da9c4;
+        text-decoration: none;
+    }
+
+    .back:hover {
+        color: #818cf8;
+    }
+
+    .page-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(38px, 6vw, 60px);
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 span {
+        color: #818cf8;
+    }
+
+    .page-header p {
+        max-width: 850px;
+        margin: auto;
+        color: #9ca8c4;
+        line-height: 1.7;
+    }
+
+    .content {
+        width: min(1000px, 92%);
+        margin: auto;
+        padding: 50px 0 80px;
+    }
+
+    .quick-map {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 12px;
+        margin-bottom: 50px;
+    }
+
+    .map-item {
+        padding: 16px;
+        background: #121a30;
+        border: 1px solid #27324b;
+        border-radius: 12px;
+        color: #aab5cf;
+        font-size: 13px;
+    }
+
+    .map-item strong {
+        color: #ffffff;
+    }
+
+    .priority-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 50px 0 25px;
+    }
+
+    .priority-title h2 {
+        font-size: 27px;
+    }
+
+    .line {
+        flex: 1;
+        height: 1px;
+        background: #29334c;
+    }
+
+    .question {
+        margin-bottom: 25px;
+        padding: 28px;
+        background: linear-gradient(145deg, #141d35, #10172a);
+        border: 1px solid #29344e;
+        border-radius: 18px;
+    }
+
+    .question:hover {
+        border-color: #4b556f;
+    }
+
+    .question-number {
+        color: #7582a2;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+        line-height: 1.45;
+        margin-bottom: 20px;
+    }
+
+    .label {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: #a5b4fc;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+    }
+
+    .answer {
+        color: #c2cbe0;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .example {
+        padding: 18px 20px;
+        margin: 18px 0;
+        border-left: 4px solid #818cf8;
+        background: rgba(129, 140, 248, 0.06);
+        border-radius: 0 10px 10px 0;
+    }
+
+    .example strong {
+        color: #a5b4fc;
+    }
+
+    .example p {
+        color: #b7c2d8;
+        margin-top: 6px;
+        line-height: 1.75;
+    }
+
+    .interview-answer {
+        padding: 18px 20px;
+        margin-top: 18px;
+        background: #111a30;
+        border-radius: 12px;
+        border: 1px solid #303c59;
+    }
+
+    .interview-answer strong {
+        color: #60a5fa;
+    }
+
+    .interview-answer p {
+        color: #c4cee1;
+        line-height: 1.75;
+    }
+
+    .followup {
+        padding: 18px 20px;
+        background: #0d1426;
+        border-radius: 12px;
+        border: 1px solid #222d46;
+    }
+
+    .followup strong {
+        color: #8fa3ff;
+    }
+
+    .followup ul {
+        margin-top: 8px;
+        padding-left: 20px;
+        color: #9ba7c0;
+    }
+
+    .followup li {
+        margin: 5px 0;
+    }
+
+    .flow {
+        padding: 20px;
+        margin: 20px 0;
+        background: #0d1426;
+        border: 1px solid #26314a;
+        border-radius: 12px;
+        text-align: center;
+        color: #c6d0e4;
+        line-height: 2;
+        overflow-x: auto;
+    }
+
+    .important {
+        padding: 22px;
+        margin: 30px 0;
+        border-radius: 14px;
+        background: rgba(129, 140, 248, 0.06);
+        border: 1px solid rgba(129, 140, 248, 0.2);
+        color: #b8c4dc;
+        line-height: 1.8;
+    }
+
+    pre {
+        overflow-x: auto;
+        margin-top: 10px;
+        padding: 18px;
+        background: #080d19;
+        border-radius: 10px;
+        border: 1px solid #202b43;
+        color: #cbd5e1;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: #7582a2;
+        border-top: 1px solid #222d46;
+    }
+
+    footer span {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+        .content {
+            width: 94%;
+        }
+
+        .question {
+            padding: 22px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+```
+<a href="index.html" class="back">
+    ← Back to AWS
+</a>
+
+<div class="page-icon">🌐</div>
+
+<h1>
+    AWS <span>VPC</span>
+</h1>
+
+<p>
+    Complete VPC and AWS Networking interview preparation —
+    from core concepts to production architecture,
+    troubleshooting and DevOps scenarios.
+</p>
+```
+
+</header>
+
+<main class="content">
+
+```
+<!-- PRIORITY MAP -->
+
+<section class="quick-map">
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐⭐</strong><br>
+        Must Know
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐</strong><br>
+        High Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐</strong><br>
+        Medium
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐</strong><br>
+        Less Frequent
+    </div>
+
+    <div class="map-item">
+        <strong>⭐</strong><br>
+        Bonus
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐⭐ Must Know</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q1 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 01</div>
+
+    <h3>What is Amazon VPC?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ MOST FREQUENTLY ASKED
+    </span>
+
+    <p class="answer">
+
+        VPC stands for <strong>Virtual Private Cloud</strong>.
+
+        Amazon VPC allows us to create a logically isolated
+        virtual network inside AWS.
+
+        Within a VPC, we can control:
+
+        <br><br>
+
+        → IP address ranges
+
+        <br>
+        → Subnets
+
+        <br>
+        → Route tables
+
+        <br>
+        → Internet connectivity
+
+        <br>
+        → Network security
+
+        <br>
+        → Private connectivity
+
+    </p>
+
+    <div class="flow">
+
+        🌐 VPC
+
+        →
+
+        🧩 Subnets
+
+        →
+
+        🛣️ Route Tables
+
+        →
+
+        🔐 Security
+
+        →
+
+        🖥️ Resources
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose we are deploying an application on EC2.
+
+            Instead of placing servers randomly on the AWS
+            network, we create a VPC and decide which servers
+            should be public and which should remain private.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Amazon VPC is a logically isolated virtual network
+            in AWS where we can define IP ranges, subnets,
+            routing and network security for our resources."
+
+        </p>
+
+    </div>
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+            <li>What is a subnet?</li>
+            <li>What is a route table?</li>
+            <li>What is an Internet Gateway?</li>
+            <li>What is a NAT Gateway?</li>
+            <li>What is the difference between public and private subnet?</li>
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q2 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 02</div>
+
+    <h3>What is a CIDR block?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        CIDR stands for <strong>Classless Inter-Domain Routing</strong>.
+
+        CIDR notation represents an IP address range using
+        an address followed by a prefix length.
+
+        Example:
+
+    </p>
+
+    <pre>
+```
+
+10.0.0.0/16 </pre>
+
+```
+    <p class="answer">
+
+        The <strong>/16</strong> indicates the network prefix
+        length.
+
+        A larger prefix number means a smaller address range.
+
+        For example:
+
+    </p>
+
+    <pre>
+```
+
+10.0.0.0/16
+10.0.1.0/24
+10.0.2.0/24 </pre>
+
+```
+    <div class="example">
+
+        <strong>💡 DevOps Example</strong>
+
+        <p>
+
+            A common VPC design might use:
+
+            <br><br>
+
+            VPC → 10.0.0.0/16
+
+            <br>
+
+            Public subnet → 10.0.1.0/24
+
+            <br>
+
+            Private subnet → 10.0.2.0/24
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "CIDR is a notation used to define an IP address
+            range. In a VPC, we use CIDR blocks to define the
+            VPC and subnet address ranges."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q3 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 03</div>
+
+    <h3>What is a subnet?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ MUST KNOW
+    </span>
+
+    <p class="answer">
+
+        A subnet is a smaller IP address range inside a VPC.
+
+        Subnets allow us to divide a VPC into separate network
+        segments.
+
+        Each subnet belongs to one Availability Zone.
+
+    </p>
+
+    <div class="flow">
+
+        VPC: 10.0.0.0/16
+
+        <br><br>
+
+        ├── Public Subnet → 10.0.1.0/24
+
+        <br>
+
+        ├── Public Subnet → 10.0.2.0/24
+
+        <br>
+
+        ├── Private Subnet → 10.0.11.0/24
+
+        <br>
+
+        └── Private Subnet → 10.0.12.0/24
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Why use subnets?</strong>
+
+        <p>
+
+            We can put internet-facing load balancers in public
+            subnets and application servers in private subnets.
+
+            This creates network separation.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A subnet is a logical subdivision of a VPC's IP
+            address range. Each subnet is associated with one
+            Availability Zone and can be used to separate
+            workloads based on network requirements."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q4 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 04</div>
+
+    <h3>What is the difference between a public subnet and a private subnet?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ INTERVIEW FAVORITE
+    </span>
+
+    <p class="answer">
+
+        The key difference is the subnet's routing configuration.
+
+        A subnet is considered <strong>public</strong> when its
+        route table has a route to an Internet Gateway.
+
+        A subnet is considered <strong>private</strong> when it
+        does not have a direct route to an Internet Gateway.
+
+        A private subnet can still have outbound internet access
+        through a NAT Gateway when appropriately configured.
+
+    </p>
+
+    <div class="flow">
+
+        PUBLIC
+
+        <br>
+
+        EC2
+
+        →
+
+        Route Table
+
+        →
+
+        Internet Gateway
+
+        →
+
+        🌐 Internet
+
+        <br><br>
+
+        PRIVATE
+
+        <br>
+
+        EC2
+
+        →
+
+        Route Table
+
+        →
+
+        NAT Gateway
+
+        →
+
+        Internet Gateway
+
+        →
+
+        🌐 Internet
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 Production Example</strong>
+
+        <p>
+
+            Public subnet:
+
+            <br>
+            → Application Load Balancer
+
+            <br><br>
+
+            Private subnet:
+
+            <br>
+            → Application servers
+
+            <br>
+            → Databases
+
+            <br>
+            → Internal services
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A public subnet has a route to an Internet Gateway,
+            allowing supported resources to communicate with the
+            internet when their other network configuration also
+            permits it. A private subnet does not have a direct
+            route to an Internet Gateway. It can use a NAT Gateway
+            for outbound internet access."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q5 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 05</div>
+
+    <h3>What is an Internet Gateway?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY FREQUENT
+    </span>
+
+    <p class="answer">
+
+        An Internet Gateway, or <strong>IGW</strong>, is a
+        VPC component that provides a path between a VPC and
+        the internet.
+
+        For an IPv4 public subnet, the route table normally
+        contains a default route:
+
+    </p>
+
+    <pre>
+```
+
+0.0.0.0/0 → Internet Gateway </pre>
+
+```
+    <p class="answer">
+
+        The subnet alone is not enough. The instance also needs
+        appropriate addressing and security configuration.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Simple Example</strong>
+
+        <p>
+
+            EC2 in public subnet
+
+            <br>
+
+            → route table has 0.0.0.0/0 to IGW
+
+            <br>
+
+            → EC2 has a public IPv4 address
+
+            <br>
+
+            → security rules allow required traffic
+
+            <br>
+
+            → internet communication can work.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An Internet Gateway is a VPC component that enables
+            communication between a VPC and the internet. A
+            public subnet typically has a default route pointing
+            to the Internet Gateway."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q6 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 06</div>
+
+    <h3>What is a NAT Gateway?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ MUST KNOW
+    </span>
+
+    <p class="answer">
+
+        NAT stands for <strong>Network Address Translation</strong>.
+
+        A NAT Gateway allows resources in private subnets to
+        initiate outbound connections to the internet without
+        requiring those resources to have public IP addresses.
+
+        It does not provide unsolicited inbound internet access
+        to the private resources.
+
+    </p>
+
+    <div class="flow">
+
+        🖥️ Private EC2
+
+        →
+
+        🛣️ Private Route Table
+
+        →
+
+        NAT Gateway
+
+        →
+
+        Internet Gateway
+
+        →
+
+        🌐 Internet
+
+    </div>
+
+    <div class="example">
+
+        <strong>💡 DevOps Example</strong>
+
+        <p>
+
+            A private EC2 instance needs to download security
+            updates or install packages.
+
+            Instead of giving the EC2 instance a public IP,
+            we can route outbound traffic through a NAT Gateway.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A NAT Gateway allows resources in private subnets
+            to initiate outbound internet connections while
+            keeping those resources without public IP addresses.
+            It is deployed in a public subnet and uses an
+            Elastic IP for IPv4 internet connectivity."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q7 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 07</div>
+
+    <h3>What is a Route Table?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        A route table contains rules that determine where network
+        traffic should be sent.
+
+        Each route has:
+
+        <br><br>
+
+        → Destination
+
+        <br>
+        → Target
+
+    </p>
+
+    <pre>
+```
+
+Destination       Target
+
+10.0.0.0/16       local
+0.0.0.0/0         igw-xxxxxxxx </pre>
+
+```
+    <p class="answer">
+
+        The <strong>local</strong> route allows communication
+        within the VPC's CIDR.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            If a public subnet needs internet connectivity,
+            its route table can contain:
+
+        </p>
+
+        <pre>
+```
+
+0.0.0.0/0 → Internet Gateway </pre>
+
+```
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A route table contains routing rules that determine
+            where traffic from a subnet should be sent. For
+            example, a public subnet can have a default route
+            to an Internet Gateway."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q8 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 08</div>
+
+    <h3>What is the difference between Security Group and NACL?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ EXTREMELY IMPORTANT
+    </span>
+
+    <div class="flow">
+
+        SECURITY GROUP
+
+        →
+
+        🖥️ ENI / Resource
+
+        <br><br>
+
+        NACL
+
+        →
+
+        🧩 Subnet
+
+    </div>
+
+    <p class="answer">
+
+        <strong>Security Group:</strong>
+
+        <br>
+        → Works at the resource/network-interface level
+
+        <br>
+        → Stateful
+
+        <br>
+        → Supports allow rules
+
+        <br>
+        → Commonly used for instance-level access control
+
+        <br><br>
+
+        <strong>Network ACL:</strong>
+
+        <br>
+        → Works at subnet boundary
+
+        <br>
+        → Stateless
+
+        <br>
+        → Supports allow and deny rules
+
+        <br>
+        → Rules are evaluated in order
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Security Groups are stateful virtual firewalls
+            associated with network interfaces and support
+            allow rules. Network ACLs operate at the subnet
+            level, are stateless, support both allow and deny
+            rules, and are evaluated in rule order."
+
+        </p>
+
+    </div>
+
+    <div class="followup">
+
+        <strong>🔎 Very Common Follow-ups</strong>
+
+        <ul>
+            <li>Which one is stateful?</li>
+            <li>Which one supports deny rules?</li>
+            <li>Where does NACL work?</li>
+            <li>Where does Security Group work?</li>
+            <li>Which is evaluated first?</li>
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q9 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 09</div>
+
+    <h3>What is the difference between a default VPC and a custom VPC?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        AWS accounts can have a default VPC in supported Regions.
+
+        AWS creates common networking components for the default
+        VPC, making it convenient for initial workloads.
+
+        A custom VPC is designed by us according to application
+        requirements.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Production Example</strong>
+
+        <p>
+
+            For a production environment, we normally design
+            our own CIDR ranges, public and private subnets,
+            routing, NAT, security and connectivity rather than
+            depending on the default VPC design.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A default VPC is an AWS-provided VPC with common
+            networking configuration for convenience. A custom
+            VPC is designed and configured according to the
+            application's networking and security requirements."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q10 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 10</div>
+
+    <h3>Can a subnet span multiple Availability Zones?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ TRICK QUESTION
+    </span>
+
+    <p class="answer">
+
+        <strong>No.</strong>
+
+        An AWS subnet is associated with exactly one
+        Availability Zone.
+
+        A VPC can span multiple Availability Zones, but each
+        individual subnet belongs to one AZ.
+
+    </p>
+
+    <div class="flow">
+
+        VPC
+
+        <br>
+
+        ├── AZ-A → Subnet-A
+
+        <br>
+
+        └── AZ-B → Subnet-B
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "No. A subnet is associated with one Availability
+            Zone. To build a multi-AZ architecture, we create
+            separate subnets in multiple Availability Zones."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐ High Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q11 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 11</div>
+
+    <h3>What are the main components of a VPC?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ COMMON
+    </span>
+
+    <p class="answer">
+
+        Important VPC-related components include:
+
+        <br><br>
+
+        → VPC
+
+        <br>
+        → Subnets
+
+        <br>
+        → Route Tables
+
+        <br>
+        → Internet Gateway
+
+        <br>
+        → NAT Gateway
+
+        <br>
+        → Security Groups
+
+        <br>
+        → Network ACLs
+
+        <br>
+        → Network Interfaces
+
+        <br>
+        → VPC Endpoints
+
+        <br>
+        → VPC Peering
+
+        <br>
+        → Transit Gateway for larger network designs
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A VPC consists of networking constructs such as
+            CIDR ranges, subnets, route tables, gateways,
+            security controls and network interfaces. Additional
+            connectivity components such as VPC endpoints,
+            peering and Transit Gateway can be used depending
+            on the architecture."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q12 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 12</div>
+
+    <h3>What is a VPC Peering connection?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        VPC Peering is a networking connection between two VPCs
+        that allows resources in those VPCs to communicate
+        using private IP addresses, subject to routing and
+        security configuration.
+
+        The VPCs can be in the same or different AWS accounts,
+        and supported peering can also span Regions.
+
+    </p>
+
+    <div class="flow">
+
+        VPC-A
+
+        ⇄
+
+        VPC Peering
+
+        ⇄
+
+        VPC-B
+
+    </div>
+
+    <div class="important">
+
+        ⚠️ The VPC CIDR ranges must not overlap for normal VPC
+        peering routing to work.
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "VPC Peering creates private network connectivity
+            between two VPCs. After establishing the peering
+            connection, we must configure appropriate routes
+            and security rules. The VPC CIDRs should not overlap."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q13 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 13</div>
+
+    <h3>What is a VPC Endpoint?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ VERY USEFUL
+    </span>
+
+    <p class="answer">
+
+        VPC Endpoints provide private connectivity from a VPC
+        to supported AWS services without requiring traffic to
+        traverse the public internet.
+
+        Two important endpoint categories are:
+
+        <br><br>
+
+        <strong>Gateway Endpoints</strong>
+
+        <br>
+        Commonly used for Amazon S3 and DynamoDB.
+
+        <br><br>
+
+        <strong>Interface Endpoints</strong>
+
+        <br>
+        Powered by AWS PrivateLink and implemented using
+        elastic network interfaces.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 DevOps Example</strong>
+
+        <p>
+
+            A private EC2 instance needs access to S3.
+
+            Instead of sending that traffic through a NAT
+            Gateway, an S3 Gateway Endpoint can provide
+            private access.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "VPC endpoints provide private connectivity between
+            resources in a VPC and supported AWS services.
+            Gateway endpoints are commonly used for S3 and
+            DynamoDB, while interface endpoints use AWS
+            PrivateLink."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q14 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 14</div>
+
+    <h3>What is an Elastic Network Interface (ENI)?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        An ENI is a virtual network interface in a VPC.
+
+        It can have attributes such as:
+
+        <br><br>
+
+        → Private IPv4 addresses
+
+        <br>
+        → Secondary private IP addresses
+
+        <br>
+        → Security groups
+
+        <br>
+        → MAC address
+
+        <br>
+        → Optional public/Elastic IP associations
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Simple Understanding</strong>
+
+        <p>
+
+            Think of an ENI as a virtual network card attached
+            to a resource.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An Elastic Network Interface is a virtual network
+            interface in a VPC that provides network connectivity
+            and can have private IP addresses, security groups
+            and other network attributes."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q15 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 15</div>
+
+    <h3>What is the difference between a NAT Gateway and an Internet Gateway?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <div class="flow">
+
+        Internet Gateway
+
+        →
+
+        VPC ↔ Internet
+
+        <br><br>
+
+        NAT Gateway
+
+        →
+
+        Private Subnet → Internet
+
+        <br>
+
+        🚫 No direct unsolicited inbound access
+
+    </div>
+
+    <p class="answer">
+
+        An <strong>Internet Gateway</strong> is attached to a
+        VPC and provides a path for internet communication.
+
+        A <strong>NAT Gateway</strong> is deployed in a subnet,
+        typically a public subnet, and allows private subnet
+        resources to make outbound internet connections.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An Internet Gateway provides internet connectivity
+            for a VPC. A NAT Gateway is used by private subnet
+            resources to initiate outbound internet connections
+            without exposing those resources with public IPs."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q16 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 16</div>
+
+    <h3>Why is a NAT Gateway placed in a public subnet?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ TRICKY
+    </span>
+
+    <p class="answer">
+
+        A NAT Gateway needs a path to the internet for the
+        outbound traffic it translates.
+
+        Therefore, for IPv4 internet access, the NAT Gateway
+        is typically deployed in a public subnet with a route
+        to an Internet Gateway and an Elastic IP.
+
+        Private subnet route tables then point their default
+        route to the NAT Gateway.
+
+    </p>
+
+    <div class="flow">
+
+        Private Subnet
+
+        →
+
+        NAT Gateway
+
+        →
+
+        Public Subnet
+
+        →
+
+        IGW
+
+        →
+
+        Internet
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A NAT Gateway is placed in a public subnet because
+            it needs a route through the Internet Gateway to
+            provide outbound internet connectivity for resources
+            in private subnets."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q17 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 17</div>
+
+    <h3>What is VPC Flow Logs?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ MONITORING + TROUBLESHOOTING
+    </span>
+
+    <p class="answer">
+
+        VPC Flow Logs capture information about IP traffic
+        going to and from network interfaces, subnets or VPCs
+        depending on the configured scope.
+
+        They are useful for troubleshooting connectivity and
+        security analysis.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            An application cannot connect to a database.
+
+            Flow Logs can help determine whether traffic is
+            being accepted or rejected at the network-flow
+            level.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "VPC Flow Logs capture metadata about network
+            traffic flows and are useful for troubleshooting
+            connectivity, analyzing rejected traffic and
+            supporting security investigations."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q18 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 18</div>
+
+    <h3>What is a default route?</h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ COMMON
+    </span>
+
+    <p class="answer">
+
+        A default route is used when no more specific route
+        matches the destination.
+
+        For IPv4:
+
+    </p>
+
+    <pre>
+```
+
+0.0.0.0/0 </pre>
+
+```
+    <p class="answer">
+
+        For IPv6:
+
+    </p>
+
+    <pre>
+```
+
+::/0 </pre>
+
+```
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            A public subnet route table might contain:
+
+        </p>
+
+        <pre>
+```
+
+0.0.0.0/0 → Internet Gateway </pre>
+
+```
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A default route matches destinations for which
+            no more specific route exists. In IPv4 it is
+            represented as 0.0.0.0/0."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐ Medium Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q19 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 19</div>
+
+    <h3>What is a Transit Gateway?</h3>
+
+    <span class="label">
+        ⭐⭐⭐ NETWORK ARCHITECTURE
+    </span>
+
+    <p class="answer">
+
+        AWS Transit Gateway acts as a central network hub that
+        can connect multiple VPCs and on-premises networks.
+
+        It is useful when a company has many networks and
+        point-to-point VPC peering would become difficult to
+        manage.
+
+    </p>
+
+    <div class="flow">
+
+        VPC-A
+
+        ↘
+
+        <br>
+
+        VPC-B
+
+        →
+
+        🏢 Transit Gateway
+
+        ←
+
+        VPC-C
+
+        <br>
+
+        ↗
+
+        On-Premises
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Transit Gateway is a centralized network hub used
+            to connect multiple VPCs and on-premises networks.
+            It simplifies large-scale network connectivity
+            compared with maintaining many individual peering
+            connections."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q20 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 20</div>
+
+    <h3>What is DNS resolution in a VPC?</h3>
+
+    <span class="label">
+        ⭐⭐⭐ COMMON
+    </span>
+
+    <p class="answer">
+
+        AWS provides DNS functionality within VPCs.
+
+        Important VPC DNS settings include:
+
+        <br><br>
+
+        <strong>enableDnsSupport</strong>
+
+        → controls whether DNS resolution is supported.
+
+        <br><br>
+
+        <strong>enableDnsHostnames</strong>
+
+        → controls whether instances in the VPC receive
+        DNS hostnames when applicable.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "VPC DNS settings control DNS resolution and DNS
+            hostnames for resources inside the VPC. AWS
+            provides DNS resolution through the VPC resolver."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q21 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 21</div>
+
+    <h3>What is an Elastic IP?</h3>
+
+    <span class="label">
+        ⭐⭐⭐ COMMON
+    </span>
+
+    <p class="answer">
+
+        An Elastic IP is a static public IPv4 address allocated
+        to your AWS account.
+
+        It can be associated with supported AWS resources.
+
+        It is useful when a stable public IPv4 address is
+        required.
+
+    </p>
+
+    <div class="important">
+
+        ⚠️ In production, avoid using Elastic IPs unnecessarily.
+        DNS and load balancers are often better architectural
+        choices for application endpoints.
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An Elastic IP is a static public IPv4 address
+            allocated to an AWS account that can be associated
+            with supported resources when a stable public
+            address is required."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q22 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 22</div>
+
+    <h3>Can two VPCs have overlapping CIDR ranges?</h3>
+
+    <span class="label">
+        ⭐⭐⭐ TRICKY
+    </span>
+
+    <p class="answer">
+
+        Two completely independent VPCs can technically have
+        the same CIDR range.
+
+        However, overlapping CIDRs create problems for direct
+        private routing between those networks and are
+        generally avoided when designing connected networks.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            VPC-A → 10.0.0.0/16
+
+            <br>
+
+            VPC-B → 10.0.0.0/16
+
+            <br><br>
+
+            If we later need normal VPC peering between them,
+            the overlapping ranges prevent the required
+            routing.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Independent VPCs can have overlapping CIDRs, but
+            overlapping address ranges prevent normal private
+            routing between them and create major connectivity
+            problems. Therefore non-overlapping CIDRs are
+            preferred for connected network designs."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q23 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 23</div>
+
+    <h3>What is the difference between public IP and private IP in a VPC?</h3>
+
+    <span class="label">
+        ⭐⭐⭐ IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        A <strong>private IP</strong> is used for communication
+        inside the VPC and connected private networks.
+
+        A <strong>public IPv4</strong> address is used for
+        internet-facing communication when the network
+        configuration allows it.
+
+        Private IP addresses remain associated with the ENI
+        while the instance exists, subject to the specific
+        network configuration.
+
+    </p>
+
+    <div class="flow">
+
+        Private IP
+
+        →
+
+        🏠 Internal Communication
+
+        <br><br>
+
+        Public IP
+
+        →
+
+        🌐 Internet Communication
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Private IP addresses are used for communication
+            within the VPC and connected private networks.
+            Public IPv4 addresses provide internet-facing
+            addressing when the resource's routing and security
+            configuration permits it."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐ Less Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q24 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 24</div>
+
+    <h3>What is a network interface's secondary private IP?</h3>
+
+    <span class="label">
+        ⭐⭐
+    </span>
+
+    <p class="answer">
+
+        A network interface can have additional private IPv4
+        addresses beyond its primary private IP, subject to
+        service and instance limits.
+
+        Secondary IPs can be useful for applications that need
+        multiple addresses on the same network interface.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A secondary private IP is an additional private
+            IPv4 address assigned to a network interface.
+            It can support applications that require multiple
+            private addresses."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q25 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 25</div>
+
+    <h3>What are VPC DHCP options?</h3>
+
+    <span class="label">
+        ⭐⭐
+    </span>
+
+    <p class="answer">
+
+        DHCP option sets allow you to configure certain network
+        settings provided to instances through DHCP, such as
+        domain name and DNS server information.
+
+        AWS provides a default DHCP option set for VPCs.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "VPC DHCP option sets define network configuration
+            information such as domain name and DNS servers
+            that can be provided to instances through DHCP."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q26 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 26</div>
+
+    <h3>What is IPv6 in VPC?</h3>
+
+    <span class="label">
+        ⭐⭐
+    </span>
+
+    <p class="answer">
+
+        AWS VPCs can use IPv6 addressing in addition to IPv4.
+
+        IPv6 provides a very large address space and can be
+        useful for modern architectures that need globally
+        unique IPv6 addresses.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "AWS VPC supports IPv6 addressing alongside IPv4.
+            IPv6 provides a very large address space and can
+            support applications that require IPv6 connectivity."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐ BONUS
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐ Bonus Questions</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q27 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 27</div>
+
+    <h3>What is the difference between VPC Peering and Transit Gateway?</h3>
+
+    <span class="label">
+        ⭐ ARCHITECTURE
+    </span>
+
+    <p class="answer">
+
+        VPC Peering provides a direct connection between two
+        VPCs.
+
+        Transit Gateway provides a centralized hub for
+        connecting many VPCs and networks.
+
+    </p>
+
+    <div class="flow">
+
+        Peering:
+
+        <br>
+
+        VPC-A ⇄ VPC-B
+
+        <br><br>
+
+        Transit Gateway:
+
+        <br>
+
+        VPC-A
+
+        ↘
+
+        TGW
+
+        ←
+
+        VPC-B
+
+        ↗
+
+        VPC-C
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "VPC Peering is suitable for direct connectivity
+            between VPCs, while Transit Gateway is better for
+            centralized connectivity across many VPCs and
+            on-premises networks."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     🎯 REAL TIME SCENARIOS
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🎯 Real-Time VPC Scenarios</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Scenario 1 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 01</div>
+
+    <h3>
+        An EC2 instance in a private subnet cannot access the internet. How do you troubleshoot it?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        I would check the path step by step.
+
+        <br><br>
+
+        <strong>1. Check the private subnet route table.</strong>
+
+        <br>
+
+        It should have a default route:
+
+    </p>
+
+    <pre>
+```
+
+0.0.0.0/0 → NAT Gateway </pre>
+
+```
+    <p class="answer">
+
+        <strong>2. Check the NAT Gateway.</strong>
+
+        <br>
+
+        Confirm it is available and deployed in a public
+        subnet.
+
+        <br><br>
+
+        <strong>3. Check the NAT subnet route.</strong>
+
+        <br>
+
+        NAT Gateway's subnet should have:
+
+    </p>
+
+    <pre>
+```
+
+0.0.0.0/0 → Internet Gateway </pre>
+
+```
+    <p class="answer">
+
+        <strong>4. Check Network ACLs.</strong>
+
+        <br>
+
+        Because NACLs are stateless, return traffic must also
+        be allowed.
+
+        <br><br>
+
+        <strong>5. Check security group rules.</strong>
+
+        <br>
+
+        Verify required outbound traffic is allowed.
+
+    </p>
+
+    <div class="flow">
+
+        Private EC2
+
+        →
+
+        Private Route Table
+
+        →
+
+        NAT Gateway
+
+        →
+
+        Public Route Table
+
+        →
+
+        IGW
+
+        →
+
+        Internet
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would first check the private subnet route table
+            for a default route to the NAT Gateway. Then I would
+            verify the NAT Gateway is healthy and is in a public
+            subnet whose route table has a route to the Internet
+            Gateway. Finally I would check NACL and security
+            group rules."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 2 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 02</div>
+
+    <h3>
+        EC2 has a public IP but still cannot access the internet. What will you check?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ TROUBLESHOOTING
+    </span>
+
+    <p class="answer">
+
+        A public IP alone does not guarantee internet connectivity.
+
+        I would check:
+
+        <br><br>
+
+        1. Is the subnet actually public?
+
+        <br>
+
+        2. Does its route table contain:
+
+    </p>
+
+    <pre>
+```
+
+0.0.0.0/0 → Internet Gateway </pre>
+
+```
+    <p class="answer">
+
+        3. Is the Internet Gateway attached to the VPC?
+
+        <br>
+
+        4. Are security group rules correct?
+
+        <br>
+
+        5. Are NACL rules correct?
+
+        <br>
+
+        6. Is the OS firewall blocking the traffic?
+
+        <br>
+
+        7. Is the application listening on the expected port?
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would not assume that a public IP is sufficient.
+            I would verify the subnet route table, Internet
+            Gateway attachment, security groups, NACLs,
+            operating-system firewall and application listener."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 3 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 03</div>
+
+    <h3>
+        Two EC2 instances in the same VPC cannot communicate. What would you check?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ COMMON
+    </span>
+
+    <p class="answer">
+
+        I would check:
+
+        <br><br>
+
+        → Are both instances in the expected VPC?
+
+        <br>
+
+        → Are their subnets correctly routed?
+
+        <br>
+
+        → Is the local VPC route present?
+
+        <br>
+
+        → Does the destination security group allow the
+        source?
+
+        <br>
+
+        → Are NACLs allowing both directions?
+
+        <br>
+
+        → Is the application actually listening?
+
+        <br>
+
+        → Is the OS firewall blocking the connection?
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Web Server:
+
+            <br>
+            10.0.1.10
+
+            <br><br>
+
+            Application Server:
+
+            <br>
+            10.0.2.10
+
+            <br><br>
+
+            If the application server's security group does not
+            allow the required application port from the web
+            server's security group, the connection can fail.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would verify the VPC and routing first, then
+            check the destination security group, NACLs,
+            operating-system firewall and application listener."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 4 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 04</div>
+
+    <h3>
+        Design a production 3-tier architecture using VPC.
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ DEVOPS ARCHITECTURE
+    </span>
+
+    <div class="flow">
+
+        🌐 Internet
+
+        ↓
+
+        ⚖️ Application Load Balancer
+
+        ↓
+
+        ┌──────────────────────────────┐
+
+        │ Public Subnets               │
+
+        │ ALB                          │
+
+        └──────────────────────────────┘
+
+        ↓
+
+        ┌──────────────────────────────┐
+
+        │ Private App Subnets          │
+
+        │ EC2 / ECS / Applications     │
+
+        └──────────────────────────────┘
+
+        ↓
+
+        ┌──────────────────────────────┐
+
+        │ Private DB Subnets           │
+
+        │ Database                     │
+
+        └──────────────────────────────┘
+
+    </div>
+
+    <p class="answer">
+
+        A common production design separates workloads into
+        different subnet tiers.
+
+        <br><br>
+
+        <strong>Public subnet:</strong>
+
+        <br>
+        Load Balancer
+
+        <br><br>
+
+        <strong>Private application subnet:</strong>
+
+        <br>
+        Application servers
+
+        <br><br>
+
+        <strong>Private database subnet:</strong>
+
+        <br>
+        Database services
+
+        <br><br>
+
+        NAT Gateway can provide outbound internet access for
+        private application resources when required.
+
+        Multiple Availability Zones should be used for
+        resilience.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would design a multi-AZ VPC with public subnets
+            for the load balancer, private application subnets
+            for application workloads and isolated private
+            database subnets. NAT Gateways can provide outbound
+            internet access for private application resources,
+            while security groups control tier-to-tier access."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 5 -->
+
+<article class="question">
+
+    <div class="question-number">SCENARIO 05</div>
+
+    <h3>
+        Security Group allows traffic, but the connection is still failing. What could be wrong?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ TROUBLESHOOTING
+    </span>
+
+    <p class="answer">
+
+        A Security Group is only one part of the network path.
+
+        I would also check:
+
+        <br><br>
+
+        → Route tables
+
+        <br>
+        → NACLs
+
+        <br>
+        → Internet Gateway / NAT Gateway
+
+        <br>
+        → DNS
+
+        <br>
+        → OS firewall
+
+        <br>
+        → Application listener
+
+        <br>
+        → Correct IP and port
+
+        <br>
+        → VPC Flow Logs
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A security group being correct does not guarantee
+            connectivity. I would verify routing, NACLs, gateways,
+            DNS, the operating-system firewall and whether the
+            application is listening on the expected address
+            and port."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     🛠️ CLI
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🛠️ Important AWS VPC CLI Commands</h2>
+    <div class="line"></div>
+</div>
+
+
+<article class="question">
+
+    <h3>VPC Commands</h3>
+
+    <span class="label">LIST VPCS</span>
+
+    <pre>
+```
+
+aws ec2 describe-vpcs </pre>
+
+```
+    <span class="label">LIST SUBNETS</span>
+
+    <pre>
+```
+
+aws ec2 describe-subnets </pre>
+
+```
+    <span class="label">LIST ROUTE TABLES</span>
+
+    <pre>
+```
+
+aws ec2 describe-route-tables </pre>
+
+```
+    <span class="label">LIST SECURITY GROUPS</span>
+
+    <pre>
+```
+
+aws ec2 describe-security-groups </pre>
+
+```
+    <span class="label">LIST NETWORK ACLS</span>
+
+    <pre>
+```
+
+aws ec2 describe-network-acls </pre>
+
+```
+    <span class="label">LIST INTERNET GATEWAYS</span>
+
+    <pre>
+```
+
+aws ec2 describe-internet-gateways </pre>
+
+```
+    <span class="label">LIST NAT GATEWAYS</span>
+
+    <pre>
+```
+
+aws ec2 describe-nat-gateways </pre>
+
+```
+    <span class="label">LIST NETWORK INTERFACES</span>
+
+    <pre>
+```
+
+aws ec2 describe-network-interfaces </pre>
+
+```
+    <span class="label">LIST VPC ENDPOINTS</span>
+
+    <pre>
+```
+
+aws ec2 describe-vpc-endpoints </pre>
+
+```
+    <span class="label">LIST VPC PEERING CONNECTIONS</span>
+
+    <pre>
+```
+
+aws ec2 describe-vpc-peering-connections </pre>
+
+```
+    <span class="label">LIST VPC FLOW LOGS</span>
+
+    <pre>
+```
+
+aws ec2 describe-flow-logs </pre>
+
+```
+</article>
+
+
+<!-- =====================================================
+     🧠 FINAL REVISION
+====================================================== -->
+
+<div class="important">
+
+    <strong>🧠 VPC One-Minute Revision</strong>
+
+    <br><br>
+
+    <strong>
+        VPC = Your logical network in AWS
+        <br><br>
+
+        CIDR = IP address range
+        <br><br>
+
+        Subnet = Smaller network inside VPC
+        <br><br>
+
+        Public Subnet = Route to Internet Gateway
+        <br><br>
+
+        Private Subnet = No direct route to Internet Gateway
+        <br><br>
+
+        Route Table = Decides where traffic goes
+        <br><br>
+
+        Internet Gateway = VPC ↔ Internet path
+        <br><br>
+
+        NAT Gateway = Private subnet → outbound Internet
+        <br><br>
+
+        Security Group = Stateful resource-level firewall
+        <br><br>
+
+        NACL = Stateless subnet-level firewall
+        <br><br>
+
+        VPC Peering = Direct VPC-to-VPC connection
+        <br><br>
+
+        VPC Endpoint = Private access to supported AWS services
+        <br><br>
+
+        Transit Gateway = Central network hub
+        <br><br>
+
+        Flow Logs = Network traffic metadata for troubleshooting
+    </strong>
+
+    <br><br>
+
+    <strong>🔥 Production Flow</strong>
+
+    <br><br>
+
+    Users
+
+    →
+
+    Load Balancer
+
+    →
+
+    Public Subnets
+
+    →
+
+    Private App Subnets
+
+    →
+
+    Private DB Subnets
+
+    <br><br>
+
+    Private App
+
+    →
+
+    NAT Gateway
+
+    →
+
+    Internet Gateway
+
+    →
+
+    Internet
+
+    <br><br>
+
+    Security:
+
+    IAM + Security Groups + NACLs
+
+    <br>
+
+    Monitoring:
+
+    VPC Flow Logs + CloudWatch
+
+</div>
+```
+
+</main>
+
+<footer>
+
+```
+<p>🌐 AWS VPC Interview Preparation</p>
+
+<span>
+    Nandu's DevOps Interview Master Guide • 2026
+</span>
+```
+
+</footer>
+
+</body>
+
+</html>

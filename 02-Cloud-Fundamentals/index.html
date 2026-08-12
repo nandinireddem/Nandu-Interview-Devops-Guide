@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloud Fundamentals | Nandu's DevOps Interview Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+body{
+    background:
+    radial-gradient(circle at 10% 10%,rgba(59,130,246,.12),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(139,92,246,.10),transparent 30%),
+    #0b1020;
+}
+
+.hero{
+    text-align:center;
+    padding:70px 20px 55px;
+    border-bottom:1px solid #27324a;
+    background:linear-gradient(135deg,#111a31,#15122b,#0b1020);
+}
+
+.back{
+    color:#8f9bb8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#a78bfa;
+}
+
+.icon{
+    font-size:58px;
+    margin-top:25px;
+}
+
+.hero h1{
+    font-size:clamp(38px,6vw,64px);
+    margin:12px 0;
+}
+
+.hero h1 span{
+    color:#a78bfa;
+}
+
+.hero p{
+    max-width:780px;
+    margin:auto;
+    color:#9ba7c1;
+    line-height:1.8;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:50px 0 80px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:45px 0 22px;
+}
+
+.section-title h2{
+    font-size:25px;
+}
+
+.line{
+    flex:1;
+    height:1px;
+    background:#29354e;
+}
+
+.topic-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+}
+
+.topic-card{
+    position:relative;
+    padding:26px;
+    border-radius:18px;
+    background:linear-gradient(145deg,#141e37,#10172a);
+    border:1px solid #2a3650;
+    transition:.25s ease;
+    text-decoration:none;
+    color:inherit;
+    overflow:hidden;
+}
+
+.topic-card:hover{
+    transform:translateY(-5px);
+    border-color:#8b5cf6;
+    box-shadow:0 12px 35px rgba(0,0,0,.25);
+}
+
+.card-icon{
+    font-size:32px;
+    margin-bottom:15px;
+}
+
+.topic-card h3{
+    color:#edf1fa;
+    margin-bottom:10px;
+}
+
+.topic-card p{
+    color:#929fbb;
+    line-height:1.65;
+    font-size:14px;
+}
+
+.status{
+    display:inline-block;
+    margin-top:15px;
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.5px;
+}
+
+.done{
+    background:rgba(34,197,94,.12);
+    color:#86efac;
+    border:1px solid rgba(34,197,94,.25);
+}
+
+.progress{
+    background:rgba(245,158,11,.10);
+    color:#fcd34d;
+    border:1px solid rgba(245,158,11,.25);
+}
+
+.locked{
+    background:rgba(148,163,184,.08);
+    color:#94a3b8;
+    border:1px solid rgba(148,163,184,.2);
+}
+
+.note{
+    margin-top:45px;
+    padding:24px;
+    border-radius:16px;
+    border:1px solid rgba(167,139,250,.25);
+    background:rgba(167,139,250,.06);
+    color:#b8c4da;
+    line-height:1.8;
+}
+
+footer{
+    text-align:center;
+    padding:35px 20px;
+    border-top:1px solid #232d44;
+    color:#687692;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="hero">
+
+<a href="../index.html" class="back">← Back to Main Guide</a>
+
+<div class="icon">☁️</div>
+
+<h1>Cloud <span>Fundamentals</span></h1>
+
+<p>
+Build the foundation before going deeper into AWS, Azure, GCP
+and DevOps. Every topic is organized from the most frequently
+asked interview questions to real-time scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="section-title">
+<h2>🔥 Completed</h2>
+<div class="line"></div>
+</div>
+
+<div class="topic-grid">
+
+<a href="cloud-computing-basics.html" class="topic-card">
+
+<div class="card-icon">☁️</div>
+
+<h3>Cloud Computing Basics</h3>
+
+<p>
+Cloud computing, IaaS, PaaS, SaaS, deployment models,
+scalability, elasticity, HA, fault tolerance, Regions,
+Availability Zones, Multi-AZ and Multi-Region.
+</p>
+
+<span class="status done">✓ COMPLETED</span>
+
+</a>
+
+</div>
+
+<div class="section-title">
+<h2>📚 Upcoming Topics</h2>
+<div class="line"></div>
+</div>
+
+<div class="topic-grid">
+
+<div class="topic-card">
+
+<div class="card-icon">💰</div>
+
+<h3>Cloud Pricing & Cost Optimization</h3>
+
+<p>
+Pay-as-you-go, pricing concepts, cost optimization,
+reserved capacity, savings plans and real-time scenarios.
+</p>
+
+<span class="status progress">NEXT</span>
+
+</div>
+
+<div class="topic-card">
+
+<div class="card-icon">🔐</div>
+
+<h3>Cloud Security Fundamentals</h3>
+
+<p>
+Shared responsibility model, identity, encryption,
+security controls and common cloud security concepts.
+</p>
+
+<span class="status locked">UPCOMING</span>
+
+</div>
+
+<div class="topic-card">
+
+<div class="card-icon">🌍</div>
+
+<h3>Cloud Networking Basics</h3>
+
+<p>
+CIDR, subnets, routing, public/private networking,
+NAT, internet connectivity and fundamental concepts.
+</p>
+
+<span class="status locked">UPCOMING</span>
+
+</div>
+
+<div class="topic-card">
+
+<div class="card-icon">🗄️</div>
+
+<h3>Cloud Storage Concepts</h3>
+
+<p>
+Object, block and file storage concepts and when each
+type should be used.
+</p>
+
+<span class="status locked">UPCOMING</span>
+
+</div>
+
+<div class="topic-card">
+
+<div class="card-icon">🛡️</div>
+
+<h3>Backup & Disaster Recovery</h3>
+
+<p>
+Backup strategies, recovery concepts, RPO, RTO and
+real-world disaster recovery scenarios.
+</p>
+
+<span class="status locked">UPCOMING</span>
+
+</div>
+
+<div class="topic-card">
+
+<div class="card-icon">⚙️</div>
+
+<h3>Cloud Architecture Basics</h3>
+
+<p>
+Well-architected concepts, reliability, performance,
+security, cost and operational excellence.
+</p>
+
+<span class="status locked">UPCOMING</span>
+
+</div>
+
+</div>
+
+<div class="note">
+
+<strong>🧠 Interview Strategy</strong>
+
+<br><br>
+
+Start with ⭐⭐⭐⭐⭐ questions first.
+
+Then move through ⭐⭐⭐⭐ → ⭐⭐⭐ → ⭐⭐.
+
+Every important concept will include:
+
+<br><br>
+
+🎤 Interview-ready answer
+💡 Simple explanation
+🔥 Real-time example
+🎯 Scenario-based question
+🧠 Memory trick
+🔄 Quick revision
+
+<br><br>
+
+The goal is not just memorizing answers — it is understanding
+the concept well enough to explain it confidently in an interview.
+
+</div>
+
+</main>
+
+<footer>
+
+Cloud Fundamentals • Nandu's DevOps Interview Master Guide
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Docker Networking & Volumes - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Docker <span>Networking & Volumes</span></h1>
+
+<p>
+Docker networking, ports, DNS, container communication,
+bridge networks, volumes, bind mounts and practical
+DevOps interview scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="card intro">
+
+<strong>⭐⭐⭐⭐⭐ DOCKER NETWORKING & STORAGE — MUST KNOW</strong>
+
+<p>
+Containers are isolated by default, but real applications usually
+need containers to communicate with each other and persist data.
+Docker networking provides communication, while volumes and mounts
+provide persistent storage.
+</p>
+
+<div class="flow">
+
+Container
+↓
+<br>
+Network
+↓
+<br>
+Container-to-Container Communication
+<br><br>
+Container
+↓
+<br>
+Volume / Bind Mount
+↓
+<br>
+Persistent Data
+
+</div>
+
+</div>
+
+
+<!-- NETWORK BASICS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Docker Networking?</h2>
+
+<div class="answer">
+Docker networking allows containers to communicate with each other,
+the host machine and external networks.
+</div>
+
+<h3>Why is networking required?</h3>
+
+<ul>
+<li>Application container needs database access</li>
+<li>Frontend needs backend API</li>
+<li>Backend needs Redis</li>
+<li>Containers need DNS-based service discovery</li>
+<li>Applications need controlled external connectivity</li>
+</ul>
+
+<div class="flow">
+
+Frontend Container
+↓
+<br>
+Backend Container
+↓
+<br>
+Database Container
+
+</div>
+
+</div>
+
+
+<!-- NETWORK TYPES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Docker Network Types</h2>
+
+<table>
+
+<tr>
+<th>Network</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>bridge</code></td>
+<td>Default network for containers on a Docker host.</td>
+</tr>
+
+<tr>
+<td><code>host</code></td>
+<td>Container shares the host's network namespace.</td>
+</tr>
+
+<tr>
+<td><code>none</code></td>
+<td>Disables normal container networking.</td>
+</tr>
+
+<tr>
+<td>Custom bridge</td>
+<td>Allows controlled communication and Docker DNS between containers.</td>
+</tr>
+
+<tr>
+<td>Overlay</td>
+<td>Used for communication across multiple Docker hosts, commonly with orchestrated environments.</td>
+</tr>
+
+</table>
+
+<h3>Useful commands</h3>
+
+<pre><code>docker network ls
+
+docker network inspect bridge
+
+docker network create my-network
+
+docker network inspect my-network
+
+docker network rm my-network</code></pre>
+
+</div>
+
+
+<!-- CUSTOM NETWORK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Why use a Custom Bridge Network?</h2>
+
+<div class="answer">
+A custom bridge network provides better isolation and allows
+containers on that network to communicate using container names.
+</div>
+
+<pre><code>docker network create app-network
+
+docker run -d \
+  --name backend \
+  --network app-network \
+  nginx
+
+docker run -d \
+  --name frontend \
+  --network app-network \
+  nginx</code></pre>
+
+<div class="scenario">
+
+<strong>Interview scenario:</strong>
+
+Suppose a backend application connects to MySQL.
+
+Instead of hardcoding a container IP address, place both containers
+on the same custom network and connect using the database container
+name.
+
+Example:
+
+<pre><code>DB_HOST=mysql</code></pre>
+
+Docker's embedded DNS can resolve the container/service name.
+
+</div>
+
+</div>
+
+
+<!-- DNS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Docker DNS</h2>
+
+<h3>Q. How do containers find each other?</h3>
+
+<div class="answer">
+Containers connected to the same user-defined network can generally
+communicate using container or service names instead of relying on
+manually assigned IP addresses.
+</div>
+
+<pre><code>docker network create app-network
+
+docker run -d \
+  --name mysql \
+  --network app-network \
+  mysql
+
+docker run -d \
+  --name backend \
+  --network app-network \
+  my-backend</code></pre>
+
+<p>
+The backend can use <code>mysql</code> as the database hostname when
+the containers are attached to the same user-defined network.
+</p>
+
+<div class="warning">
+
+Do not design applications around hardcoded container IP addresses.
+Container IPs can change when containers are recreated.
+
+</div>
+
+</div>
+
+
+<!-- PORTS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Docker Port Mapping</h2>
+
+<h3>Q. What is port mapping?</h3>
+
+<div class="answer">
+Port mapping connects a port on the Docker host to a port exposed
+by a container.
+</div>
+
+<pre><code>docker run -d -p 8080:80 nginx</code></pre>
+
+<table>
+
+<tr>
+<th>Port</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>8080</code></td>
+<td>Host port</td>
+</tr>
+
+<tr>
+<td><code>80</code></td>
+<td>Container port</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Browser
+<br>
+↓
+<br>
+Host :8080
+<br>
+↓
+<br>
+Container :80
+
+</div>
+
+<h3>Common commands</h3>
+
+<pre><code>docker ps
+
+docker port &lt;container&gt;
+
+docker run -d -p 8080:80 nginx</code></pre>
+
+</div>
+
+
+<!-- EXPOSE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 6. EXPOSE vs -p</h2>
+
+<table>
+
+<tr>
+<th>EXPOSE</th>
+<th>-p</th>
+</tr>
+
+<tr>
+<td>Documents the intended container port.</td>
+<td>Publishes/maps a port from host to container.</td>
+</tr>
+
+<tr>
+<td>Does not by itself publish the port.</td>
+<td>Makes the service reachable through the published host port.</td>
+</tr>
+
+</table>
+
+<pre><code>EXPOSE 8080</code></pre>
+
+<pre><code>docker run -p 8080:8080 my-app</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<code>EXPOSE</code> documents which port the application listens on
+inside the container. <code>-p</code> actually publishes a host port
+to the container port.
+
+</div>
+
+</div>
+
+
+<!-- HOST NETWORK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 7. Host Network</h2>
+
+<div class="answer">
+With host networking, the container uses the host's network stack
+instead of getting a separate network namespace in the usual way.
+</div>
+
+<pre><code>docker run --network host nginx</code></pre>
+
+<div class="warning">
+
+Host networking reduces network isolation and is not the default
+choice for normal application containers. Use it only when there is
+a clear requirement.
+
+</div>
+
+</div>
+
+
+<!-- VOLUMES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Why do Docker Containers Need Persistent Storage?</h2>
+
+<div class="answer">
+A container's writable layer is tied to the container lifecycle.
+If the container is removed, data stored only there should not be
+treated as durable application storage.
+</div>
+
+<div class="scenario">
+
+Example:
+
+A MySQL container stores database files inside its container
+filesystem. If the container is deleted and recreated without
+persistent storage, the database data can be lost.
+
+</div>
+
+<div class="flow">
+
+Application
+↓
+<br>
+Container
+↓
+<br>
+Persistent Volume
+↓
+<br>
+Data survives container replacement
+
+</div>
+
+</div>
+
+
+<!-- VOLUME TYPES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Docker Volume vs Bind Mount</h2>
+
+<table>
+
+<tr>
+<th>Named Volume</th>
+<th>Bind Mount</th>
+</tr>
+
+<tr>
+<td>Managed by Docker.</td>
+<td>Uses a specific host filesystem path.</td>
+</tr>
+
+<tr>
+<td>Good for persistent application data.</td>
+<td>Useful when host files need to be directly shared.</td>
+</tr>
+
+<tr>
+<td>Docker manages the storage location.</td>
+<td>User controls the host path.</td>
+</tr>
+
+</table>
+
+<h3>Named volume</h3>
+
+<pre><code>docker volume create app-data
+
+docker volume ls
+
+docker volume inspect app-data
+
+docker run -d \
+  --name mysql \
+  -v app-data:/var/lib/mysql \
+  mysql</code></pre>
+
+<h3>Bind mount</h3>
+
+<pre><code>docker run -d \
+  -v C:\myapp:/app \
+  my-image</code></pre>
+
+</div>
+
+
+<!-- VOLUME COMMANDS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Important Volume Commands</h2>
+
+<pre><code>docker volume ls
+
+docker volume create my-volume
+
+docker volume inspect my-volume
+
+docker volume rm my-volume
+
+docker volume prune</code></pre>
+
+<div class="warning">
+
+Be careful with <code>docker volume prune</code>. It can remove
+unused volumes and permanently delete data stored in them.
+
+</div>
+
+</div>
+
+
+<!-- READ ONLY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 11. Read-Only Mounts</h2>
+
+<p>
+A mount can be made read-only when the container should be able to
+read data but should not modify it.
+</p>
+
+<pre><code>docker run -v app-data:/data:ro my-image</code></pre>
+
+<div class="scenario">
+
+This can be useful when a container only needs to consume
+configuration or shared data and should not have write access.
+
+</div>
+
+</div>
+
+
+<!-- NETWORK + VOLUME REAL TIME -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Real-Time Scenario: Backend + Database</h2>
+
+<div class="scenario">
+
+<strong>Requirement:</strong>
+
+Run a backend application and MySQL database as separate containers.
+
+<br><br>
+
+<strong>Solution:</strong>
+
+Create a custom network for communication and a named volume for
+database persistence.
+
+</div>
+
+<pre><code>docker network create app-network
+
+docker volume create mysql-data
+
+docker run -d \
+  --name mysql \
+  --network app-network \
+  -v mysql-data:/var/lib/mysql \
+  mysql
+
+docker run -d \
+  --name backend \
+  --network app-network \
+  my-backend</code></pre>
+
+<div class="flow">
+
+Backend
+<br>
+↓
+<br>
+app-network
+<br>
+↓
+<br>
+mysql
+<br>
+↓
+<br>
+mysql-data
+
+</div>
+
+</div>
+
+
+<!-- TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Networking Troubleshooting</h2>
+
+<h3>Problem: Container cannot reach another container</h3>
+
+<pre><code>docker ps
+
+docker inspect &lt;container&gt;
+
+docker network ls
+
+docker network inspect &lt;network&gt;</code></pre>
+
+<p>Check:</p>
+
+<ul>
+<li>Are both containers running?</li>
+<li>Are they attached to the same network?</li>
+<li>Is the hostname correct?</li>
+<li>Is the application actually listening on the expected port?</li>
+<li>Is the service binding to the correct interface?</li>
+<li>Are host firewall or security rules involved?</li>
+</ul>
+
+</div>
+
+
+<!-- PORT TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Port Troubleshooting</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Application works inside the container but cannot be accessed from
+the host.
+
+</div>
+
+<pre><code>docker ps
+
+docker port &lt;container&gt;
+
+docker logs &lt;container&gt;
+
+docker exec -it &lt;container&gt; sh</code></pre>
+
+<p>
+Then verify the application is listening on the expected container
+port and that the required host-to-container port mapping exists.
+</p>
+
+</div>
+
+
+<!-- VOLUME TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. Volume Troubleshooting</h2>
+
+<pre><code>docker volume ls
+
+docker volume inspect my-volume
+
+docker inspect &lt;container&gt;</code></pre>
+
+<h3>Check:</h3>
+
+<ul>
+<li>Is the correct volume attached?</li>
+<li>Is the mount path correct?</li>
+<li>Does the container user have permission?</li>
+<li>Is the mount read-only?</li>
+<li>Is the application writing to the expected directory?</li>
+</ul>
+
+</div>
+
+
+<!-- INTERVIEW QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Asked Interview Questions</h2>
+
+<ol>
+
+<li>What is Docker networking?</li>
+
+<li>What are the different Docker network types?</li>
+
+<li>What is the default Docker network?</li>
+
+<li>Why use a custom bridge network?</li>
+
+<li>How do two Docker containers communicate?</li>
+
+<li>How does Docker DNS work?</li>
+
+<li>What is port mapping?</li>
+
+<li>Explain <code>-p 8080:80</code>.</li>
+
+<li>What is the difference between EXPOSE and -p?</li>
+
+<li>What is host networking?</li>
+
+<li>What is a Docker volume?</li>
+
+<li>Why do containers need persistent storage?</li>
+
+<li>Volume vs bind mount?</li>
+
+<li>How do you create a Docker volume?</li>
+
+<li>How do you inspect a volume?</li>
+
+<li>How do you persist MySQL data in Docker?</li>
+
+<li>How do you troubleshoot container networking?</li>
+
+<li>Why should you avoid hardcoding container IP addresses?</li>
+
+<li>How would you connect frontend, backend and database containers?</li>
+
+<li>How would you troubleshoot a container whose application
+works internally but is unreachable from the host?</li>
+
+</ol>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Docker Networking & Volumes Cheat Sheet</h2>
+
+<pre><code># Networks
+docker network ls
+docker network create app-network
+docker network inspect app-network
+docker network rm app-network
+
+# Run on network
+docker run -d --name backend --network app-network my-image
+
+# Ports
+docker run -d -p 8080:80 nginx
+docker port &lt;container&gt;
+
+# Volumes
+docker volume ls
+docker volume create app-data
+docker volume inspect app-data
+docker volume rm app-data
+docker volume prune
+
+# Named volume
+docker run -d \
+  -v app-data:/data \
+  my-image
+
+# Read-only volume
+docker run -d \
+  -v app-data:/data:ro \
+  my-image
+
+# Bind mount
+docker run -d \
+  -v C:\myapp:/app \
+  my-image
+
+# Troubleshooting
+docker ps
+docker logs &lt;container&gt;
+docker inspect &lt;container&gt;
+docker network inspect &lt;network&gt;
+docker exec -it &lt;container&gt; sh</code></pre>
+
+</div>
+
+
+<!-- FINAL -->
+
+<div class="card">
+
+<h2>🚀 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Networking</strong>
+<br>
+Containers communicate through Docker networks.
+
+<br><br>
+
+<strong>Custom Bridge</strong>
+<br>
+Provides isolated container communication and DNS-based discovery.
+
+<br><br>
+
+<strong>Port Mapping</strong>
+<br>
+<code>-p HOST:CONTAINER</code>
+
+<br><br>
+
+<strong>Volumes</strong>
+<br>
+Persist application data beyond the container lifecycle.
+
+<br><br>
+
+<strong>Bind Mount</strong>
+<br>
+Maps a host path directly into a container.
+
+<br><br>
+
+<strong>Production Thinking</strong>
+<br>
+Network isolation + persistent storage + least privilege +
+proper troubleshooting.
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 Explain Docker Networking & Volumes in an Interview</h2>
+
+<div class="interview">
+
+" Docker networking allows containers to communicate with each other,
+the host and external networks.
+
+For application architectures, I would normally create a custom
+network so containers can communicate using service or container
+names instead of hardcoded IP addresses.
+
+Port publishing such as 8080:80 maps a host port to a container port.
+
+For persistent data, I would use Docker volumes instead of relying
+only on the container's writable layer. Named volumes are managed
+by Docker, while bind mounts map a specific host directory.
+
+For example, in a backend and MySQL setup, both containers can share
+a custom network while MySQL uses a persistent volume for its data.
+
+During troubleshooting I would check the container status, logs,
+network configuration, port mappings, DNS/name resolution and volume
+mounts."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🐳 Docker • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

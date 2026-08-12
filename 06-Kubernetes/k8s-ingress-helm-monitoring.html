@@ -1,0 +1,1738 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes Ingress, Helm & Monitoring - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+ul,ol{padding-left:25px}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🌐⎈📊</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Ingress, Helm & Monitoring</span></h1>
+
+<p>
+Interview-focused guide covering Ingress, Ingress Controllers,
+TLS routing, Helm, Charts, Releases, Values, Prometheus, Grafana,
+metrics, alerting, troubleshooting and real-time DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Big Picture</h2>
+
+<p>
+Ingress, Helm and Monitoring solve three different production
+problems in Kubernetes.
+</p>
+
+<div class="flow">
+
+<strong>Ingress</strong>
+<br>
+External HTTP/HTTPS traffic → Kubernetes Services
+
+<br><br>↓
+
+<strong>Helm</strong>
+<br>
+Package + install + upgrade Kubernetes applications
+
+<br><br>↓
+
+<strong>Monitoring</strong>
+<br>
+Observe metrics → dashboards → alerts → troubleshoot
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A company runs a web application on Kubernetes.
+
+Users access:
+
+<pre><code>https://shop.example.com</code></pre>
+
+Ingress routes the request to the correct Service.
+
+Helm is used to install and upgrade the application.
+
+Prometheus collects metrics and Grafana displays dashboards for
+CPU, memory, request rate, latency and application health.
+
+</div>
+
+</div>
+
+
+<!-- ================= INGRESS ================= -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Kubernetes Ingress?</h2>
+
+<div class="answer">
+
+Ingress is a Kubernetes API object used to define HTTP and HTTPS
+routing rules for traffic entering the cluster.
+
+It can route requests based on hostnames and URL paths to backend
+Services.
+
+</div>
+
+<div class="flow">
+
+Internet
+<br>
+↓
+<br>
+Load Balancer
+<br>
+↓
+<br>
+Ingress Controller
+<br>
+↓
+<br>
+Ingress Rules
+<br>
+↓
+<br>
+Service
+<br>
+↓
+<br>
+Pods
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Ingress provides HTTP and HTTPS routing into Kubernetes Services.
+It allows us to expose multiple applications using host-based or
+path-based routing through a common entry point."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is an Ingress Controller?</h2>
+
+<div class="answer">
+
+An Ingress resource only defines routing rules.
+
+An <strong>Ingress Controller</strong> is the component that actually
+implements those rules and processes incoming traffic.
+
+Examples include:
+
+<ul>
+<li>NGINX Ingress Controller</li>
+<li>Traefik</li>
+<li>HAProxy</li>
+<li>Cloud-provider ingress/load-balancer controllers</li>
+</ul>
+
+</div>
+
+<div class="warning">
+
+Creating an Ingress object without an appropriate Ingress Controller
+does not automatically make the application reachable.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Basic Ingress YAML</h2>
+
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: shop-ingress
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - host: shop.example.com
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+
+        backend:
+          service:
+            name: shop-service
+            port:
+              number: 80</code></pre>
+
+<p>
+Requests for <code>shop.example.com</code> are routed to
+<code>shop-service</code>.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Path-Based Routing</h2>
+
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: app-ingress
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - host: example.com
+
+    http:
+      paths:
+
+      - path: /api
+        pathType: Prefix
+
+        backend:
+          service:
+            name: api-service
+            port:
+              number: 80
+
+      - path: /web
+        pathType: Prefix
+
+        backend:
+          service:
+            name: web-service
+            port:
+              number: 80</code></pre>
+
+<div class="flow">
+
+example.com/api
+→ API Service
+
+<br><br>
+
+example.com/web
+→ Web Service
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Host-Based Routing</h2>
+
+<pre><code>rules:
+
+- host: api.example.com
+
+  http:
+    paths:
+    - path: /
+      pathType: Prefix
+
+      backend:
+        service:
+          name: api-service
+          port:
+            number: 80
+
+- host: shop.example.com
+
+  http:
+    paths:
+    - path: /
+      pathType: Prefix
+
+      backend:
+        service:
+          name: shop-service
+          port:
+            number: 80</code></pre>
+
+<div class="scenario">
+
+<strong>Production example:</strong>
+
+<pre><code>api.example.com
+        ↓
+API Service
+
+shop.example.com
+        ↓
+Shop Service</code></pre>
+
+One cluster can serve multiple applications through the ingress
+layer.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Ingress TLS</h2>
+
+<div class="answer">
+
+Ingress can terminate HTTPS/TLS traffic using a Kubernetes TLS
+Secret.
+
+</div>
+
+<pre><code>spec:
+
+  tls:
+  - hosts:
+    - shop.example.com
+
+    secretName: shop-tls
+
+  rules:
+  - host: shop.example.com
+
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+
+        backend:
+          service:
+            name: shop-service
+            port:
+              number: 80</code></pre>
+
+<div class="scenario">
+
+Client:
+
+<code>HTTPS</code>
+
+↓
+
+Ingress Controller terminates TLS
+
+↓
+
+Service
+
+↓
+
+Pod
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Ingress vs Service</h2>
+
+<table>
+
+<tr>
+<th>Service</th>
+<th>Ingress</th>
+</tr>
+
+<tr>
+<td>Provides stable networking for Pods.</td>
+<td>Provides HTTP/HTTPS routing.</td>
+</tr>
+
+<tr>
+<td>Can expose applications using ClusterIP, NodePort or LoadBalancer.</td>
+<td>Routes based on host/path rules.</td>
+</tr>
+
+<tr>
+<td>Works at the Service/networking layer.</td>
+<td>Primarily handles HTTP/HTTPS application routing.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Simple answer:</strong>
+
+"Service provides stable access to Pods, while Ingress provides
+HTTP/HTTPS routing from outside the cluster to those Services."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 8. Ingress troubleshooting</h2>
+
+<div class="scenario">
+
+If an application is not reachable through Ingress, check:
+
+<pre><code>kubectl get ingress
+kubectl describe ingress &lt;ingress-name&gt;
+
+kubectl get ingressclass
+
+kubectl get svc
+kubectl get pods
+
+kubectl get endpoints
+kubectl get events</code></pre>
+
+</div>
+
+<p>
+Verify the Ingress class, hostname, Service name, Service port,
+backend endpoints and Ingress Controller logs.
+</p>
+
+</div>
+
+
+<!-- ================= HELM ================= -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is Helm?</h2>
+
+<div class="answer">
+
+Helm is a package manager for Kubernetes.
+
+It helps package, install, upgrade, configure and manage Kubernetes
+applications using reusable <strong>Charts</strong>.
+
+</div>
+
+<div class="flow">
+
+Helm Chart
+<br>
+↓
+Templates + Values
+<br>
+↓
+Helm
+<br>
+↓
+Kubernetes Manifests
+<br>
+↓
+Kubernetes API
+<br>
+↓
+Resources
+
+</div>
+
+<div class="interview">
+
+"Helm is commonly used to package Kubernetes applications and
+simplify repeatable deployments by using charts, templates and
+values."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. What is a Helm Chart?</h2>
+
+<div class="answer">
+
+A Helm Chart is a collection of files that describes a Kubernetes
+application.
+
+A typical chart contains templates, default values and chart
+metadata.
+
+</div>
+
+<h3>Typical structure</h3>
+
+<pre><code>myapp/
+├── Chart.yaml
+├── values.yaml
+└── templates/
+    ├── deployment.yaml
+    ├── service.yaml
+    ├── ingress.yaml
+    └── _helpers.tpl</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Important Helm files</h2>
+
+<table>
+
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Chart.yaml</td>
+<td>Chart metadata such as name and version.</td>
+</tr>
+
+<tr>
+<td>values.yaml</td>
+<td>Default configurable values.</td>
+</tr>
+
+<tr>
+<td>templates/</td>
+<td>Kubernetes manifest templates.</td>
+</tr>
+
+<tr>
+<td>_helpers.tpl</td>
+<td>Reusable Helm template helpers.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Helm values.yaml</h2>
+
+<pre><code>replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.27"
+
+service:
+  type: ClusterIP
+  port: 80</code></pre>
+
+<p>
+Templates can consume these values using Helm template expressions.
+</p>
+
+<pre><code>replicas: {{ .Values.replicaCount }}
+
+image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Helm install</h2>
+
+<pre><code>helm install myapp ./myapp</code></pre>
+
+<p>
+This creates a Helm release from the chart.
+</p>
+
+<h3>Specify values</h3>
+
+<pre><code>helm install myapp ./myapp \
+  --set replicaCount=3</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Helm upgrade</h2>
+
+<pre><code>helm upgrade myapp ./myapp</code></pre>
+
+<div class="scenario">
+
+Suppose production currently runs:
+
+<pre><code>replicas: 2</code></pre>
+
+You change the values to:
+
+<pre><code>replicas: 4</code></pre>
+
+Then:
+
+<pre><code>helm upgrade myapp ./myapp</code></pre>
+
+Helm applies the updated release configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Helm rollback</h2>
+
+<div class="answer">
+
+Helm tracks release revisions, allowing you to roll back to a
+previous revision.
+
+</div>
+
+<pre><code>helm history myapp
+
+helm rollback myapp 2</code></pre>
+
+<div class="scenario">
+
+Production deployment v3 causes an outage.
+
+If revision 2 was stable:
+
+<pre><code>helm rollback myapp 2</code></pre>
+
+This provides a fast recovery mechanism.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Helm release</h2>
+
+<div class="answer">
+
+A Helm release is a deployed instance of a Helm Chart.
+
+The same chart can have different releases.
+
+</div>
+
+<pre><code>helm install dev-app ./myapp
+helm install prod-app ./myapp</code></pre>
+
+<p>
+Here the same chart is used to create two different releases.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Helm important commands</h2>
+
+<pre><code># Add repository
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+# Update repositories
+helm repo update
+
+# Search charts
+helm search repo prometheus
+
+# Install
+helm install myapp ./mychart
+
+# List releases
+helm list
+
+# List all namespaces
+helm list -A
+
+# Show values
+helm get values myapp
+
+# Show release
+helm get all myapp
+
+# History
+helm history myapp
+
+# Upgrade
+helm upgrade myapp ./mychart
+
+# Rollback
+helm rollback myapp 1
+
+# Uninstall
+helm uninstall myapp</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. helm template</h2>
+
+<div class="answer">
+
+<code>helm template</code> renders Kubernetes manifests locally without
+actually installing the release.
+
+</div>
+
+<pre><code>helm template myapp ./mychart</code></pre>
+
+<div class="scenario">
+
+Very useful in CI/CD to inspect generated manifests before applying
+them to a cluster.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Helm vs kubectl</h2>
+
+<table>
+
+<tr>
+<th>kubectl</th>
+<th>Helm</th>
+</tr>
+
+<tr>
+<td>Directly interacts with Kubernetes resources.</td>
+<td>Manages applications through reusable charts.</td>
+</tr>
+
+<tr>
+<td>Works with individual manifests/resources.</td>
+<td>Provides templating, values and release management.</td>
+</tr>
+
+<tr>
+<td>Excellent for troubleshooting and direct operations.</td>
+<td>Excellent for repeatable application packaging/deployment.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Helm real-time CI/CD usage</h2>
+
+<div class="scenario">
+
+A DevOps pipeline receives a new application image.
+
+Pipeline:
+
+<pre><code>Git Push
+   ↓
+CI Build
+   ↓
+Docker Image
+   ↓
+Container Registry
+   ↓
+Helm values updated
+   ↓
+helm upgrade
+   ↓
+Kubernetes Deployment
+   ↓
+Health Checks
+   ↓
+Monitoring</code></pre>
+
+Helm makes it easier to maintain environment-specific values without
+creating completely separate manifests for every environment.
+
+</div>
+
+</div>
+
+
+<!-- ================= MONITORING ================= -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. What is Kubernetes Monitoring?</h2>
+
+<div class="answer">
+
+Kubernetes monitoring means collecting and analyzing information
+about cluster nodes, Pods, containers, applications and workloads.
+
+It helps teams detect failures, resource problems, performance
+issues and capacity requirements.
+
+</div>
+
+<div class="flow">
+
+Applications
+<br>
+↓
+<br>
+Metrics
+<br>
+↓
+<br>
+Prometheus
+<br>
+↓
+<br>
+Grafana
+<br>
+↓
+<br>
+Dashboard
+<br>
+↓
+<br>
+Alert
+<br>
+↓
+<br>
+DevOps Engineer
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Prometheus</h2>
+
+<div class="answer">
+
+Prometheus is a monitoring and alerting system commonly used with
+Kubernetes.
+
+It collects time-series metrics and stores them for querying and
+alerting.
+
+</div>
+
+<h3>Examples of metrics</h3>
+
+<ul>
+<li>CPU usage</li>
+<li>Memory usage</li>
+<li>Request rate</li>
+<li>HTTP errors</li>
+<li>Latency</li>
+<li>Pod/container metrics</li>
+<li>Node metrics</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Grafana</h2>
+
+<div class="answer">
+
+Grafana is commonly used to visualize metrics through dashboards.
+
+It can connect to Prometheus and display Kubernetes and application
+metrics in graphs, tables and panels.
+
+</div>
+
+<div class="scenario">
+
+Example dashboard:
+
+<pre><code>Cluster CPU
+Cluster Memory
+Node Health
+Pod Count
+Pod Restarts
+HTTP Request Rate
+HTTP Error Rate
+Application Latency</code></pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Prometheus vs Grafana</h2>
+
+<table>
+
+<tr>
+<th>Prometheus</th>
+<th>Grafana</th>
+</tr>
+
+<tr>
+<td>Collects and stores metrics.</td>
+<td>Visualizes metrics.</td>
+</tr>
+
+<tr>
+<td>Provides PromQL querying.</td>
+<td>Provides dashboards and panels.</td>
+</tr>
+
+<tr>
+<td>Can perform alerting.</td>
+<td>Can visualize and route alerts depending on configuration.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy answer:</strong>
+
+"Prometheus is primarily the metrics collection and monitoring
+system, while Grafana is primarily used to visualize those metrics
+through dashboards."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. What is PromQL?</h2>
+
+<div class="answer">
+
+PromQL is Prometheus Query Language.
+
+It is used to query and analyze time-series metrics stored in
+Prometheus.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>up</code></pre>
+
+<p>
+Shows whether monitored targets are currently up.
+</p>
+
+<h3>Example</h3>
+
+<pre><code>rate(http_requests_total[5m])</code></pre>
+
+<p>
+Calculates the per-second rate of increase over the selected
+five-minute range.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Kubernetes Monitoring Stack</h2>
+
+<div class="flow">
+
+Kubernetes Cluster
+<br>
+↓
+<br>
+Exporters / Metrics Sources
+<br>
+↓
+<br>
+Prometheus
+<br>
+↓
+<br>
+PromQL
+<br>
+↓
+<br>
+Grafana
+<br>
+↓
+<br>
+Dashboards / Alerts
+
+</div>
+
+<div class="scenario">
+
+A common production setup may use the
+<strong>kube-prometheus-stack</strong> Helm chart, which can package
+Prometheus, Grafana and related Kubernetes monitoring components.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Install monitoring stack using Helm</h2>
+
+<pre><code>helm repo add prometheus-community \
+https://prometheus-community.github.io/helm-charts
+
+helm repo update
+
+helm install monitoring \
+prometheus-community/kube-prometheus-stack \
+-n monitoring \
+--create-namespace</code></pre>
+
+<h3>Check</h3>
+
+<pre><code>kubectl get pods -n monitoring
+kubectl get svc -n monitoring</code></pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Why use monitoring in production?</h2>
+
+<div class="answer">
+
+Without monitoring, engineers may know that an application is down
+only after users report the problem.
+
+Monitoring provides visibility into:
+
+<ul>
+<li>Resource usage</li>
+<li>Application performance</li>
+<li>Errors</li>
+<li>Latency</li>
+<li>Pod restarts</li>
+<li>Node failures</li>
+<li>Capacity trends</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. What should you monitor?</h2>
+
+<table>
+
+<tr>
+<th>Layer</th>
+<th>Examples</th>
+</tr>
+
+<tr>
+<td>Cluster</td>
+<td>Node health, CPU, memory, capacity</td>
+</tr>
+
+<tr>
+<td>Pods</td>
+<td>Restarts, CPU, memory, status</td>
+</tr>
+
+<tr>
+<td>Application</td>
+<td>Request rate, errors, latency</td>
+</tr>
+
+<tr>
+<td>Network</td>
+<td>Traffic, failures, latency</td>
+</tr>
+
+<tr>
+<td>Storage</td>
+<td>Capacity, I/O, volume health</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Pod CrashLoopBackOff monitoring</h2>
+
+<div class="scenario">
+
+If a Pod repeatedly crashes:
+
+<pre><code>kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt; --previous</code></pre>
+
+Monitoring can help identify:
+
+<ul>
+<li>Frequent restarts</li>
+<li>Application errors</li>
+<li>Memory pressure</li>
+<li>Probe failures</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Alerting</h2>
+
+<div class="answer">
+
+Monitoring tells us what is happening.
+
+Alerting notifies engineers when defined conditions require
+attention.
+
+</div>
+
+<div class="scenario">
+
+Examples:
+
+<pre><code>High CPU
+High memory
+Pod repeatedly restarting
+Node unavailable
+High HTTP 5xx rate
+High application latency
+Low disk space</code></pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 32. Metrics Server vs Prometheus</h2>
+
+<table>
+
+<tr>
+<th>Metrics Server</th>
+<th>Prometheus</th>
+</tr>
+
+<tr>
+<td>Provides basic resource metrics.</td>
+<td>Full-featured monitoring and time-series database.</td>
+</tr>
+
+<tr>
+<td>Used by commands such as kubectl top.</td>
+<td>Used for extensive metrics collection, querying and alerting.</td>
+</tr>
+
+<tr>
+<td>Commonly supports resource-based HPA.</td>
+<td>Can provide richer/custom metrics depending on setup.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+Do not treat Metrics Server and Prometheus as interchangeable
+products. They solve overlapping but different monitoring needs.
+
+</div>
+
+</div>
+
+
+<!-- REAL TIME -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 33. Real-Time Scenario — Production Web Application</h2>
+
+<div class="scenario">
+
+Architecture:
+
+<pre><code>User
+ ↓
+DNS
+ ↓
+Load Balancer
+ ↓
+Ingress Controller
+ ↓
+Service
+ ↓
+Pods
+ ↓
+Database
+
+Monitoring:
+
+Pods / Nodes / Applications
+ ↓
+Prometheus
+ ↓
+Grafana
+ ↓
+Alerts</code></pre>
+
+Helm manages application deployments.
+
+Ingress manages external HTTP/HTTPS routing.
+
+Prometheus collects metrics.
+
+Grafana provides dashboards.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 34. Real-Time Scenario — Deployment fails after Helm upgrade</h2>
+
+<div class="scenario">
+
+Suppose:
+
+<pre><code>helm upgrade myapp ./mychart</code></pre>
+
+completes but the application is unhealthy.
+
+Check:
+
+<pre><code>helm history myapp
+
+helm status myapp
+
+kubectl get pods
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+If the previous release was stable:
+
+<pre><code>helm rollback myapp &lt;revision&gt;</code></pre>
+
+Then investigate the failed chart/configuration before trying the
+upgrade again.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 35. Real-Time Scenario — Ingress returns 404</h2>
+
+<div class="scenario">
+
+Check:
+
+<pre><code>kubectl get ingress
+kubectl describe ingress &lt;ingress-name&gt;
+
+kubectl get ingressclass
+
+kubectl get svc
+kubectl get endpoints</code></pre>
+
+Verify:
+
+<ul>
+<li>Hostname is correct.</li>
+<li>Path is correct.</li>
+<li>IngressClass is correct.</li>
+<li>Service exists.</li>
+<li>Service port matches.</li>
+<li>Service has healthy endpoints.</li>
+<li>Ingress Controller is running.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 36. Real-Time Scenario — High CPU Alert</h2>
+
+<div class="scenario">
+
+Prometheus detects high CPU usage.
+
+Grafana displays the affected Pods.
+
+Engineer checks:
+
+<pre><code>kubectl top pods
+kubectl top nodes
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Then determine whether the cause is:
+
+<ul>
+<li>Traffic increase</li>
+<li>Bad application behavior</li>
+<li>Insufficient resource requests/limits</li>
+<li>Missing autoscaling</li>
+</ul>
+
+If appropriate, HPA can increase replicas.
+
+</div>
+
+</div>
+
+
+<!-- QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>What is Kubernetes Ingress?</li>
+<li>What is an Ingress Controller?</li>
+<li>Ingress vs Service?</li>
+<li>How does path-based routing work?</li>
+<li>How does host-based routing work?</li>
+<li>How do you configure TLS in Ingress?</li>
+<li>How do you troubleshoot an Ingress?</li>
+<li>What is Helm?</li>
+<li>What is a Helm Chart?</li>
+<li>What is Chart.yaml?</li>
+<li>What is values.yaml?</li>
+<li>What is a Helm release?</li>
+<li>helm install vs helm upgrade?</li>
+<li>How do you rollback a Helm release?</li>
+<li>What is helm template?</li>
+<li>Helm vs kubectl?</li>
+<li>What is Kubernetes monitoring?</li>
+<li>What is Prometheus?</li>
+<li>What is Grafana?</li>
+<li>Prometheus vs Grafana?</li>
+<li>What is PromQL?</li>
+<li>Metrics Server vs Prometheus?</li>
+<li>How do you monitor Pods?</li>
+<li>How do you monitor nodes?</li>
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+<li>What should you monitor in production?</li>
+<li>How does monitoring help DevOps?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Can Ingress work without an Ingress Controller?</li>
+<li>Can one Ingress route to multiple Services?</li>
+<li>Can one cluster have multiple Ingress Controllers?</li>
+<li>How does TLS termination work?</li>
+<li>How would you expose an application securely?</li>
+<li>What is ingressClassName?</li>
+<li>What happens if the Ingress backend Service has no endpoints?</li>
+<li>How do Helm values override default values?</li>
+<li>What is Helm rollback?</li>
+<li>How do you debug a Helm deployment?</li>
+<li>What is the difference between Helm install and upgrade?</li>
+<li>How does Prometheus collect metrics?</li>
+<li>What is PromQL?</li>
+<li>How does Grafana connect to Prometheus?</li>
+<li>What is the difference between metrics and logs?</li>
+<li>How would you monitor a production Kubernetes cluster?</li>
+<li>How would you create an alert for high CPU?</li>
+
+</ul>
+
+</div>
+
+
+<!-- COMMAND CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Command Cheat Sheet</h2>
+
+<pre><code># Ingress
+kubectl get ingress
+kubectl describe ingress &lt;ingress-name&gt;
+kubectl get ingressclass
+
+# Services
+kubectl get svc
+kubectl get endpoints
+
+# Helm
+helm repo list
+helm repo update
+helm search repo
+helm install myapp ./mychart
+helm list
+helm status myapp
+helm get values myapp
+helm history myapp
+helm upgrade myapp ./mychart
+helm rollback myapp 1
+helm uninstall myapp
+helm template myapp ./mychart
+
+# Monitoring
+kubectl top nodes
+kubectl top pods
+
+kubectl get pods -n monitoring
+kubectl get svc -n monitoring
+
+# Troubleshooting
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt; --previous
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+</div>
+
+
+<!-- FINAL REVISION -->
+
+<div class="card">
+
+<h2>🚀 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Ingress</strong>
+→ HTTP/HTTPS routing
+
+<br><br>
+
+<strong>Ingress Controller</strong>
+→ Implements routing rules
+
+<br><br>
+
+<strong>Service</strong>
+→ Stable access to Pods
+
+<br><br>
+
+<strong>Helm</strong>
+→ Kubernetes package manager
+
+<br><br>
+
+<strong>Chart</strong>
+→ Application package
+
+<br><br>
+
+<strong>values.yaml</strong>
+→ Configurable values
+
+<br><br>
+
+<strong>Release</strong>
+→ Installed instance of a Chart
+
+<br><br>
+
+<strong>Prometheus</strong>
+→ Collect/query metrics
+
+<br><br>
+
+<strong>Grafana</strong>
+→ Visualize metrics
+
+<br><br>
+
+<strong>PromQL</strong>
+→ Query Prometheus metrics
+
+<br><br>
+
+<strong>Metrics Server</strong>
+→ Basic resource metrics
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Ingress, Helm and Monitoring"</h2>
+
+<div class="interview">
+
+"In Kubernetes, I use Ingress to expose HTTP and HTTPS applications
+through routing rules based on hostnames and paths. An Ingress
+Controller implements those rules and forwards traffic to Services.
+
+For application deployment and packaging, I use Helm. A Helm Chart
+contains templates and configurable values. Helm allows me to install,
+upgrade, inspect and rollback application releases consistently
+across environments.
+
+For monitoring, Prometheus collects time-series metrics from the
+cluster and applications, while Grafana provides dashboards and
+visualization. I monitor CPU, memory, Pod restarts, node health,
+request rate, errors and latency.
+
+In a production setup, these components work together: Ingress
+handles external traffic, Helm manages application deployments, and
+Prometheus with Grafana provides observability."
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+🌐 Kubernetes Ingress • Helm • Monitoring
+
+<br><br>
+
+Nandu's DevOps Interview Master Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,2779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes Basics - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.75;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+.intro strong{color:#93c5fd}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+h4{color:#a5b4fc}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.tip{
+    background:#17152b;
+    border-left:4px solid #a78bfa;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+.priority{
+    font-weight:800;
+    white-space:nowrap;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+li{
+    margin:7px 0;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    background:#172033;
+    color:#93c5fd;
+    font-size:13px;
+    margin:3px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">☸️</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Basics</span></h1>
+
+<p>
+DevOps Interview Master Notes — Kubernetes fundamentals explained
+clearly with architecture, Pods, Nodes, Cluster, Control Plane,
+kubectl, namespaces, YAML and real-time production examples.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ KUBERNETES BASICS — INTERVIEW FOUNDATION</strong>
+
+<p>
+This section builds the foundation required before learning
+Deployments, Services, ConfigMaps, Secrets, Ingress, StatefulSets,
+DaemonSets, HPA, RBAC and production Kubernetes.
+</p>
+
+<div class="flow">
+
+Developer
+<br>
+↓
+<br>
+<strong>kubectl</strong>
+<br>
+↓
+<br>
+<strong>Kubernetes API Server</strong>
+<br>
+↓
+<br>
+Control Plane
+<br>
+↓
+<br>
+Scheduler + Controllers
+<br>
+↓
+<br>
+Worker Nodes
+<br>
+↓
+<br>
+Pods
+<br>
+↓
+<br>
+Containers / Application
+
+</div>
+
+<div class="tip">
+
+<strong>Interview Strategy:</strong>
+
+Do not memorize Kubernetes definitions only.
+
+For every Kubernetes concept, understand:
+
+<strong>What is it?</strong> → <strong>Why is it needed?</strong>
+→ <strong>How does it work?</strong> → <strong>Where is it used?</strong>
+
+</div>
+
+</div>
+
+
+<!-- SECTION 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Kubernetes?</h2>
+
+<h3>Q. What is Kubernetes?</h3>
+
+<div class="answer">
+
+Kubernetes is an open-source container orchestration platform used
+to deploy, manage, scale and maintain containerized applications
+across a cluster of machines.
+
+</div>
+
+<h3>Why do we need Kubernetes?</h3>
+
+<p>
+Running one or two Docker containers manually is simple. But in a
+production environment we may have hundreds of containers running
+across multiple servers.
+</p>
+
+<p>
+We need automation for scheduling, scaling, service discovery,
+self-healing, rolling updates, configuration management and
+resource management.
+</p>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>Kubernetes Solution</th>
+</tr>
+
+<tr>
+<td>Container crashes</td>
+<td>Self-healing / container restart</td>
+</tr>
+
+<tr>
+<td>Server has limited capacity</td>
+<td>Schedule workloads across nodes</td>
+</tr>
+
+<tr>
+<td>Need more application instances</td>
+<td>Scale replicas</td>
+</tr>
+
+<tr>
+<td>Application IP keeps changing</td>
+<td>Service provides stable networking</td>
+</tr>
+
+<tr>
+<td>Need application update without downtime</td>
+<td>Rolling updates</td>
+</tr>
+
+<tr>
+<td>Need to manage hundreds of containers</td>
+<td>Container orchestration</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+Suppose an e-commerce application runs as 10 container replicas.
+
+If one container crashes, Kubernetes can replace it.
+
+If traffic increases from 10,000 requests/minute to 50,000 requests/minute,
+the application can be scaled from 10 Pods to more replicas.
+
+If a node becomes unavailable, Kubernetes can reschedule workloads
+on available nodes depending on the workload configuration and
+cluster capacity.
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+<br><br>
+
+"Kubernetes is an open-source container orchestration platform.
+It automates deployment, scaling, networking and management of
+containerized applications. In production, it helps us maintain
+application availability through mechanisms such as self-healing,
+replica management, service discovery and rolling deployments."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why Kubernetes when we already have Docker?</h2>
+
+<h3>Q. Is Kubernetes a replacement for Docker?</h3>
+
+<div class="answer">
+
+Kubernetes and Docker solve different problems.
+
+Docker is primarily used to build, package and run containers.
+Kubernetes is used to orchestrate and manage containerized workloads
+across a cluster.
+
+</div>
+
+<table>
+
+<tr>
+<th>Docker</th>
+<th>Kubernetes</th>
+</tr>
+
+<tr>
+<td>Build container images</td>
+<td>Manage containerized workloads</td>
+</tr>
+
+<tr>
+<td>Run individual containers</td>
+<td>Manage workloads across multiple nodes</td>
+</tr>
+
+<tr>
+<td>Container runtime / tooling ecosystem</td>
+<td>Container orchestration platform</td>
+</tr>
+
+<tr>
+<td>Dockerfile</td>
+<td>Pod / Deployment / Service YAML</td>
+</tr>
+
+<tr>
+<td>docker run</td>
+<td>kubectl apply</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<strong>Real-time:</strong>
+
+A company has 50 microservices. Running each container manually
+would be difficult.
+
+Kubernetes can schedule these workloads across worker nodes,
+restart failed workloads, expose services and scale applications.
+
+</div>
+
+<div class="warning">
+
+Do not say:
+
+" Kubernetes is used to create Docker containers."
+
+A better answer is:
+
+"Kubernetes orchestrates containerized workloads."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Kubernetes Cluster</h2>
+
+<h3>Q. What is a Kubernetes cluster?</h3>
+
+<div class="answer">
+
+A Kubernetes cluster is a group of machines that work together to
+run containerized workloads. It consists conceptually of a
+<strong>control plane</strong> and one or more <strong>worker nodes</strong>.
+
+</div>
+
+<div class="flow">
+
+<strong>Kubernetes Cluster</strong>
+
+<br><br>
+
+┌───────────────────────────────┐
+<br>
+<strong>Control Plane</strong>
+<br>
+API Server | Scheduler | Controllers | etcd
+<br>
+└───────────────────────────────┘
+
+<br><br>
+
+↓
+
+<br><br>
+
+┌───────────────────────────────┐
+<br>
+<strong>Worker Nodes</strong>
+<br>
+Kubelet | Container Runtime | kube-proxy
+<br>
+Pods
+<br>
+└───────────────────────────────┘
+
+</div>
+
+<h3>Two major parts</h3>
+
+<ol>
+
+<li>
+<strong>Control Plane</strong> — manages cluster state and makes
+control decisions.
+</li>
+
+<li>
+<strong>Worker Nodes</strong> — run application workloads.
+</li>
+
+</ol>
+
+</div>
+
+
+<!-- SECTION 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Control Plane Components</h2>
+
+<h3>Important components</h3>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>kube-apiserver</td>
+<td>Central API endpoint through which Kubernetes API operations are handled.</td>
+</tr>
+
+<tr>
+<td>etcd</td>
+<td>Distributed key-value store containing Kubernetes cluster state.</td>
+</tr>
+
+<tr>
+<td>kube-scheduler</td>
+<td>Selects suitable nodes for newly created Pods.</td>
+</tr>
+
+<tr>
+<td>kube-controller-manager</td>
+<td>Runs controllers that continuously work to make actual state match desired state.</td>
+</tr>
+
+<tr>
+<td>cloud-controller-manager</td>
+<td>Integrates Kubernetes with cloud-provider functionality where applicable.</td>
+</tr>
+
+</table>
+
+<h3>Simple architecture</h3>
+
+<div class="flow">
+
+kubectl
+<br>
+↓
+<br>
+<strong>API Server</strong>
+<br>
+↓
+<br>
+etcd ← Cluster State
+<br>
+↓
+<br>
+Controllers + Scheduler
+<br>
+↓
+<br>
+Worker Nodes
+<br>
+↓
+<br>
+Pods
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+<br><br>
+
+"The control plane manages the Kubernetes cluster. The API server
+provides the Kubernetes API, etcd stores cluster state, the scheduler
+selects nodes for Pods, and controller components continuously work
+to maintain the desired state."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is kube-apiserver?</h2>
+
+<div class="answer">
+
+The kube-apiserver is the central API component of Kubernetes.
+It exposes the Kubernetes API and acts as the main entry point for
+cluster management operations.
+
+</div>
+
+<h3>Example</h3>
+
+<p>
+When you execute:
+</p>
+
+<pre><code>kubectl get pods</code></pre>
+
+<p>
+kubectl communicates with the Kubernetes API server.
+The API server processes the request and returns the relevant
+cluster information.
+</p>
+
+<div class="flow">
+
+kubectl
+<br>
+↓
+<br>
+API Server
+<br>
+↓
+<br>
+Cluster Data / Components
+<br>
+↓
+<br>
+Response
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time:</strong>
+
+A DevOps engineer wants to inspect application Pods in production.
+
+Instead of directly connecting to every worker node, the engineer
+uses kubectl to communicate with the Kubernetes API.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is etcd?</h2>
+
+<div class="answer">
+
+etcd is a distributed key-value store used by Kubernetes to store
+important cluster state and configuration data.
+
+</div>
+
+<h3>What kind of information?</h3>
+
+<ul>
+
+<li>Cluster configuration</li>
+<li>Object metadata</li>
+<li>Desired state information</li>
+<li>Resource definitions</li>
+<li>Other Kubernetes control-plane state</li>
+
+</ul>
+
+<div class="scenario">
+
+<strong>Real-time:</strong>
+
+If you create a Deployment with 3 replicas, Kubernetes needs to
+know the desired state.
+
+The cluster's state information is persisted through the Kubernetes
+control plane, with etcd serving as the backing store for that state.
+
+</div>
+
+<div class="warning">
+
+etcd is critical infrastructure.
+
+In production clusters, etcd backup and recovery are important
+because loss of the required cluster state can affect the ability
+to recover the control plane.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is kube-scheduler?</h2>
+
+<div class="answer">
+
+The kube-scheduler watches for Pods that do not yet have a node
+assigned and selects an appropriate worker node for them.
+
+</div>
+
+<h3>What does it consider?</h3>
+
+<ul>
+
+<li>Available resources</li>
+<li>CPU and memory requirements</li>
+<li>Node constraints</li>
+<li>Affinity / anti-affinity</li>
+<li>Taints and tolerations</li>
+<li>Other scheduling rules</li>
+
+</ul>
+
+<div class="flow">
+
+Pod Created
+<br>
+↓
+<br>
+API Server
+<br>
+↓
+<br>
+Scheduler
+<br>
+↓
+<br>
+Select Suitable Node
+<br>
+↓
+<br>
+Pod Gets Scheduled
+<br>
+↓
+<br>
+Kubelet Runs Pod
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+Suppose Node A has only 200 MB memory available while Node B has
+8 GB available.
+
+If a Pod requires significant memory, Kubernetes scheduling logic
+may select an appropriate node based on resource requirements and
+other scheduling constraints.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is kube-controller-manager?</h2>
+
+<div class="answer">
+
+The controller manager runs controllers that continuously compare
+the desired state with the current state and take actions to move
+the cluster toward the desired state.
+
+</div>
+
+<h3>Desired State vs Actual State</h3>
+
+<div class="flow">
+
+Desired State
+<br>
+"3 Pods should run"
+<br>
+↓
+<br>
+Controller observes cluster
+<br>
+↓
+<br>
+Actual State = 2 Pods
+<br>
+↓
+<br>
+Controller takes action
+<br>
+↓
+<br>
+3 Pods running
+
+</div>
+
+<div class="scenario">
+
+You define:
+
+<pre><code>replicas: 3</code></pre>
+
+If one Pod disappears, the relevant controller detects that the
+actual state no longer matches the desired state and works toward
+restoring the required number of replicas.
+
+</div>
+
+<div class="tip">
+
+This is one of the most important Kubernetes concepts:
+
+<strong>Kubernetes is declarative and continuously works toward the
+desired state.</strong>
+
+</div>
+
+</div>
+
+
+<!-- SECTION 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Worker Node</h2>
+
+<h3>Q. What is a worker node?</h3>
+
+<div class="answer">
+
+A worker node is a machine in the Kubernetes cluster where
+application workloads, usually in the form of Pods, run.
+
+</div>
+
+<h3>Important node components</h3>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Kubelet</td>
+<td>Agent running on the node that communicates with the API server and manages Pods assigned to the node.</td>
+</tr>
+
+<tr>
+<td>Container Runtime</td>
+<td>Runs containers for Pods.</td>
+</tr>
+
+<tr>
+<td>kube-proxy</td>
+<td>Provides node-level networking functionality for Kubernetes Services according to the cluster's networking implementation.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Worker Node
+<br><br>
+
+Kubelet
+<br>
+Container Runtime
+<br>
+kube-proxy
+<br>
+CNI / Networking
+<br><br>
+↓
+<br>
+Pods
+
+</div>
+
+</div>
+
+
+<!-- SECTION 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. What is kubelet?</h2>
+
+<div class="answer">
+
+Kubelet is the primary node agent. It runs on every worker node
+and ensures that Pods assigned to that node are running and healthy
+according to their specifications.
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time:</strong>
+
+The scheduler assigns a Pod to Node-1.
+
+The kubelet on Node-1 receives the Pod specification through the
+Kubernetes control plane and works with the container runtime to
+ensure the required containers are running.
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Kubelet is the Kubernetes node agent. It runs on each worker node,
+communicates with the control plane and ensures that the containers
+specified for Pods assigned to that node are running."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is a Container Runtime?</h2>
+
+<div class="answer">
+
+A container runtime is the software responsible for running
+containers on a Kubernetes node.
+
+Modern Kubernetes uses the CRI (Container Runtime Interface) to
+communicate with supported container runtimes.
+
+</div>
+
+<h3>Important point</h3>
+
+<p>
+Docker Engine is not the required Kubernetes runtime itself.
+Kubernetes can use CRI-compatible runtimes such as
+<strong>containerd</strong> and <strong>CRI-O</strong>.
+</p>
+
+<div class="warning">
+
+<strong>Interview trap:</strong>
+
+Do not simply say:
+
+"Kubernetes uses Docker to run containers."
+
+A better answer is:
+
+"Kubernetes uses a CRI-compatible container runtime such as
+containerd or CRI-O to run containers."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is a Pod?</h2>
+
+<div class="answer">
+
+A Pod is the smallest deployable and schedulable unit in Kubernetes.
+A Pod contains one or more containers that share networking and can
+share storage.
+
+</div>
+
+<h3>Why doesn't Kubernetes directly manage individual containers?</h3>
+
+<p>
+Kubernetes uses the Pod as its basic workload unit. A Pod provides
+the context in which one or more tightly coupled containers run.
+</p>
+
+<h3>Most common pattern</h3>
+
+<div class="flow">
+
+Pod
+<br>
+↓
+<br>
+Application Container
+
+</div>
+
+<h3>Multi-container Pod</h3>
+
+<div class="flow">
+
+Pod
+<br>
+├── Application Container
+<br>
+└── Sidecar Container
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A Java application runs in one container.
+
+A sidecar container may collect or process data closely associated
+with that application.
+
+Both containers are part of the same Pod and can communicate over
+the Pod's network namespace.
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+"A Pod is the smallest deployable and schedulable unit in Kubernetes.
+It can contain one or more tightly coupled containers. Containers in
+the same Pod share the Pod network namespace and can share volumes.
+Normally we run one main application container per Pod and use
+multiple containers when they need to work closely together."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Pod Networking</h2>
+
+<h3>Important concept</h3>
+
+<p>
+Containers inside the same Pod share the Pod network namespace.
+They can communicate with each other using <code>localhost</code>
+and different ports.
+</p>
+
+<pre><code>Pod IP: 10.244.1.15
+
+Container A → localhost:8080
+Container B → localhost:9000</code></pre>
+
+<div class="warning">
+
+Containers in the same Pod do not normally receive separate Pod IPs.
+The Pod has the network identity.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Pod Lifecycle</h2>
+
+<h3>Common Pod phases</h3>
+
+<table>
+
+<tr>
+<th>Phase</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Pending</td>
+<td>Pod has been accepted but one or more containers are not yet running.</td>
+</tr>
+
+<tr>
+<td>Running</td>
+<td>Pod has been scheduled and at least one container is running or starting.</td>
+</tr>
+
+<tr>
+<td>Succeeded</td>
+<td>All containers terminated successfully.</td>
+</tr>
+
+<tr>
+<td>Failed</td>
+<td>All containers terminated and at least one failed.</td>
+</tr>
+
+<tr>
+<td>Unknown</td>
+<td>Pod state could not be obtained, usually due to communication issues.</td>
+</tr>
+
+</table>
+
+<h3>Useful command</h3>
+
+<pre><code>kubectl get pods</code></pre>
+
+</div>
+
+
+<!-- SECTION 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Pod vs Container</h2>
+
+<table>
+
+<tr>
+<th>Pod</th>
+<th>Container</th>
+</tr>
+
+<tr>
+<td>Kubernetes workload unit</td>
+<td>Application execution unit</td>
+</tr>
+
+<tr>
+<td>Can contain one or more containers</td>
+<td>Runs application process</td>
+</tr>
+
+<tr>
+<td>Has network identity</td>
+<td>Shares Pod networking when inside a Pod</td>
+</tr>
+
+<tr>
+<td>Managed by Kubernetes</td>
+<td>Run by container runtime</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- SECTION 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Desired State vs Actual State</h2>
+
+<h3>Q. What is desired state?</h3>
+
+<div class="answer">
+
+Desired state is the state that we declare we want Kubernetes to
+maintain.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>replicas: 3</code></pre>
+
+<p>
+This tells Kubernetes that the workload should have three replicas.
+</p>
+
+<h3>Actual state</h3>
+
+<p>
+The actual state is what is currently running in the cluster.
+</p>
+
+<div class="flow">
+
+Desired State
+<br>
+3 replicas
+<br>
+↓
+<br>
+Kubernetes Controllers
+<br>
+↓
+<br>
+Actual State
+<br>
+3 replicas
+
+</div>
+
+<div class="scenario">
+
+If one Pod crashes:
+
+<br><br>
+
+Desired = 3
+
+<br>
+
+Actual = 2
+
+<br>
+
+Kubernetes works toward restoring:
+
+<br>
+
+Actual = 3
+
+</div>
+
+<div class="interview">
+
+<strong>Very important interview statement:</strong>
+
+"Kubernetes continuously reconciles the actual state with the
+desired state."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Declarative vs Imperative Approach</h2>
+
+<table>
+
+<tr>
+<th>Declarative</th>
+<th>Imperative</th>
+</tr>
+
+<tr>
+<td>Describe desired state</td>
+<td>Tell Kubernetes specific commands/actions</td>
+</tr>
+
+<tr>
+<td>Usually YAML manifests</td>
+<td>Often kubectl commands</td>
+</tr>
+
+<tr>
+<td>Good for version control and GitOps</td>
+<td>Useful for quick operational tasks</td>
+</tr>
+
+</table>
+
+<h3>Declarative example</h3>
+
+<pre><code>kubectl apply -f deployment.yaml</code></pre>
+
+<h3>Imperative example</h3>
+
+<pre><code>kubectl create deployment nginx --image=nginx</code></pre>
+
+<div class="tip">
+
+For production and GitOps, declarative configuration is especially
+important because Kubernetes manifests can be version controlled
+and reviewed through Git.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Kubernetes YAML Basics</h2>
+
+<h3>Common fields</h3>
+
+<pre><code>apiVersion:
+kind:
+metadata:
+spec:</code></pre>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>apiVersion</td>
+<td>API version used by the resource definition.</td>
+</tr>
+
+<tr>
+<td>kind</td>
+<td>Type of Kubernetes object.</td>
+</tr>
+
+<tr>
+<td>metadata</td>
+<td>Name, namespace, labels and other identifying information.</td>
+</tr>
+
+<tr>
+<td>spec</td>
+<td>Desired configuration of the object.</td>
+</tr>
+
+</table>
+
+<h3>Example Pod YAML</h3>
+
+<pre><code>apiVersion: v1
+kind: Pod
+
+metadata:
+  name: nginx-pod
+
+spec:
+  containers:
+    - name: nginx
+      image: nginx:latest
+      ports:
+        - containerPort: 80</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Most Kubernetes manifests describe the API version, resource kind,
+metadata and desired specification. The spec is where we define
+what we want Kubernetes to maintain."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Kubernetes Object</h2>
+
+<div class="answer">
+
+A Kubernetes object is a persistent representation of a resource
+that describes the desired state of part of the cluster.
+
+</div>
+
+<h3>Common objects</h3>
+
+<div>
+
+<span class="badge">Pod</span>
+<span class="badge">Deployment</span>
+<span class="badge">Service</span>
+<span class="badge">ConfigMap</span>
+<span class="badge">Secret</span>
+<span class="badge">Namespace</span>
+<span class="badge">StatefulSet</span>
+<span class="badge">DaemonSet</span>
+<span class="badge">Job</span>
+<span class="badge">CronJob</span>
+
+</div>
+
+<p>
+Each object has its own purpose. Kubernetes controllers and other
+control-plane components use these object definitions to manage
+cluster state.
+</p>
+
+</div>
+
+
+<!-- SECTION 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. What are Labels?</h2>
+
+<div class="answer">
+
+Labels are key-value pairs attached to Kubernetes objects.
+They are commonly used to identify and organize resources and to
+select related workloads.
+
+</div>
+
+<pre><code>metadata:
+  labels:
+    app: payment
+    environment: production</code></pre>
+
+<h3>Why are labels important?</h3>
+
+<ul>
+
+<li>Identify applications</li>
+<li>Group resources</li>
+<li>Enable selectors</li>
+<li>Connect Services to Pods</li>
+<li>Support operational organization</li>
+
+</ul>
+
+<div class="scenario">
+
+A Deployment creates Pods with:
+
+<pre><code>app: payment</code></pre>
+
+A Service can use a selector matching:
+
+<pre><code>selector:
+  app: payment</code></pre>
+
+The Service can then target the appropriate Pods.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Labels vs Annotations</h2>
+
+<table>
+
+<tr>
+<th>Labels</th>
+<th>Annotations</th>
+</tr>
+
+<tr>
+<td>Used for identification and selection</td>
+<td>Used for storing additional metadata</td>
+</tr>
+
+<tr>
+<td>Can be used by selectors</td>
+<td>Not normally used for selection</td>
+</tr>
+
+<tr>
+<td>Important for Services and workload grouping</td>
+<td>Useful for tooling and extra information</td>
+</tr>
+
+</table>
+
+<h3>Example</h3>
+
+<pre><code>metadata:
+  labels:
+    app: payment
+
+  annotations:
+    owner: devops-team</code></pre>
+
+</div>
+
+
+<!-- SECTION 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. What is kubectl?</h2>
+
+<div class="answer">
+
+kubectl is the command-line tool used to communicate with the
+Kubernetes API and manage Kubernetes resources.
+
+</div>
+
+<h3>Most important commands</h3>
+
+<pre><code>kubectl get pods
+
+kubectl get nodes
+
+kubectl get deployments
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;
+
+kubectl exec -it &lt;pod-name&gt; -- /bin/sh
+
+kubectl apply -f file.yaml
+
+kubectl delete -f file.yaml</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time troubleshooting:</strong>
+
+A production Pod is not working.
+
+A DevOps engineer might start with:
+
+<pre><code>kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+These commands help identify scheduling, image, container,
+configuration and runtime-related problems.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. What is a Namespace?</h2>
+
+<div class="answer">
+
+A Namespace provides a logical scope for Kubernetes resources within
+a cluster. It helps organize and isolate groups of resources.
+
+</div>
+
+<h3>Example</h3>
+
+<div class="flow">
+
+Kubernetes Cluster
+<br>
+├── dev
+<br>
+│   ├── Pods
+<br>
+│   ├── Services
+<br>
+│   └── Deployments
+<br>
+│
+<br>
+├── staging
+<br>
+│   ├── Pods
+<br>
+│   └── Services
+<br>
+│
+<br>
+└── production
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── Pods
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── Services
+
+</div>
+
+<h3>Commands</h3>
+
+<pre><code>kubectl get namespaces
+
+kubectl create namespace dev
+
+kubectl get pods -n dev
+
+kubectl get all -n dev</code></pre>
+
+<div class="scenario">
+
+A company may use separate namespaces for development, staging
+and production workloads within a cluster, together with appropriate
+RBAC and resource policies.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 24. What is a Kubernetes Context?</h2>
+
+<div class="answer">
+
+A kubectl context defines which cluster, user/credentials and
+namespace kubectl should use by default for commands.
+
+</div>
+
+<h3>Useful commands</h3>
+
+<pre><code>kubectl config get-contexts
+
+kubectl config current-context
+
+kubectl config use-context &lt;context-name&gt;</code></pre>
+
+<div class="warning">
+
+Always verify the current context before running destructive
+commands against production.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. How does kubectl apply work?</h2>
+
+<pre><code>kubectl apply -f deployment.yaml</code></pre>
+
+<div class="flow">
+
+YAML Manifest
+<br>
+↓
+<br>
+kubectl
+<br>
+↓
+<br>
+API Server
+<br>
+↓
+<br>
+Object State
+<br>
+↓
+<br>
+Controllers / Scheduler
+<br>
+↓
+<br>
+Worker Node
+<br>
+↓
+<br>
+Pod
+
+</div>
+
+<p>
+The manifest declares the desired configuration. Kubernetes then
+works to make the cluster state match that configuration.
+</p>
+
+</div>
+
+
+<!-- SECTION 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. What happens when we create a Pod?</h2>
+
+<h3>Interview question</h3>
+
+<p>
+"Explain the flow when I run a Kubernetes manifest."
+</p>
+
+<div class="flow">
+
+<strong>1. kubectl</strong>
+<br>
+Reads YAML
+<br><br>
+↓
+<br><br>
+
+<strong>2. API Server</strong>
+<br>
+Validates / processes API request
+<br><br>
+↓
+<br><br>
+
+<strong>3. Cluster State</strong>
+<br>
+Desired object state is recorded
+<br><br>
+↓
+<br><br>
+
+<strong>4. Scheduler</strong>
+<br>
+Selects a suitable node
+<br><br>
+↓
+<br><br>
+
+<strong>5. Kubelet</strong>
+<br>
+On selected node
+<br><br>
+↓
+<br><br>
+
+<strong>6. Container Runtime</strong>
+<br>
+Runs containers
+<br><br>
+↓
+<br><br>
+
+<strong>7. Pod Running</strong>
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+"When I apply a Pod manifest, kubectl sends the request to the API
+server. Kubernetes stores the desired state and the scheduler
+selects an appropriate node. The kubelet on that node works with
+the container runtime to start the containers. Kubernetes then
+continues monitoring the workload."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. What happens if a Pod crashes?</h2>
+
+<div class="answer">
+
+Kubernetes behavior depends on how the Pod is managed and the
+container's restart policy. For Pods managed by controllers such as
+Deployments, the controller also works to maintain the desired
+number of replicas.
+
+</div>
+
+<div class="scenario">
+
+<strong>Production example:</strong>
+
+Suppose a Deployment requires:
+
+<pre><code>replicas: 3</code></pre>
+
+If one Pod becomes unavailable, the Deployment's controller works
+to restore the desired number of available replicas, subject to
+cluster capacity and the specific failure.
+
+</div>
+
+<div class="tip">
+
+For production applications, we normally manage Pods through
+higher-level workload controllers such as Deployments rather than
+creating individual Pods manually.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Why don't we normally create Pods directly?</h2>
+
+<div class="answer">
+
+A standalone Pod does not provide the same desired-state management
+and rollout capabilities as a Deployment or other workload
+controller.
+
+</div>
+
+<p>
+If a standalone Pod is deleted, Kubernetes does not automatically
+create a replacement Pod simply because that Pod existed.
+</p>
+
+<p>
+A Deployment, on the other hand, maintains a desired number of
+replicas and manages rollout behavior.
+</p>
+
+<div class="flow">
+
+Deployment
+<br>
+↓
+<br>
+ReplicaSet
+<br>
+↓
+<br>
+Pods
+<br>
+↓
+<br>
+Containers
+
+</div>
+
+</div>
+
+
+<!-- SECTION 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Pod vs Deployment</h2>
+
+<table>
+
+<tr>
+<th>Pod</th>
+<th>Deployment</th>
+</tr>
+
+<tr>
+<td>Smallest deployable unit</td>
+<td>Workload controller</td>
+</tr>
+
+<tr>
+<td>Runs containers</td>
+<td>Manages replicated Pods</td>
+</tr>
+
+<tr>
+<td>No built-in rollout strategy</td>
+<td>Supports rolling updates and rollout management</td>
+</tr>
+
+<tr>
+<td>Not ideal for production application management</td>
+<td>Common for stateless applications</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"A Pod runs the application containers, while a Deployment manages
+the desired number of replicated Pods and provides rollout and
+rollback capabilities for stateless workloads."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 30 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 30. Kubernetes Self-Healing</h2>
+
+<div class="answer">
+
+Self-healing means Kubernetes continuously works to maintain the
+desired state of workloads, including restarting failed containers
+according to the Pod's restart policy and recreating Pods when a
+controller such as a Deployment determines that replicas are missing.
+
+</div>
+
+<div class="scenario">
+
+Suppose:
+
+<pre><code>replicas: 3</code></pre>
+
+Current state:
+
+<pre><code>Pod-1
+Pod-2
+Pod-3</code></pre>
+
+If Pod-2 becomes unavailable, the workload controller can work
+toward restoring the desired replica count.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 31 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 31. What is Kubernetes Service Discovery?</h2>
+
+<div class="answer">
+
+Kubernetes Services provide a stable network endpoint for reaching
+a set of Pods selected by labels. This is important because Pod IPs
+are not intended to be the stable application endpoint.
+
+</div>
+
+<div class="flow">
+
+Frontend Pod
+<br>
+↓
+<br>
+<strong>Service</strong>
+<br>
+↓
+<br>
+Backend Pods
+<br>
+├── Pod 1
+<br>
+├── Pod 2
+<br>
+└── Pod 3
+
+</div>
+
+<p>
+Services are covered in detail in the Kubernetes Services section,
+but this concept is essential to understand the Kubernetes basics.
+</p>
+
+</div>
+
+
+<!-- SECTION 32 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 32. Kubernetes Networking Basic Concept</h2>
+
+<p>
+At a high level, Kubernetes networking allows Pods to communicate
+with each other and allows Services to provide stable access to
+workloads.
+</p>
+
+<h3>Important interview points</h3>
+
+<ul>
+
+<li>Each Pod gets a network identity.</li>
+<li>Containers in the same Pod share the network namespace.</li>
+<li>Services provide stable virtual endpoints.</li>
+<li>Kubernetes networking is implemented using a CNI plugin.</li>
+
+</ul>
+
+<div class="warning">
+
+Do not confuse:
+
+<strong>Pod IP</strong> → individual Pod networking
+
+<br>
+
+<strong>Service IP</strong> → stable Service endpoint
+
+<br>
+
+<strong>Node IP</strong> → worker machine networking
+
+</div>
+
+</div>
+
+
+<!-- SECTION 33 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 33. Kubernetes Resource Requests and Limits — Basic Idea</h2>
+
+<div class="answer">
+
+Resource requests indicate the amount of CPU or memory a container
+is requesting for scheduling purposes. Limits define an upper
+boundary for resource usage.
+
+</div>
+
+<pre><code>resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+
+  limits:
+    cpu: "500m"
+    memory: "512Mi"</code></pre>
+
+<h3>Why important?</h3>
+
+<ul>
+
+<li>Helps scheduler make placement decisions</li>
+<li>Prevents uncontrolled resource consumption</li>
+<li>Improves cluster capacity planning</li>
+<li>Important for production workloads</li>
+
+</ul>
+
+</div>
+
+
+<!-- SECTION 34 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 34. Kubernetes Health Checks — Basic Idea</h2>
+
+<p>
+Kubernetes supports probes that help determine whether a container
+is alive, ready to receive traffic, or has started successfully.
+</p>
+
+<table>
+
+<tr>
+<th>Probe</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Liveness Probe</td>
+<td>Helps determine whether a container needs to be restarted.</td>
+</tr>
+
+<tr>
+<td>Readiness Probe</td>
+<td>Determines whether the application should receive traffic.</td>
+</tr>
+
+<tr>
+<td>Startup Probe</td>
+<td>Gives slow-starting applications time to initialize before other probes take over.</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A Spring Boot application takes 60 seconds to start.
+
+A startup probe can prevent Kubernetes from treating the application
+as unhealthy too early. Once startup succeeds, readiness and liveness
+checks can take over.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 35 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 35. Common Kubernetes Commands</h2>
+
+<pre><code># Cluster
+kubectl cluster-info
+kubectl get nodes
+
+# Namespaces
+kubectl get namespaces
+kubectl get ns
+
+# Pods
+kubectl get pods
+kubectl get pods -A
+kubectl get pods -o wide
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+
+# Deployments
+kubectl get deployments
+kubectl describe deployment &lt;deployment-name&gt;
+
+# Services
+kubectl get services
+kubectl get svc
+
+# Apply / delete
+kubectl apply -f file.yaml
+kubectl delete -f file.yaml
+
+# Execute inside container
+kubectl exec -it &lt;pod-name&gt; -- /bin/sh
+
+# Current context
+kubectl config current-context
+
+# Contexts
+kubectl config get-contexts</code></pre>
+
+</div>
+
+
+<!-- SECTION 36 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 36. Real-Time Scenario — Pod is Pending</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+You deploy an application and the Pod remains in:
+
+<pre><code>Pending</code></pre>
+
+<strong>What would you check?</strong>
+
+<pre><code>kubectl get pods
+
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Look at the Events section.
+
+Possible causes include:
+
+<ul>
+
+<li>Insufficient CPU or memory</li>
+<li>Scheduling constraints</li>
+<li>Node selectors</li>
+<li>Taints and tolerations</li>
+<li>Affinity rules</li>
+<li>No suitable node available</li>
+
+</ul>
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"If a Pod is Pending, I would first run kubectl describe pod and
+check the Events section. I would verify node availability, resource
+requests, taints, tolerations, selectors and other scheduling
+constraints."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 37 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 37. Real-Time Scenario — Pod is CrashLoopBackOff</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+A Pod repeatedly starts and crashes.
+
+<br><br>
+
+<strong>First checks:</strong>
+
+<pre><code>kubectl get pods
+
+kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Possible causes:
+
+<ul>
+
+<li>Application startup failure</li>
+<li>Incorrect environment variables</li>
+<li>Missing configuration</li>
+<li>Incorrect command or arguments</li>
+<li>Dependency unavailable</li>
+<li>Probe failure</li>
+<li>Application exits immediately</li>
+
+</ul>
+
+</div>
+
+<div class="interview">
+
+<strong>Important:</strong>
+
+CrashLoopBackOff is not the root cause itself.
+
+It means Kubernetes is repeatedly restarting a container and applying
+a backoff delay between restart attempts.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 38 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 38. Real-Time Scenario — ImagePullBackOff</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Pod cannot start because the container image cannot be pulled.
+
+Check:
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Look for image-related events.
+
+Possible causes:
+
+<ul>
+
+<li>Wrong image name</li>
+<li>Wrong image tag</li>
+<li>Private registry authentication issue</li>
+<li>Image does not exist</li>
+<li>Registry connectivity issue</li>
+<li>Image pull credentials problem</li>
+
+</ul>
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I would inspect the Pod events using kubectl describe pod. Then I
+would verify the image name and tag, registry availability and, for
+private registries, the image-pull credentials."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 39 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 39. Real-Time Scenario — Pod is Running but Application is Not Accessible</h2>
+
+<div class="scenario">
+
+Do not assume that:
+
+<pre><code>STATUS = Running</code></pre>
+
+means the application is reachable.
+
+Check:
+
+<pre><code>kubectl get pods -o wide
+
+kubectl get svc
+
+kubectl describe svc &lt;service-name&gt;
+
+kubectl get endpoints
+
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+Possible issues:
+
+<ul>
+
+<li>Service selector does not match Pod labels</li>
+<li>Wrong targetPort</li>
+<li>Application listening on wrong port</li>
+<li>Readiness probe failing</li>
+<li>Network policy or external networking issue</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- SECTION 40 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 40. Most Important Kubernetes Interview Questions</h2>
+
+<ol>
+
+<li>What is Kubernetes?</li>
+
+<li>Why do we need Kubernetes?</li>
+
+<li>Docker vs Kubernetes?</li>
+
+<li>What is a Kubernetes cluster?</li>
+
+<li>What is the control plane?</li>
+
+<li>Explain Kubernetes control plane components.</li>
+
+<li>What is kube-apiserver?</li>
+
+<li>What is etcd?</li>
+
+<li>What is kube-scheduler?</li>
+
+<li>What is controller-manager?</li>
+
+<li>What is a worker node?</li>
+
+<li>What is kubelet?</li>
+
+<li>What is a container runtime?</li>
+
+<li>What is a Pod?</li>
+
+<li>Why is Pod the smallest deployable unit?</li>
+
+<li>Can a Pod have multiple containers?</li>
+
+<li>How do containers communicate inside a Pod?</li>
+
+<li>What happens when a Pod crashes?</li>
+
+<li>What is desired state?</li>
+
+<li>What is declarative configuration?</li>
+
+<li>What is a Kubernetes object?</li>
+
+<li>What are labels?</li>
+
+<li>Labels vs annotations?</li>
+
+<li>What is kubectl?</li>
+
+<li>What is a Namespace?</li>
+
+<li>What is a Kubernetes context?</li>
+
+<li>What happens when you run kubectl apply?</li>
+
+<li>Why don't we normally create Pods directly in production?</li>
+
+<li>Pod vs Deployment?</li>
+
+<li>What is self-healing?</li>
+
+<li>What are resource requests and limits?</li>
+
+<li>What are liveness, readiness and startup probes?</li>
+
+<li>What is CrashLoopBackOff?</li>
+
+<li>What is ImagePullBackOff?</li>
+
+<li>How do you troubleshoot a Pending Pod?</li>
+
+<li>How do you troubleshoot a Pod that is Running but not accessible?</li>
+
+</ol>
+
+</div>
+
+
+<!-- SECTION 41 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Interview Follow-Up Questions</h2>
+
+<ul>
+
+<li>What happens internally when you run kubectl apply?</li>
+
+<li>How does the scheduler choose a node?</li>
+
+<li>What happens if the API server is unavailable?</li>
+
+<li>What happens if a worker node goes down?</li>
+
+<li>What happens when a container crashes?</li>
+
+<li>What is the difference between a Pod and a container?</li>
+
+<li>Can two containers in the same Pod have the same port?</li>
+
+<li>Why do containers in the same Pod use localhost?</li>
+
+<li>Why are Pod IPs not normally used as permanent application endpoints?</li>
+
+<li>Why do we use Services?</li>
+
+<li>Why do we use Deployments instead of individual Pods?</li>
+
+<li>What is the difference between desired and actual state?</li>
+
+<li>What is reconciliation in Kubernetes?</li>
+
+<li>Why is etcd important?</li>
+
+<li>What happens if etcd data is lost?</li>
+
+<li>What is the role of kubelet?</li>
+
+<li>What is the role of kube-proxy?</li>
+
+<li>What is a CNI?</li>
+
+<li>Why are namespaces useful?</li>
+
+<li>How do you troubleshoot a Pod in Pending state?</li>
+
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+
+<li>How do you troubleshoot ImagePullBackOff?</li>
+
+</ul>
+
+</div>
+
+
+<!-- SECTION 42 -->
+
+<div class="card">
+
+<h2>🧠 Kubernetes Basics — Quick Revision</h2>
+
+<div class="flow">
+
+<strong>Kubernetes</strong>
+<br>
+Container Orchestration
+<br><br>
+
+<strong>Cluster</strong>
+<br>
+Control Plane + Worker Nodes
+<br><br>
+
+<strong>Control Plane</strong>
+<br>
+API Server + etcd + Scheduler + Controllers
+<br><br>
+
+<strong>Worker Node</strong>
+<br>
+Kubelet + Runtime + kube-proxy
+<br><br>
+
+<strong>Pod</strong>
+<br>
+Smallest Deployable Unit
+<br><br>
+
+<strong>Deployment</strong>
+<br>
+Manages Replicated Pods
+<br><br>
+
+<strong>Service</strong>
+<br>
+Stable Network Endpoint
+<br><br>
+
+<strong>Labels</strong>
+<br>
+Identify / Select Resources
+<br><br>
+
+<strong>Namespace</strong>
+<br>
+Logical Resource Scope
+<br><br>
+
+<strong>kubectl</strong>
+<br>
+CLI → API Server
+<br><br>
+
+<strong>Declarative Model</strong>
+<br>
+Desired State → Reconciliation → Actual State
+
+</div>
+
+</div>
+
+
+<!-- SECTION 43 -->
+
+<div class="card">
+
+<h2>🎯 Explain Kubernetes in 1 Minute</h2>
+
+<div class="interview">
+
+"Kubernetes is an open-source container orchestration platform used
+to deploy, manage and scale containerized applications.
+
+A Kubernetes cluster consists mainly of a control plane and worker
+nodes. The control plane includes components such as the API server,
+etcd, scheduler and controllers, while worker nodes run application
+Pods using components such as kubelet and a container runtime.
+
+A Pod is the smallest deployable unit in Kubernetes and can contain
+one or more tightly coupled containers.
+
+Kubernetes follows a declarative model where we define the desired
+state, usually through YAML manifests. Controllers continuously
+reconcile the actual state with the desired state.
+
+For example, if a Deployment requires three application replicas
+and one becomes unavailable, Kubernetes works to restore the desired
+replica state.
+
+In DevOps, Kubernetes provides capabilities such as self-healing,
+scaling, service discovery, rolling deployments and resource
+management, making it suitable for running containerized
+applications in production."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 44 -->
+
+<div class="card">
+
+<h2>🚨 Common Kubernetes Interview Traps</h2>
+
+<table>
+
+<tr>
+<th>Question</th>
+<th>Correct Understanding</th>
+</tr>
+
+<tr>
+<td>Is Kubernetes the same as Docker?</td>
+<td>No. Docker provides container tooling; Kubernetes orchestrates containerized workloads.</td>
+</tr>
+
+<tr>
+<td>Is a Pod the same as a container?</td>
+<td>No. A Pod can contain one or more containers.</td>
+</tr>
+
+<tr>
+<td>Does Kubernetes normally create containers directly?</td>
+<td>Kubernetes manages Pods through the control plane and node agents, which work with a container runtime.</td>
+</tr>
+
+<tr>
+<td>Does a Pod always have multiple containers?</td>
+<td>No. The common pattern is one main application container per Pod.</td>
+</tr>
+
+<tr>
+<td>Does Running mean the application is healthy?</td>
+<td>No. Readiness and application-level health must also be considered.</td>
+</tr>
+
+<tr>
+<td>Does CrashLoopBackOff mean the image is wrong?</td>
+<td>Not necessarily. It indicates repeated container restart attempts with backoff.</td>
+</tr>
+
+<tr>
+<td>Does Pending mean the application crashed?</td>
+<td>No. Pending commonly indicates scheduling or startup prerequisites have not been satisfied.</td>
+</tr>
+
+<tr>
+<td>Is a Pod IP permanent?</td>
+<td>No. Pods are replaceable and their IPs should not be treated as permanent endpoints.</td>
+</tr>
+
+<tr>
+<td>Does etcd run application containers?</td>
+<td>No. etcd stores Kubernetes cluster state.</td>
+</tr>
+
+<tr>
+<td>Does scheduler run containers?</td>
+<td>No. Scheduler selects suitable nodes for Pods.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- FINAL CHEAT SHEET -->
+
+<div class="card">
+
+<h2>📌 Final Kubernetes Basics Cheat Sheet</h2>
+
+<pre><code>Kubernetes
+    ↓
+Container Orchestration
+
+Cluster
+    ↓
+Control Plane + Worker Nodes
+
+Control Plane
+    ↓
+API Server
+etcd
+Scheduler
+Controller Manager
+
+Worker Node
+    ↓
+Kubelet
+Container Runtime
+kube-proxy
+Pods
+
+Pod
+    ↓
+One or more Containers
+
+kubectl
+    ↓
+API Server
+
+YAML
+    ↓
+Desired State
+
+Controllers
+    ↓
+Reconciliation
+
+Deployment
+    ↓
+ReplicaSet
+    ↓
+Pods
+
+Service
+    ↓
+Stable Access to Pods
+
+Namespace
+    ↓
+Logical Resource Isolation
+
+Common troubleshooting:
+
+Pending
+    ↓
+Check describe + Events
+
+CrashLoopBackOff
+    ↓
+Check logs + previous logs + describe
+
+ImagePullBackOff
+    ↓
+Check image + tag + registry credentials
+
+Running but inaccessible
+    ↓
+Check Service + selectors + ports + readiness</code></pre>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+☸️ Kubernetes Basics • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

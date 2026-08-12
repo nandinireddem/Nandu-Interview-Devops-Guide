@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloud Networking Fundamentals | Nandu's DevOps Interview Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+body{
+    background:
+    radial-gradient(circle at 8% 8%,rgba(59,130,246,.10),transparent 30%),
+    radial-gradient(circle at 92% 15%,rgba(16,185,129,.08),transparent 30%),
+    #0b1020;
+}
+
+.page-header{
+    padding:50px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#101d35,#111827,#0b1020);
+    border-bottom:1px solid #29334c;
+}
+
+.back{
+    color:#9da9c4;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+.page-icon{
+    font-size:52px;
+    margin-top:25px;
+}
+
+.page-header h1{
+    font-size:clamp(34px,6vw,58px);
+    margin:10px 0;
+}
+
+.page-header h1 span{
+    color:#93c5fd;
+}
+
+.page-header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8c4;
+    line-height:1.7;
+}
+
+.content{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:50px 0 80px;
+}
+
+.quick-map{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:45px;
+}
+
+.map-item{
+    padding:16px;
+    background:#121a30;
+    border:1px solid #29334c;
+    border-radius:12px;
+    color:#aab5cf;
+    font-size:13px;
+}
+
+.map-item strong{
+    color:#fff;
+}
+
+.priority-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:50px 0 25px;
+}
+
+.priority-title h2{
+    font-size:27px;
+}
+
+.line{
+    flex:1;
+    height:1px;
+    background:#29334c;
+}
+
+.question{
+    margin-bottom:25px;
+    padding:28px;
+    background:linear-gradient(145deg,#141d35,#10172a);
+    border:1px solid #29344e;
+    border-radius:18px;
+}
+
+.question h3{
+    font-size:20px;
+    line-height:1.45;
+    margin-bottom:16px;
+}
+
+.question-number{
+    color:#7582a2;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.label{
+    display:inline-block;
+    margin-bottom:12px;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+}
+
+.answer{
+    color:#c2cbe0;
+    line-height:1.8;
+    margin-bottom:18px;
+}
+
+.example{
+    padding:18px 20px;
+    margin:18px 0;
+    border-left:4px solid #93c5fd;
+    background:rgba(147,197,253,.06);
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{
+    color:#93c5fd;
+}
+
+.example p{
+    color:#b7c2d8;
+    line-height:1.75;
+    margin-top:7px;
+}
+
+.interview-answer{
+    padding:18px 20px;
+    margin-top:18px;
+    background:#111a30;
+    border-radius:12px;
+    border:1px solid #303c59;
+}
+
+.interview-answer strong{
+    color:#93c5fd;
+}
+
+.interview-answer p{
+    color:#c4cee1;
+    line-height:1.75;
+}
+
+.important{
+    padding:22px;
+    margin:30px 0;
+    border-radius:14px;
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    color:#b8c4dc;
+    line-height:1.8;
+}
+
+.flow{
+    padding:20px;
+    margin:20px 0;
+    background:#0d1426;
+    border:1px solid #26314a;
+    border-radius:12px;
+    text-align:center;
+    color:#c6d0e4;
+    line-height:2;
+    overflow-x:auto;
+}
+
+.scenario{
+    border-left:4px solid #93c5fd;
+}
+
+.compare{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+.compare th,
+.compare td{
+    padding:14px;
+    border:1px solid #2b3650;
+    text-align:left;
+    color:#c2cce0;
+}
+
+.compare th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    color:#7582a2;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+<a href="index.html" class="back">← Back to Cloud Fundamentals</a>
+
+<div class="page-icon">🌐</div>
+
+<h1>Cloud Networking <span>Fundamentals</span></h1>
+
+<p>
+Understand how systems communicate in the cloud — IP addresses,
+DNS, ports, protocols, routing, subnets, firewalls, load
+balancing, private and public connectivity, and real-world
+networking interview scenarios.
+</p>
+
+</header>
+
+<main class="content">
+
+<section class="quick-map">
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐⭐</strong><br>
+Must Know
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐</strong><br>
+High Priority
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐</strong><br>
+Medium
+</div>
+
+<div class="map-item">
+<strong>⭐⭐</strong><br>
+Less Asked
+</div>
+
+<div class="map-item">
+<strong>🎯</strong><br>
+Scenarios
+</div>
+
+</section>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐⭐⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐⭐ Very Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 01</div>
+
+<h3>What is Computer Networking?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+Computer networking is the process of connecting computers,
+servers, applications and other devices so that they can
+communicate and exchange data.
+
+In cloud environments, networking allows users, applications,
+services and databases to communicate securely.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+
+A user opens a website.
+
+<br><br>
+
+User
+
+↓
+
+Internet
+
+↓
+
+Load Balancer
+
+↓
+
+Application Server
+
+↓
+
+Database
+
+<br><br>
+
+Networking allows communication between these different
+components.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Computer networking is the communication between connected
+devices and systems using defined protocols and addressing
+mechanisms. In cloud environments, networking enables secure
+communication between users, applications and services."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 02</div>
+
+<h3>What is an IP Address?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+An IP address is a logical address assigned to a network
+interface or device so that it can be identified and
+communicate over a network.
+
+There are two major IP versions:
+
+<br><br>
+
+→ IPv4
+
+<br>
+→ IPv6
+
+</p>
+
+<div class="example">
+
+<strong>💡 IPv4 Example</strong>
+
+<p>
+
+192.168.1.10
+
+<br><br>
+
+A server can use an IP address to communicate with other
+systems on the network.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"An IP address is a logical network address used to identify a
+network interface and enable communication between systems."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 03</div>
+
+<h3>What is the difference between Public IP and Private IP?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<table class="compare">
+
+<tr>
+<th>Public IP</th>
+<th>Private IP</th>
+</tr>
+
+<tr>
+<td>Used for communication over the public internet</td>
+<td>Used inside private networks</td>
+</tr>
+
+<tr>
+<td>Must be globally unique within its scope</td>
+<td>Can be reused in different private networks</td>
+</tr>
+
+<tr>
+<td>Used when direct public connectivity is required</td>
+<td>Commonly used for internal communication</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>🔥 Cloud Example</strong>
+
+<p>
+
+Web server:
+
+Public-facing load balancer may have public connectivity.
+
+<br><br>
+
+Database:
+
+Uses private connectivity and should generally not be directly
+exposed to the public internet.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A public IP is used for public network communication, while a
+private IP is used for communication within a private network.
+In a secure cloud architecture, internal services such as
+databases are commonly accessed using private networking."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 04</div>
+
+<h3>What is a subnet?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+A subnet is a logical subdivision of an IP network.
+
+Subnets help organize resources and control how network traffic
+flows within a larger network.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Cloud Example</strong>
+
+<p>
+
+A VPC can be divided into multiple subnets.
+
+<br><br>
+
+Public Subnet
+
+→ Load Balancer
+
+<br><br>
+
+Private Subnet
+
+→ Application Servers
+
+<br><br>
+
+Private Subnet
+
+→ Database
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A subnet is a logical subdivision of an IP network. In cloud
+architectures, subnets are commonly used to organize resources
+and separate public-facing and internal workloads."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 05</div>
+
+<h3>What is a CIDR block?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+CIDR stands for Classless Inter-Domain Routing.
+
+It is a notation used to represent a range of IP addresses.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+10.0.0.0/16
+
+<br><br>
+
+The <strong>/16</strong> represents the network prefix length.
+
+<br><br>
+
+Smaller prefix length → generally larger address range.
+
+<br>
+
+Larger prefix length → generally smaller address range.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"CIDR is a notation used to define IP address ranges using a
+network prefix length, such as 10.0.0.0/16."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 06</div>
+
+<h3>What is DNS?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p class="answer">
+
+DNS stands for Domain Name System.
+
+DNS translates human-readable domain names into IP addresses
+that systems can use to communicate.
+
+</p>
+
+<div class="flow">
+
+User
+
+↓
+
+[www.example.com](http://www.example.com)
+
+↓
+
+DNS
+
+↓
+
+IP Address
+
+↓
+
+Web Server
+
+</div>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+
+Humans prefer:
+
+<br>
+
+google.com
+
+<br><br>
+
+Computers communicate using network addresses such as IP
+addresses.
+
+DNS provides the mapping between the domain name and the
+appropriate address.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"DNS is a naming system that translates domain names into
+network addresses, allowing users to access services using
+human-readable names instead of IP addresses."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 07</div>
+
+<h3>What is a Port?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+A port is a logical communication endpoint used by networked
+applications and services.
+
+Different services commonly listen on different port numbers.
+
+</p>
+
+<table class="compare">
+
+<tr>
+<th>Port</th>
+<th>Common Usage</th>
+</tr>
+
+<tr>
+<td>22</td>
+<td>SSH</td>
+</tr>
+
+<tr>
+<td>80</td>
+<td>HTTP</td>
+</tr>
+
+<tr>
+<td>443</td>
+<td>HTTPS</td>
+</tr>
+
+<tr>
+<td>53</td>
+<td>DNS</td>
+</tr>
+
+<tr>
+<td>3306</td>
+<td>MySQL</td>
+</tr>
+
+<tr>
+<td>5432</td>
+<td>PostgreSQL</td>
+</tr>
+
+</table>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A port is a logical endpoint used to identify a specific
+network service or application on a host."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 08</div>
+
+<h3>What is HTTP vs HTTPS?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<table class="compare">
+
+<tr>
+<th>HTTP</th>
+<th>HTTPS</th>
+</tr>
+
+<tr>
+<td>Hypertext Transfer Protocol</td>
+<td>HTTP Secure</td>
+</tr>
+
+<tr>
+<td>Normally uses port 80</td>
+<td>Normally uses port 443</td>
+</tr>
+
+<tr>
+<td>Traffic is not protected by TLS</td>
+<td>Uses TLS to protect communication</td>
+</tr>
+
+</table>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"HTTP is the standard protocol for transferring web data,
+typically over port 80. HTTPS uses HTTP over TLS to provide
+encrypted and authenticated communication, typically over
+port 443."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 09</div>
+
+<h3>What is TCP vs UDP?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table class="compare">
+
+<tr>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+
+<tr>
+<td>Connection-oriented</td>
+<td>Connectionless</td>
+</tr>
+
+<tr>
+<td>Reliable delivery</td>
+<td>No built-in delivery guarantee</td>
+</tr>
+
+<tr>
+<td>Maintains ordering</td>
+<td>Does not provide TCP-style ordering</td>
+</tr>
+
+<tr>
+<td>More overhead</td>
+<td>Lower overhead</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>💡 Simple Understanding</strong>
+
+<p>
+
+TCP:
+
+"Make sure the data reaches correctly."
+
+<br><br>
+
+UDP:
+
+"Send the data quickly without establishing the same type of
+connection and reliability mechanism."
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"TCP is connection-oriented and provides reliable, ordered
+delivery, while UDP is connectionless and provides lower
+overhead without TCP's built-in reliability and ordering
+mechanisms."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 10</div>
+
+<h3>What is a Router?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+A router is a network device or function that forwards packets
+between different networks based on routing information.
+
+In cloud environments, routing tables determine how traffic
+should move between network destinations.
+
+</p>
+
+<div class="flow">
+
+Source
+
+↓
+
+Router / Routing Table
+
+↓
+
+Destination Network
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A router forwards network traffic between different networks
+based on routing information. In cloud environments, routing
+tables determine where packets should be sent."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 11</div>
+
+<h3>What is a Firewall?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+A firewall is a security control that filters network traffic
+according to defined rules.
+
+Rules may determine which traffic is allowed or denied based on
+factors such as source, destination, protocol and port.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+Allow:
+
+→ HTTPS traffic to the web application.
+
+<br><br>
+
+Restrict:
+
+→ Direct database access from the public internet.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A firewall controls network traffic by applying security rules
+that allow or deny communication based on defined criteria."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐ High Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 12</div>
+
+<h3>What is a Load Balancer?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p class="answer">
+
+A load balancer distributes incoming traffic across multiple
+healthy backend resources.
+
+It helps improve availability, scalability and reliability.
+
+</p>
+
+<div class="flow">
+
+Users
+
+↓
+
+Load Balancer
+
+↙ ↓ ↘
+
+Server 1   Server 2   Server 3
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Real-Time Example</strong>
+
+<p>
+
+Suppose one server cannot handle all requests.
+
+Instead of sending every request to one server, a load balancer
+distributes requests across multiple healthy servers.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A load balancer distributes incoming traffic across multiple
+backend resources, improving availability and allowing the
+application to scale horizontally."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 13</div>
+
+<h3>What is NAT?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+NAT stands for Network Address Translation.
+
+It allows private network resources to communicate with external
+networks by translating network addresses.
+
+In AWS, a NAT Gateway is commonly used to allow resources in
+private subnets to initiate outbound internet connections without
+making those resources directly publicly reachable.
+
+</p>
+
+<div class="flow">
+
+Private EC2
+
+↓
+
+Private Subnet
+
+↓
+
+NAT Gateway
+
+↓
+
+Internet
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"NAT allows private resources to communicate with external
+networks without requiring those resources to have direct public
+internet exposure. In AWS, a NAT Gateway is commonly used for
+outbound internet access from private subnets."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 14</div>
+
+<h3>What is a VPN?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+VPN stands for Virtual Private Network.
+
+It creates a secure communication path over an untrusted or
+public network.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+A company has an on-premises data center and an AWS VPC.
+
+A VPN connection can provide encrypted connectivity between the
+two environments over the internet.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 15</div>
+
+<h3>What is a private network?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+A private network is a network environment intended for internal
+communication and not directly exposed to the public internet.
+
+Private networking is commonly used for backend services,
+databases and internal applications.
+
+</p>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 16</div>
+
+<h3>What is the difference between public and private subnet?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<table class="compare">
+
+<tr>
+<th>Public Subnet</th>
+<th>Private Subnet</th>
+</tr>
+
+<tr>
+<td>Has a route that provides a path to an Internet Gateway</td>
+<td>Does not have a direct route to an Internet Gateway</td>
+</tr>
+
+<tr>
+<td>Can contain internet-facing resources when appropriately configured</td>
+<td>Common for internal resources</td>
+</tr>
+
+<tr>
+<td>Example: public load balancer</td>
+<td>Example: database / internal application</td>
+</tr>
+
+</table>
+
+<div class="important">
+
+<strong>🧠 Important</strong>
+
+<br><br>
+
+A subnet is considered public when its routing provides a path
+to an Internet Gateway.
+
+A public IP alone does not by itself define the subnet as public.
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 17</div>
+
+<h3>What is an Internet Gateway?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+An Internet Gateway is an AWS VPC component that provides a path
+for communication between resources in a VPC and the public
+internet when the routing and addressing configuration allow it.
+
+</p>
+
+<div class="flow">
+
+Public Subnet
+
+↓
+
+Route Table
+
+↓
+
+Internet Gateway
+
+↓
+
+Internet
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐ Medium Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 18</div>
+
+<h3>What is a routing table?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+A routing table contains rules that determine where network
+traffic should be sent based on the destination address.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Destination:
+
+0.0.0.0/0
+
+<br>
+
+Target:
+
+Internet Gateway
+
+<br><br>
+
+This represents a default route toward the internet gateway.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 19</div>
+
+<h3>What is latency?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Latency is the time taken for data to travel between a source
+and destination.
+
+Lower latency generally means faster response times.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Cloud Example</strong>
+
+<p>
+
+If users are located in India, choosing infrastructure closer to
+those users can reduce network latency compared with placing the
+same workload much farther away.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 20</div>
+
+<h3>What is bandwidth?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Bandwidth refers to the amount of data that can be transferred
+over a network connection within a given period.
+
+</p>
+
+<div class="important">
+
+<strong>🧠 Easy Memory</strong>
+
+<br><br>
+
+Latency → How long does it take?
+
+<br>
+
+Bandwidth → How much data can be transferred?
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 21</div>
+
+<h3>What is a network protocol?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+A network protocol is a defined set of rules that systems use to
+communicate with each other.
+
+</p>
+
+<div class="example">
+
+<strong>Examples</strong>
+
+<p>
+
+HTTP → Web communication
+
+<br>
+
+HTTPS → Secure web communication
+
+<br>
+
+TCP → Reliable transport
+
+<br>
+
+UDP → Connectionless transport
+
+<br>
+
+DNS → Name resolution
+
+<br>
+
+SSH → Secure remote administration
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐ Less Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 22</div>
+
+<h3>What is packet loss?</h3>
+
+<span class="label">⭐⭐</span>
+
+<p class="answer">
+
+Packet loss occurs when network packets fail to reach their
+destination.
+
+It can result in retransmissions, degraded performance,
+timeouts or application errors depending on the protocol and
+application.
+
+</p>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 23</div>
+
+<h3>What is a MAC address?</h3>
+
+<span class="label">⭐⭐</span>
+
+<p class="answer">
+
+A MAC address is a hardware-level network identifier associated
+with a network interface.
+
+It operates at the data-link layer and is different from an IP
+address.
+
+</p>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 🎯 SCENARIOS -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>🎯 Real-Time Interview Scenarios</h2>
+<div class="line"></div>
+</div>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 01</div>
+
+<h3>
+Your EC2 instance cannot access the internet. How will you troubleshoot it?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p class="answer">
+
+I would troubleshoot the network path step by step instead of
+randomly changing security rules.
+
+</p>
+
+<div class="flow">
+
+EC2
+
+↓
+
+Subnet
+
+↓
+
+Route Table
+
+↓
+
+NAT / Internet Gateway
+
+↓
+
+Internet
+
+</div>
+
+<p class="answer">
+
+Check:
+
+<br><br>
+
+→ Is the instance in the correct subnet?
+
+<br>
+→ Does the route table contain the required route?
+
+<br>
+→ If private subnet, is NAT configured correctly?
+
+<br>
+→ If public subnet, is an Internet Gateway attached and routed?
+
+<br>
+→ Are Security Group rules allowing required traffic?
+
+<br>
+→ Are Network ACL rules allowing traffic?
+
+<br>
+→ Is DNS resolution configured correctly if the issue is
+domain-based?
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I would troubleshoot from the instance outward: verify the
+subnet and route table, then check the NAT Gateway or Internet
+Gateway depending on the architecture, followed by Security
+Group and NACL rules, DNS configuration and the destination
+itself."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 02</div>
+
+<h3>
+The application server can reach the internet, but users cannot reach the application. What could be wrong?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+The outbound path working does not guarantee inbound public
+connectivity.
+
+I would check:
+
+<br><br>
+
+→ Load balancer / public endpoint
+
+<br>
+→ Public IP or DNS configuration
+
+<br>
+→ Route table
+
+<br>
+→ Internet Gateway path
+
+<br>
+→ Security Group inbound rules
+
+<br>
+→ NACL rules
+
+<br>
+→ Application listening port
+
+</p>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 03</div>
+
+<h3>
+Your application can reach the EC2 server, but cannot connect to MySQL. How do you troubleshoot?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<div class="flow">
+
+Application Server
+
+↓
+
+Security Group
+
+↓
+
+Network Path
+
+↓
+
+Database Security Group
+
+↓
+
+MySQL : 3306
+
+↓
+
+Database
+
+</div>
+
+<p class="answer">
+
+I would verify:
+
+<br><br>
+
+→ Database is running
+
+<br>
+→ Application uses correct database endpoint
+
+<br>
+→ Port 3306 is listening
+
+<br>
+→ Database Security Group allows port 3306 from the application
+security group or appropriate source
+
+<br>
+→ NACL rules
+
+<br>
+→ Routing
+
+<br>
+→ Credentials and database configuration
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I would first confirm the database is healthy and listening on
+the expected port. Then I would verify the network path, routing,
+database Security Group rules, NACLs and finally the application
+credentials and connection configuration."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 04</div>
+
+<h3>
+How would you design a secure three-tier cloud network?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<div class="flow">
+
+🌍 Internet
+
+↓
+
+Public Load Balancer
+
+↓
+
+Private Application Subnet
+
+↓
+
+Private Database Subnet
+
+<br><br>
+
+Security Groups
+
+*
+
+Routing
+
+*
+
+NACLs
+
+*
+
+IAM
+
+*
+
+Encryption
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I would place only the required internet-facing component in
+the public layer, keep application and database workloads in
+private subnets, control traffic between tiers using security
+groups, use appropriate routing and network controls, and
+protect sensitive data with encryption."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 05</div>
+
+<h3>
+Why should a database usually not be placed directly in a public subnet?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+A database usually does not need direct internet access.
+
+Keeping it private reduces its public attack surface and allows
+access to be restricted to trusted application components.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"I would normally keep the database in private subnets because
+it does not require direct internet exposure. Application
+servers can communicate with it through controlled private
+network paths and security-group rules."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- QUICK FIRE -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>🧠 Quick-Fire Interview Questions</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<h3>Rapid Revision</h3>
+
+<p class="answer">
+
+<strong>Q:</strong> What is an IP address?
+
+<br>
+<strong>A:</strong> Logical network address used for communication.
+
+<br><br>
+
+<strong>Q:</strong> Public IP?
+
+<br>
+<strong>A:</strong> Address used for public network communication.
+
+<br><br>
+
+<strong>Q:</strong> Private IP?
+
+<br>
+<strong>A:</strong> Address used within private networks.
+
+<br><br>
+
+<strong>Q:</strong> Subnet?
+
+<br>
+<strong>A:</strong> Logical subdivision of an IP network.
+
+<br><br>
+
+<strong>Q:</strong> CIDR?
+
+<br>
+<strong>A:</strong> Notation used to represent IP address ranges.
+
+<br><br>
+
+<strong>Q:</strong> DNS?
+
+<br>
+<strong>A:</strong> Translates domain names into network addresses.
+
+<br><br>
+
+<strong>Q:</strong> Port?
+
+<br>
+<strong>A:</strong> Logical communication endpoint for a service.
+
+<br><br>
+
+<strong>Q:</strong> HTTP?
+
+<br>
+<strong>A:</strong> Web protocol, normally port 80.
+
+<br><br>
+
+<strong>Q:</strong> HTTPS?
+
+<br>
+<strong>A:</strong> HTTP protected with TLS, normally port 443.
+
+<br><br>
+
+<strong>Q:</strong> TCP?
+
+<br>
+<strong>A:</strong> Connection-oriented and reliable transport protocol.
+
+<br><br>
+
+<strong>Q:</strong> UDP?
+
+<br>
+<strong>A:</strong> Connectionless transport protocol with lower overhead.
+
+<br><br>
+
+<strong>Q:</strong> Firewall?
+
+<br>
+<strong>A:</strong> Filters network traffic according to rules.
+
+<br><br>
+
+<strong>Q:</strong> Load Balancer?
+
+<br>
+<strong>A:</strong> Distributes traffic across backend resources.
+
+<br><br>
+
+<strong>Q:</strong> NAT?
+
+<br>
+<strong>A:</strong> Provides address translation; commonly enables private
+resources to initiate outbound connectivity.
+
+<br><br>
+
+<strong>Q:</strong> VPN?
+
+<br>
+<strong>A:</strong> Secure network connection over an untrusted network.
+
+<br><br>
+
+<strong>Q:</strong> Latency?
+
+<br>
+<strong>A:</strong> Time taken for data to travel between endpoints.
+
+<br><br>
+
+<strong>Q:</strong> Bandwidth?
+
+<br>
+<strong>A:</strong> Amount of data that can be transferred over a
+connection in a given period.
+
+</p>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- FINAL REVISION -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>🧠 FINAL REVISION — CLOUD NETWORKING</h2>
+<div class="line"></div>
+</div>
+
+<div class="important">
+
+<strong>IP Address</strong>
+
+→ Identifies a network interface for communication.
+
+<br><br>
+
+<strong>Public IP</strong>
+
+→ Public network communication.
+
+<br><br>
+
+<strong>Private IP</strong>
+
+→ Internal network communication.
+
+<br><br>
+
+<strong>Subnet</strong>
+
+→ Logical subdivision of a network.
+
+<br><br>
+
+<strong>CIDR</strong>
+
+→ Defines an IP address range.
+
+<br><br>
+
+<strong>DNS</strong>
+
+→ Domain name → Network address.
+
+<br><br>
+
+<strong>Port</strong>
+
+→ Identifies a network service endpoint.
+
+<br><br>
+
+<strong>HTTP</strong>
+
+→ Port 80.
+
+<br><br>
+
+<strong>HTTPS</strong>
+
+→ TLS + Port 443.
+
+<br><br>
+
+<strong>TCP</strong>
+
+→ Reliable, connection-oriented.
+
+<br><br>
+
+<strong>UDP</strong>
+
+→ Connectionless, lower overhead.
+
+<br><br>
+
+<strong>Firewall</strong>
+
+→ Controls network traffic.
+
+<br><br>
+
+<strong>Load Balancer</strong>
+
+→ Distributes incoming traffic.
+
+<br><br>
+
+<strong>NAT</strong>
+
+→ Enables private resources to communicate externally without
+requiring direct public exposure.
+
+<br><br>
+
+<strong>VPN</strong>
+
+→ Secure connectivity over an untrusted network.
+
+<br><br>
+
+<strong>Latency</strong>
+
+→ Time taken for communication.
+
+<br><br>
+
+<strong>Bandwidth</strong>
+
+→ Data transfer capacity.
+
+<br><br>
+
+<strong>Secure Cloud Pattern</strong>
+
+→ Public Load Balancer
+
+→ Private Application
+
+→ Private Database
+
+→ Controlled Network Access
+
+</div>
+
+</main>
+
+<footer>
+
+<p>🌐 Cloud Networking Fundamentals</p>
+
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>
+

@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dockerfile Advanced - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Dockerfile <span>Advanced</span></h1>
+
+<p>
+Production-focused Dockerfile concepts, instructions, image layers,
+build cache, multi-stage builds, security, optimization and
+high-frequency DevOps interview scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="card intro">
+
+<strong>⭐⭐⭐⭐⭐ DOCKERFILE — FINAL INTERVIEW REVISION</strong>
+
+<p>
+A Dockerfile is a text file containing instructions used by Docker
+to build an image.
+</p>
+
+<div class="flow">
+
+Dockerfile
+<br>
+↓
+<br>
+docker build
+<br>
+↓
+<br>
+Docker Image
+<br>
+↓
+<br>
+Container
+<br>
+↓
+<br>
+Application
+
+</div>
+
+<div class="answer">
+<strong>Interview definition:</strong>
+A Dockerfile is a declarative set of instructions used to build a
+Docker image containing an application, its dependencies and the
+runtime configuration required to execute it.
+</div>
+
+</div>
+
+
+<!-- BASIC STRUCTURE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Basic Dockerfile Structure</h2>
+
+<pre><code>FROM node:22-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]</code></pre>
+
+<h3>Flow</h3>
+
+<div class="flow">
+
+FROM
+→ Base Image
+
+<br>↓<br>
+
+WORKDIR
+→ Working Directory
+
+<br>↓<br>
+
+COPY
+→ Application Files
+
+<br>↓<br>
+
+RUN
+→ Build/Install Dependencies
+
+<br>↓<br>
+
+EXPOSE
+→ Document Application Port
+
+<br>↓<br>
+
+CMD
+→ Default Runtime Command
+
+</div>
+
+</div>
+
+
+<!-- FROM -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. FROM</h2>
+
+<div class="answer">
+<code>FROM</code> defines the base image from which the Docker image
+is built.
+</div>
+
+<pre><code>FROM ubuntu:24.04
+
+FROM python:3.13-slim
+
+FROM node:22-alpine</code></pre>
+
+<h3>Why is FROM important?</h3>
+
+<ul>
+<li>Provides the operating-system/runtime foundation.</li>
+<li>Determines available tools and libraries.</li>
+<li>Influences final image size.</li>
+<li>Can affect security and compatibility.</li>
+</ul>
+
+<div class="warning">
+Prefer trusted, maintained and appropriately sized base images.
+Avoid using <code>latest</code> when deterministic builds are
+important.
+</div>
+
+</div>
+
+
+<!-- TAGS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 3. Why Pin Image Versions?</h2>
+
+<p>Instead of:</p>
+
+<pre><code>FROM node:latest</code></pre>
+
+<p>Prefer a controlled version:</p>
+
+<pre><code>FROM node:22-alpine</code></pre>
+
+<div class="answer">
+Pinning a meaningful image version improves build reproducibility
+because the base image does not unexpectedly change just because
+the tag <code>latest</code> was updated.
+</div>
+
+<p>
+For stronger supply-chain reproducibility, organizations can also
+pin images by immutable digest when appropriate.
+</p>
+
+</div>
+
+
+<!-- WORKDIR -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. WORKDIR</h2>
+
+<div class="answer">
+<code>WORKDIR</code> sets the working directory for subsequent
+Dockerfile instructions and the default working directory of the
+container.
+</div>
+
+<pre><code>WORKDIR /app
+
+COPY . .
+
+RUN npm install</code></pre>
+
+<p>
+Using <code>WORKDIR</code> is preferable to repeatedly using
+<code>RUN cd /app</code>.
+</p>
+
+</div>
+
+
+<!-- COPY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. COPY</h2>
+
+<div class="answer">
+<code>COPY</code> copies files from the Docker build context into the
+image.
+</div>
+
+<pre><code>COPY package.json /app/
+
+COPY . .
+
+COPY --from=builder /app/dist ./dist</code></pre>
+
+<h3>Most important use</h3>
+
+<p>
+The <code>--from</code> option is heavily used in multi-stage builds
+to copy artifacts from one build stage into another.
+</p>
+
+</div>
+
+
+<!-- ADD -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 6. COPY vs ADD</h2>
+
+<table>
+
+<tr>
+<th>COPY</th>
+<th>ADD</th>
+</tr>
+
+<tr>
+<td>Simple file/directory copying.</td>
+<td>Provides additional behavior such as archive extraction for
+supported local archives and URL handling.</td>
+</tr>
+
+<tr>
+<td>Usually preferred for clarity.</td>
+<td>Use only when its additional behavior is intentionally needed.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+<strong>Interview answer:</strong>
+"I generally prefer COPY because it has simpler and more explicit
+behavior. I use ADD only when I specifically need its additional
+features."
+</div>
+
+</div>
+
+
+<!-- RUN -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. RUN</h2>
+
+<div class="answer">
+<code>RUN</code> executes commands while the image is being built.
+Its result becomes part of an image layer.
+</div>
+
+<pre><code>RUN apt-get update && apt-get install -y curl
+
+RUN npm ci
+
+RUN pip install -r requirements.txt</code></pre>
+
+<h3>Important distinction</h3>
+
+<table>
+<tr>
+<th>RUN</th>
+<th>CMD</th>
+</tr>
+
+<tr>
+<td>Build-time instruction.</td>
+<td>Default runtime command.</td>
+</tr>
+
+<tr>
+<td>Creates image-layer changes.</td>
+<td>Runs when a container starts.</td>
+</tr>
+</table>
+
+</div>
+
+
+<!-- CMD -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. CMD</h2>
+
+<div class="answer">
+<code>CMD</code> specifies the default command or arguments for a
+container.
+</div>
+
+<pre><code>CMD ["nginx", "-g", "daemon off;"]</code></pre>
+
+<p>
+A Dockerfile normally has one effective CMD instruction; if multiple
+CMD instructions exist, the last one takes effect.
+</p>
+
+<h3>Override CMD</h3>
+
+<pre><code>docker run myimage
+docker run myimage sh</code></pre>
+
+<p>
+The command supplied at container runtime can replace the default
+CMD command.
+</p>
+
+</div>
+
+
+<!-- ENTRYPOINT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. ENTRYPOINT</h2>
+
+<div class="answer">
+<code>ENTRYPOINT</code> defines the primary executable of a container.
+</div>
+
+<pre><code>ENTRYPOINT ["python"]
+
+CMD ["app.py"]</code></pre>
+
+<p>
+Conceptually this runs:</p>
+
+<pre><code>python app.py</code></pre>
+
+<h3>Override ENTRYPOINT</h3>
+
+<pre><code>docker run --entrypoint sh myimage</code></pre>
+
+</div>
+
+
+<!-- CMD VS ENTRYPOINT -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 10. CMD vs ENTRYPOINT</h2>
+
+<table>
+
+<tr>
+<th>CMD</th>
+<th>ENTRYPOINT</th>
+</tr>
+
+<tr>
+<td>Provides a default command/arguments.</td>
+<td>Defines the main executable.</td>
+</tr>
+
+<tr>
+<td>Can be replaced by a runtime command.</td>
+<td>Usually remains the main executable unless explicitly overridden.</td>
+</tr>
+
+<tr>
+<td>Often used for default arguments.</td>
+<td>Useful when the container should behave like a specific executable.</td>
+</tr>
+
+</table>
+
+<h3>Common pattern</h3>
+
+<pre><code>ENTRYPOINT ["python"]
+
+CMD ["app.py"]</code></pre>
+
+<div class="interview">
+<strong>Interview answer:</strong>
+"ENTRYPOINT defines the main executable, while CMD commonly
+provides default arguments or a default command. They can also be
+used together."
+</div>
+
+</div>
+
+
+<!-- SHELL VS EXEC -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 11. Shell Form vs Exec Form</h2>
+
+<h3>Exec form</h3>
+
+<pre><code>CMD ["node", "server.js"]
+
+ENTRYPOINT ["python", "app.py"]</code></pre>
+
+<h3>Shell form</h3>
+
+<pre><code>CMD node server.js
+
+RUN echo hello</code></pre>
+
+<div class="answer">
+For application ENTRYPOINT/CMD definitions, exec form is generally
+preferred because it gives clearer process behavior and signal
+handling.
+</div>
+
+</div>
+
+
+<!-- ENV -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. ENV</h2>
+
+<div class="answer">
+<code>ENV</code> sets environment variables in the image and makes
+them available to processes running in containers created from it.
+</div>
+
+<pre><code>ENV APP_ENV=production
+ENV PORT=8080</code></pre>
+
+<p>
+Values can be overridden at runtime:
+</p>
+
+<pre><code>docker run -e APP_ENV=staging myimage</code></pre>
+
+<div class="warning">
+Do not use ENV to bake passwords, API keys or other sensitive
+credentials into an image.
+</div>
+
+</div>
+
+
+<!-- ARG -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. ARG</h2>
+
+<div class="answer">
+<code>ARG</code> defines a build-time variable that can be supplied
+to <code>docker build</code>.
+</div>
+
+<pre><code>ARG NODE_VERSION=22
+
+FROM node:${NODE_VERSION}-alpine</code></pre>
+
+<p>Build with:</p>
+
+<pre><code>docker build --build-arg NODE_VERSION=22 -t myapp .</code></pre>
+
+</div>
+
+
+<!-- ARG VS ENV -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 14. ARG vs ENV</h2>
+
+<table>
+
+<tr>
+<th>ARG</th>
+<th>ENV</th>
+</tr>
+
+<tr>
+<td>Mainly build-time.</td>
+<td>Available to processes in the resulting image/container.</td>
+</tr>
+
+<tr>
+<td>Can influence image construction.</td>
+<td>Defines runtime environment variables.</td>
+</tr>
+
+<tr>
+<td>Not automatically available as a runtime environment variable.</td>
+<td>Persists as image configuration.</td>
+</tr>
+
+</table>
+
+<pre><code>ARG APP_VERSION=1.0
+
+ENV APP_ENV=production</code></pre>
+
+<div class="warning">
+Do not treat ARG or ENV as a secure secret-storage mechanism.
+Build arguments can be exposed through build metadata/history in
+some workflows.
+</div>
+
+</div>
+
+
+<!-- EXPOSE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. EXPOSE</h2>
+
+<pre><code>EXPOSE 8080</code></pre>
+
+<div class="answer">
+<code>EXPOSE</code> documents the port on which the application listens
+inside the container. It does not publish the port to the host by
+itself.
+</div>
+
+<p>Host publishing happens at runtime, for example:</p>
+
+<pre><code>docker run -p 8080:8080 myimage</code></pre>
+
+</div>
+
+
+<!-- USER -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. USER — Run as Non-Root</h2>
+
+<div class="warning">
+Running an application as root inside a container can increase the
+impact of a container compromise.
+</div>
+
+<pre><code>FROM node:22-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+USER node
+
+CMD ["npm", "start"]</code></pre>
+
+<div class="answer">
+Using a non-root user is an important container security practice
+when the application supports it.
+</div>
+
+</div>
+
+
+<!-- LABEL -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. LABEL</h2>
+
+<pre><code>LABEL maintainer="devops-team"
+LABEL version="1.0"
+LABEL description="Production API"</code></pre>
+
+<p>
+Labels add metadata to images and can help with organization,
+automation and image management.
+</p>
+
+</div>
+
+
+<!-- DOCKERIGNORE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. .dockerignore</h2>
+
+<div class="answer">
+<code>.dockerignore</code> prevents unnecessary files from being sent
+as part of the Docker build context.
+</div>
+
+<pre><code>.git
+.gitignore
+node_modules
+.env
+*.log
+coverage
+Dockerfile*</code></pre>
+
+<h3>Why is it important?</h3>
+
+<ul>
+<li>Reduces build context size.</li>
+<li>Improves build performance.</li>
+<li>Prevents unnecessary files from entering build context.</li>
+<li>Helps avoid accidentally copying local files.</li>
+</ul>
+
+<div class="warning">
+Do not rely on .dockerignore as your only security control. Never
+put secrets into a Docker build context in the first place.
+</div>
+
+</div>
+
+
+<!-- LAYERS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Docker Image Layers</h2>
+
+<p>
+Many Dockerfile instructions contribute filesystem changes that can
+be represented as image layers.
+</p>
+
+<pre><code>FROM node:22-alpine
+        ↓
+COPY package.json
+        ↓
+RUN npm ci
+        ↓
+COPY source
+        ↓
+CMD</code></pre>
+
+<div class="answer">
+Docker can reuse unchanged build layers through its build cache.
+This is one reason Dockerfile instruction order matters.
+</div>
+
+</div>
+
+
+<!-- CACHE -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 20. Docker Build Cache</h2>
+
+<h3>Bad ordering</h3>
+
+<pre><code>COPY . .
+
+RUN npm ci</code></pre>
+
+<p>
+Any source-code change may invalidate the COPY layer and cause
+dependency installation to run again.
+</p>
+
+<h3>Better ordering</h3>
+
+<pre><code>COPY package*.json ./
+
+RUN npm ci
+
+COPY . .</code></pre>
+
+<div class="answer">
+Dependency files change less frequently than application source in
+many projects, so separating them can allow Docker to reuse the
+dependency-installation layer.
+</div>
+
+</div>
+
+
+<!-- APT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 21. Package Installation Best Practice</h2>
+
+<h3>Less efficient</h3>
+
+<pre><code>RUN apt-get update
+
+RUN apt-get install -y curl</code></pre>
+
+<h3>Better</h3>
+
+<pre><code>RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*</code></pre>
+
+<div class="answer">
+Combining related package-management commands helps avoid stale
+package indexes and unnecessary intermediate filesystem data.
+</div>
+
+</div>
+
+
+<!-- MULTI STAGE -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 22. Multi-Stage Builds</h2>
+
+<div class="answer">
+Multi-stage builds use multiple <code>FROM</code> stages so build
+tools and intermediate artifacts can be separated from the final
+runtime image.
+</div>
+
+<h3>Example — Node.js</h3>
+
+<pre><code>FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html</code></pre>
+
+<div class="flow">
+
+Builder Image
+<br>
+↓
+<br>
+Install Dependencies
+<br>
+↓
+<br>
+Build Application
+<br>
+↓
+<br>
+dist/
+<br>
+↓
+<br>
+Final Runtime Image
+<br>
+↓
+<br>
+Nginx
+
+</div>
+
+</div>
+
+
+<!-- WHY MULTI STAGE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Why Use Multi-Stage Builds?</h2>
+
+<ul>
+<li>Smaller final images.</li>
+<li>Build tools stay out of runtime image.</li>
+<li>Reduced attack surface.</li>
+<li>Cleaner production images.</li>
+<li>Better separation between build and runtime.</li>
+</ul>
+
+<div class="scenario">
+
+Example:
+
+A Java application may need Maven and JDK to compile, but the
+production container may only need a smaller JRE/runtime environment.
+
+</div>
+
+</div>
+
+
+<!-- JAVA -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Production Java Multi-Stage Example</h2>
+
+<pre><code>FROM maven:3.9-eclipse-temurin-21 AS builder
+
+WORKDIR /app
+
+COPY pom.xml .
+
+RUN mvn dependency:go-offline
+
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
+
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=builder /app/target/app.jar app.jar
+
+USER 10001
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]</code></pre>
+
+<div class="answer">
+The first stage contains Maven and build dependencies. The final
+stage contains only the runtime required to execute the JAR.
+</div>
+
+</div>
+
+
+<!-- PYTHON -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 25. Python Production Pattern</h2>
+
+<pre><code>FROM python:3.13-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+RUN useradd --create-home appuser
+
+USER appuser
+
+EXPOSE 8000
+
+CMD ["python", "app.py"]</code></pre>
+
+<p>
+The exact production setup depends on the Python framework and
+application architecture, but the important concepts are dependency
+installation, minimal runtime image and non-root execution.
+</p>
+
+</div>
+
+
+<!-- HEALTH -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 26. HEALTHCHECK</h2>
+
+<pre><code>HEALTHCHECK --interval=30s \
+            --timeout=5s \
+            --retries=3 \
+            CMD wget --spider -q http://localhost:8080/health || exit 1</code></pre>
+
+<div class="answer">
+A healthcheck defines a command Docker can use to determine whether
+a container is healthy.
+</div>
+
+<div class="warning">
+A healthcheck does not magically fix an unhealthy application.
+It only reports health status to the container runtime/orchestrator.
+</div>
+
+</div>
+
+
+<!-- STOPSIGNAL -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 27. STOPSIGNAL</h2>
+
+<pre><code>STOPSIGNAL SIGTERM</code></pre>
+
+<p>
+Specifies the system call signal sent to the container's main
+process when Docker requests the container to stop.
+</p>
+
+<p>
+Correct signal handling becomes particularly important for graceful
+shutdown of web servers and applications.
+</p>
+
+</div>
+
+
+<!-- VOLUME -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 28. VOLUME</h2>
+
+<pre><code>VOLUME ["/data"]</code></pre>
+
+<div class="answer">
+The VOLUME instruction declares a mount point intended for
+persistent or externally managed data.
+</div>
+
+<p>
+In modern deployments, the actual storage mechanism is usually
+chosen by the runtime or orchestrator rather than relying only on
+the Dockerfile.
+</p>
+
+</div>
+
+
+<!-- BUILD CONTEXT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 29. Docker Build Context</h2>
+
+<pre><code>docker build -t myapp .</code></pre>
+
+<div class="answer">
+The final <code>.</code> specifies the build context sent to the
+Docker builder.
+</div>
+
+<p>
+The Dockerfile can only access files available in the build context
+unless another supported build mechanism is used.
+</p>
+
+<div class="scenario">
+
+A huge project directory can make builds slower because the build
+context itself becomes large. A good <code>.dockerignore</code> helps
+reduce unnecessary context.
+
+</div>
+
+</div>
+
+
+<!-- TAG -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Build and Tag an Image</h2>
+
+<pre><code>docker build -t myapp:1.0 .
+
+docker images
+
+docker run myapp:1.0</code></pre>
+
+<p>
+Use meaningful version tags for controlled deployments.
+</p>
+
+<div class="warning">
+For production release workflows, avoid treating mutable tags such
+as <code>latest</code> as your only deployment identifier.
+</div>
+
+</div>
+
+
+<!-- SECURITY -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 31. Dockerfile Security Best Practices</h2>
+
+<ul>
+<li>Use trusted and maintained base images.</li>
+<li>Prefer minimal runtime images where practical.</li>
+<li>Pin meaningful versions or immutable digests.</li>
+<li>Run as a non-root user.</li>
+<li>Do not bake secrets into images.</li>
+<li>Use .dockerignore.</li>
+<li>Use multi-stage builds.</li>
+<li>Scan images for vulnerabilities.</li>
+<li>Keep dependencies updated.</li>
+<li>Use read-only filesystems where appropriate.</li>
+<li>Drop unnecessary Linux capabilities at runtime.</li>
+<li>Keep the final image focused on runtime requirements.</li>
+</ul>
+
+</div>
+
+
+<!-- SECRETS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 32. Why Should Secrets Not Be in Dockerfiles?</h2>
+
+<p>Never do this:</p>
+
+<pre><code>ENV AWS_ACCESS_KEY_ID=xxxxx
+ENV AWS_SECRET_ACCESS_KEY=xxxxx</code></pre>
+
+<div class="warning">
+
+Even if the container is later removed, secrets embedded in an
+image may remain accessible through image metadata, layers or
+registries.
+
+</div>
+
+<h3>Better approach</h3>
+
+<pre><code>docker run \
+  -e API_KEY="$API_KEY" \
+  myapp:1.0</code></pre>
+
+<p>
+For production, prefer the secret-management facilities provided by
+the deployment platform or cloud provider.
+</p>
+
+</div>
+
+
+<!-- ROOT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 33. Why Run Containers as Non-Root?</h2>
+
+<div class="answer">
+If an attacker compromises an application process, running it as a
+non-root user can reduce the privileges available inside the
+container.
+</div>
+
+<h3>Example</h3>
+
+<pre><code>RUN addgroup -S appgroup \
+    && adduser -S appuser -G appgroup
+
+USER appuser</code></pre>
+
+<p>
+The exact commands depend on the Linux distribution used by the base
+image.
+</p>
+
+</div>
+
+
+<!-- CMD ENTRYPOINT SCENARIO -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 34. Interview Scenario — CMD vs ENTRYPOINT</h2>
+
+<div class="scenario">
+
+<strong>Question:</strong>
+
+You have:
+
+<pre><code>ENTRYPOINT ["python"]
+CMD ["app.py"]</code></pre>
+
+What happens with:
+
+<pre><code>docker run myimage</code></pre>
+
+<strong>Answer:</strong>
+
+It effectively starts:
+
+<pre><code>python app.py</code></pre>
+
+If the user supplies another argument:
+
+<pre><code>docker run myimage test.py</code></pre>
+
+The CMD arguments are replaced, resulting conceptually in:
+
+<pre><code>python test.py</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- CACHE SCENARIO -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 35. Interview Scenario — Build Became Slow</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Every source-code change causes dependency installation to run
+again.
+
+<br><br>
+
+<strong>Solution:</strong>
+
+Separate dependency files from frequently changing source files.
+
+</div>
+
+<pre><code>COPY package*.json ./
+RUN npm ci
+
+COPY . .</code></pre>
+
+<div class="answer">
+This allows Docker to reuse the dependency layer when only source
+files change.
+</div>
+
+</div>
+
+
+<!-- SIZE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 36. How to Reduce Docker Image Size?</h2>
+
+<ul>
+<li>Use an appropriately small base image.</li>
+<li>Use multi-stage builds.</li>
+<li>Remove build tools from runtime.</li>
+<li>Use .dockerignore.</li>
+<li>Install only required packages.</li>
+<li>Clean package-manager caches when appropriate.</li>
+<li>Copy only required runtime artifacts.</li>
+<li>Avoid unnecessary files.</li>
+</ul>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I would first identify what is contributing to the image size,
+then use a suitable base image, multi-stage builds, .dockerignore,
+dependency optimization and a runtime-only final stage."
+
+</div>
+
+</div>
+
+
+<!-- DEBUG -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 37. Debugging a Dockerfile Build</h2>
+
+<pre><code>docker build -t myapp:debug .
+
+docker history myapp:debug
+
+docker inspect myapp:debug</code></pre>
+
+<h3>Useful questions</h3>
+
+<ul>
+<li>Which Dockerfile instruction failed?</li>
+<li>Is the build context correct?</li>
+<li>Does the file being copied exist?</li>
+<li>Are dependency versions compatible?</li>
+<li>Did a cache layer cause unexpected behavior?</li>
+<li>Is the final image actually containing the application?</li>
+</ul>
+
+</div>
+
+
+<!-- PRODUCTION -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 38. Production Dockerfile Checklist</h2>
+
+<table>
+
+<tr>
+<th>Area</th>
+<th>Check</th>
+</tr>
+
+<tr>
+<td>Base Image</td>
+<td>Trusted, maintained and appropriately sized</td>
+</tr>
+
+<tr>
+<td>Versioning</td>
+<td>Use controlled versions or immutable digests</td>
+</tr>
+
+<tr>
+<td>Security</td>
+<td>Non-root user where possible</td>
+</tr>
+
+<tr>
+<td>Secrets</td>
+<td>No credentials baked into image</td>
+</tr>
+
+<tr>
+<td>Build</td>
+<td>Multi-stage where useful</td>
+</tr>
+
+<tr>
+<td>Cache</td>
+<td>Order instructions for effective caching</td>
+</tr>
+
+<tr>
+<td>Context</td>
+<td>Use .dockerignore</td>
+</tr>
+
+<tr>
+<td>Runtime</td>
+<td>Only required files and dependencies</td>
+</tr>
+
+<tr>
+<td>Health</td>
+<td>Healthcheck where appropriate</td>
+</tr>
+
+<tr>
+<td>Scanning</td>
+<td>Scan images before deployment</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- MOST ASKED -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Asked Dockerfile Interview Questions</h2>
+
+<ol>
+
+<li>What is a Dockerfile?</li>
+
+<li>What is the purpose of FROM?</li>
+
+<li>What is WORKDIR?</li>
+
+<li>What is the difference between COPY and ADD?</li>
+
+<li>What is RUN?</li>
+
+<li>What is CMD?</li>
+
+<li>What is ENTRYPOINT?</li>
+
+<li>CMD vs ENTRYPOINT?</li>
+
+<li>What is EXPOSE?</li>
+
+<li>Does EXPOSE publish a port?</li>
+
+<li>What is ENV?</li>
+
+<li>What is ARG?</li>
+
+<li>ARG vs ENV?</li>
+
+<li>What is .dockerignore?</li>
+
+<li>What are Docker image layers?</li>
+
+<li>How does Docker build cache work?</li>
+
+<li>How do you optimize Docker image size?</li>
+
+<li>What is a multi-stage Docker build?</li>
+
+<li>Why use multi-stage builds?</li>
+
+<li>Why should containers not run as root?</li>
+
+<li>How do you handle secrets in Docker?</li>
+
+<li>What is a Docker build context?</li>
+
+<li>How do you debug a failed Docker build?</li>
+
+<li>How would you create a production-ready Dockerfile?</li>
+
+<li>How do you reduce Docker image vulnerabilities?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-Up Questions</h2>
+
+<ul>
+
+<li>Why is the order of Dockerfile instructions important?</li>
+
+<li>Why copy package.json before copying the entire source?</li>
+
+<li>What happens when a Docker layer changes?</li>
+
+<li>Can Docker cache be disabled?</li>
+
+<li>What is the difference between an image layer and a container writable layer?</li>
+
+<li>Why is latest tag not ideal for production?</li>
+
+<li>Can secrets be safely passed using ARG?</li>
+
+<li>Why is exec form preferred for ENTRYPOINT/CMD?</li>
+
+<li>What happens when ENTRYPOINT and CMD are used together?</li>
+
+<li>Why use a separate build stage?</li>
+
+<li>How do you run a Java application with a smaller runtime image?</li>
+
+<li>How would you scan a Docker image?</li>
+
+<li>How would you investigate a large image?</li>
+
+</ul>
+
+</div>
+
+
+<!-- RAPID CHEAT -->
+
+<div class="card">
+
+<h2>🧠 Final Dockerfile Cheat Sheet</h2>
+
+<pre><code># Base
+FROM node:22-alpine
+
+# Working directory
+WORKDIR /app
+
+# Files
+COPY package*.json ./
+
+# Build/install
+RUN npm ci
+
+# Application
+COPY . .
+
+# Runtime environment
+ENV NODE_ENV=production
+
+# Documentation
+EXPOSE 3000
+
+# Security
+USER node
+
+# Runtime command
+CMD ["npm","start"]</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second Dockerfile Revision</h2>
+
+<div class="flow">
+
+<strong>FROM</strong>
+<br>
+Base Image
+
+<br><br>
+
+<strong>WORKDIR</strong>
+<br>
+Working Directory
+
+<br><br>
+
+<strong>COPY</strong>
+<br>
+Application Files
+
+<br><br>
+
+<strong>RUN</strong>
+<br>
+Build-Time Commands
+
+<br><br>
+
+<strong>ARG</strong>
+<br>
+Build-Time Variable
+
+<br><br>
+
+<strong>ENV</strong>
+<br>
+Runtime Environment Variable
+
+<br><br>
+
+<strong>EXPOSE</strong>
+<br>
+Document Container Port
+
+<br><br>
+
+<strong>USER</strong>
+<br>
+Run as Non-Root
+
+<br><br>
+
+<strong>HEALTHCHECK</strong>
+<br>
+Container Health
+
+<br><br>
+
+<strong>ENTRYPOINT + CMD</strong>
+<br>
+Runtime Process + Default Arguments
+
+<br><br>
+
+<strong>Multi-Stage Build</strong>
+<br>
+Small Production Image
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 Explain Dockerfile in 1 Minute</h2>
+
+<div class="interview">
+
+"A Dockerfile contains instructions used to build a Docker image.
+
+I normally start with a trusted base image using FROM, set the
+working directory using WORKDIR, copy dependency files and install
+them with RUN, then copy the application source.
+
+For runtime configuration I can use ENV, while ARG is mainly used
+for build-time variables. EXPOSE documents the application's
+container port.
+
+For production images I prefer multi-stage builds so build tools do
+not remain in the final runtime image. I also use .dockerignore,
+appropriate image versions, non-root users and image scanning.
+
+For the application process, I use ENTRYPOINT and CMD depending on
+whether I want to define a fixed executable, default arguments or
+both.
+
+The goal is to create a reproducible, secure, small and
+production-ready image."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🐳 Docker • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

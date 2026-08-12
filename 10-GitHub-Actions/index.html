@@ -1,0 +1,494 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Actions - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.6;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+.icon{
+    font-size:55px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:8px 0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:800px;
+    margin:10px auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:40px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:22px;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-2px);
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+.file{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:20px;
+    margin:16px 0;
+}
+
+.file a{
+    text-decoration:none;
+    color:#e5e7eb;
+}
+
+.file-title{
+    font-size:21px;
+    font-weight:700;
+    color:#c4b5fd;
+}
+
+.file-desc{
+    color:#9ca8b8;
+    margin-top:6px;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    margin:4px;
+    border-radius:20px;
+    border:1px solid #334155;
+    background:#172033;
+    color:#fbbf24;
+    font-size:13px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:25px;
+    margin-top:20px;
+    font-size:17px;
+}
+
+.flow span{
+    color:#93c5fd;
+    font-weight:700;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:17px;
+    border-radius:8px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">⚙️</div>
+
+<h1>GitHub <span>Actions</span></h1>
+
+<p>
+DevOps Interview Master Guide — GitHub Actions concepts,
+CI/CD automation, security, real-time scenarios and final revision.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- OVERVIEW -->
+
+<div class="card">
+
+<h2>🚀 GitHub Actions Roadmap</h2>
+
+<div class="answer">
+
+GitHub Actions is a CI/CD and automation platform integrated with
+GitHub. This section focuses on the concepts that are most useful
+for DevOps interviews and real-world pipelines.
+
+</div>
+
+<div class="flow">
+
+<span>Git Push</span>
+<br>↓<br>
+<span>GitHub Actions</span>
+<br>↓<br>
+Build → Test → Scan
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Container Registry
+<br>↓<br>
+Kubernetes / Cloud
+<br>↓<br>
+Deployment
+<br>↓<br>
+Monitoring
+
+</div>
+
+</div>
+
+
+<!-- FILE 1 -->
+
+<div class="card">
+
+<h2>📘 Main Files</h2>
+
+<div class="file">
+
+<a href="github-actions.html">
+
+<div class="file-title">
+01. github-actions.html
+</div>
+
+<div class="file-desc">
+Core GitHub Actions concepts, workflows, events, jobs, steps,
+actions, runners, artifacts, matrices and basic CI/CD examples.
+</div>
+
+</a>
+
+<br>
+
+<span class="badge">⭐⭐⭐⭐⭐ Core</span>
+<span class="badge">Interview</span>
+
+</div>
+
+
+<div class="file">
+
+<a href="github-actions-ci-cd.html">
+
+<div class="file-title">
+02. github-actions-ci-cd.html
+</div>
+
+<div class="file-desc">
+Practical CI/CD implementation using GitHub Actions with
+Docker, registries, AWS and Kubernetes.
+</div>
+
+</a>
+
+<br>
+
+<span class="badge">⭐⭐⭐⭐⭐ Important</span>
+<span class="badge">Practical</span>
+
+</div>
+
+
+<div class="file">
+
+<a href="github-actions-security.html">
+
+<div class="file-title">
+03. github-actions-security.html
+</div>
+
+<div class="file-desc">
+Secrets, permissions, OIDC, least privilege, environments,
+secure workflows and DevSecOps practices.
+</div>
+
+</a>
+
+<br>
+
+<span class="badge">⭐⭐⭐⭐⭐ Important</span>
+<span class="badge">Security</span>
+
+</div>
+
+
+<div class="file">
+
+<a href="github-actions-scenarios.html">
+
+<div class="file-title">
+04. github-actions-scenarios.html
+</div>
+
+<div class="file-desc">
+Real-time interview scenarios and troubleshooting for failed
+workflows, deployments, authentication, runners and pipelines.
+</div>
+
+</a>
+
+<br>
+
+<span class="badge">⭐⭐⭐⭐⭐ Interview</span>
+<span class="badge">Scenarios</span>
+
+</div>
+
+
+<div class="file">
+
+<a href="github-actions-final-revision.html">
+
+<div class="file-title">
+05. github-actions-final-revision.html
+</div>
+
+<div class="file-desc">
+Last-minute revision containing the most important concepts,
+questions and interview-ready answers.
+</div>
+
+</a>
+
+<br>
+
+<span class="badge">⭐⭐⭐⭐⭐ Final</span>
+<span class="badge">Revision</span>
+
+</div>
+
+</div>
+
+
+<!-- PRIORITY -->
+
+<div class="card">
+
+<h2>⭐ Interview Priority</h2>
+
+<div class="flow">
+
+⭐⭐⭐⭐⭐
+<br>
+Workflows • Events • Jobs • Steps • Runners
+<br>
+Secrets • Permissions • CI/CD
+<br><br>
+
+⭐⭐⭐⭐
+<br>
+Artifacts • Matrix • Environments
+<br>
+Reusable Workflows • Scheduling
+<br><br>
+
+⭐⭐⭐
+<br>
+Advanced workflow patterns
+<br>
+Organization-level practices
+
+</div>
+
+</div>
+
+
+<!-- CONCEPT FLOW -->
+
+<div class="card">
+
+<h2>🧠 Concept Flow</h2>
+
+<div class="flow">
+
+<strong>Workflow</strong>
+<br>↓<br>
+Triggered by an <strong>Event</strong>
+<br>↓<br>
+Runs <strong>Jobs</strong>
+<br>↓<br>
+Jobs contain <strong>Steps</strong>
+<br>↓<br>
+Steps use commands / <strong>Actions</strong>
+<br>↓<br>
+Everything executes on a <strong>Runner</strong>
+
+</div>
+
+</div>
+
+
+<!-- REAL WORLD FLOW -->
+
+<div class="card">
+
+<h2>🏗️ Real-World DevOps Flow</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+GitHub Repository
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Checkout
+<br>↓<br>
+Build
+<br>↓<br>
+Unit Tests
+<br>↓<br>
+Security Scan
+<br>↓<br>
+Docker Build
+<br>↓<br>
+ECR / Registry
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+ArgoCD / GitOps
+<br>↓<br>
+Prometheus + Grafana
+
+</div>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+
+<h2>⚡ Quick Revision</h2>
+
+<div class="answer">
+
+<strong>Workflow</strong> → Complete automation definition
+
+<br><br>
+
+<strong>Event</strong> → Trigger
+
+<br><br>
+
+<strong>Job</strong> → Group of steps
+
+<br><br>
+
+<strong>Step</strong> → Individual operation
+
+<br><br>
+
+<strong>Action</strong> → Reusable automation component
+
+<br><br>
+
+<strong>Runner</strong> → Machine executing the job
+
+<br><br>
+
+<strong>Secret</strong> → Sensitive value
+
+<br><br>
+
+<strong>Artifact</strong> → Saved workflow output
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Guide Navigation</h2>
+
+<div class="flow">
+
+<a href="../09-CI-CD/index.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: CI/CD
+</a>
+
+<br><br>
+
+<span>Current: GitHub Actions</span>
+
+<br><br>
+
+<span>Next: ArgoCD / GitOps →</span>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+⚙️ GitHub Actions • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

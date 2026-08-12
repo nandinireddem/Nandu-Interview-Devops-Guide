@@ -1,0 +1,1762 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes Storage - PV, PVC & StorageClass</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">💾</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Storage</span></h1>
+
+<p>
+PV, PVC, StorageClass, dynamic provisioning, access modes,
+StatefulSets, AWS storage examples, troubleshooting and
+real-time DevOps interview scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Kubernetes Storage Architecture</h2>
+
+<p>
+Containers are generally treated as ephemeral. If a container is
+deleted and recreated, data stored only inside the container's
+writable layer may disappear.
+</p>
+
+<p>
+Kubernetes provides persistent storage abstractions so application
+data can survive Pod or container recreation.
+</p>
+
+<div class="flow">
+
+Application Pod
+<br>
+↓
+<br>
+<strong>PersistentVolumeClaim (PVC)</strong>
+<br>
+↓
+<br>
+<strong>PersistentVolume (PV)</strong>
+<br>
+↓
+<br>
+<strong>Storage Backend</strong>
+<br>
+<br>
+AWS EBS / EFS / Cloud Disk / SAN / NFS / etc.
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A PostgreSQL database is running in Kubernetes.
+
+If the Pod crashes and Kubernetes recreates it, the database data
+must still exist.
+
+The database uses a PVC backed by persistent storage rather than
+depending only on the container filesystem.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Why do we need persistent storage?</h2>
+
+<div class="answer">
+
+Container filesystems are normally tied to the lifecycle of the
+container. Kubernetes workloads can be restarted, recreated or
+rescheduled onto another node.
+
+Persistent storage separates important application data from the
+temporary container lifecycle.
+
+</div>
+
+<div class="flow">
+
+Pod Created
+<br>
+↓
+<br>
+Application writes data
+<br>
+↓
+<br>
+Pod Deleted
+<br>
+↓
+<br>
+New Pod
+<br>
+↓
+<br>
+<strong>Persistent Volume still contains data</strong>
+
+</div>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is a PersistentVolume (PV)?</h2>
+
+<div class="answer">
+
+A <strong>PersistentVolume</strong> is a Kubernetes storage resource
+representing storage available to workloads.
+
+A PV can be backed by infrastructure such as cloud block storage,
+file storage, NFS or another supported storage implementation.
+
+</div>
+
+<h3>Basic PV example</h3>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app-pv
+spec:
+  capacity:
+    storage: 10Gi
+
+  accessModes:
+    - ReadWriteOnce
+
+  persistentVolumeReclaimPolicy: Retain
+
+  hostPath:
+    path: /data/app</code></pre>
+
+<div class="warning">
+
+<code>hostPath</code> is mainly useful for local/testing scenarios.
+It is generally not the preferred production storage solution for
+multi-node clusters.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What is a PersistentVolumeClaim (PVC)?</h2>
+
+<div class="answer">
+
+A <strong>PersistentVolumeClaim</strong> is a request for storage
+made by a workload.
+
+The application normally asks for storage through a PVC instead of
+directly managing the underlying storage infrastructure.
+
+</div>
+
+<h3>PVC example</h3>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 5Gi</code></pre>
+
+<div class="flow">
+
+Developer / Application
+<br>
+↓
+<br>
+<strong>PVC</strong>
+<br>
+"I need 5Gi storage"
+<br>
+↓
+<br>
+<strong>PV / Storage Provisioner</strong>
+<br>
+↓
+<br>
+Actual Storage
+
+</div>
+
+</div>
+
+
+<!-- SECTION 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. PV vs PVC</h2>
+
+<table>
+
+<tr>
+<th>PV</th>
+<th>PVC</th>
+</tr>
+
+<tr>
+<td>Represents available storage</td>
+<td>Requests storage</td>
+</tr>
+
+<tr>
+<td>Cluster resource</td>
+<td>Namespace-scoped resource</td>
+</tr>
+
+<tr>
+<td>Usually managed/provisioned by infrastructure or platform teams</td>
+<td>Usually requested by application teams</td>
+</tr>
+
+<tr>
+<td>Describes capacity and storage properties</td>
+<td>Describes requested capacity and access requirements</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"PV is the storage resource available to the cluster, while PVC is
+the application's request for that storage. Pods normally consume
+the PVC rather than directly referencing the underlying storage."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is StorageClass?</h2>
+
+<div class="answer">
+
+A <strong>StorageClass</strong> defines a class of storage and allows
+Kubernetes to dynamically provision persistent volumes through a
+storage provisioner.
+
+</div>
+
+<div class="flow">
+
+PVC
+<br>
+↓
+<br>
+StorageClass
+<br>
+↓
+<br>
+Provisioner
+<br>
+↓
+<br>
+Cloud / Storage Backend
+<br>
+↓
+<br>
+PV
+<br>
+↓
+<br>
+Pod
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast-storage
+
+provisioner: example.com/provisioner
+
+reclaimPolicy: Delete
+
+volumeBindingMode: WaitForFirstConsumer</code></pre>
+
+<p>
+The exact <code>provisioner</code> depends on the cluster and storage
+platform.
+</p>
+
+</div>
+
+
+<!-- SECTION 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Static vs Dynamic Provisioning</h2>
+
+<table>
+
+<tr>
+<th>Static Provisioning</th>
+<th>Dynamic Provisioning</th>
+</tr>
+
+<tr>
+<td>PV is created beforehand</td>
+<td>Storage is provisioned when requested</td>
+</tr>
+
+<tr>
+<td>More manual management</td>
+<td>More automated</td>
+</tr>
+
+<tr>
+<td>Useful for specific pre-created storage</td>
+<td>Common in cloud environments</td>
+</tr>
+
+</table>
+
+<h3>Dynamic flow</h3>
+
+<pre><code>PVC
+  ↓
+StorageClass
+  ↓
+Provisioner
+  ↓
+Cloud Storage
+  ↓
+PV automatically created
+  ↓
+PVC Bound</code></pre>
+
+<div class="interview">
+
+Dynamic provisioning is one of the most important concepts to
+understand for managed Kubernetes platforms such as Amazon EKS.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Access Modes</h2>
+
+<table>
+
+<tr>
+<th>Mode</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>ReadWriteOnce (RWO)</td>
+<td>Volume can be mounted read-write by a single node at a time.</td>
+</tr>
+
+<tr>
+<td>ReadOnlyMany (ROX)</td>
+<td>Volume can be mounted read-only by many nodes.</td>
+</tr>
+
+<tr>
+<td>ReadWriteMany (RWX)</td>
+<td>Volume can be mounted read-write by many nodes.</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+Do not assume every storage backend supports every access mode.
+Always verify what the underlying storage implementation supports.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. RWO vs RWX Real-Time Example</h2>
+
+<div class="scenario">
+
+<strong>Scenario 1 — Database:</strong>
+
+A PostgreSQL database usually uses block storage such as an EBS-like
+volume and commonly needs single-node read/write attachment.
+
+RWO is a common access pattern.
+
+<br><br>
+
+<strong>Scenario 2 — Shared application files:</strong>
+
+Multiple application Pods running on different nodes need to read
+and write the same shared filesystem.
+
+A storage system supporting RWX, such as an appropriate network
+filesystem, may be required.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Using PVC in a Pod</h2>
+
+<h3>PVC</h3>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 5Gi</code></pre>
+
+<h3>Pod</h3>
+
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: storage-demo
+spec:
+  containers:
+  - name: app
+    image: nginx
+
+    volumeMounts:
+    - name: app-storage
+      mountPath: /data
+
+  volumes:
+  - name: app-storage
+    persistentVolumeClaim:
+      claimName: app-pvc</code></pre>
+
+<p>
+The application writes data under <code>/data</code>, which is backed
+by the PVC.
+</p>
+
+</div>
+
+
+<!-- SECTION 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Storage Lifecycle</h2>
+
+<div class="flow">
+
+PVC Created
+<br>
+↓
+<br>
+PVC Pending
+<br>
+↓
+<br>
+Storage Provisioned / PV Selected
+<br>
+↓
+<br>
+PVC Bound
+<br>
+↓
+<br>
+Pod Uses PVC
+<br>
+↓
+<br>
+Pod Restart / Reschedule
+<br>
+↓
+<br>
+Data Persists
+
+</div>
+
+<h3>Check status</h3>
+
+<pre><code>kubectl get pv
+kubectl get pvc
+kubectl describe pvc app-pvc</code></pre>
+
+</div>
+
+
+<!-- SECTION 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. PVC Pending</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+A PVC remains in:
+
+<pre><code>Pending</code></pre>
+
+Possible reasons include:
+
+<ul>
+<li>No suitable PV exists for static provisioning.</li>
+<li>Incorrect StorageClass.</li>
+<li>No dynamic provisioner is available.</li>
+<li>Requested access mode is unsupported.</li>
+<li>Requested capacity cannot be satisfied.</li>
+<li>Storage backend/provisioner has an error.</li>
+</ul>
+
+</div>
+
+<h3>Troubleshooting</h3>
+
+<pre><code>kubectl get pvc
+kubectl describe pvc app-pvc
+
+kubectl get pv
+kubectl get storageclass
+
+kubectl describe storageclass &lt;storage-class&gt;</code></pre>
+
+</div>
+
+
+<!-- SECTION 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Reclaim Policy</h2>
+
+<div class="answer">
+
+The PV reclaim policy determines what Kubernetes should do with the
+underlying volume after the PVC is deleted.
+
+</div>
+
+<table>
+
+<tr>
+<th>Policy</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Retain</td>
+<td>Keep the PV/storage so data can be preserved and handled manually.</td>
+</tr>
+
+<tr>
+<td>Delete</td>
+<td>Delete the volume according to the provisioner's behavior.</td>
+</tr>
+
+<tr>
+<td>Recycle</td>
+<td>Legacy behavior and generally not used for modern Kubernetes storage.</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+For important production data, understand the reclaim policy before
+deleting PVCs. A Delete policy can result in deletion of the
+underlying dynamically provisioned storage.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Retain vs Delete</h2>
+
+<div class="scenario">
+
+<strong>Production database:</strong>
+
+If accidental PVC deletion must not immediately destroy the data,
+a Retain strategy may be appropriate depending on the organization's
+backup and recovery design.
+
+<br><br>
+
+<strong>Temporary application environment:</strong>
+
+For disposable environments, Delete may be appropriate so that
+temporary storage is automatically cleaned up.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. What is volumeBindingMode?</h2>
+
+<div class="answer">
+
+<code>volumeBindingMode</code> controls when volume binding and dynamic
+provisioning occur.
+
+Two important modes are:
+
+</div>
+
+<table>
+
+<tr>
+<th>Immediate</th>
+<th>WaitForFirstConsumer</th>
+</tr>
+
+<tr>
+<td>Provision/bind as soon as PVC is created.</td>
+<td>Delay provisioning/binding until a Pod using the PVC is created.</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<code>WaitForFirstConsumer</code> can help the scheduler choose a
+storage location compatible with the Pod's placement and storage
+topology.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. emptyDir vs PVC</h2>
+
+<table>
+
+<tr>
+<th>emptyDir</th>
+<th>PVC</th>
+</tr>
+
+<tr>
+<td>Temporary Pod storage</td>
+<td>Persistent storage abstraction</td>
+</tr>
+
+<tr>
+<td>Deleted when Pod is removed from the node</td>
+<td>Can survive Pod recreation according to storage lifecycle</td>
+</tr>
+
+<tr>
+<td>Useful for temporary files/cache</td>
+<td>Useful for databases and persistent application data</td>
+</tr>
+
+</table>
+
+<h3>emptyDir example</h3>
+
+<pre><code>volumes:
+- name: temp-storage
+  emptyDir: {}
+
+containers:
+- name: app
+  image: nginx
+  volumeMounts:
+  - name: temp-storage
+    mountPath: /tmp/app</code></pre>
+
+</div>
+
+
+<!-- SECTION 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. StatefulSet + Persistent Storage</h2>
+
+<div class="answer">
+
+StatefulSets are commonly used for stateful applications that need
+stable identities and persistent storage.
+
+A StatefulSet can use <code>volumeClaimTemplates</code> to create a
+PVC for each Pod.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+spec:
+  serviceName: database
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: database
+
+  template:
+    metadata:
+      labels:
+        app: database
+
+    spec:
+      containers:
+      - name: database
+        image: postgres:16
+
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+
+    spec:
+      accessModes:
+      - ReadWriteOnce
+
+      resources:
+        requests:
+          storage: 10Gi</code></pre>
+
+<div class="flow">
+
+StatefulSet
+<br>
+↓
+<br>
+database-0 → PVC data-database-0
+<br>
+database-1 → PVC data-database-1
+
+</div>
+
+</div>
+
+
+<!-- SECTION 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Why StatefulSet instead of Deployment for databases?</h2>
+
+<div class="answer">
+
+A StatefulSet provides stable Pod identities, stable network identity
+when configured with the appropriate Service, and supports
+per-Pod persistent storage patterns.
+
+A Deployment is designed primarily for interchangeable replicas.
+
+</div>
+
+<div class="scenario">
+
+For a database cluster, each member may need its own persistent
+data volume.
+
+A StatefulSet can provide:
+
+<br><br>
+
+database-0 → its own PVC
+
+<br>
+
+database-1 → its own PVC
+
+<br>
+
+database-2 → its own PVC
+
+</div>
+
+<div class="warning">
+
+A StatefulSet alone does not make a database highly available.
+The database itself must support replication, failover and recovery,
+and the storage/backup architecture must be designed appropriately.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. AWS EBS vs EFS in Kubernetes</h2>
+
+<table>
+
+<tr>
+<th>AWS EBS</th>
+<th>AWS EFS</th>
+</tr>
+
+<tr>
+<td>Block storage</td>
+<td>Managed network file system</td>
+</tr>
+
+<tr>
+<td>Commonly associated with RWO workloads</td>
+<td>Commonly suitable for shared filesystem access such as RWX patterns</td>
+</tr>
+
+<tr>
+<td>Good for many database/block-storage workloads</td>
+<td>Useful when multiple Pods/nodes need shared file access</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<strong>EKS example:</strong>
+
+A database Pod needs block storage → EBS-backed storage class.
+
+Multiple application Pods need shared files across nodes →
+EFS-backed storage class, assuming the appropriate CSI driver and
+access mode support.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. CSI Driver</h2>
+
+<div class="answer">
+
+<strong>CSI</strong> stands for Container Storage Interface.
+
+CSI provides a standard mechanism for Kubernetes to communicate
+with storage systems.
+
+Cloud platforms commonly provide CSI drivers for their storage
+services.
+
+</div>
+
+<div class="flow">
+
+Kubernetes
+<br>
+↓
+<br>
+CSI Driver
+<br>
+↓
+<br>
+Cloud Storage
+<br>
+<br>
+Example:
+<br>
+EKS → EBS CSI / EFS CSI
+</div>
+
+<div class="interview">
+
+The CSI driver is an important part of modern Kubernetes storage,
+especially in managed clusters such as EKS.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 20. Static PV Example</h2>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: manual-pv
+spec:
+  capacity:
+    storage: 10Gi
+
+  accessModes:
+  - ReadWriteOnce
+
+  persistentVolumeReclaimPolicy: Retain
+
+  hostPath:
+    path: /mnt/data</code></pre>
+
+<h3>Claim</h3>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: manual-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 5Gi</code></pre>
+
+<p>
+The PVC may bind to a suitable available PV.
+</p>
+
+</div>
+
+
+<!-- SECTION 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. StorageClass + PVC Dynamic Provisioning</h2>
+
+<h3>StorageClass</h3>
+
+<pre><code>apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast-storage
+
+provisioner: example.com/csi
+
+volumeBindingMode: WaitForFirstConsumer
+
+reclaimPolicy: Delete</code></pre>
+
+<h3>PVC</h3>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dynamic-pvc
+
+spec:
+  storageClassName: fast-storage
+
+  accessModes:
+  - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: 20Gi</code></pre>
+
+<div class="flow">
+
+PVC
+<br>
+↓
+<br>
+StorageClass
+<br>
+↓
+<br>
+CSI Provisioner
+<br>
+↓
+<br>
+20Gi Storage Created
+<br>
+↓
+<br>
+PV
+<br>
+↓
+<br>
+PVC Bound
+
+</div>
+
+</div>
+
+
+<!-- SECTION 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Default StorageClass</h2>
+
+<div class="answer">
+
+A cluster can have a default StorageClass.
+
+If a PVC does not specify <code>storageClassName</code>, Kubernetes
+can use the default StorageClass for dynamic provisioning when the
+cluster is configured accordingly.
+
+</div>
+
+<h3>Check StorageClasses</h3>
+
+<pre><code>kubectl get storageclass
+
+kubectl get sc</code></pre>
+
+<h3>Inspect</h3>
+
+<pre><code>kubectl describe storageclass &lt;name&gt;</code></pre>
+
+<div class="scenario">
+
+When troubleshooting a PVC stuck in Pending, checking whether the
+cluster has an appropriate default StorageClass is one of the first
+things to verify.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. PVC is Bound but Pod cannot start</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+PVC shows:
+
+<pre><code>Bound</code></pre>
+
+But the Pod remains Pending or fails during volume attachment/mount.
+
+Possible reasons include:
+
+<ul>
+<li>Node does not satisfy storage topology.</li>
+<li>CSI driver issue.</li>
+<li>Volume attachment failure.</li>
+<li>Mount permission problem.</li>
+<li>Underlying storage unavailable.</li>
+<li>Access mode or attachment limitation.</li>
+</ul>
+
+</div>
+
+<h3>Commands</h3>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl describe pvc &lt;pvc-name&gt;
+
+kubectl get pv
+
+kubectl get events --sort-by=.lastTimestamp</code></pre>
+
+</div>
+
+
+<!-- SECTION 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Real-Time Scenario: Pod deleted</h2>
+
+<div class="scenario">
+
+A database Pod is deleted accidentally.
+
+Kubernetes creates a replacement Pod.
+
+If the database uses a correctly configured persistent volume,
+the new Pod can mount the existing storage and continue using the
+persisted data.
+
+</div>
+
+<div class="flow">
+
+Old Pod
+<br>
+↓
+<br>
+Deleted
+<br>
+↓
+<br>
+PVC remains
+<br>
+↓
+<br>
+New Pod
+<br>
+↓
+<br>
+Same Persistent Storage
+<br>
+↓
+<br>
+Data Available
+
+</div>
+
+</div>
+
+
+<!-- SECTION 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Real-Time Scenario: Pod moves to another node</h2>
+
+<div class="scenario">
+
+A node fails and Kubernetes schedules the workload onto another
+eligible node.
+
+Whether the persistent volume can be attached to the new node
+depends on the storage backend, access mode, topology and CSI
+implementation.
+
+</div>
+
+<div class="interview">
+
+Do not simply say "the volume works on any node."
+
+Storage attachment and topology rules matter, especially with
+single-node-attached block storage.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Database Production Storage Strategy</h2>
+
+<div class="scenario">
+
+For a production database in Kubernetes, I would consider:
+
+<br><br>
+
+• Persistent storage through PVCs<br>
+• Appropriate StorageClass<br>
+• Correct access mode<br>
+• StatefulSet when appropriate<br>
+• Storage encryption<br>
+• Regular backups<br>
+• Snapshot strategy where supported<br>
+• Monitoring<br>
+• Tested restore procedures<br>
+• Reclaim policy<br>
+• Capacity planning
+
+</div>
+
+<div class="warning">
+
+Persistent storage is not the same as backup.
+
+A persistent volume can still be lost because of infrastructure,
+operator error, corruption or deletion.
+
+Backups and tested restoration are essential for important data.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Backup vs Persistent Storage</h2>
+
+<table>
+
+<tr>
+<th>Persistent Storage</th>
+<th>Backup</th>
+</tr>
+
+<tr>
+<td>Keeps application data available across Pod lifecycle changes.</td>
+<td>Provides a recoverable copy of data.</td>
+</tr>
+
+<tr>
+<td>Supports normal application operation.</td>
+<td>Used for disaster recovery and accidental deletion.</td>
+</tr>
+
+<tr>
+<td>Not automatically a backup.</td>
+<td>Should be stored according to recovery requirements.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+If an interviewer asks "Does PVC provide backup?", the answer is:
+
+<strong>No.</strong> PVC provides persistent storage, not a complete
+backup and disaster-recovery solution.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 28. Storage Security</h2>
+
+<ul>
+<li>Encrypt storage where supported.</li>
+<li>Restrict access through RBAC.</li>
+<li>Use appropriate filesystem permissions.</li>
+<li>Protect sensitive data with application-level encryption where required.</li>
+<li>Use secure StorageClasses and CSI drivers.</li>
+<li>Monitor storage access and failures.</li>
+<li>Use backups and tested recovery procedures.</li>
+<li>Do not expose database storage unnecessarily.</li>
+</ul>
+
+</div>
+
+
+<!-- SECTION 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Most Frequently Asked Interview Questions</h2>
+
+<ol>
+
+<li>Why do we need persistent storage in Kubernetes?</li>
+
+<li>What is a PersistentVolume?</li>
+
+<li>What is a PersistentVolumeClaim?</li>
+
+<li>PV vs PVC?</li>
+
+<li>What is a StorageClass?</li>
+
+<li>What is dynamic provisioning?</li>
+
+<li>Static vs dynamic provisioning?</li>
+
+<li>What are access modes?</li>
+
+<li>What is RWO?</li>
+
+<li>What is RWX?</li>
+
+<li>What is the difference between emptyDir and PVC?</li>
+
+<li>What is a reclaim policy?</li>
+
+<li>Retain vs Delete?</li>
+
+<li>What is volumeBindingMode?</li>
+
+<li>What is WaitForFirstConsumer?</li>
+
+<li>Why use StatefulSet for stateful applications?</li>
+
+<li>What is volumeClaimTemplates?</li>
+
+<li>What is CSI?</li>
+
+<li>How does EBS differ from EFS in EKS?</li>
+
+<li>How do you troubleshoot a Pending PVC?</li>
+
+<li>What if PVC is Bound but Pod cannot mount it?</li>
+
+<li>Does PVC provide backup?</li>
+
+<li>How would you design storage for a production database?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Can two Pods use the same PVC?</li>
+
+<li>Can multiple Pods use RWO?</li>
+
+<li>Can a PVC exist without a PV?</li>
+
+<li>What happens when a PVC is deleted?</li>
+
+<li>What happens to a PV after PVC deletion?</li>
+
+<li>How do you check which PV a PVC is using?</li>
+
+<li>How do you check the StorageClass?</li>
+
+<li>Why is a PVC stuck in Pending?</li>
+
+<li>Why is a Pod stuck while mounting a volume?</li>
+
+<li>What is the difference between block and file storage?</li>
+
+<li>Why is EBS commonly used for database workloads?</li>
+
+<li>Why would EFS be used for shared storage?</li>
+
+<li>What is a CSI driver?</li>
+
+<li>Why is WaitForFirstConsumer useful?</li>
+
+<li>How would you recover a deleted database Pod?</li>
+
+<li>How would you protect production storage from accidental deletion?</li>
+
+</ul>
+
+</div>
+
+
+<!-- COMMANDS -->
+
+<div class="card">
+
+<h2>🧠 Final Kubernetes Storage Command Cheat Sheet</h2>
+
+<pre><code># Persistent Volumes
+kubectl get pv
+kubectl describe pv &lt;pv-name&gt;
+
+# Persistent Volume Claims
+kubectl get pvc
+kubectl get pvc -A
+kubectl describe pvc &lt;pvc-name&gt;
+
+# Storage Classes
+kubectl get storageclass
+kubectl get sc
+kubectl describe storageclass &lt;name&gt;
+
+# Pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl get pod &lt;pod-name&gt; -o yaml
+
+# StatefulSets
+kubectl get statefulset
+kubectl describe statefulset &lt;name&gt;
+
+# Troubleshooting
+kubectl get events --sort-by=.lastTimestamp
+
+# Check PVC binding
+kubectl get pvc -o wide
+
+# Check PV details
+kubectl get pv -o wide</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second Storage Revision</h2>
+
+<div class="flow">
+
+<strong>Pod</strong>
+<br>
+↓
+<br>
+<strong>PVC</strong>
+<br>
+"Request storage"
+<br>
+↓
+<br>
+<strong>PV</strong>
+<br>
+"Available storage"
+<br>
+↓
+<br>
+<strong>Storage Backend</strong>
+
+<br><br>
+
+<strong>StorageClass</strong>
+→ Dynamic Provisioning
+
+<br><br>
+
+<strong>RWO</strong>
+→ Read/Write from one node
+
+<br><br>
+
+<strong>RWX</strong>
+→ Read/Write from many nodes
+
+<br><br>
+
+<strong>emptyDir</strong>
+→ Temporary Pod storage
+
+<br><br>
+
+<strong>StatefulSet</strong>
+→ Stable identity + persistent storage pattern
+
+<br><br>
+
+<strong>CSI</strong>
+→ Storage integration
+
+<br><br>
+
+<strong>Retain</strong>
+→ Preserve storage/data for manual handling
+
+<br><br>
+
+<strong>Delete</strong>
+→ Delete dynamically provisioned storage according to policy
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Kubernetes Storage"</h2>
+
+<div class="interview">
+
+"Kubernetes Pods are generally ephemeral, so for applications that
+need persistent data I use PersistentVolumes and PersistentVolumeClaims.
+
+A PersistentVolume represents available storage, while a PVC is the
+application's request for storage.
+
+For dynamic provisioning, I use a StorageClass. The PVC references
+the StorageClass, and the provisioner creates the appropriate
+persistent volume.
+
+Access modes such as ReadWriteOnce and ReadWriteMany determine how
+the storage can be mounted, depending on what the storage backend
+supports.
+
+For stateful applications such as databases, I can use StatefulSets
+with volumeClaimTemplates so each Pod can have its own persistent
+storage.
+
+In AWS EKS, I would commonly consider EBS for block-storage workloads
+and EFS for shared filesystem use cases, using the appropriate CSI
+drivers.
+
+Finally, I would configure reclaim policies carefully, monitor
+storage, encrypt sensitive data, and maintain backups because
+persistent storage itself is not a backup."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+💾 Kubernetes Storage • PV • PVC • StorageClass
+
+<br><br>
+
+Nandu's DevOps Interview Master Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```
+

@@ -1,0 +1,1094 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CI/CD Basics - DevOps Interview Master Guide">
+<title>CI/CD Basics - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border:1px solid #334155;
+    border-radius:20px;
+    color:#fbbf24;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔄</div>
+
+<a href="index.html" class="back">← Back to CI/CD</a>
+
+<h1>CI/CD <span>Basics</span></h1>
+
+<p>
+Core CI/CD concepts for DevOps interviews — Continuous Integration,
+Continuous Delivery, Continuous Deployment, pipeline stages,
+automation, benefits and real-world workflow.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is CI/CD?</h2>
+
+<div class="answer">
+
+<strong>CI/CD</strong> is a software delivery approach that automates
+the process of integrating code, validating changes, building
+artifacts and delivering or deploying applications.
+
+</div>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓
+<br>
+📦 Git Repository
+<br>↓
+<br>
+⚙️ CI
+<br>↓
+<br>
+🧪 Build + Test + Scan
+<br>↓
+<br>
+📦 Artifact / Image
+<br>↓
+<br>
+🚀 CD
+<br>↓
+<br>
+☸️ Deployment
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A developer pushes code to GitHub. A pipeline automatically builds
+the application, runs tests and security checks, creates a Docker
+image and deploys it to Kubernetes.
+
+</div>
+
+</div>
+
+
+<!-- CI -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is Continuous Integration?</h2>
+
+<div class="answer">
+
+<strong>Continuous Integration (CI)</strong> is the practice of
+frequently integrating code changes into a shared repository and
+automatically validating those changes through builds and tests.
+
+</div>
+
+<h3>Typical CI Flow</h3>
+
+<div class="flow">
+
+Code Commit
+<br>↓
+<br>
+Build
+<br>↓
+<br>
+Unit Tests
+<br>↓
+<br>
+Code Quality
+<br>↓
+<br>
+Security Scan
+<br>↓
+<br>
+Artifact
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"Continuous Integration means developers frequently merge their
+changes into a shared repository, where an automated pipeline builds
+and tests the code to detect problems early."
+
+</div>
+
+</div>
+
+
+<!-- CONTINUOUS DELIVERY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What is Continuous Delivery?</h2>
+
+<div class="answer">
+
+<strong>Continuous Delivery</strong> means the application is
+automatically built, tested and prepared for release so that it is
+always in a deployable state.
+
+The production deployment may require a manual approval.
+
+</div>
+
+<div class="flow">
+
+Code
+<br>↓
+<br>
+CI
+<br>↓
+<br>
+Build + Test
+<br>↓
+<br>
+Package
+<br>↓
+<br>
+Staging
+<br>↓
+<br>
+<strong>Manual Approval</strong>
+<br>↓
+<br>
+Production
+
+</div>
+
+<div class="interview">
+
+The key idea is:
+
+<strong>Software is always ready to be deployed, but production
+release may still require human approval.</strong>
+
+</div>
+
+</div>
+
+
+<!-- CONTINUOUS DEPLOYMENT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is Continuous Deployment?</h2>
+
+<div class="answer">
+
+<strong>Continuous Deployment</strong> automatically deploys changes
+to production after they successfully pass the required automated
+checks.
+
+There is no manual production approval in the normal successful
+path.
+
+</div>
+
+<div class="flow">
+
+Code
+<br>↓
+<br>
+Build
+<br>↓
+<br>
+Test
+<br>↓
+<br>
+Security
+<br>↓
+<br>
+Deploy Production
+<br>↓
+<br>
+Monitor
+
+</div>
+
+<div class="scenario">
+
+If a company has strong automated testing, security controls,
+deployment verification and monitoring, it may use Continuous
+Deployment to release changes automatically.
+
+</div>
+
+</div>
+
+
+<!-- DIFFERENCE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. CI vs Continuous Delivery vs Continuous Deployment</h2>
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>Main Focus</th>
+<th>Production Deployment</th>
+</tr>
+
+<tr>
+<td><strong>CI</strong></td>
+<td>Integrate, build and test code frequently</td>
+<td>Not the main purpose</td>
+</tr>
+
+<tr>
+<td><strong>Continuous Delivery</strong></td>
+<td>Keep software ready for release</td>
+<td>Usually requires approval</td>
+</tr>
+
+<tr>
+<td><strong>Continuous Deployment</strong></td>
+<td>Automatically release validated changes</td>
+<td>Automatically deployed</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy interview trick:</strong>
+
+<br><br>
+
+CI = <strong>Integrate + Validate</strong>
+
+<br>
+
+Continuous Delivery = <strong>Always Ready to Deploy</strong>
+
+<br>
+
+Continuous Deployment = <strong>Automatically Deploy</strong>
+
+</div>
+
+</div>
+
+
+<!-- PIPELINE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Typical CI/CD Pipeline Stages</h2>
+
+<div class="flow">
+
+<strong>1. Source</strong>
+<br>
+Git Push / Pull Request
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>2. Build</strong>
+<br>
+Compile / Package
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>3. Test</strong>
+<br>
+Unit / Integration Tests
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>4. Security & Quality</strong>
+<br>
+SAST / Dependency Scan / Container Scan
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>5. Package</strong>
+<br>
+Artifact / Docker Image
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>6. Deploy</strong>
+<br>
+Dev → QA → Staging → Production
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>7. Verify & Monitor</strong>
+
+</div>
+
+</div>
+
+
+<!-- AUTOMATION -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Why do we automate CI/CD?</h2>
+
+<ul>
+<li>Reduce manual errors.</li>
+<li>Get faster feedback.</li>
+<li>Release software more frequently.</li>
+<li>Standardize deployment processes.</li>
+<li>Detect bugs earlier.</li>
+<li>Improve release consistency.</li>
+<li>Support repeatable deployments.</li>
+<li>Reduce operational effort.</li>
+</ul>
+
+<div class="scenario">
+
+Instead of manually copying application files to servers after every
+release, the pipeline performs the same validated deployment process
+consistently.
+
+</div>
+
+</div>
+
+
+<!-- BENEFITS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Benefits of CI/CD</h2>
+
+<table>
+
+<tr>
+<th>Benefit</th>
+<th>Explanation</th>
+</tr>
+
+<tr>
+<td>Faster Releases</td>
+<td>Automation reduces manual release effort.</td>
+</tr>
+
+<tr>
+<td>Early Bug Detection</td>
+<td>Automated tests run soon after code changes.</td>
+</tr>
+
+<tr>
+<td>Consistency</td>
+<td>The same pipeline process can be reused for deployments.</td>
+</tr>
+
+<tr>
+<td>Better Quality</td>
+<td>Testing and quality checks are integrated into delivery.</td>
+</tr>
+
+<tr>
+<td>Lower Risk</td>
+<td>Small, frequent changes are generally easier to validate and roll back.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- DEVOPS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. CI/CD and DevOps</h2>
+
+<div class="answer">
+
+CI/CD is an important part of DevOps because it helps automate the
+software delivery lifecycle and creates faster feedback between
+development, testing, security and operations.
+
+</div>
+
+<div class="flow">
+
+Development
+<br>↓
+<br>
+Git
+<br>↓
+<br>
+CI/CD
+<br>↓
+<br>
+Infrastructure
+<br>↓
+<br>
+Deployment
+<br>↓
+<br>
+Monitoring
+<br>↓
+<br>
+Feedback
+<br>↺
+<br>
+Development
+
+</div>
+
+</div>
+
+
+<!-- ARTIFACT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 10. What is an Artifact?</h2>
+
+<div class="answer">
+
+An <strong>artifact</strong> is a versioned output produced by the
+build process that can be stored and used later for deployment.
+
+</div>
+
+<h3>Examples</h3>
+
+<ul>
+<li>JAR file</li>
+<li>WAR file</li>
+<li>ZIP package</li>
+<li>Docker image</li>
+<li>Compiled application package</li>
+</ul>
+
+<div class="scenario">
+
+For example, a Java pipeline may build:
+
+<pre><code>payment-service-1.5.0.jar</code></pre>
+
+That artifact can then be promoted through different environments.
+
+</div>
+
+</div>
+
+
+<!-- ENVIRONMENTS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. CI/CD Across Environments</h2>
+
+<div class="flow">
+
+<strong>Development</strong>
+<br>↓
+<br>
+<strong>Testing</strong>
+<br>↓
+<br>
+<strong>QA</strong>
+<br>↓
+<br>
+<strong>Staging</strong>
+<br>↓
+<br>
+<strong>Production</strong>
+
+</div>
+
+<div class="answer">
+
+A mature pipeline promotes a validated build through environments
+using controlled configuration and deployment policies.
+
+</div>
+
+<div class="warning">
+
+Avoid rebuilding different application binaries for every environment
+when the goal is to promote the same tested artifact. Environment-
+specific configuration should normally be handled separately.
+
+</div>
+
+</div>
+
+
+<!-- WEBHOOK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. What triggers a CI/CD pipeline?</h2>
+
+<p>A pipeline can be triggered by different events.</p>
+
+<ul>
+<li>Git push</li>
+<li>Pull request</li>
+<li>Merge to a branch</li>
+<li>Tag creation</li>
+<li>Scheduled execution</li>
+<li>Manual execution</li>
+<li>API or webhook events</li>
+</ul>
+
+<div class="scenario">
+
+<strong>Common example:</strong>
+
+A developer pushes code to the <code>main</code> branch → Git provider
+sends a webhook → CI/CD server starts the pipeline.
+
+</div>
+
+</div>
+
+
+<!-- FAILURE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What happens when a pipeline fails?</h2>
+
+<div class="answer">
+
+The pipeline should normally stop at the failed stage and prevent
+the invalid build from progressing to later deployment stages.
+
+</div>
+
+<div class="flow">
+
+Build
+<br>↓
+<br>
+Test ❌
+<br>↓
+<br>
+<strong>Pipeline Stops</strong>
+<br>↓
+<br>
+Developer Investigates
+<br>↓
+<br>
+Fix
+<br>↓
+<br>
+New Pipeline Run
+
+</div>
+
+<div class="interview">
+
+A failed pipeline is useful because it provides fast feedback before
+a bad change reaches later environments.
+
+</div>
+
+</div>
+
+
+<!-- ROLLBACK -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Why is rollback important?</h2>
+
+<div class="answer">
+
+Rollback allows the team to return to a previously known-good version
+when a deployment introduces a serious problem.
+
+</div>
+
+<div class="flow">
+
+Version 1.4
+<br>↓
+<br>
+Version 1.5 🚀
+<br>↓
+<br>
+Production Issue ❌
+<br>↓
+<br>
+Rollback
+<br>↓
+<br>
+Version 1.4 ✅
+
+</div>
+
+<p>
+Rollback strategies are discussed in more detail in the
+<strong>CI/CD Pipeline Strategies</strong> module.
+</p>
+
+</div>
+
+
+<!-- REAL TIME -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Real-Time End-to-End Example</h2>
+
+<div class="scenario">
+
+A developer modifies a payment application.
+
+<br><br>
+
+1. Code is pushed to GitHub.
+
+<br>
+
+2. CI pipeline is triggered.
+
+<br>
+
+3. Application is built.
+
+<br>
+
+4. Unit and integration tests execute.
+
+<br>
+
+5. Code and dependencies are scanned.
+
+<br>
+
+6. Docker image is created.
+
+<br>
+
+7. Image is pushed to a container registry.
+
+<br>
+
+8. Deployment is triggered.
+
+<br>
+
+9. Kubernetes deploys the new version.
+
+<br>
+
+10. Health checks and monitoring verify the deployment.
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready summary:</strong>
+
+<br><br>
+
+"I would design the CI/CD pipeline so that every code change is
+validated through automated build, testing and security stages.
+After producing a versioned artifact or container image, the
+validated version is promoted through environments and deployed using
+a controlled deployment strategy. Monitoring and health checks then
+verify the release."
+
+</div>
+
+</div>
+
+
+<!-- QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>What is CI/CD?</li>
+
+<li>What is Continuous Integration?</li>
+
+<li>What is Continuous Delivery?</li>
+
+<li>What is Continuous Deployment?</li>
+
+<li>CI vs CD?</li>
+
+<li>Continuous Delivery vs Continuous Deployment?</li>
+
+<li>What are the common stages of a CI/CD pipeline?</li>
+
+<li>Why is CI/CD important in DevOps?</li>
+
+<li>What triggers a CI/CD pipeline?</li>
+
+<li>What happens when a pipeline fails?</li>
+
+<li>What is an artifact?</li>
+
+<li>Why is rollback important?</li>
+
+<li>How does CI/CD work with Docker?</li>
+
+<li>How does CI/CD work with Kubernetes?</li>
+
+<li>Explain a real-time CI/CD pipeline.</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Can CI exist without CD?</li>
+
+<li>Can CD exist without CI?</li>
+
+<li>What is the difference between a build and a deployment?</li>
+
+<li>Why should we avoid rebuilding the application for each environment?</li>
+
+<li>How do you handle secrets in CI/CD?</li>
+
+<li>How do you handle failed deployments?</li>
+
+<li>How do you implement zero-downtime deployment?</li>
+
+<li>How do you promote the same artifact across environments?</li>
+
+<li>How do you secure a CI/CD pipeline?</li>
+
+<li>How would you troubleshoot a failed pipeline?</li>
+
+</ul>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second CI/CD Revision</h2>
+
+<div class="flow">
+
+<strong>CI</strong>
+→ Integrate + Build + Test
+
+<br><br>
+
+<strong>Continuous Delivery</strong>
+→ Always ready to deploy
+
+<br><br>
+
+<strong>Continuous Deployment</strong>
+→ Automatically deploy
+
+<br><br>
+
+<strong>Pipeline</strong>
+→ Source → Build → Test → Scan → Package → Deploy
+
+<br><br>
+
+<strong>Artifact</strong>
+→ Versioned build output
+
+<br><br>
+
+<strong>Rollback</strong>
+→ Return to known-good version
+
+<br><br>
+
+<strong>Goal</strong>
+→ Fast, reliable and repeatable software delivery
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain CI/CD"</h2>
+
+<div class="interview">
+
+"CI/CD is an approach used to automate and improve the software
+delivery lifecycle.
+
+Continuous Integration means developers frequently integrate code
+changes into a shared repository and automatically build and test
+those changes.
+
+Continuous Delivery keeps the application in a deployable state,
+usually with an approval before production.
+
+Continuous Deployment goes one step further by automatically
+deploying successfully validated changes to production.
+
+A typical pipeline includes source control, build, testing, security
+checks, artifact creation, deployment and monitoring.
+
+In a real DevOps environment, tools such as Git, Jenkins, Docker,
+Kubernetes and cloud services can work together to create an
+automated and repeatable delivery process."
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+← CI/CD Index
+</a>
+
+<br><br>
+
+<a href="ci-cd-pipeline-strategies.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next: CI/CD Pipeline Strategies →
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔄 CI/CD Basics • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

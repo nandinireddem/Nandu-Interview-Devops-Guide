@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Basics - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin:20px 0 5px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+
+h2{
+    margin:5px 0 12px;
+    font-size:25px;
+}
+
+h3{
+    margin-top:22px;
+    color:#dbeafe;
+}
+
+p{color:#c2ccde}
+
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{color:#93c5fd}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{color:#93c5fd}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+
+code{
+    background:#080d18;
+    color:#bfdbfe;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+.note{
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">🐧</div>
+
+<h1>Linux <span>Basics</span></h1>
+
+<p>
+Linux fundamentals, architecture, kernel, shell, distributions
+and essential DevOps interview concepts.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+
+<!-- WHAT IS LINUX -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h2>What is Linux?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux is an open-source operating system kernel that is used as
+the foundation of many operating systems and server environments.
+</p>
+
+<p>
+In practical usage, the term "Linux" commonly refers to Linux
+distributions that include the Linux kernel together with system
+utilities, libraries and applications.
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+When you launch an AWS EC2 instance using Amazon Linux or Ubuntu,
+you are running a Linux-based operating system.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux is an open-source operating system kernel. Linux-based
+distributions combine the kernel with system utilities,
+libraries and applications to provide a complete operating
+system environment. Linux is widely used for servers, cloud
+infrastructure and DevOps."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- WHY LINUX -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h2>Why is Linux important in DevOps?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+Linux is widely used in cloud and server environments, making
+Linux administration an important DevOps skill.
+</p>
+
+<p>
+
+→ AWS EC2 servers frequently run Linux
+
+<br>
+→ Docker containers commonly use Linux-based environments
+
+<br>
+→ Kubernetes nodes commonly run Linux
+
+<br>
+→ CI/CD tools are commonly deployed on Linux
+
+<br>
+→ Web servers and application servers commonly use Linux
+
+<br>
+→ Shell scripting is widely used for automation
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Real-Time DevOps Example</strong>
+
+<p>
+A DevOps engineer may connect to an EC2 Linux server through SSH,
+check CPU usage, inspect logs, restart a service and troubleshoot
+network connectivity.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux is important in DevOps because many cloud servers,
+containers, CI/CD systems and production workloads run on Linux.
+It also provides powerful command-line tools and scripting
+capabilities for automation and troubleshooting."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- KERNEL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 03</div>
+
+<h2>What is the Linux Kernel?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The kernel is the core component of the operating system.
+It manages communication between hardware and software and
+controls important system resources.
+</p>
+
+<div class="flow">
+
+Applications
+
+↓
+
+Shell / System Libraries
+
+↓
+
+<strong>Linux Kernel</strong>
+
+↓
+
+CPU • Memory • Disk • Network • Hardware
+
+</div>
+
+<h3>Major responsibilities of the Kernel</h3>
+
+<p>
+
+→ Process management
+
+<br>
+→ Memory management
+
+<br>
+→ Device management
+
+<br>
+→ File system management
+
+<br>
+→ Networking
+
+<br>
+→ Security and access control
+
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The Linux kernel is the core of the operating system. It
+manages system resources such as CPU, memory, devices, storage
+and networking and provides the interface between applications
+and hardware."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SHELL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 04</div>
+
+<h2>What is a Shell?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A shell is a command-line interface that allows users to interact
+with the operating system by executing commands.
+</p>
+
+<div class="flow">
+
+User
+
+↓
+
+Shell
+
+↓
+
+Kernel
+
+↓
+
+Hardware / System Resources
+
+</div>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+When you type:
+
+</p>
+
+<pre>ls
+pwd
+cd /var/log
+systemctl status nginx</pre>
+
+<p>
+the shell interprets the commands and requests the operating
+system to perform the required operations.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A shell is a command-line interface between the user and the
+operating system. It interprets user commands and communicates
+with the operating system to execute them."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- BASH -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 05</div>
+
+<h2>What is Bash?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Bash stands for Bourne Again Shell. It is one of the most widely
+used shells in Linux environments.
+</p>
+
+<p>
+Bash can execute commands interactively and can also run shell
+scripts for automation.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>#!/bin/bash
+
+echo "Hello DevOps"</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Bash is a widely used Linux shell and scripting language. It
+allows users to execute commands interactively and automate tasks
+using shell scripts."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DISTRIBUTIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 06</div>
+
+<h2>What is a Linux Distribution?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A Linux distribution is a complete operating system built around
+the Linux kernel along with system utilities, libraries,
+package-management tools and applications.
+</p>
+
+<table>
+
+<tr>
+<th>Distribution</th>
+<th>Common Usage</th>
+</tr>
+
+<tr>
+<td>Ubuntu</td>
+<td>Cloud, servers, development</td>
+</tr>
+
+<tr>
+<td>Amazon Linux</td>
+<td>AWS environments</td>
+</tr>
+
+<tr>
+<td>RHEL</td>
+<td>Enterprise environments</td>
+</tr>
+
+<tr>
+<td>CentOS / Rocky / AlmaLinux</td>
+<td>Server environments</td>
+</tr>
+
+<tr>
+<td>Debian</td>
+<td>Servers and general Linux usage</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A Linux distribution is a complete operating system built using
+the Linux kernel together with system utilities, libraries,
+package managers and other software. Examples include Ubuntu,
+Amazon Linux and Red Hat Enterprise Linux."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ROOT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 07</div>
+
+<h2>What is the Root User?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+The root user is the Linux superuser with extensive privileges
+over the system.
+</p>
+
+<p>
+The root user can perform administrative operations such as
+installing software, modifying system configuration and changing
+permissions.
+</p>
+
+<div class="example">
+
+<strong>⚠️ Important</strong>
+
+<p>
+Because root has extensive privileges, administrative access
+should be used carefully.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Root is the Linux superuser with extensive administrative
+privileges. Because unrestricted root access can be dangerous,
+administrative operations should be performed carefully and
+preferably through controlled privilege escalation."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SUDO -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h2>What is sudo?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+<code>sudo</code> allows an authorized user to execute a command
+with elevated privileges.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>sudo apt update
+
+sudo systemctl restart nginx</pre>
+
+</div>
+
+<p>
+Instead of logging in directly as root, an administrator can
+grant controlled administrative privileges to users.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"sudo allows an authorized user to execute specific commands with
+elevated privileges without directly logging in as the root
+user."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FILESYSTEM -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 09</div>
+
+<h2>What is the Linux File System?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux organizes files and directories in a hierarchical structure
+starting from the root directory represented by <code>/</code>.
+</p>
+
+<div class="flow">
+
+/
+
+├── bin
+
+├── etc
+
+├── home
+
+├── var
+
+├── tmp
+
+├── usr
+
+├── opt
+
+└── root
+
+</div>
+
+<table>
+
+<tr>
+<th>Directory</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>/</td>
+<td>Root of the filesystem</td>
+</tr>
+
+<tr>
+<td>/home</td>
+<td>User home directories</td>
+</tr>
+
+<tr>
+<td>/etc</td>
+<td>System configuration files</td>
+</tr>
+
+<tr>
+<td>/var</td>
+<td>Variable data such as logs</td>
+</tr>
+
+<tr>
+<td>/tmp</td>
+<td>Temporary files</td>
+</tr>
+
+<tr>
+<td>/usr</td>
+<td>User-space programs and resources</td>
+</tr>
+
+<tr>
+<td>/opt</td>
+<td>Optional/additional application software</td>
+</tr>
+
+<tr>
+<td>/root</td>
+<td>Home directory of the root user</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux uses a hierarchical filesystem that starts at the root
+directory /. Important directories include /etc for configuration,
+/var for variable data and logs, /home for user directories and
+/tmp for temporary files."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ABSOLUTE RELATIVE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 10</div>
+
+<h2>Absolute Path vs Relative Path</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<table>
+
+<tr>
+<th>Absolute Path</th>
+<th>Relative Path</th>
+</tr>
+
+<tr>
+<td>Starts from the root directory</td>
+<td>Starts from the current directory</td>
+</tr>
+
+<tr>
+<td>Example: /var/log/app.log</td>
+<td>Example: logs/app.log</td>
+</tr>
+
+<tr>
+<td>Complete location</td>
+<td>Location relative to current directory</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>pwd
+/home/nandu
+
+cd /var/log</pre>
+
+<p>
+<code>/var/log</code> is an absolute path.
+
+If the current directory is <code>/home/nandu</code>:
+
+</p>
+
+<pre>cd projects</pre>
+
+<p>
+<code>projects</code> is a relative path.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- BASIC COMMANDS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h2>Basic Linux Commands</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>pwd</code></td>
+<td>Show current directory</td>
+</tr>
+
+<tr>
+<td><code>ls</code></td>
+<td>List files/directories</td>
+</tr>
+
+<tr>
+<td><code>cd</code></td>
+<td>Change directory</td>
+</tr>
+
+<tr>
+<td><code>mkdir</code></td>
+<td>Create directory</td>
+</tr>
+
+<tr>
+<td><code>touch</code></td>
+<td>Create empty file</td>
+</tr>
+
+<tr>
+<td><code>cp</code></td>
+<td>Copy files/directories</td>
+</tr>
+
+<tr>
+<td><code>mv</code></td>
+<td>Move or rename</td>
+</tr>
+
+<tr>
+<td><code>rm</code></td>
+<td>Remove files/directories</td>
+</tr>
+
+<tr>
+<td><code>cat</code></td>
+<td>Display file content</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>🔥 Practical Flow</strong>
+
+<pre>pwd
+ls
+mkdir project
+cd project
+touch app.txt
+ls
+cat app.txt</pre>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CLI -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 12</div>
+
+<h2>CLI vs GUI</h2>
+
+<span class="priority">⭐⭐⭐</span>
+
+<table>
+
+<tr>
+<th>CLI</th>
+<th>GUI</th>
+</tr>
+
+<tr>
+<td>Command Line Interface</td>
+<td>Graphical User Interface</td>
+</tr>
+
+<tr>
+<td>Commands are typed</td>
+<td>Uses graphical elements</td>
+</tr>
+
+<tr>
+<td>Common in servers and automation</td>
+<td>Common for desktop interaction</td>
+</tr>
+
+<tr>
+<td>Easy to automate</td>
+<td>Usually less convenient for automation</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"CLI allows users to interact with a system using commands,
+while GUI provides graphical interaction. CLI is especially
+important in DevOps because servers are frequently managed
+remotely and automation relies heavily on command-line tools."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DEVOPS SCENARIO -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">REAL-TIME SCENARIO</div>
+
+<h2>🎯 You receive a Linux EC2 server. What would you do first?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<div class="flow">
+
+Connect to Server
+
+↓
+
+Check User
+
+↓
+
+Check Hostname
+
+↓
+
+Check OS
+
+↓
+
+Check CPU / Memory / Disk
+
+↓
+
+Check Network
+
+↓
+
+Check Services / Logs
+
+</div>
+
+<div class="example">
+
+<strong>💡 Example Commands</strong>
+
+<pre>whoami
+hostname
+cat /etc/os-release
+uname -r
+uptime
+free -h
+df -h
+ip addr
+systemctl --type=service</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"After connecting to a Linux server, I would first verify the
+current user and host, identify the operating system, and check
+basic system health such as uptime, CPU, memory and disk usage.
+Then I would verify networking, running services and relevant
+logs depending on the issue."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- QUICK QUESTIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUICK INTERVIEW</div>
+
+<h2>⭐⭐⭐ Quick Questions</h2>
+
+<p>
+
+<strong>Q:</strong> What is Linux?
+
+<br>
+<strong>A:</strong> An open-source kernel used as the foundation
+of many operating systems.
+
+<br><br>
+
+<strong>Q:</strong> What is the kernel?
+
+<br>
+<strong>A:</strong> Core component that manages system resources
+and communicates with hardware.
+
+<br><br>
+
+<strong>Q:</strong> What is a shell?
+
+<br>
+<strong>A:</strong> Command-line interface used to interact with
+the operating system.
+
+<br><br>
+
+<strong>Q:</strong> What is Bash?
+
+<br>
+<strong>A:</strong> A widely used Linux shell and scripting
+language.
+
+<br><br>
+
+<strong>Q:</strong> What is a Linux distribution?
+
+<br>
+<strong>A:</strong> A complete OS built around the Linux kernel
+with utilities and software.
+
+<br><br>
+
+<strong>Q:</strong> What is root?
+
+<br>
+<strong>A:</strong> Linux superuser with extensive privileges.
+
+<br><br>
+
+<strong>Q:</strong> What is sudo?
+
+<br>
+<strong>A:</strong> Runs authorized commands with elevated
+privileges.
+
+<br><br>
+
+<strong>Q:</strong> What is /etc?
+
+<br>
+<strong>A:</strong> Common location for system configuration
+files.
+
+<br><br>
+
+<strong>Q:</strong> What is /var?
+
+<br>
+<strong>A:</strong> Stores variable data such as logs.
+
+<br><br>
+
+<strong>Q:</strong> What is /home?
+
+<br>
+<strong>A:</strong> Contains users' home directories.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — LINUX BASICS</h2>
+
+<div class="note">
+
+<strong>Linux</strong>
+→ Open-source kernel used in many operating systems.
+
+<br><br>
+
+<strong>Kernel</strong>
+→ Manages CPU, memory, devices, filesystem and networking.
+
+<br><br>
+
+<strong>Shell</strong>
+→ Interface for executing commands.
+
+<br><br>
+
+<strong>Bash</strong>
+→ Common Linux shell and scripting language.
+
+<br><br>
+
+<strong>Distribution</strong>
+→ Complete OS built around the Linux kernel.
+
+<br><br>
+
+<strong>Root</strong>
+→ Superuser with extensive privileges.
+
+<br><br>
+
+<strong>sudo</strong>
+→ Controlled privilege escalation.
+
+<br><br>
+
+<strong>/</strong>
+→ Root of Linux filesystem.
+
+<br><br>
+
+<strong>/etc</strong>
+→ Configuration.
+
+<br><br>
+
+<strong>/var</strong>
+→ Variable data / logs.
+
+<br><br>
+
+<strong>/home</strong>
+→ User home directories.
+
+<br><br>
+
+<strong>/tmp</strong>
+→ Temporary files.
+
+<br><br>
+
+<strong>CLI</strong>
+→ Command-line interaction.
+
+<br><br>
+
+<strong>DevOps Golden Flow</strong>
+
+<br><br>
+
+Connect → Identify → Check Health → Network →
+Services → Logs → Troubleshoot
+
+</div>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🐧 Linux Basics • DevOps Interview Master Guide</p>
+<p>Nandu's DevOps Interview Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>
+

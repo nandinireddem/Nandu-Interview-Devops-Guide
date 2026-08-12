@@ -1,0 +1,1527 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Actions Final Revision - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+.icon{font-size:50px}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:5px 0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    color:#9ca8b8;
+    max-width:850px;
+    margin:auto;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:40px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:27px;
+    margin-bottom:22px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:8px;
+}
+
+.question{
+    background:#111827;
+    border-left:4px solid #fbbf24;
+    padding:17px;
+    border-radius:8px;
+    margin-bottom:14px;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:17px;
+    border-radius:8px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:22px;
+    margin:18px 0;
+}
+
+.interview{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:9px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+code{
+    color:#c4b5fd;
+    background:#020617;
+    padding:2px 5px;
+    border-radius:4px;
+}
+
+pre code{
+    color:#e5e7eb;
+    padding:0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:11px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    margin:3px;
+    border:1px solid #334155;
+    border-radius:20px;
+    background:#172033;
+    color:#fbbf24;
+}
+
+ul,ol{padding-left:25px}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🚀</div>
+
+<a class="back" href="index.html">← Back to GitHub Actions</a>
+
+<h1>GitHub Actions <span>Final Revision</span></h1>
+
+<p>
+Last-minute interview revision covering the most important concepts,
+workflow syntax, CI/CD flow, security, AWS, Docker, Kubernetes and
+real-time troubleshooting.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is GitHub Actions?</h2>
+
+<div class="answer">
+
+GitHub Actions is a CI/CD automation platform integrated with GitHub.
+
+It allows us to automatically build, test, scan and deploy
+applications based on events such as code pushes, pull requests or
+manual triggers.
+
+</div>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git Push
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Security Scan
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Registry
+<br>↓<br>
+Deploy
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. GitHub Actions Architecture</h2>
+
+<div class="answer">
+
+The most important components are:
+
+<br><br>
+
+<strong>Workflow</strong> → YAML automation definition
+
+<br><br>
+
+<strong>Event</strong> → Trigger that starts workflow
+
+<br><br>
+
+<strong>Job</strong> → Group of steps executed on a runner
+
+<br><br>
+
+<strong>Step</strong> → Individual command or action
+
+<br><br>
+
+<strong>Runner</strong> → Machine that executes the job
+
+<br><br>
+
+<strong>Action</strong> → Reusable automation component
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Workflow → Job → Step</h2>
+
+<pre><code>name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: echo "Building application"
+
+      - name: Test
+        run: echo "Running tests"</code></pre>
+
+<div class="flow">
+
+Workflow
+<br>↓<br>
+Job
+<br>↓<br>
+Steps
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Where is Workflow Stored?</h2>
+
+<pre><code>.github/
+└── workflows/
+    └── ci.yml</code></pre>
+
+<div class="answer">
+
+GitHub Actions workflow files are YAML files stored inside the
+<code>.github/workflows</code> directory.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Common Workflow Triggers</h2>
+
+<pre><code>on:
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:</code></pre>
+
+<div class="answer">
+
+Common triggers:
+
+<br><br>
+
+• <code>push</code>
+<br>
+• <code>pull_request</code>
+<br>
+• <code>workflow_dispatch</code>
+<br>
+• <code>schedule</code>
+<br>
+• <code>workflow_call</code>
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is a Runner?</h2>
+
+<div class="answer">
+
+A runner is the machine where a GitHub Actions job actually executes.
+
+GitHub-hosted runners are managed by GitHub.
+
+Self-hosted runners are machines managed by the organization.
+
+</div>
+
+<table>
+
+<tr>
+<th>GitHub-Hosted</th>
+<th>Self-Hosted</th>
+</tr>
+
+<tr>
+<td>Managed by GitHub</td>
+<td>Managed by organization</td>
+</tr>
+
+<tr>
+<td>Easy setup</td>
+<td>More control</td>
+</tr>
+
+<tr>
+<td>Temporary environments</td>
+<td>Can use custom infrastructure</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is an Action?</h2>
+
+<div class="answer">
+
+An Action is a reusable unit of automation.
+
+Example:
+
+<pre><code>- uses: actions/checkout@v4</code></pre>
+
+Instead of writing checkout logic manually, we use the existing
+action.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. run vs uses</h2>
+
+<table>
+
+<tr>
+<th>run</th>
+<th>uses</th>
+</tr>
+
+<tr>
+<td>Executes shell commands.</td>
+<td>Executes a reusable Action.</td>
+</tr>
+
+<tr>
+<td><code>run: npm test</code></td>
+<td><code>uses: actions/checkout@v4</code></td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Job Dependencies with needs</h2>
+
+<pre><code>jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying"</code></pre>
+
+<div class="answer">
+
+<code>needs</code> creates a dependency between jobs.
+
+Here, deployment starts only after the test job succeeds.
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Environment Variables</h2>
+
+<pre><code>env:
+  APP_ENV: production
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: echo "$APP_ENV"</code></pre>
+
+<div class="answer">
+
+Environment variables store non-secret configuration values.
+
+Sensitive information should be stored as secrets instead.
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. GitHub Secrets</h2>
+
+<div class="answer">
+
+GitHub Secrets are encrypted values used for sensitive information
+such as tokens, passwords and credentials.
+
+Example:
+
+<pre><code>env:
+  API_TOKEN: ${{ secrets.API_TOKEN }}</code></pre>
+
+Never hard-code credentials inside workflow files.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. GITHUB_TOKEN</h2>
+
+<div class="answer">
+
+GitHub automatically provides <code>GITHUB_TOKEN</code> to workflows
+for interacting with GitHub resources.
+
+Its permissions should be restricted according to the workflow's
+requirements.
+
+</div>
+
+<pre><code>permissions:
+  contents: read</code></pre>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. GitHub OIDC</h2>
+
+<div class="answer">
+
+GitHub OIDC allows a workflow to authenticate with cloud providers
+using short-lived identity credentials instead of storing long-lived
+cloud access keys.
+
+</div>
+
+<div class="flow">
+
+GitHub Actions
+<br>↓<br>
+OIDC Token
+<br>↓<br>
+AWS IAM
+<br>↓<br>
+IAM Role
+<br>↓<br>
+Temporary Credentials
+<br>↓<br>
+AWS Resources
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. AWS OIDC Permissions</h2>
+
+<pre><code>permissions:
+  id-token: write
+  contents: read</code></pre>
+
+<div class="answer">
+
+<code>id-token: write</code> allows the workflow to request an OIDC
+identity token.
+
+The AWS IAM role trust policy then determines whether the GitHub
+identity is allowed to assume the role.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Trust Policy vs Permissions Policy</h2>
+
+<table>
+
+<tr>
+<th>Trust Policy</th>
+<th>Permissions Policy</th>
+</tr>
+
+<tr>
+<td>Who can assume the role?</td>
+<td>What can the role do?</td>
+</tr>
+
+<tr>
+<td>Controls trusted identities.</td>
+<td>Controls AWS actions/resources.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy memory:</strong>
+
+<br><br>
+
+Trust = <strong>WHO</strong>
+
+<br>
+
+Permissions = <strong>WHAT</strong>
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Docker CI/CD Flow</h2>
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Checkout
+<br>↓<br>
+Test
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Registry Push
+<br>↓<br>
+Deployment
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Docker Build & Push</h2>
+
+<pre><code>docker build -t myapp:${{ github.sha }} .
+
+docker tag myapp:${{ github.sha }} \
+  username/myapp:${{ github.sha }}
+
+docker push username/myapp:${{ github.sha }}</code></pre>
+
+<div class="answer">
+
+Using the commit SHA as an image tag gives each build a unique
+identifier and makes rollback/debugging easier.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. AWS ECR Deployment Flow</h2>
+
+<div class="flow">
+
+GitHub Actions
+<br>↓<br>
+OIDC
+<br>↓<br>
+AWS IAM Role
+<br>↓<br>
+ECR Login
+<br>↓<br>
+Docker Build
+<br>↓<br>
+ECR Push
+<br>↓<br>
+ECS / EKS
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Kubernetes Deployment Flow</h2>
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build & Test
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Container Registry
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Deployment
+<br>↓<br>
+Pods
+<br>↓<br>
+Service
+<br>↓<br>
+Application
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. GitHub Actions + ArgoCD</h2>
+
+<div class="answer">
+
+In a GitOps architecture, GitHub Actions can build and scan the
+application image and update the GitOps repository.
+
+ArgoCD watches the GitOps repository and synchronizes the desired
+state into Kubernetes.
+
+</div>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Application Repository
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build / Test / Scan
+<br>↓<br>
+Container Registry
+<br>↓<br>
+Update GitOps Repository
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Kubernetes
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Matrix Strategy</h2>
+
+<pre><code>strategy:
+
+  matrix:
+    node: [18, 20, 22]
+
+steps:
+
+  - uses: actions/setup-node@v4
+    with:
+      node-version: ${{ matrix.node }}</code></pre>
+
+<div class="answer">
+
+Matrix strategy allows the same job to run against multiple
+configurations such as operating systems, language versions or
+runtime versions.
+
+</div>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 22. Artifacts vs Cache</h2>
+
+<table>
+
+<tr>
+<th>Artifacts</th>
+<th>Cache</th>
+</tr>
+
+<tr>
+<td>Stores files produced by a workflow.</td>
+<td>Speeds up repeated builds.</td>
+</tr>
+
+<tr>
+<td>Useful for reports/build outputs.</td>
+<td>Useful for dependencies.</td>
+</tr>
+
+<tr>
+<td>Example: test reports.</td>
+<td>Example: npm cache.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 23. Reusable Workflows</h2>
+
+<div class="answer">
+
+Reusable workflows allow organizations to define common CI/CD logic
+once and call it from multiple workflows.
+
+This reduces duplication and improves standardization.
+
+</div>
+
+<pre><code>on:
+  workflow_call:</code></pre>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. How Do You Secure GitHub Actions?</h2>
+
+<ul>
+
+<li>Use least-privilege permissions.</li>
+
+<li>Never hard-code credentials.</li>
+
+<li>Use GitHub Secrets.</li>
+
+<li>Prefer OIDC for cloud authentication.</li>
+
+<li>Restrict AWS IAM permissions.</li>
+
+<li>Protect production environments.</li>
+
+<li>Use branch protection.</li>
+
+<li>Review third-party Actions.</li>
+
+<li>Use secret scanning.</li>
+
+<li>Scan dependencies and container images.</li>
+
+<li>Be careful with untrusted pull requests.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Most Important Troubleshooting Flow</h2>
+
+<div class="flow">
+
+Workflow Not Triggering?
+<br>↓<br>
+Check Event / Branch
+<br><br>
+
+YAML Error?
+<br>↓<br>
+Check Syntax
+<br><br>
+
+Job Failed?
+<br>↓<br>
+Read Logs
+<br><br>
+
+Build Failed?
+<br>↓<br>
+Check Code / Dependencies
+<br><br>
+
+Docker Failed?
+<br>↓<br>
+Check Dockerfile / Context
+<br><br>
+
+Push Failed?
+<br>↓<br>
+Check Registry Authentication
+<br><br>
+
+AWS Failed?
+<br>↓<br>
+Check OIDC / IAM
+<br><br>
+
+Kubernetes Failed?
+<br>↓<br>
+Check Pods / Events / Logs
+<br><br>
+
+Application Unhealthy?
+<br>↓<br>
+Check Health / Metrics / Logs
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Scenario — Workflow Not Triggering</h2>
+
+<div class="question">
+
+"My workflow is not running after I push code. What will you check?"
+
+</div>
+
+<div class="answer">
+
+I would first verify the workflow file location and YAML syntax.
+Then I would check the configured trigger and branch filters.
+
+After that I would check whether the workflow is disabled or whether
+repository settings are preventing the expected execution.
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Scenario — Tests Fail Only in CI</h2>
+
+<div class="answer">
+
+I would compare the local and CI environments.
+
+I would check:
+
+<br><br>
+
+• Runtime versions<br>
+• Dependencies<br>
+• Environment variables<br>
+• Operating system<br>
+• Database/service dependencies<br>
+• Test configuration
+
+Then I would reproduce the failure as closely as possible.
+
+</div>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Scenario — Docker Push Failed</h2>
+
+<div class="answer">
+
+I would verify the image was built successfully, then check registry
+login, credentials, repository name, image tag and registry
+permissions.
+
+For AWS ECR, I would additionally verify AWS authentication, OIDC,
+IAM permissions and region.
+
+</div>
+
+</div>
+
+
+<!-- 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Scenario — AWS OIDC Failed</h2>
+
+<div class="answer">
+
+I would check:
+
+<br><br>
+
+1. <code>id-token: write</code> permission.
+<br>
+2. AWS OIDC provider.
+<br>
+3. IAM trust policy.
+<br>
+4. Repository/branch conditions.
+<br>
+5. IAM role ARN.
+<br>
+6. Role permissions.
+
+</div>
+
+</div>
+
+
+<!-- 30 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Scenario — Kubernetes ImagePullBackOff</h2>
+
+<div class="answer">
+
+I would run:
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Then check the image name, image tag, registry access, authentication
+and ImagePullSecrets.
+
+</div>
+
+</div>
+
+
+<!-- 31 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Scenario — CrashLoopBackOff</h2>
+
+<div class="answer">
+
+I would inspect the current and previous container logs and describe
+the pod.
+
+<pre><code>kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Then check application startup, environment variables, Secrets,
+ConfigMaps, commands and health probes.
+
+</div>
+
+</div>
+
+
+<!-- 32 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 32. Scenario — Bad Production Deployment</h2>
+
+<div class="answer">
+
+My priority would be to stabilize production.
+
+I would check application health and logs, determine the impact and
+rollback if required.
+
+After recovery, I would investigate the root cause and add preventive
+controls.
+
+</div>
+
+<pre><code>kubectl rollout undo deployment/myapp
+
+kubectl rollout status deployment/myapp</code></pre>
+
+</div>
+
+
+<!-- 33 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 33. Secret Accidentally Committed</h2>
+
+<div class="answer">
+
+The first priority is to revoke or rotate the exposed credential.
+
+Then I would investigate possible usage, remove the secret from the
+repository according to the organization's procedure, move it to
+secure storage and enable preventive scanning.
+
+</div>
+
+<div class="warning">
+
+Never assume that deleting the file from the latest commit makes the
+credential safe.
+
+</div>
+
+</div>
+
+
+<!-- 34 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 34. Green Pipeline but Application Is Down</h2>
+
+<div class="answer">
+
+A green pipeline only means the configured workflow steps succeeded.
+
+I would verify the actual application using:
+
+<br><br>
+
+• Pod status<br>
+• Application logs<br>
+• Health probes<br>
+• Service<br>
+• Ingress/load balancer<br>
+• Metrics<br>
+• Alerts
+
+</div>
+
+<div class="flow">
+
+CI Success
+<br>≠<br>
+Application Health
+
+</div>
+
+</div>
+
+
+<!-- 35 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 35. Complete CI/CD Interview Flow</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git Push / Pull Request
+<br>↓<br>
+GitHub Actions Trigger
+<br>↓<br>
+Checkout
+<br>↓<br>
+Lint
+<br>↓<br>
+Unit Tests
+<br>↓<br>
+Security Scan
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Container Scan
+<br>↓<br>
+Registry Push
+<br>↓<br>
+Deploy
+<br>↓<br>
+Health Check
+<br>↓<br>
+Monitoring
+<br>↓<br>
+Rollback if Required
+
+</div>
+
+</div>
+
+
+<!-- 36 -->
+
+<div class="card">
+
+<h2>🎯 Top 20 Must-Know Questions</h2>
+
+<ol>
+
+<li>What is GitHub Actions?</li>
+
+<li>What is a workflow?</li>
+
+<li>What is a job?</li>
+
+<li>What is a step?</li>
+
+<li>What is a runner?</li>
+
+<li>What is an Action?</li>
+
+<li>What are GitHub Actions triggers?</li>
+
+<li>What is GITHUB_TOKEN?</li>
+
+<li>What are GitHub Secrets?</li>
+
+<li>What are workflow permissions?</li>
+
+<li>What is GitHub OIDC?</li>
+
+<li>Why use OIDC with AWS?</li>
+
+<li>Trust policy vs permissions policy?</li>
+
+<li>How do you secure GitHub Actions?</li>
+
+<li>How do you build and push a Docker image?</li>
+
+<li>How do you deploy to Kubernetes?</li>
+
+<li>How do GitHub Actions and ArgoCD work together?</li>
+
+<li>How do you troubleshoot a failed workflow?</li>
+
+<li>How do you rollback a failed deployment?</li>
+
+<li>How do you handle a leaked secret?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 37 -->
+
+<div class="card">
+
+<h2>🧠 5-Minute Revision Sheet</h2>
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>Remember This</th>
+</tr>
+
+<tr>
+<td>Workflow</td>
+<td>YAML automation file.</td>
+</tr>
+
+<tr>
+<td>Job</td>
+<td>Group of steps.</td>
+</tr>
+
+<tr>
+<td>Step</td>
+<td>Individual command/action.</td>
+</tr>
+
+<tr>
+<td>Runner</td>
+<td>Machine executing jobs.</td>
+</tr>
+
+<tr>
+<td>Action</td>
+<td>Reusable automation component.</td>
+</tr>
+
+<tr>
+<td>Secrets</td>
+<td>Store sensitive values.</td>
+</tr>
+
+<tr>
+<td>GITHUB_TOKEN</td>
+<td>GitHub API/resource access.</td>
+</tr>
+
+<tr>
+<td>OIDC</td>
+<td>Short-lived cloud identity.</td>
+</tr>
+
+<tr>
+<td>IAM Trust Policy</td>
+<td>Who can assume the role?</td>
+</tr>
+
+<tr>
+<td>IAM Permissions</td>
+<td>What can the role do?</td>
+</tr>
+
+<tr>
+<td>needs</td>
+<td>Job dependency.</td>
+</tr>
+
+<tr>
+<td>matrix</td>
+<td>Run across multiple configurations.</td>
+</tr>
+
+<tr>
+<td>Artifact</td>
+<td>Workflow output/files.</td>
+</tr>
+
+<tr>
+<td>Cache</td>
+<td>Speed up repeated work.</td>
+</tr>
+
+<tr>
+<td>ArgoCD</td>
+<td>GitOps continuous delivery.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 38 -->
+
+<div class="card">
+
+<h2>🎤 Final Interview Answer</h2>
+
+<div class="interview">
+
+"GitHub Actions is a CI/CD automation platform integrated with
+GitHub. I use workflows defined in YAML to automate stages such as
+checkout, build, testing, security scanning, Docker image creation
+and deployment.
+
+A workflow contains jobs, and jobs contain steps that execute on
+runners.
+
+For security, I use least-privilege permissions, GitHub Secrets and
+prefer OIDC for AWS authentication instead of long-lived access
+keys. The GitHub identity assumes a restricted IAM role through its
+trust policy.
+
+In a production CI/CD pipeline, I would build and test the
+application, scan it, build and scan the container image, push it to
+a registry and deploy it to the target environment.
+
+For Kubernetes and GitOps, GitHub Actions can update the image or
+GitOps repository while ArgoCD synchronizes the desired state to the
+cluster.
+
+For troubleshooting, I start from the failed workflow, identify the
+failed job and step, read the logs, check configuration and
+permissions, fix the root cause, rerun the workflow and finally
+verify application health."
+
+</div>
+
+</div>
+
+
+<!-- 39 -->
+
+<div class="card">
+
+<h2>🚨 Last-Minute Interview Rule</h2>
+
+<div class="flow">
+
+<strong>Don't memorize commands only.</strong>
+
+<br><br>
+
+Understand:
+
+<br><br>
+
+WHY
+<br>↓<br>
+HOW
+<br>↓<br>
+WHAT HAPPENS IF IT FAILS?
+<br>↓<br>
+HOW WILL YOU TROUBLESHOOT?
+<br>↓<br>
+HOW WILL YOU PREVENT IT?
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+🏠 GitHub Actions Index
+</a>
+
+<br><br>
+
+<a href="github-actions-security.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Security
+</a>
+
+<br><br>
+
+<a href="github-actions-scenarios.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Real-Time Scenarios
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🚀 GitHub Actions Final Revision • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

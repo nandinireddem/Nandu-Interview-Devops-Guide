@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jenkins Pipelines - DevOps Interview Master Guide">
+<title>Jenkins Pipelines - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:#0b1020;color:#e5e7eb;line-height:1.7}
+header{text-align:center;padding:55px 20px;background:linear-gradient(135deg,#111827,#0b1020);border-bottom:1px solid #29344d}
+.back{color:#94a3b8;text-decoration:none}.back:hover{color:#fbbf24}
+.icon{font-size:50px;margin-bottom:10px}
+h1{font-size:clamp(32px,5vw,52px);margin:0} h1 span{color:#fbbf24}
+header p{max-width:850px;margin:15px auto 0;color:#9ca8c0}
+.container{width:min(1050px,92%);margin:auto;padding:45px 0 80px}
+.intro,.card{background:linear-gradient(145deg,#141d34,#10172a);border:1px solid #2b3751;border-radius:16px;padding:28px;margin-bottom:24px}
+.intro{background:#121a2d}
+h2{color:#fbbf24;margin-top:0} h3{color:#c4b5fd}
+.answer{background:#0d1425;border-left:4px solid #fbbf24;padding:18px 20px;border-radius:8px;margin:15px 0}
+.interview{background:#111827;border:1px solid #374151;border-radius:10px;padding:18px;margin-top:18px}
+.scenario{background:#10231c;border-left:4px solid #4ade80;padding:18px 20px;border-radius:8px;margin:15px 0}
+.warning{background:#25151a;border-left:4px solid #f87171;padding:18px 20px;border-radius:8px;margin:15px 0}
+.flow{text-align:center;background:#0d1425;border:1px solid #29354e;border-radius:14px;padding:24px;margin:20px 0}
+code{background:#020617;color:#c4b5fd;padding:3px 7px;border-radius:5px}
+pre{background:#020617;padding:18px;border-radius:10px;overflow-x:auto;border:1px solid #1e293b}
+pre code{padding:0;color:#e5e7eb}
+table{width:100%;border-collapse:collapse;margin:20px 0}
+th,td{border:1px solid #334155;padding:12px;text-align:left;vertical-align:top}
+th{background:#172033;color:#fbbf24}
+ul,ol{padding-left:25px}
+footer{text-align:center;padding:35px;color:#64748b;border-top:1px solid #222d46}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="icon">🚀</div>
+<a href="index.html" class="back">← Back to Jenkins</a>
+
+<h1>Jenkins <span>Pipelines</span></h1>
+
+<p>
+Complete interview-focused guide covering Jenkins Pipeline,
+Jenkinsfile, Declarative and Scripted Pipelines, stages,
+steps, parameters, environment variables, conditions,
+post actions, parallel execution and real-time CI/CD examples.
+</p>
+</header>
+
+<main class="container">
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Core Concept</h2>
+
+<p>
+A Jenkins Pipeline defines the complete CI/CD workflow as code.
+Instead of manually configuring every build step in the Jenkins UI,
+we define the workflow in a <strong>Jenkinsfile</strong>.
+</p>
+
+<div class="flow">
+
+Git Push <br>↓<br>
+Jenkins <br>↓<br> <strong>Pipeline</strong> <br>↓<br>
+Checkout → Build → Test → Scan → Package <br>↓<br>
+Docker Build → Push <br>↓<br>
+Deploy
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A Java application is pushed to GitHub. Jenkins starts the pipeline,
+checks out the code, runs Maven build and tests, performs a quality
+scan, builds a Docker image, pushes it to ECR and deploys the
+application to Kubernetes.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a Jenkins Pipeline?</h2>
+
+<div class="answer">
+
+A Jenkins Pipeline is a collection of automated steps that define
+how software moves through stages such as build, test, security
+scan, packaging and deployment.
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Jenkins Pipeline is a way of defining the complete CI/CD workflow
+as code. It allows us to automate multiple stages such as checkout,
+build, test, Docker image creation and deployment."
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is a Jenkinsfile?</h2>
+
+<div class="answer">
+
+A Jenkinsfile is a text file containing the Jenkins Pipeline
+definition. It is commonly stored in the application's Git
+repository.
+
+</div>
+
+<h3>Basic structure</h3>
+
+<pre><code>pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Building'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying'
+            }
+        }
+    }
+}</code></pre>
+
+<div class="interview">
+
+<strong>Why keep it in Git?</strong>
+
+It provides version control, code review, history and the ability
+to reproduce previous pipeline versions.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Declarative vs Scripted Pipeline</h2>
+
+<table>
+<tr>
+<th>Declarative</th>
+<th>Scripted</th>
+</tr>
+
+<tr>
+<td>Structured and easier to read.</td>
+<td>More flexible and programmatic.</td>
+</tr>
+
+<tr>
+<td>Uses <code>pipeline {}</code>.</td>
+<td>Uses Groovy scripting.</td>
+</tr>
+
+<tr>
+<td>Preferred for most standard CI/CD pipelines.</td>
+<td>Useful for complex custom logic.</td>
+</tr>
+
+<tr>
+<td>Has built-in pipeline structure.</td>
+<td>Provides greater programming flexibility.</td>
+</tr>
+</table>
+
+<h3>Declarative example</h3>
+
+<pre><code>pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Build'
+            }
+        }
+    }
+}</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I generally prefer Declarative Pipeline because it provides a
+clear structure and is easier to maintain. Scripted Pipeline is
+useful when more advanced Groovy-based logic is required."
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is an Agent?</h2>
+
+<div class="answer">
+
+The <code>agent</code> tells Jenkins where the pipeline or a stage
+should execute.
+
+</div>
+
+<h3>Any available agent</h3>
+
+<pre><code>pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Running build'
+            }
+        }
+    }
+}</code></pre>
+
+<h3>Stage-specific agent</h3>
+
+<pre><code>pipeline {
+
+    agent none
+
+    stages {
+
+        stage('Build') {
+
+            agent {
+                label 'linux'
+            }
+
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+    }
+}</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Pipeline Stages</h2>
+
+<div class="answer">
+
+A <code>stage</code> represents a logical section of the CI/CD
+workflow.
+
+Typical stages include:
+
+</div>
+
+<div class="flow">
+
+Checkout <br>↓<br>
+Build <br>↓<br>
+Test <br>↓<br>
+Security Scan <br>↓<br>
+Docker Build <br>↓<br>
+Push <br>↓<br>
+Deploy
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>stages {
+
+    stage('Build') {
+        steps {
+            sh 'mvn clean package'
+        }
+    }
+
+    stage('Test') {
+        steps {
+            sh 'mvn test'
+        }
+    }
+
+    stage('Deploy') {
+        steps {
+            sh './deploy.sh'
+        }
+    }
+}</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is a Step?</h2>
+
+<div class="answer">
+
+A step is an individual action executed inside a stage.
+
+</div>
+
+<pre><code>stage('Build') {
+    steps {
+        echo 'Starting build'
+        sh 'mvn clean package'
+    }
+}</code></pre>
+
+<p>
+Here <code>echo</code> and <code>sh</code> are steps.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Common Jenkins Pipeline Steps</h2>
+
+<table>
+
+<tr>
+<th>Step</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>echo</code></td>
+<td>Print a message.</td>
+</tr>
+
+<tr>
+<td><code>sh</code></td>
+<td>Execute Linux shell commands.</td>
+</tr>
+
+<tr>
+<td><code>bat</code></td>
+<td>Execute Windows batch commands.</td>
+</tr>
+
+<tr>
+<td><code>checkout</code></td>
+<td>Checkout source code.</td>
+</tr>
+
+<tr>
+<td><code>input</code></td>
+<td>Wait for manual approval/input.</td>
+</tr>
+
+<tr>
+<td><code>archiveArtifacts</code></td>
+<td>Archive build artifacts.</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Environment Variables</h2>
+
+<div class="answer">
+
+Environment variables allow configuration values to be provided to
+the pipeline without hard-coding them repeatedly.
+
+</div>
+
+<pre><code>pipeline {
+
+    agent any
+
+    environment {
+        APP_NAME = 'payment-app'
+        ENVIRONMENT = 'production'
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo "Building ${APP_NAME}"
+                echo "Environment: ${ENVIRONMENT}"
+            }
+        }
+    }
+}</code></pre>
+
+<div class="warning">
+
+Do not put passwords or API keys directly inside the <code>environment</code> block. Use Jenkins Credentials instead.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Pipeline Parameters</h2>
+
+<div class="answer">
+
+Parameters allow users or automation to provide values when
+starting a pipeline.
+
+</div>
+
+<pre><code>pipeline {
+
+    agent any
+
+    parameters {
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'qa', 'prod'],
+            description: 'Select environment'
+        )
+    }
+
+    stages {
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying to ${params.ENV}"
+            }
+        }
+    }
+}</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time use:</strong>
+
+The same deployment pipeline can be used for Dev, QA and Production
+by selecting the required environment.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. What is the <code>when</code> condition?</h2>
+
+<div class="answer">
+
+The <code>when</code> directive controls whether a stage should
+execute based on a condition.
+
+</div>
+
+<pre><code>stage('Production Deploy') {
+
+    when {
+        branch 'main'
+    }
+
+    steps {
+        echo 'Deploying production'
+    }
+}</code></pre>
+
+<div class="scenario">
+
+For example, production deployment can be restricted to the <strong>main</strong> branch.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is <code>post</code>?</h2>
+
+<div class="answer">
+
+The <code>post</code> section defines actions that should happen
+after the pipeline or a stage completes.
+
+</div>
+
+<pre><code>pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Building'
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'Pipeline succeeded'
+        }
+
+        failure {
+            echo 'Pipeline failed'
+        }
+
+        always {
+            echo 'Pipeline completed'
+        }
+    }
+}</code></pre>
+
+<div class="interview">
+
+Common uses include notifications, cleanup and publishing test
+reports.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Manual Approval using <code>input</code></h2>
+
+<div class="answer">
+
+The <code>input</code> step pauses a pipeline and waits for human
+approval before continuing.
+
+</div>
+
+<pre><code>stage('Production Approval') {
+
+    steps {
+
+        input message: 'Deploy to production?'
+
+        echo 'Approved'
+    }
+}</code></pre>
+
+<div class="scenario">
+
+<strong>Continuous Delivery example:</strong>
+
+Build → Test → Scan → Staging → Manual Approval → Production.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Parallel Stages</h2>
+
+<div class="answer">
+
+Independent tasks can run in parallel to reduce total pipeline
+execution time.
+
+</div>
+
+<pre><code>stage('Tests') {
+
+    parallel {
+
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                sh './security-scan.sh'
+            }
+        }
+    }
+}</code></pre>
+
+<div class="scenario">
+
+If unit tests and security scans do not depend on each other,
+running them in parallel can reduce pipeline duration.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Complete Real-Time Jenkins Pipeline</h2>
+
+<pre><code>pipeline {
+
+    agent any
+
+    environment {
+        APP_NAME = 'payment-app'
+        IMAGE = 'payment-app:v1'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                sh 'trivy fs .'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t $IMAGE .'
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                sh 'docker push $IMAGE'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'Deployment successful'
+        }
+
+        failure {
+            echo 'Pipeline failed'
+        }
+
+        always {
+            echo 'Pipeline completed'
+        }
+    }
+}</code></pre>
+
+<div class="warning">
+
+This is an interview-oriented example. In production, registry
+authentication, cloud credentials and Kubernetes access should be
+handled securely through Jenkins Credentials or appropriate
+identity mechanisms rather than hard-coded secrets.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. How does Jenkins Pipeline handle failure?</h2>
+
+<div class="answer">
+
+Normally, when a step fails, the current stage fails and the
+pipeline can stop unless the pipeline explicitly handles the
+failure.
+
+The <code>post</code> section can still run cleanup or notification
+logic.
+
+</div>
+
+<pre><code>post {
+
+    success {
+        echo 'Success'
+    }
+
+    failure {
+        echo 'Failure notification'
+    }
+
+    always {
+        echo 'Cleanup'
+    }
+}</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 16. How do you skip a stage for certain branches?</h2>
+
+<pre><code>stage('Deploy') {
+
+    when {
+        branch 'main'
+    }
+
+    steps {
+        sh './deploy.sh'
+    }
+}</code></pre>
+
+<p>
+This prevents the deployment stage from executing for branches that
+do not satisfy the condition.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. How do you pass artifacts between stages?</h2>
+
+<div class="answer">
+
+Files created during one stage can remain in the workspace for
+subsequent stages when those stages run in the same suitable
+workspace.
+
+For more explicit artifact management, Jenkins provides artifact
+archiving and other mechanisms depending on the pipeline design.
+
+</div>
+
+<pre><code>stage('Build') {
+    steps {
+        sh 'mvn package'
+        archiveArtifacts artifacts: 'target/*.jar'
+    }
+}</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Jenkins Pipeline Troubleshooting</h2>
+
+<div class="scenario">
+
+<strong>Pipeline failed:</strong>
+
+Do not immediately rerun it repeatedly.
+
+<br><br>
+
+1. Open Console Output.
+
+   <br>
+2. Identify failed stage.
+
+   <br>
+3. Find the exact command that failed.
+
+   <br>
+4. Check agent availability.
+
+   <br>
+5. Verify workspace files.
+
+   <br>
+6. Check credentials.
+
+   <br>
+7. Check external services.
+
+   <br>
+8. Reproduce the command manually where appropriate.
+
+   <br>
+9. Fix the root cause.
+
+   <br>
+10. Run the pipeline again.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Real-Time Scenario: Production Deployment</h2>
+
+<div class="scenario">
+
+A company wants automatic deployment to Dev and QA, but Production
+requires approval.
+
+<div class="flow">
+
+Git Push <br>↓<br>
+Build <br>↓<br>
+Unit Test <br>↓<br>
+Security Scan <br>↓<br>
+Docker Build <br>↓<br>
+Dev Deploy <br>↓<br>
+QA Deploy <br>↓<br> <strong>Manual Approval</strong> <br>↓<br>
+Production Deploy
+
+</div>
+
+This can be implemented using stages, conditions and the <code>input</code> step.
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Pipeline Best Practices</h2>
+
+<ul>
+
+<li>Keep Jenkinsfiles in Git.</li>
+
+<li>Use meaningful stage names.</li>
+
+<li>Keep pipelines modular and readable.</li>
+
+<li>Do not hard-code credentials.</li>
+
+<li>Use environment variables for non-sensitive configuration.</li>
+
+<li>Use Jenkins Credentials for secrets.</li>
+
+<li>Fail fast when critical stages fail.</li>
+
+<li>Use parallel stages when tasks are independent.</li>
+
+<li>Use manual approval for controlled production releases where required.</li>
+
+<li>Keep deployment logic reproducible.</li>
+
+<li>Use dedicated agents for specialized workloads.</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>What is Jenkins Pipeline?</li>
+
+<li>What is Jenkinsfile?</li>
+
+<li>Why do we use Pipeline as Code?</li>
+
+<li>Declarative vs Scripted Pipeline?</li>
+
+<li>What is an agent?</li>
+
+<li>What is a stage?</li>
+
+<li>What is a step?</li>
+
+<li>What is <code>post</code>?</li>
+
+<li>What is <code>when</code>?</li>
+
+<li>How do you pass parameters to a pipeline?</li>
+
+<li>How do you define environment variables?</li>
+
+<li>How do you handle credentials?</li>
+
+<li>How do you run stages in parallel?</li>
+
+<li>How do you implement manual approval?</li>
+
+<li>How do you troubleshoot a failed pipeline?</li>
+
+<li>How would you design a production CI/CD pipeline?</li>
+
+</ol>
+
+</div>
+
+<div class="card">
+
+<h2>🧠 60-Second Pipeline Revision</h2>
+
+<div class="flow">
+
+<strong>Jenkinsfile</strong>
+→ Pipeline as Code
+
+<br><br>
+
+<strong>Agent</strong>
+→ Where pipeline runs
+
+<br><br>
+
+<strong>Stage</strong>
+→ Logical section
+
+<br><br>
+
+<strong>Step</strong>
+→ Individual action
+
+<br><br>
+
+<strong>Environment</strong>
+→ Configuration
+
+<br><br>
+
+<strong>Parameters</strong>
+→ User-provided values
+
+<br><br>
+
+<strong>when</strong>
+→ Conditional stage execution
+
+<br><br>
+
+<strong>post</strong>
+→ Success / failure / cleanup actions
+
+<br><br>
+
+<strong>input</strong>
+→ Manual approval
+
+<br><br>
+
+<strong>parallel</strong>
+→ Run independent work simultaneously
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Jenkins Pipeline"</h2>
+
+<div class="interview">
+
+"A Jenkins Pipeline is an automated CI/CD workflow defined as code,
+usually inside a Jenkinsfile.
+
+I normally structure it into stages such as checkout, build, test,
+security scanning, Docker image creation, image push and deployment.
+
+The pipeline runs on Jenkins agents. I use environment variables
+for normal configuration and Jenkins Credentials for sensitive
+information.
+
+Using Declarative Pipeline, I can define conditions with <code>when</code>, post-build actions with <code>post</code>,
+manual production approval with <code>input</code> and parallel
+execution for independent tasks.
+
+Keeping the Jenkinsfile in Git gives us version control,
+reviewability and reproducibility."
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+🚀 Jenkins Pipelines • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

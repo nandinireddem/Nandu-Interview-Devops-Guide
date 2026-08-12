@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git Architecture - DevOps Interview Guide</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+.icon{
+    font-size:52px;
+    margin:20px 0 10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.question{
+    background:#121a2d;
+    border:1px solid #29344d;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+.question h2{
+    margin-top:0;
+    color:#93c5fd;
+    font-size:21px;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin-top:15px;
+}
+
+.answer strong{
+    color:#e5e7eb;
+}
+
+.example{
+    background:#0a0f1c;
+    border:1px solid #29344d;
+    border-radius:10px;
+    padding:18px;
+    margin-top:15px;
+}
+
+pre{
+    margin:0;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+.badge{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    color:#93c5fd;
+    margin-bottom:10px;
+}
+
+.tip{
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:18px;
+    margin-top:15px;
+}
+
+.diagram{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:25px;
+    margin-top:20px;
+}
+
+.box{
+    display:inline-block;
+    padding:15px 22px;
+    margin:8px;
+    border:1px solid #475569;
+    border-radius:10px;
+    background:#111827;
+}
+
+.arrow{
+    color:#93c5fd;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.compare{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+.compare th,
+.compare td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+.compare th{
+    color:#93c5fd;
+    background:#111827;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+code{
+    color:#bfdbfe;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Git & GitHub Guide</a>
+
+<div class="icon">🔀</div>
+
+<h1>Git <span>Architecture</span></h1>
+
+<p>
+Working Directory, Staging Area, Local Repository,
+Remote Repository, HEAD and the complete Git workflow.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<!-- Q1 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>1. Explain Git Architecture.</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Git architecture describes how Git manages our code from the
+time we modify a file until the changes are stored in a remote
+repository.
+</p>
+
+<p>
+The main areas are:
+</p>
+
+<ol>
+<li>Working Directory</li>
+<li>Staging Area</li>
+<li>Local Repository</li>
+<li>Remote Repository</li>
+</ol>
+
+</div>
+
+<div class="diagram">
+
+<div class="box">
+<strong>Working Directory</strong>
+<br>
+Modify files
+</div>
+
+<div class="arrow">→</div>
+
+<div class="box">
+<strong>Staging Area</strong>
+<br>
+git add
+</div>
+
+<div class="arrow">→</div>
+
+<div class="box">
+<strong>Local Repository</strong>
+<br>
+git commit
+</div>
+
+<div class="arrow">→</div>
+
+<div class="box">
+<strong>Remote Repository</strong>
+<br>
+git push
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>2. What is the Working Directory?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+The Working Directory is the actual folder where we work on
+our project files.
+</p>
+
+<p>
+When we create, modify or delete files, those changes initially
+exist in the Working Directory.
+</p>
+
+</div>
+
+<div class="example">
+
+<strong>Example:</strong>
+
+<pre>
+project/
+│
+├── app.py
+├── Dockerfile
+└── README.md
+</pre>
+
+<p>
+Suppose we modify <code>app.py</code>. The modified file exists
+in the Working Directory, but it is not yet staged or committed.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>3. What is the Staging Area?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+The Staging Area is an intermediate area where we select the
+changes that should be included in the next commit.
+</p>
+
+<p>
+We move changes from the Working Directory to the Staging Area
+using <code>git add</code>.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git add app.py
+</pre>
+
+<p>
+Now <code>app.py</code> is staged and ready to be committed.
+</p>
+
+</div>
+
+<div class="tip">
+
+<strong>💡 Interview Point:</strong>
+
+<p>
+The staging area gives developers control over exactly which
+changes should be included in the next commit.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>4. What is the Local Repository?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+The Local Repository is the Git repository stored on the
+developer's local machine.
+</p>
+
+<p>
+When we execute <code>git commit</code>, staged changes are
+recorded in the local repository.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git add .
+git commit -m "Add application changes"
+</pre>
+
+<p>
+The commit is created locally. It has not necessarily been
+sent to GitHub yet.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>5. What is the Remote Repository?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A Remote Repository is a Git repository hosted on another
+system or service, such as GitHub.
+</p>
+
+<p>
+It allows developers to share code and collaborate with
+other team members.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git push origin main
+</pre>
+
+<p>
+This sends local commits to the remote repository.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>6. Explain the complete Git workflow.</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A typical Git workflow starts with modifying files in the
+Working Directory.
+</p>
+
+<p>
+Then we stage the required changes using <code>git add</code>,
+create a commit using <code>git commit</code>, and finally
+send the commit to the Remote Repository using <code>git push</code>.
+</p>
+
+</div>
+
+<div class="diagram">
+
+<div class="box">
+Working Directory
+</div>
+
+<div class="arrow">↓ git add</div>
+
+<div class="box">
+Staging Area
+</div>
+
+<div class="arrow">↓ git commit</div>
+
+<div class="box">
+Local Repository
+</div>
+
+<div class="arrow">↓ git push</div>
+
+<div class="box">
+Remote Repository
+</div>
+
+</div>
+
+<div class="example">
+
+<pre>
+# 1. Check changes
+git status
+
+# 2. Stage changes
+git add .
+
+# 3. Create commit
+git commit -m "Update application"
+
+# 4. Send to GitHub
+git push origin main
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>7. What happens internally when you run git add?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+When we run <code>git add</code>, Git takes the current version
+of the selected changes from the Working Directory and places
+them into the Staging Area.
+</p>
+
+<p>
+It tells Git which changes should be included in the next commit.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git add app.py
+</pre>
+
+<pre>
+Working Directory
+       ↓
+    git add
+       ↓
+Staging Area
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>8. What happens when you run git commit?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+<code>git commit</code> takes the staged changes and records them
+as a new commit in the Local Repository.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git commit -m "Add login functionality"
+</pre>
+
+<p>
+A commit is created with a unique commit ID/hash.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>9. What is the difference between git add and git commit?</h2>
+
+<table class="compare">
+
+<tr>
+<th>git add</th>
+<th>git commit</th>
+</tr>
+
+<tr>
+<td>Moves changes to staging area</td>
+<td>Records staged changes</td>
+</tr>
+
+<tr>
+<td>Does not create a commit</td>
+<td>Creates a new commit</td>
+</tr>
+
+<tr>
+<td>Working Directory → Staging</td>
+<td>Staging → Local Repository</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<pre>
+git add .
+git commit -m "Add feature"
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>10. What is the difference between git commit and git push?</h2>
+
+<table class="compare">
+
+<tr>
+<th>git commit</th>
+<th>git push</th>
+</tr>
+
+<tr>
+<td>Creates a commit locally</td>
+<td>Sends commits to remote repository</td>
+</tr>
+
+<tr>
+<td>Does not require internet</td>
+<td>Normally requires access to remote</td>
+</tr>
+
+<tr>
+<td>Local operation</td>
+<td>Remote synchronization operation</td>
+</tr>
+
+</table>
+
+<div class="tip">
+
+<strong>Remember:</strong>
+
+<p>
+<strong>Commit = save the version locally.</strong><br>
+<strong>Push = send the commits to the remote repository.</strong>
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q11 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>11. What is HEAD in Git?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+HEAD is a reference that points to the current location in
+the Git history, normally the latest commit of the currently
+checked-out branch.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+main
+  ↓
+HEAD
+  ↓
+Latest Commit
+</pre>
+
+<p>
+If we switch to another branch, HEAD normally moves to that branch.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q12 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>12. What is the .git directory?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+The <code>.git</code> directory contains Git's internal repository
+metadata.
+</p>
+
+<p>
+It stores information required for commits, branches, references,
+configuration and Git's object database.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+my-project/
+│
+├── app.py
+├── README.md
+│
+└── .git/
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>⚠️ Important:</strong>
+
+<p>
+Deleting the <code>.git</code> directory removes the Git repository
+metadata from that project directory.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q13 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>13. Why does Git use a staging area?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+The staging area allows us to choose exactly which changes should
+go into the next commit.
+</p>
+
+<p>
+This helps developers create clean and meaningful commits.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+app.py
+README.md
+config.yml
+
+git add app.py README.md
+git commit -m "Update application documentation"
+</pre>
+
+<p>
+Here, only the selected files are included in the commit.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q14 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>14. What is the difference between local and remote repositories?</h2>
+
+<table class="compare">
+
+<tr>
+<th>Local Repository</th>
+<th>Remote Repository</th>
+</tr>
+
+<tr>
+<td>Exists on developer's machine</td>
+<td>Hosted on a remote server/platform</td>
+</tr>
+
+<tr>
+<td>Used for local development</td>
+<td>Used for sharing and collaboration</td>
+</tr>
+
+<tr>
+<td>git commit stores changes here</td>
+<td>git push sends commits here</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q15 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</div>
+
+<h2>15. How does Git fit into a DevOps CI/CD pipeline?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Git usually acts as the source-control system for the DevOps pipeline.
+A developer pushes code to GitHub, which can trigger a CI/CD pipeline.
+</p>
+
+</div>
+
+<div class="diagram">
+
+<div class="box">Developer</div>
+<div class="arrow">↓</div>
+
+<div class="box">Git / GitHub</div>
+<div class="arrow">↓</div>
+
+<div class="box">CI Pipeline</div>
+<div class="arrow">↓</div>
+
+<div class="box">Build & Test</div>
+<div class="arrow">↓</div>
+
+<div class="box">Docker Image</div>
+<div class="arrow">↓</div>
+
+<div class="box">Deployment</div>
+
+</div>
+
+<div class="tip">
+
+<strong>Real-time Example:</strong>
+
+<p>
+A developer pushes a change to GitHub. GitHub Actions or Jenkins
+detects the change, runs tests, builds the application or Docker
+image and continues the deployment pipeline.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO -->
+
+<div class="question">
+
+<div class="badge">🔥 REAL-TIME SCENARIO</div>
+
+<h2>16. You committed a change but haven't pushed it. Where is it?</h2>
+
+<div class="answer">
+
+<p>
+The commit exists in the <strong>Local Repository</strong>.
+It has not yet reached the Remote Repository.
+</p>
+
+<div class="example">
+
+<pre>
+Working Directory
+       ↓
+Staging Area
+       ↓
+Local Repository  ← Commit exists here
+       
+Remote Repository ← Not updated yet
+</pre>
+
+</div>
+
+<p>
+To send it to the remote repository:
+</p>
+
+<pre>
+git push origin main
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 2 -->
+
+<div class="question">
+
+<div class="badge">🔥 REAL-TIME SCENARIO</div>
+
+<h2>17. A developer says "I committed my code, so why can't my teammate see it?"</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Because <code>git commit</code> only stores the changes in the
+developer's local repository.
+</p>
+
+<p>
+The developer must push the commit to the remote repository.
+</p>
+
+<div class="example">
+
+<pre>
+git push origin main
+</pre>
+
+</div>
+
+<p>
+The teammate can then fetch or pull the updated changes.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- FOLLOW UP -->
+
+<div class="question">
+
+<div class="badge">🎯 FOLLOW-UP QUESTIONS</div>
+
+<h2>Interview Follow-ups</h2>
+
+<ul>
+
+<li>What is the difference between Working Directory and Staging Area?</li>
+
+<li>What is the difference between Staging Area and Local Repository?</li>
+
+<li>What happens internally during git add?</li>
+
+<li>What happens internally during git commit?</li>
+
+<li>What happens internally during git push?</li>
+
+<li>What is HEAD?</li>
+
+<li>What is a commit hash?</li>
+
+<li>What is the .git directory?</li>
+
+<li>Why does Git use a staging area?</li>
+
+<li>What is the difference between git push and git pull?</li>
+
+<li>What happens if you delete the .git directory?</li>
+
+<li>How does Git integrate with Jenkins?</li>
+
+<li>How does GitHub trigger a CI/CD pipeline?</li>
+
+</ul>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="question">
+
+<div class="badge">🧠 QUICK REVISION</div>
+
+<h2>Git Architecture — One-Minute Revision</h2>
+
+<div class="diagram">
+
+<div class="box">
+<strong>1. Working Directory</strong>
+<br>
+Modify files
+</div>
+
+<div class="arrow">↓ git add</div>
+
+<div class="box">
+<strong>2. Staging Area</strong>
+<br>
+Select changes
+</div>
+
+<div class="arrow">↓ git commit</div>
+
+<div class="box">
+<strong>3. Local Repository</strong>
+<br>
+Store commits
+</div>
+
+<div class="arrow">↓ git push</div>
+
+<div class="box">
+<strong>4. Remote Repository</strong>
+<br>
+Share with team
+</div>
+
+</div>
+
+<div class="tip">
+
+<strong>🎯 Interview Shortcut:</strong>
+
+<p>
+<strong>Working Directory → git add → Staging → git commit →
+Local Repository → git push → Remote Repository</strong>
+</p>
+
+</div>
+
+</div>
+
+
+</main>
+
+<footer>
+
+🔀 Git & GitHub • DevOps Interview Master Guide<br>
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

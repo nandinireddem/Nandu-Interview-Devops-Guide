@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloud Computing Basics | Nandu's DevOps Interview Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+body{
+    background:
+    radial-gradient(circle at 10% 5%,rgba(139,92,246,.10),transparent 30%),
+    #0b1020;
+}
+
+.page-header{
+    padding:50px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#17122b,#111827,#0b1020);
+    border-bottom:1px solid #29334c;
+}
+
+.back{
+    color:#9da9c4;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#a78bfa;
+}
+
+.page-icon{
+    font-size:52px;
+    margin-top:25px;
+}
+
+.page-header h1{
+    font-size:clamp(36px,6vw,58px);
+    margin:10px 0;
+}
+
+.page-header h1 span{
+    color:#a78bfa;
+}
+
+.page-header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8c4;
+    line-height:1.7;
+}
+
+.content{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:50px 0 80px;
+}
+
+.quick-map{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:45px;
+}
+
+.map-item{
+    padding:16px;
+    background:#121a30;
+    border:1px solid #29334c;
+    border-radius:12px;
+    color:#aab5cf;
+    font-size:13px;
+}
+
+.map-item strong{
+    color:#fff;
+}
+
+.priority-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:50px 0 25px;
+}
+
+.priority-title h2{
+    font-size:27px;
+}
+
+.line{
+    flex:1;
+    height:1px;
+    background:#29334c;
+}
+
+.question{
+    margin-bottom:25px;
+    padding:28px;
+    background:linear-gradient(145deg,#141d35,#10172a);
+    border:1px solid #29344e;
+    border-radius:18px;
+}
+
+.question h3{
+    font-size:20px;
+    line-height:1.45;
+    margin-bottom:16px;
+}
+
+.question-number{
+    color:#7582a2;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.label{
+    display:inline-block;
+    margin-bottom:12px;
+    color:#c4b5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+}
+
+.answer{
+    color:#c2cbe0;
+    line-height:1.8;
+    margin-bottom:18px;
+}
+
+.example{
+    padding:18px 20px;
+    margin:18px 0;
+    border-left:4px solid #a78bfa;
+    background:rgba(167,139,250,.06);
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{
+    color:#c4b5fd;
+}
+
+.example p{
+    color:#b7c2d8;
+    line-height:1.75;
+    margin-top:7px;
+}
+
+.interview-answer{
+    padding:18px 20px;
+    margin-top:18px;
+    background:#111a30;
+    border-radius:12px;
+    border:1px solid #303c59;
+}
+
+.interview-answer strong{
+    color:#c4b5fd;
+}
+
+.interview-answer p{
+    color:#c4cee1;
+    line-height:1.75;
+}
+
+.important{
+    padding:22px;
+    margin:30px 0;
+    border-radius:14px;
+    background:rgba(167,139,250,.05);
+    border:1px solid rgba(167,139,250,.2);
+    color:#b8c4dc;
+    line-height:1.8;
+}
+
+.flow{
+    padding:20px;
+    margin:20px 0;
+    background:#0d1426;
+    border:1px solid #26314a;
+    border-radius:12px;
+    text-align:center;
+    color:#c6d0e4;
+    line-height:2;
+    overflow-x:auto;
+}
+
+.scenario{
+    border-left:4px solid #a78bfa;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    color:#7582a2;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+<a href="index.html" class="back">← Back to Cloud Fundamentals</a>
+
+<div class="page-icon">☁️</div>
+
+<h1>Cloud Computing <span>Basics</span></h1>
+
+<p>
+Core cloud concepts, service models, deployment models,
+scalability, elasticity, availability, regions, AZs and
+real-time DevOps interview scenarios.
+</p>
+
+</header>
+
+<main class="content">
+
+<section class="quick-map">
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐⭐</strong><br>
+Must Know
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐</strong><br>
+High Priority
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐</strong><br>
+Medium
+</div>
+
+<div class="map-item">
+<strong>⭐⭐</strong><br>
+Less Asked
+</div>
+
+<div class="map-item">
+<strong>⭐</strong><br>
+Bonus
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐⭐⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐⭐ Very Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 01</div>
+
+<h3>What is Cloud Computing?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+Cloud computing means delivering computing resources such as
+servers, storage, databases, networking and software over the
+internet on demand.
+
+Instead of buying and maintaining physical infrastructure,
+organizations can consume cloud resources whenever they need
+them.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+
+Suppose a company needs a server for its application.
+
+Traditional approach:
+
+<br><br>
+
+Buy physical server → Install it → Maintain hardware → Pay for
+unused capacity.
+
+<br><br>
+
+Cloud approach:
+
+<br><br>
+
+Create an EC2 instance → Deploy application → Scale when needed
+→ Pay according to usage.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Cloud computing is the on-demand delivery of computing resources
+such as compute, storage, networking and databases over the
+internet, allowing organizations to provision resources quickly
+without managing the underlying physical infrastructure."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 02</div>
+
+<h3>Why do companies use Cloud Computing?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+The main reason is that cloud allows organizations to provision
+infrastructure quickly and scale resources according to workload.
+
+Important benefits include:
+
+<br><br>
+
+→ On-demand resources
+
+<br>
+→ Scalability
+
+<br>
+→ Elasticity
+
+<br>
+→ High availability
+
+<br>
+→ Global reach
+
+<br>
+→ Reduced infrastructure management
+
+<br>
+→ Pay-as-you-go pricing models
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Real-Time Example</strong>
+
+<p>
+
+An e-commerce application may have normal traffic on weekdays
+but extremely high traffic during a festival sale.
+
+Cloud infrastructure can scale according to demand.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Companies use cloud computing because it provides on-demand
+infrastructure, scalability, elasticity, high availability and
+global deployment while reducing the need to manage physical
+hardware."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 03</div>
+
+<h3>What are the different Cloud Service Models?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+The three major cloud service models are:
+
+<br><br>
+
+<strong>IaaS — Infrastructure as a Service</strong>
+
+<br>
+
+<strong>PaaS — Platform as a Service</strong>
+
+<br>
+
+<strong>SaaS — Software as a Service</strong>
+
+</p>
+
+<div class="flow">
+
+IaaS
+
+→
+
+You manage more infrastructure
+
+<br><br>
+
+PaaS
+
+→
+
+Cloud manages the platform
+
+<br><br>
+
+SaaS
+
+→
+
+You mainly consume the application
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 04</div>
+
+<h3>What is IaaS?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+IaaS stands for Infrastructure as a Service.
+
+The cloud provider provides infrastructure resources such as
+virtual machines, storage and networking.
+
+The customer has more control over the operating system and
+software stack.
+
+</p>
+
+<div class="example">
+
+<strong>💡 AWS Example</strong>
+
+<p>
+
+Amazon EC2 is a common example of IaaS.
+
+You choose the instance type, operating system, networking,
+storage and install your required software.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"IaaS provides infrastructure resources such as compute,
+storage and networking. The customer manages the operating
+system and applications while the cloud provider manages the
+underlying physical infrastructure."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 05</div>
+
+<h3>What is PaaS?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+PaaS stands for Platform as a Service.
+
+The cloud provider manages the underlying infrastructure and
+platform components, allowing developers to focus more on the
+application.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+
+Instead of creating a server, installing the operating system
+and configuring the runtime yourself, a PaaS service can provide
+the application platform and manage much of the infrastructure
+for you.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"PaaS provides a managed application platform where the cloud
+provider handles much of the infrastructure and platform
+management, allowing developers to focus mainly on application
+development and deployment."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 06</div>
+
+<h3>What is SaaS?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+SaaS stands for Software as a Service.
+
+The complete application is provided as a service over the
+internet.
+
+The customer generally consumes the application instead of
+managing its underlying infrastructure.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<p>
+
+Email services, online collaboration applications and CRM
+software can be delivered as SaaS.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"SaaS is a cloud service model where a complete software
+application is delivered to users over the internet, while the
+provider manages the underlying infrastructure and application
+platform."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 07</div>
+
+<h3>What is the difference between IaaS, PaaS and SaaS?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<div class="important">
+
+<strong>IaaS</strong> → More infrastructure control.
+
+<br><br>
+
+<strong>PaaS</strong> → Focus on application development.
+
+<br><br>
+
+<strong>SaaS</strong> → Consume ready-to-use software.
+
+</div>
+
+<div class="example">
+
+<strong>🧠 Easy Memory</strong>
+
+<p>
+
+IaaS → "Give me infrastructure."
+
+<br>
+
+PaaS → "Give me a platform."
+
+<br>
+
+SaaS → "Give me the software."
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"IaaS gives customers infrastructure resources with greater
+control. PaaS provides a managed platform for application
+development and deployment. SaaS provides a complete application
+that users consume over the internet."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 08</div>
+
+<h3>What are the Cloud Deployment Models?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+The commonly discussed deployment models are:
+
+<br><br>
+
+→ Public Cloud
+
+<br>
+→ Private Cloud
+
+<br>
+→ Hybrid Cloud
+
+<br>
+→ Community Cloud
+
+</p>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 09</div>
+
+<h3>What is Public Cloud?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+In a public cloud, cloud infrastructure is provided by a cloud
+provider and resources are delivered to customers over the
+provider's platform.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<p>
+
+AWS, Microsoft Azure and Google Cloud provide public cloud
+services.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 10</div>
+
+<h3>What is Private Cloud?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+A private cloud environment is dedicated to a single
+organization.
+
+It can provide greater control over the environment and may be
+operated by the organization or a service provider.
+
+</p>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 11</div>
+
+<h3>What is Hybrid Cloud?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Hybrid cloud combines private infrastructure with public cloud
+resources and allows workloads or data to operate across both
+environments.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Real-Time Example</strong>
+
+<p>
+
+A company keeps sensitive workloads in its private environment
+while using AWS for scalable application infrastructure.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Hybrid cloud is an architecture that combines private
+infrastructure with public cloud services. Organizations may use
+it when they need a combination of control, compliance,
+integration or public-cloud scalability."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐ High Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 12</div>
+
+<h3>What is Scalability?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Scalability is the ability of a system to handle increased
+workload by increasing its resources or capacity.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+If an application needs more CPU or additional servers because
+traffic increases, scaling the infrastructure allows the
+application to handle the additional workload.
+
+</p>
+
+</div>
+
+<div class="important">
+
+<strong>Vertical Scaling</strong>
+
+<br>
+
+Increase the capacity of an existing resource.
+
+<br><br>
+
+<strong>Horizontal Scaling</strong>
+
+<br>
+
+Add more instances/resources.
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 13</div>
+
+<h3>What is Vertical Scaling?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Vertical scaling means increasing the capacity of an existing
+server or resource.
+
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+EC2:
+
+<br><br>
+
+t3.medium → larger instance type
+
+<br><br>
+
+The same server becomes more powerful.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 14</div>
+
+<h3>What is Horizontal Scaling?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Horizontal scaling means adding or removing multiple instances
+or resources to handle workload.
+
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+1 EC2 instance
+
+<br>
+↓
+
+<br>
+
+3 EC2 instances
+
+<br>
+↓
+
+<br>
+
+Load Balancer distributes traffic.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Horizontal scaling increases capacity by adding more instances,
+while vertical scaling increases the capacity of an existing
+instance."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 15</div>
+
+<h3>What is Elasticity?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Elasticity is the ability of a cloud environment to automatically
+increase or decrease resources according to workload demand.
+
+</p>
+
+<div class="flow">
+
+Low Traffic
+
+→
+
+Fewer Resources
+
+→
+
+Traffic Increases
+
+→
+
+More Resources
+
+→
+
+Traffic Decreases
+
+→
+
+Scale Down
+
+</div>
+
+<div class="important">
+
+<strong>Memory Trick:</strong>
+
+<br><br>
+
+Scalability = ability to handle growth.
+
+<br>
+
+Elasticity = dynamically adjust resources according to demand.
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 16</div>
+
+<h3>What is the difference between Scalability and Elasticity?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+A system is designed to support more users by adding
+infrastructure → <strong>Scalability</strong>.
+
+<br><br>
+
+The infrastructure automatically adds resources during peak
+traffic and removes them after traffic decreases → <strong>Elasticity</strong>.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Scalability refers to the ability of a system to handle
+increased workload by increasing capacity. Elasticity goes one
+step further by dynamically adding or removing resources based on
+current demand."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 17</div>
+
+<h3>What is High Availability?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+High availability means designing systems so that they remain
+available and continue serving users even when some components
+fail.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 AWS Example</strong>
+
+<p>
+
+Deploy application instances across multiple Availability Zones
+and use a load balancer to distribute traffic.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 18</div>
+
+<h3>What is Fault Tolerance?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Fault tolerance means the system can continue operating even when
+one or more components fail.
+
+</p>
+
+<div class="important">
+
+<strong>High Availability</strong>
+
+→ Reduce downtime and remain available.
+
+<br><br>
+
+<strong>Fault Tolerance</strong>
+
+→ Continue operation despite failures.
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 19</div>
+
+<h3>What is an AWS Region?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+An AWS Region is a separate geographic area containing multiple
+Availability Zones.
+
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+Mumbai region:
+
+<br>
+
+<strong>ap-south-1</strong>
+
+<br><br>
+
+A region contains multiple Availability Zones that are isolated
+from each other.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 20</div>
+
+<h3>What is an Availability Zone?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+An Availability Zone, or AZ, is one or more discrete data
+centers within an AWS Region, designed with independent
+infrastructure to provide isolation and resilience.
+
+</p>
+
+<div class="flow">
+
+AWS Region
+
+↓
+
+Availability Zone A
+
+Availability Zone B
+
+Availability Zone C
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"An Availability Zone is an isolated location within an AWS
+Region. Deploying workloads across multiple Availability Zones
+helps improve availability and resilience."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 21</div>
+
+<h3>Why do we deploy applications across multiple Availability Zones?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+To improve availability and reduce the impact of an Availability
+Zone failure.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+If an application runs only in AZ-A and that AZ experiences an
+issue, the application may become unavailable.
+
+If workloads are distributed across AZ-A and AZ-B, traffic can
+continue through healthy infrastructure.
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐ Medium Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 22</div>
+
+<h3>What is the difference between Region and Availability Zone?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<div class="important">
+
+<strong>Region</strong>
+
+= Geographic area.
+
+<br><br>
+
+<strong>Availability Zone</strong>
+
+= Isolated location within a Region.
+
+</div>
+
+<div class="example">
+
+<strong>Memory Trick</strong>
+
+<p>
+
+Region = City/Geographic area
+
+<br>
+
+AZ = Separate infrastructure location inside that region
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 23</div>
+
+<h3>What is Multi-Region Architecture?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Multi-Region architecture means deploying workloads across
+multiple AWS Regions.
+
+It can be used for disaster recovery, business continuity,
+latency optimization or geographic requirements.
+
+</p>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 24</div>
+
+<h3>What is Disaster Recovery?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Disaster Recovery is the process and architecture used to restore
+applications and data after a major failure or disaster.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+If the primary environment becomes unavailable, a company may
+restore the application using backups or a secondary environment.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 25</div>
+
+<h3>What is Pay-as-you-go?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Pay-as-you-go means customers generally pay for the cloud
+resources they consume rather than purchasing all physical
+infrastructure upfront.
+
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+If you launch an EC2 instance for a workload, charges are based
+on the applicable pricing model and usage.
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ⭐⭐ -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>⭐⭐ Less Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 26</div>
+
+<h3>What is Community Cloud?</h3>
+
+<span class="label">⭐⭐</span>
+
+<p class="answer">
+
+A community cloud is designed for organizations that share
+common requirements such as regulatory, security or operational
+needs.
+
+</p>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 27</div>
+
+<h3>What is Multi-Cloud?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Multi-cloud means using services from more than one cloud
+provider.
+
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+An organization may use AWS for infrastructure, Azure for
+specific enterprise services and Google Cloud for particular
+data or analytics workloads.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 28</div>
+
+<h3>What is Vendor Lock-in?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Vendor lock-in occurs when it becomes difficult or expensive to
+move workloads from one cloud provider or technology to another.
+
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<p>
+
+An application heavily dependent on provider-specific services
+may require significant redesign before it can be moved to
+another cloud.
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- 🎯 SCENARIOS -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>🎯 Real-Time Interview Scenarios</h2>
+<div class="line"></div>
+</div>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 01</div>
+
+<h3>
+Your application receives 10x normal traffic during a sale. What will you do?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+I would design the application for horizontal scaling and use
+load balancing and Auto Scaling where appropriate.
+
+</p>
+
+<div class="flow">
+
+Traffic Increase
+
+→
+
+Load Balancer
+
+→
+
+Auto Scaling
+
+→
+
+More Instances
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I would use a scalable architecture with a load balancer and
+horizontal scaling. Auto Scaling can add instances when demand
+increases and remove them when demand decreases. This provides
+elasticity and avoids depending on a single server."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 02</div>
+
+<h3>
+One Availability Zone goes down. How can the application remain available?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Deploy the application across multiple Availability Zones and
+ensure traffic can be routed to healthy resources.
+
+</p>
+
+<div class="flow">
+
+User
+
+↓
+
+Load Balancer
+
+↓
+
+AZ-A + AZ-B
+
+↓
+
+Healthy Application Instances
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 03</div>
+
+<h3>
+How would you design a highly available web application on AWS?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p class="answer">
+
+A common architecture would include:
+
+<br><br>
+
+→ VPC
+
+<br>
+→ Public/private subnet design
+
+<br>
+→ Load Balancer
+
+<br>
+→ EC2 Auto Scaling
+
+<br>
+→ Multiple Availability Zones
+
+<br>
+→ Database with an appropriate HA architecture
+
+<br>
+→ Monitoring
+
+<br>
+→ Backup and recovery strategy
+
+</p>
+
+<div class="flow">
+
+Users
+
+↓
+
+Load Balancer
+
+↓
+
+AZ-A ←→ AZ-B
+
+↓
+
+Application Instances
+
+↓
+
+Database
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 04</div>
+
+<h3>
+Why would you choose Multi-AZ instead of Multi-Region?
+</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+For many workloads, Multi-AZ provides strong availability and
+resilience within a region.
+
+Multi-Region is considered when requirements include regional
+disaster recovery, geographic distribution or global latency
+needs.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"I would choose based on the requirement. Multi-AZ is commonly
+used for high availability within a region, while Multi-Region
+can provide additional resilience against regional failures and
+can also support geographic distribution."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- 🧠 FOLLOW UPS -->
+
+<!-- ===================================================== -->
+
+<div class="priority-title">
+<h2>🧠 Common Follow-up Questions</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<h3>Quick-fire revision</h3>
+
+<p class="answer">
+
+<strong>Q:</strong> IaaS example?
+
+<br>
+<strong>A:</strong> EC2 is a common example.
+
+<br><br>
+
+<strong>Q:</strong> PaaS means?
+
+<br>
+<strong>A:</strong> Managed platform for application development/deployment.
+
+<br><br>
+
+<strong>Q:</strong> SaaS means?
+
+<br>
+<strong>A:</strong> Ready-to-use software delivered as a service.
+
+<br><br>
+
+<strong>Q:</strong> Scalability?
+
+<br>
+<strong>A:</strong> Ability to handle increased workload by increasing capacity.
+
+<br><br>
+
+<strong>Q:</strong> Elasticity?
+
+<br>
+<strong>A:</strong> Dynamically add/remove resources according to demand.
+
+<br><br>
+
+<strong>Q:</strong> Region?
+
+<br>
+<strong>A:</strong> Geographic AWS infrastructure area.
+
+<br><br>
+
+<strong>Q:</strong> AZ?
+
+<br>
+<strong>A:</strong> Isolated location within an AWS Region.
+
+<br><br>
+
+<strong>Q:</strong> Why multiple AZs?
+
+<br>
+<strong>A:</strong> Higher availability and resilience.
+
+<br><br>
+
+<strong>Q:</strong> Multi-cloud?
+
+<br>
+<strong>A:</strong> Using multiple cloud providers.
+
+</p>
+
+</article>
+
+<div class="important">
+
+<strong>🧠 FINAL REVISION — CLOUD FUNDAMENTALS</strong>
+
+<br><br>
+
+Cloud Computing
+
+→ On-demand computing resources.
+
+<br><br>
+
+IaaS
+
+→ Infrastructure.
+
+<br>
+
+PaaS
+
+→ Platform.
+
+<br>
+
+SaaS
+
+→ Software.
+
+<br><br>
+
+Scalability
+
+→ Handle increased workload.
+
+<br>
+
+Elasticity
+
+→ Automatically adjust resources according to demand.
+
+<br><br>
+
+High Availability
+
+→ Keep application available.
+
+<br>
+
+Fault Tolerance
+
+→ Continue operating despite failures.
+
+<br><br>
+
+Region
+
+→ Geographic area.
+
+<br>
+
+AZ
+
+→ Isolated location inside a Region.
+
+<br><br>
+
+Multi-AZ
+
+→ Availability / resilience.
+
+<br>
+
+Multi-Region
+
+→ Regional resilience / geographic distribution.
+
+<br>
+
+Multi-Cloud
+
+→ Multiple cloud providers.
+
+</div>
+
+</main>
+
+<footer>
+
+<p>☁️ Cloud Fundamentals Interview Preparation</p>
+
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

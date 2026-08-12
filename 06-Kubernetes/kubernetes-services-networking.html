@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes Services & Networking - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.priority{
+    font-weight:800;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">☸️</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Services & Networking</span></h1>
+
+<p>
+DevOps interview-focused revision covering Services, ClusterIP,
+NodePort, LoadBalancer, DNS, Service Discovery, Endpoints,
+Ingress, NetworkPolicy and real-time troubleshooting.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ What You Must Know</h2>
+
+<p>
+Kubernetes networking is one of the most frequently asked areas
+in DevOps interviews. The interviewer normally checks whether you
+understand how Pods communicate with each other and how users reach
+applications running inside the cluster.
+</p>
+
+<div class="flow">
+
+Pod
+<br>
+↓
+<br>
+<strong>Pod IP</strong>
+<br>
+↓
+<br>
+<strong>Service</strong>
+<br>
+↓
+<br>
+Stable Virtual IP / DNS
+<br>
+↓
+<br>
+Other Pods / External Users
+<br>
+↓
+<br>
+<strong>Ingress / LoadBalancer</strong>
+<br>
+↓
+<br>
+External Traffic
+
+</div>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Kubernetes Networking?</h2>
+
+<div class="answer">
+
+Kubernetes networking provides communication between Pods,
+Services and external clients inside or outside the cluster.
+
+The main goal is to allow applications running in different Pods
+and services to communicate reliably.
+
+</div>
+
+<h3>Four important networking requirements</h3>
+
+<ul>
+<li>Pod-to-Pod communication</li>
+<li>Pod-to-Service communication</li>
+<li>Service-to-Service communication</li>
+<li>External-to-Service communication</li>
+</ul>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+Suppose an application has:
+
+<br><br>
+
+Frontend Pod → Backend Pod → MySQL Pod
+
+<br><br>
+
+The frontend should not depend on the backend Pod's changing IP.
+Instead, it communicates with a Kubernetes Service that provides
+a stable endpoint.
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. How does Pod-to-Pod communication work?</h2>
+
+<div class="answer">
+
+Every Pod normally receives its own IP address. Kubernetes networking
+is designed so that Pods can communicate with each other directly
+without requiring NAT between Pods.
+
+</div>
+
+<div class="flow">
+
+Pod A
+<br>
+10.244.1.5
+<br>
+↓
+<br>
+Kubernetes Network
+<br>
+↓
+<br>
+Pod B
+<br>
+10.244.2.7
+
+</div>
+
+<h3>Important interview point</h3>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Each Kubernetes Pod gets an IP address. Pods can communicate with
+other Pods across nodes through the cluster networking implementation,
+usually provided by a CNI plugin."
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Why do we need a Kubernetes Service?</h2>
+
+<div class="answer">
+
+Pod IP addresses are not stable. Pods can be deleted, recreated,
+rescheduled or scaled, causing their IP addresses to change.
+
+A Service provides a stable virtual IP and DNS name for accessing
+a group of Pods.
+
+</div>
+
+<div class="flow">
+
+Pod
+→
+Pod
+→
+Pod
+
+<br><br>
+
+↓ Labels
+
+<br>
+
+<strong>Service</strong>
+
+<br><br>
+
+Stable IP + DNS
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+Suppose the backend has 3 Pods:
+
+backend-1 → 10.244.1.10  
+backend-2 → 10.244.2.12  
+backend-3 → 10.244.3.15
+
+If backend-2 dies, Kubernetes creates another Pod with a different
+IP.
+
+The frontend should not track these changing IPs.
+
+Instead:
+
+<code>backend-service</code>
+
+provides a stable endpoint.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is a Kubernetes Service?</h2>
+
+<div class="answer">
+
+A Kubernetes Service is an abstraction that exposes a group of
+Pods through a stable network endpoint.
+
+The Service selects Pods using labels.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+
+spec:
+  selector:
+    app: backend
+
+  ports:
+    - port: 80
+      targetPort: 8080
+
+  type: ClusterIP</code></pre>
+
+<h3>Important fields</h3>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>selector</td>
+<td>Selects Pods using labels.</td>
+</tr>
+
+<tr>
+<td>port</td>
+<td>Port exposed by the Service.</td>
+</tr>
+
+<tr>
+<td>targetPort</td>
+<td>Port where the application is listening inside the Pod.</td>
+</tr>
+
+<tr>
+<td>type</td>
+<td>Determines how the Service is exposed.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Kubernetes Service Types</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><strong>ClusterIP</strong></td>
+<td>Internal cluster communication. Default Service type.</td>
+</tr>
+
+<tr>
+<td><strong>NodePort</strong></td>
+<td>Exposes the Service through a port on each node.</td>
+</tr>
+
+<tr>
+<td><strong>LoadBalancer</strong></td>
+<td>Exposes the Service externally using a cloud load balancer.</td>
+</tr>
+
+<tr>
+<td><strong>ExternalName</strong></td>
+<td>Maps a Service name to an external DNS name.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is ClusterIP?</h2>
+
+<div class="answer">
+
+ClusterIP is the default Kubernetes Service type.
+
+It exposes the application internally inside the cluster and is
+normally not directly reachable from the public internet.
+
+</div>
+
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+
+spec:
+  type: ClusterIP
+
+  selector:
+    app: backend
+
+  ports:
+    - port: 80
+      targetPort: 8080</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time use:</strong>
+
+Frontend and backend are both running inside Kubernetes.
+
+Frontend:
+
+<code>frontend-service</code>
+
+communicates with:
+
+<code>backend-service:80</code>
+
+No public IP is required for the backend.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is NodePort?</h2>
+
+<div class="answer">
+
+NodePort exposes a Service on a static port on each Kubernetes node.
+
+External traffic can reach:
+
+<code>NodeIP:NodePort</code>
+
+which is then forwarded to the Service and its backend Pods.
+
+</div>
+
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+
+spec:
+  type: NodePort
+
+  selector:
+    app: web
+
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30080</code></pre>
+
+<div class="flow">
+
+User
+<br>
+↓
+<br>
+Node IP : 30080
+<br>
+↓
+<br>
+NodePort Service
+<br>
+↓
+<br>
+Pod : 8080
+
+</div>
+
+<div class="warning">
+
+NodePort is useful for development, testing and some specific
+architectures, but production cloud environments commonly use
+LoadBalancer or Ingress for external access.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is LoadBalancer?</h2>
+
+<div class="answer">
+
+LoadBalancer exposes a Kubernetes Service externally using a
+cloud provider's load balancing capability.
+
+In cloud environments such as AWS, Azure or GCP, the cloud
+integration can provision the corresponding load balancer.
+
+</div>
+
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+
+spec:
+  type: LoadBalancer
+
+  selector:
+    app: web
+
+  ports:
+    - port: 80
+      targetPort: 8080</code></pre>
+
+<div class="flow">
+
+Internet
+<br>
+↓
+<br>
+Cloud Load Balancer
+<br>
+↓
+<br>
+Kubernetes Service
+<br>
+↓
+<br>
+Pods
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. ClusterIP vs NodePort vs LoadBalancer</h2>
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>ClusterIP</th>
+<th>NodePort</th>
+<th>LoadBalancer</th>
+</tr>
+
+<tr>
+<td>Internal access</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>External access</td>
+<td>No direct public exposure</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>Default</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+
+<tr>
+<td>Typical production use</td>
+<td>Internal services</td>
+<td>Limited</td>
+<td>Common</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. What is targetPort vs port?</h2>
+
+<div class="answer">
+
+<strong>port</strong> is the port exposed by the Service.
+
+<strong>targetPort</strong> is the port on which the application
+inside the Pod is listening.
+
+</div>
+
+<pre><code>ports:
+  - port: 80
+    targetPort: 8080</code></pre>
+
+<div class="scenario">
+
+User connects to:
+
+<code>backend-service:80</code>
+
+Kubernetes forwards the traffic to:
+
+<code>Pod:8080</code>
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. How does Service select Pods?</h2>
+
+<div class="answer">
+
+A Service uses label selectors to identify the Pods that should
+receive traffic.
+
+</div>
+
+<h3>Pod</h3>
+
+<pre><code>apiVersion: v1
+kind: Pod
+
+metadata:
+  name: backend
+  labels:
+    app: backend</code></pre>
+
+<h3>Service</h3>
+
+<pre><code>spec:
+  selector:
+    app: backend</code></pre>
+
+<p>
+Because the labels match, the Service sends traffic to the Pod.
+</p>
+
+<div class="warning">
+
+If the Service selector does not match the Pod labels, the Service
+may have no backend endpoints.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What are Endpoints / EndpointSlices?</h2>
+
+<div class="answer">
+
+Kubernetes maintains the network destinations associated with a
+Service. Modern Kubernetes primarily uses EndpointSlices to represent
+these backend endpoints.
+
+They help Kubernetes track which Pod IPs are currently available
+behind a Service.
+
+</div>
+
+<pre><code>kubectl get endpoints
+
+kubectl get endpointslices
+
+kubectl describe service backend-service</code></pre>
+
+<div class="scenario">
+
+<strong>Troubleshooting:</strong>
+
+Service exists, but application is unreachable.
+
+First check:
+
+<code>kubectl get endpoints backend-service</code>
+
+If no backend endpoints are present, check the Service selector
+and Pod labels.
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What is Kubernetes DNS?</h2>
+
+<div class="answer">
+
+Kubernetes provides DNS-based service discovery.
+
+Services normally receive DNS records, allowing applications to
+communicate using Service names instead of hard-coded IP addresses.
+
+</div>
+
+<div class="flow">
+
+backend-service
+<br>
+↓
+<br>
+Kubernetes DNS
+<br>
+↓
+<br>
+Service ClusterIP
+<br>
+↓
+<br>
+Backend Pods
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>curl http://backend-service:80</code></pre>
+
+<p>
+A Pod in the same namespace can normally resolve the Service using
+its Service name.
+</p>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. How do Pods communicate across namespaces?</h2>
+
+<div class="answer">
+
+A Service can be addressed using its DNS name.
+
+For example:
+
+<code>backend-service.dev.svc.cluster.local</code>
+
+</div>
+
+<table>
+
+<tr>
+<th>DNS Form</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>Service name</td>
+<td>backend-service</td>
+</tr>
+
+<tr>
+<td>Service + namespace</td>
+<td>backend-service.dev</td>
+</tr>
+
+<tr>
+<td>Full DNS</td>
+<td>backend-service.dev.svc.cluster.local</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+Frontend is in namespace:
+
+<code>frontend</code>
+
+Backend is in:
+
+<code>backend</code>
+
+Frontend can communicate with:
+
+<code>backend-service.backend.svc.cluster.local</code>
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What is kube-proxy?</h2>
+
+<div class="answer">
+
+kube-proxy is a node-level Kubernetes component responsible for
+implementing Service networking rules so traffic destined for
+Services can be directed toward the appropriate backend Pods.
+
+</div>
+
+<p>
+Depending on the cluster configuration, these rules may be implemented
+using mechanisms such as iptables or IPVS.
+</p>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"kube-proxy runs on nodes and helps implement Kubernetes Service
+networking by maintaining the rules required to forward Service
+traffic to backend Pods."
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. What is Ingress?</h2>
+
+<div class="answer">
+
+Ingress is a Kubernetes API resource used to define HTTP and HTTPS
+routing rules for external traffic entering the cluster.
+
+It commonly provides host-based or path-based routing.
+
+An Ingress requires an Ingress Controller to actually implement
+the routing.
+
+</div>
+
+<div class="flow">
+
+Internet
+<br>
+↓
+<br>
+Load Balancer
+<br>
+↓
+<br>
+Ingress Controller
+<br>
+↓
+<br>
+Ingress Rules
+<br>
+↓
+<br>
+Services
+<br>
+↓
+<br>
+Pods
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Ingress Example</h2>
+
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: app-ingress
+
+spec:
+
+  rules:
+
+  - host: app.example.com
+
+    http:
+
+      paths:
+
+      - path: /api
+        pathType: Prefix
+
+        backend:
+
+          service:
+            name: backend-service
+            port:
+              number: 80
+
+      - path: /
+        pathType: Prefix
+
+        backend:
+
+          service:
+            name: frontend-service
+            port:
+              number: 80</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time architecture:</strong>
+
+<code>app.example.com/</code>
+
+→ frontend-service
+
+<br><br>
+
+<code>app.example.com/api</code>
+
+→ backend-service
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Ingress vs LoadBalancer</h2>
+
+<table>
+
+<tr>
+<th>Ingress</th>
+<th>LoadBalancer Service</th>
+</tr>
+
+<tr>
+<td>HTTP/HTTPS routing</td>
+<td>Exposes a Service externally</td>
+</tr>
+
+<tr>
+<td>Can route multiple applications</td>
+<td>Normally exposes one Service</td>
+</tr>
+
+<tr>
+<td>Supports host/path rules</td>
+<td>Does not provide the same application-level routing model</td>
+</tr>
+
+<tr>
+<td>Requires Ingress Controller</td>
+<td>Implemented through Service/cloud integration</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"If I have multiple web applications and want centralized
+HTTP/HTTPS routing using host or path rules, I would commonly use
+Ingress with an appropriate Ingress Controller."
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. What is a CNI plugin?</h2>
+
+<div class="answer">
+
+CNI stands for Container Network Interface.
+
+A CNI plugin provides the networking implementation used by the
+Kubernetes cluster for Pod networking.
+
+</div>
+
+<p>
+Examples include implementations such as Calico, Cilium and
+cloud-specific networking solutions.
+</p>
+
+<div class="interview">
+
+<strong>Important:</strong>
+
+Do not say Kubernetes itself provides the complete Pod networking
+implementation. The networking behavior is provided through the
+cluster's networking/CNI implementation.
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. What is NetworkPolicy?</h2>
+
+<div class="answer">
+
+NetworkPolicy controls which network traffic is allowed to or from
+selected Pods.
+
+It can be used to implement network-level access restrictions such
+as allowing frontend Pods to access backend Pods while preventing
+other Pods from doing so.
+
+</div>
+
+<div class="scenario">
+
+Without proper restrictions:
+
+Frontend → Backend  
+Test Pod → Backend  
+Unknown Pod → Backend
+
+<br><br>
+
+With NetworkPolicy:
+
+Frontend → Backend ✅
+
+Test Pod → Backend ❌
+
+Unknown Pod → Backend ❌
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. NetworkPolicy Example</h2>
+
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: backend-policy
+
+spec:
+
+  podSelector:
+    matchLabels:
+      app: backend
+
+  policyTypes:
+  - Ingress
+
+  ingress:
+
+  - from:
+
+    - podSelector:
+        matchLabels:
+          app: frontend
+
+    ports:
+
+    - protocol: TCP
+      port: 8080</code></pre>
+
+<div class="answer">
+
+This policy selects backend Pods and allows ingress traffic on
+port 8080 only from Pods labeled <code>app: frontend</code>,
+assuming the cluster's networking implementation enforces the policy.
+
+</div>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. What is Service Discovery?</h2>
+
+<div class="answer">
+
+Service discovery is the mechanism by which applications find and
+communicate with Services without manually knowing changing Pod IPs.
+
+Kubernetes commonly provides service discovery through DNS.
+
+</div>
+
+<pre><code>frontend Pod
+     |
+     | HTTP request
+     ↓
+backend-service
+     |
+     ↓
+Kubernetes DNS
+     |
+     ↓
+Backend Pods</code></pre>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 23. What is Headless Service?</h2>
+
+<div class="answer">
+
+A headless Service is created by setting:
+
+<code>clusterIP: None</code>
+
+Instead of providing a normal virtual ClusterIP, DNS can return
+the individual Pod addresses associated with the Service.
+
+</div>
+
+<pre><code>apiVersion: v1
+kind: Service
+
+metadata:
+  name: database
+
+spec:
+  clusterIP: None
+
+  selector:
+    app: database
+
+  ports:
+  - port: 3306</code></pre>
+
+<div class="scenario">
+
+Headless Services are commonly useful for stateful applications
+where clients need to discover individual Pods, such as certain
+database or distributed-system architectures.
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 24. What is ExternalName?</h2>
+
+<div class="answer">
+
+ExternalName maps a Kubernetes Service name to an external DNS name.
+
+It does not create a normal ClusterIP.
+
+</div>
+
+<pre><code>apiVersion: v1
+kind: Service
+
+metadata:
+  name: external-db
+
+spec:
+  type: ExternalName
+  externalName: database.example.com</code></pre>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. What happens when a Pod dies?</h2>
+
+<div class="answer">
+
+If the Pod is managed by a controller such as a Deployment,
+Kubernetes can create a replacement Pod.
+
+The replacement may receive a different IP.
+
+The Service continues to provide a stable endpoint and updates
+its backend endpoint information accordingly.
+
+</div>
+
+<div class="flow">
+
+Old Pod
+<br>
+❌
+<br>
+↓
+<br>
+Deployment
+<br>
+↓
+<br>
+New Pod
+<br>
+↓
+<br>
+New Pod IP
+<br>
+↓
+<br>
+Service
+<br>
+↓
+<br>
+Traffic continues
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Real-Time Scenario: Service has no traffic</h2>
+
+<h3>Problem</h3>
+
+<p>
+Service exists, but requests are failing.
+</p>
+
+<h3>Step 1 — Check Service</h3>
+
+<pre><code>kubectl get svc</code></pre>
+
+<h3>Step 2 — Check Endpoints</h3>
+
+<pre><code>kubectl get endpoints
+kubectl get endpointslices</code></pre>
+
+<h3>Step 3 — Check Pods</h3>
+
+<pre><code>kubectl get pods --show-labels</code></pre>
+
+<h3>Step 4 — Compare selector and labels</h3>
+
+<pre><code>kubectl describe svc backend-service</code></pre>
+
+<div class="scenario">
+
+<strong>Most common issue:</strong>
+
+Service:
+
+<code>selector: app=backend</code>
+
+Pod:
+
+<code>app=backend-api</code>
+
+Labels do not match → Service has no matching backend Pods.
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Real-Time Scenario: Pod cannot reach another Service</h2>
+
+<h3>Troubleshooting flow</h3>
+
+<pre><code>kubectl get svc
+
+kubectl get endpoints
+
+kubectl get pods
+
+kubectl describe svc backend-service
+
+kubectl describe pod frontend-pod</code></pre>
+
+<p>
+Then test DNS and connectivity from inside a temporary/debug Pod.
+</p>
+
+<pre><code>kubectl exec -it frontend-pod -- sh
+
+# Inside container
+nslookup backend-service
+
+# Or
+curl http://backend-service:80</code></pre>
+
+<div class="interview">
+
+<strong>Interview approach:</strong>
+
+"I first verify that the Service exists, then verify that it has
+healthy endpoints, check DNS resolution, confirm the target port,
+and finally investigate NetworkPolicy or application-level issues."
+
+</div>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Real-Time Scenario: DNS not resolving</h2>
+
+<div class="answer">
+
+If a Pod cannot resolve a Service name, I would verify the Service,
+namespace, DNS configuration and DNS components.
+
+</div>
+
+<pre><code>kubectl get svc
+
+kubectl get pods -n kube-system
+
+kubectl get svc -n kube-system</code></pre>
+
+<div class="scenario">
+
+Example:
+
+Frontend is in namespace <code>frontend</code>.
+
+Backend Service is in namespace <code>backend</code>.
+
+Using:
+
+<code>backend-service</code>
+
+may not resolve to the intended Service.
+
+Use:
+
+<code>backend-service.backend.svc.cluster.local</code>
+
+</div>
+
+</div>
+
+
+<!-- 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Real-Time Scenario: Application works inside Pod but not externally</h2>
+
+<div class="answer">
+
+I would verify the external exposure layer step by step.
+
+</div>
+
+<div class="flow">
+
+Application
+<br>
+↓
+<br>
+Pod
+<br>
+↓
+<br>
+Service
+<br>
+↓
+<br>
+NodePort / LoadBalancer
+<br>
+↓
+<br>
+Ingress
+<br>
+↓
+<br>
+External Client
+
+</div>
+
+<h3>Commands</h3>
+
+<pre><code>kubectl get pods
+
+kubectl get svc
+
+kubectl get ingress
+
+kubectl describe svc &lt;service-name&gt;
+
+kubectl describe ingress &lt;ingress-name&gt;</code></pre>
+
+</div>
+
+
+<!-- 30 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Important Service Commands</h2>
+
+<pre><code># Services
+kubectl get svc
+
+kubectl get svc -A
+
+kubectl describe svc &lt;service-name&gt;
+
+# Endpoints
+kubectl get endpoints
+
+kubectl get endpointslices
+
+# Pods
+kubectl get pods -o wide
+
+kubectl get pods --show-labels
+
+# Ingress
+kubectl get ingress
+
+kubectl describe ingress &lt;ingress-name&gt;
+
+# NetworkPolicy
+kubectl get networkpolicy
+
+kubectl describe networkpolicy &lt;policy-name&gt;
+
+# DNS / connectivity
+kubectl exec -it &lt;pod&gt; -- sh
+
+nslookup &lt;service-name&gt;
+
+curl http://&lt;service-name&gt;:&lt;port&gt;</code></pre>
+
+</div>
+
+
+<!-- 31 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Complete Real-Time Architecture</h2>
+
+<div class="flow">
+
+User
+<br>
+↓
+<br>
+<strong>DNS</strong>
+<br>
+↓
+<br>
+<strong>Cloud Load Balancer</strong>
+<br>
+↓
+<br>
+<strong>Ingress Controller</strong>
+<br>
+↓
+<br>
+<strong>Ingress Rules</strong>
+<br>
+↓
+<br>
+Frontend Service
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Backend Service
+<br>
+↓
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+↓
+<br>
+Frontend Pods
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Backend Pods
+<br>
+↓
+<br>
+Database Service
+<br>
+↓
+<br>
+Database Pods
+
+</div>
+
+<div class="scenario">
+
+<strong>Production example:</strong>
+
+A user opens <code>https://myapp.com</code>.
+
+DNS resolves the application endpoint.
+
+Traffic reaches the cloud load balancer.
+
+The load balancer sends traffic to the Ingress Controller.
+
+Ingress routes:
+
+<code>/</code> → frontend-service
+
+<code>/api</code> → backend-service
+
+Services then distribute traffic to healthy backend Pods.
+
+</div>
+
+</div>
+
+
+<!-- 32 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Asked Interview Questions</h2>
+
+<ol>
+
+<li>What is Kubernetes networking?</li>
+
+<li>How do Pods communicate with each other?</li>
+
+<li>Why do we need a Service?</li>
+
+<li>What is a Kubernetes Service?</li>
+
+<li>Explain ClusterIP.</li>
+
+<li>Explain NodePort.</li>
+
+<li>Explain LoadBalancer.</li>
+
+<li>ClusterIP vs NodePort vs LoadBalancer?</li>
+
+<li>What is port vs targetPort?</li>
+
+<li>How does a Service select Pods?</li>
+
+<li>What happens if Service selector does not match Pod labels?</li>
+
+<li>What are Endpoints and EndpointSlices?</li>
+
+<li>What is Kubernetes DNS?</li>
+
+<li>How does Service Discovery work?</li>
+
+<li>How do Pods communicate across namespaces?</li>
+
+<li>What is kube-proxy?</li>
+
+<li>What is Ingress?</li>
+
+<li>Ingress vs LoadBalancer?</li>
+
+<li>What is an Ingress Controller?</li>
+
+<li>What is CNI?</li>
+
+<li>What is NetworkPolicy?</li>
+
+<li>What is a headless Service?</li>
+
+<li>What is ExternalName Service?</li>
+
+<li>How do you troubleshoot a Service that is not reachable?</li>
+
+<li>How do you troubleshoot DNS issues inside Kubernetes?</li>
+
+<li>How do you expose an application outside the cluster?</li>
+
+<li>What happens when a Pod IP changes?</li>
+
+<li>How would you secure communication between frontend and backend Pods?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 33 -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-Up Questions</h2>
+
+<ul>
+
+<li>Why should applications not directly depend on Pod IPs?</li>
+
+<li>What happens internally when a Service receives traffic?</li>
+
+<li>How does kube-proxy help Service networking?</li>
+
+<li>What happens if a Service has zero endpoints?</li>
+
+<li>Why is ClusterIP not directly accessible from the internet?</li>
+
+<li>Why would you use Ingress instead of multiple LoadBalancer Services?</li>
+
+<li>What is the difference between Service DNS and Pod DNS?</li>
+
+<li>What happens when a Pod is recreated?</li>
+
+<li>How do you find the backend Pods behind a Service?</li>
+
+<li>How do you test connectivity from one Pod to another Service?</li>
+
+<li>How would you restrict backend access to only frontend Pods?</li>
+
+<li>What is the role of a CNI plugin?</li>
+
+<li>What is a headless Service used for?</li>
+
+<li>How would you troubleshoot intermittent Service failures?</li>
+
+</ul>
+
+</div>
+
+
+<!-- 34 -->
+
+<div class="card">
+
+<h2>🧠 Kubernetes Networking — 60 Second Revision</h2>
+
+<div class="flow">
+
+<strong>Pod</strong>
+<br>
+Gets an IP
+<br><br>
+
+↓
+<br><br>
+
+<strong>Service</strong>
+<br>
+Stable endpoint
+<br><br>
+
+↓
+<br><br>
+
+<strong>ClusterIP</strong>
+<br>
+Internal access
+<br><br>
+
+<strong>NodePort</strong>
+<br>
+Node IP + Port
+<br><br>
+
+<strong>LoadBalancer</strong>
+<br>
+External cloud access
+<br><br>
+
+<strong>Ingress</strong>
+<br>
+HTTP/HTTPS routing
+<br><br>
+
+<strong>DNS</strong>
+<br>
+Service Discovery
+<br><br>
+
+<strong>NetworkPolicy</strong>
+<br>
+Traffic control
+<br><br>
+
+<strong>CNI</strong>
+<br>
+Pod networking implementation
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Kubernetes Networking"</h2>
+
+<div class="interview">
+
+"Kubernetes networking allows Pods, Services and external clients
+to communicate with each other.
+
+Each Pod gets an IP address, but Pod IPs are not stable because
+Pods can be recreated or rescheduled. Therefore, Kubernetes
+Services provide a stable virtual endpoint and use label selectors
+to route traffic to the appropriate Pods.
+
+ClusterIP is mainly used for internal communication, NodePort
+exposes a Service through a port on each node, and LoadBalancer
+provides external exposure through cloud load balancing.
+
+For HTTP and HTTPS routing, we can use Ingress together with an
+Ingress Controller.
+
+Kubernetes also provides DNS-based service discovery, so
+applications can communicate using Service names instead of
+hard-coded IP addresses.
+
+For security, NetworkPolicies can restrict which Pods are allowed
+to communicate with each other.
+
+In a production troubleshooting scenario, I would check the Pod
+status, Service configuration, labels, endpoints, DNS resolution,
+ports, Ingress or LoadBalancer configuration and NetworkPolicies
+step by step."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+☸️ Kubernetes • Services & Networking
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git Stashing - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+h1{
+    font-size:clamp(32px,5vw,50px);
+    margin:25px 0 0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+.intro strong{color:#93c5fd}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+}
+
+.success{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:25px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Git & GitHub</a>
+
+<h1>Git <span>Stashing</span></h1>
+
+<p>
+Temporarily save uncommitted changes, switch branches safely,
+restore work and handle practical DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ GIT STASH — MUST KNOW</strong>
+
+<p>
+Git stash is used when you have uncommitted changes in your working
+directory but need to temporarily switch to another branch or
+perform another Git operation.
+</p>
+
+<p>
+Instead of committing unfinished work, you can temporarily store
+those changes using <code>git stash</code> and restore them later.
+</p>
+
+</div>
+
+
+<!-- Q1 -->
+
+<div class="card">
+
+<h2>1. What is Git Stash?</h2>
+
+<div class="answer">
+
+<strong>Git stash</strong> temporarily saves your uncommitted changes
+and cleans the working directory so you can work on something else.
+
+</div>
+
+<h3>Basic command</h3>
+
+<pre><code>git stash</code></pre>
+
+<div class="flow">
+
+Uncommitted Changes
+<br>
+↓
+<br>
+<code>git stash</code>
+<br>
+↓
+<br>
+Changes Temporarily Stored
+<br>
+↓
+<br>
+Clean Working Directory
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+<br><br>
+
+"Git stash temporarily stores my uncommitted changes and gives me
+a clean working directory. I can later restore those changes using
+commands such as git stash pop or git stash apply."
+
+</div>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="card">
+
+<h2>2. Why do we use Git Stash?</h2>
+
+<p>
+A common situation is that you are working on one feature and
+suddenly need to switch to another branch.
+</p>
+
+<h3>Example</h3>
+
+<pre><code>feature/login
+     |
+     | Uncommitted changes
+     ↓
+Urgent production bug
+     |
+     ↓
+Need to switch to main / hotfix branch</code></pre>
+
+<p>
+Instead of creating an unnecessary commit, you can stash the
+unfinished changes.
+</p>
+
+<pre><code>git stash
+
+git switch main</code></pre>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="card">
+
+<h2>3. What does git stash do?</h2>
+
+<pre><code>git stash</code></pre>
+
+<p>
+By default, Git saves changes to tracked files that are modified or
+staged and restores the working tree to a clean state.
+</p>
+
+<div class="warning">
+
+Important: ordinary <code>git stash</code> does not include
+untracked files by default.
+
+</div>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="card">
+
+<h2>4. How do you see your stashes?</h2>
+
+<pre><code>git stash list</code></pre>
+
+<h3>Example</h3>
+
+<pre><code>stash@{0}: WIP on feature/login
+stash@{1}: WIP on main
+stash@{2}: WIP on feature/payment</code></pre>
+
+<p>
+The most recent stash is normally referenced as
+<code>stash@{0}</code>.
+</p>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="card">
+
+<h2>5. How do you restore stashed changes?</h2>
+
+<p>There are two commonly used commands:</p>
+
+<pre><code>git stash apply</code>
+
+<code>git stash pop</code></pre>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Behavior</th>
+</tr>
+
+<tr>
+<td><code>git stash apply</code></td>
+<td>Restores the stash but keeps it in the stash list</td>
+</tr>
+
+<tr>
+<td><code>git stash pop</code></td>
+<td>Restores the stash and removes it from the stash list if applied successfully</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="card">
+
+<h2>6. Difference between git stash apply and git stash pop?</h2>
+
+<div class="answer">
+
+The key difference is whether the stash remains in the stash list.
+
+</div>
+
+<pre><code>git stash apply
+
+→ Restore changes
+→ Keep stash</code></pre>
+
+<pre><code>git stash pop
+
+→ Restore changes
+→ Remove stash if successfully applied</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"I use git stash apply when I want to restore the changes but keep
+the stash as a backup. I use git stash pop when I want to restore
+the changes and remove that stash entry after successful
+application."
+
+</div>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="card">
+
+<h2>7. How do you stash with a message?</h2>
+
+<pre><code>git stash push -m "Login feature work"</code></pre>
+
+<p>
+A descriptive message makes it easier to identify a stash later.
+</p>
+
+<h3>Check it</h3>
+
+<pre><code>git stash list</code></pre>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="card">
+
+<h2>8. How do you stash untracked files?</h2>
+
+<div class="answer">
+
+Use the <code>-u</code> option.
+
+</div>
+
+<pre><code>git stash -u</code></pre>
+
+<p>
+This includes untracked files in the stash.
+</p>
+
+<div class="interview">
+
+<strong>Remember:</strong>
+
+<br><br>
+
+<code>git stash</code> → tracked changes
+
+<br>
+
+<code>git stash -u</code> → tracked + untracked changes
+
+</div>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="card">
+
+<h2>9. How do you stash ignored files too?</h2>
+
+<pre><code>git stash -a</code></pre>
+
+<p>
+The <code>-a</code> option includes ignored files as well as tracked
+and untracked files.
+</p>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Includes</th>
+</tr>
+
+<tr>
+<td><code>git stash</code></td>
+<td>Tracked changes</td>
+</tr>
+
+<tr>
+<td><code>git stash -u</code></td>
+<td>Tracked + untracked</td>
+</tr>
+
+<tr>
+<td><code>git stash -a</code></td>
+<td>Tracked + untracked + ignored</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="card">
+
+<h2>10. How do you apply a specific stash?</h2>
+
+<pre><code>git stash list
+
+git stash apply stash@{1}</code></pre>
+
+<p>
+This applies the specific stash instead of the latest one.
+</p>
+
+</div>
+
+
+<!-- Q11 -->
+
+<div class="card">
+
+<h2>11. How do you remove a specific stash?</h2>
+
+<pre><code>git stash drop stash@{1}</code></pre>
+
+<p>
+This removes that stash entry.
+</p>
+
+</div>
+
+
+<!-- Q12 -->
+
+<div class="card">
+
+<h2>12. How do you delete all stashes?</h2>
+
+<pre><code>git stash clear</code></pre>
+
+<div class="warning">
+
+This permanently removes all stash entries from the repository's
+stash list. Use it carefully.
+
+</div>
+
+</div>
+
+
+<!-- Q13 -->
+
+<div class="card">
+
+<h2>13. Can you create a branch from a stash?</h2>
+
+<div class="answer">
+
+Yes. Git provides <code>git stash branch</code> for this purpose.
+
+</div>
+
+<pre><code>git stash branch feature/login stash@{0}</code></pre>
+
+<p>
+Git creates a new branch starting from the commit where the stash
+was originally created and then attempts to apply the stash.
+</p>
+
+</div>
+
+
+<!-- Q14 -->
+
+<div class="card">
+
+<h2>14. What is git stash show?</h2>
+
+<pre><code>git stash show</code></pre>
+
+<p>
+It shows a summary of the changes contained in a stash.
+</p>
+
+<h3>More detailed view</h3>
+
+<pre><code>git stash show -p</code></pre>
+
+<p>
+The <code>-p</code> option displays the actual patch/diff.
+</p>
+
+</div>
+
+
+<!-- Q15 -->
+
+<div class="card">
+
+<h2>15. Does git stash create a commit?</h2>
+
+<div class="answer">
+
+Git stash internally stores the stashed state using Git objects,
+but from the developer's workflow perspective it is not a normal
+branch commit that you push to GitHub.
+
+</div>
+
+<p>
+A stash is primarily a temporary local storage mechanism for
+uncommitted work.
+</p>
+
+</div>
+
+
+<!-- Q16 -->
+
+<div class="card">
+
+<h2>16. Is Git stash shared with the team?</h2>
+
+<div class="answer">
+
+No. Git stash is normally local to your repository.
+
+</div>
+
+<p>
+A stash is not pushed to GitHub using <code>git push</code>.
+If another developer needs your work, create a proper commit and
+push it through the normal Git workflow.
+</p>
+
+<div class="warning">
+
+Do not use Git stash as a replacement for Git commits when work
+needs to be shared with the team.
+
+</div>
+
+</div>
+
+
+<!-- Q17 -->
+
+<div class="card">
+
+<h2>17. What happens if stash apply causes conflicts?</h2>
+
+<div class="answer">
+
+A stash can conflict with changes already present in the target
+branch.
+
+</div>
+
+<h3>Typical workflow</h3>
+
+<pre><code>git stash apply
+
+# Conflict occurs
+
+git status
+
+# Resolve conflicted files
+
+git add .
+
+# Continue your normal workflow</code></pre>
+
+<p>
+The conflict must be resolved manually just like other Git
+conflicts.
+</p>
+
+</div>
+
+
+<!-- Q18 -->
+
+<div class="card">
+
+<h2>18. Real-Time Scenario: Urgent production bug</h2>
+
+<p>
+You are working on a new feature but your manager asks you to fix
+a production issue immediately.
+</p>
+
+<pre><code># Current feature work
+
+git status
+
+# Temporarily save unfinished changes
+
+git stash push -m "WIP login feature"
+
+# Move to the required branch
+
+git switch main
+
+# Fix production issue
+
+git add .
+git commit -m "Fix production issue"
+
+git push origin main</code></pre>
+
+<p>
+After the urgent work is complete, return to the feature branch.
+</p>
+
+<pre><code>git switch feature/login
+
+git stash pop</code></pre>
+
+<div class="success">
+
+Your unfinished feature work can now be restored and continued.
+
+</div>
+
+</div>
+
+
+<!-- Q19 -->
+
+<div class="card">
+
+<h2>19. Real-Time Scenario: Multiple stashes</h2>
+
+<pre><code>git stash push -m "Login UI"
+git stash push -m "Payment API"
+git stash push -m "Monitoring changes"</code></pre>
+
+<h3>View them</h3>
+
+<pre><code>git stash list</code></pre>
+
+<p>
+You can then choose the required stash using its reference.
+</p>
+
+<pre><code>git stash apply stash@{1}</code></pre>
+
+</div>
+
+
+<!-- Q20 -->
+
+<div class="card">
+
+<h2>20. When should you NOT use Git stash?</h2>
+
+<ul>
+<li>When work needs to be shared with teammates</li>
+<li>When the changes represent a meaningful completed unit</li>
+<li>When you need a permanent history of the work</li>
+<li>When the work should be reviewed through a pull request</li>
+</ul>
+
+<div class="success">
+
+Use a proper Git commit when the work should become part of the
+project history.
+
+</div>
+
+</div>
+
+
+<!-- Q21 -->
+
+<div class="card">
+
+<h2>21. Git Stash vs Git Commit</h2>
+
+<table>
+
+<tr>
+<th>Git Stash</th>
+<th>Git Commit</th>
+</tr>
+
+<tr>
+<td>Temporary storage</td>
+<td>Permanent project history</td>
+</tr>
+
+<tr>
+<td>Normally local</td>
+<td>Can be pushed to remote</td>
+</tr>
+
+<tr>
+<td>Useful for unfinished work</td>
+<td>Useful for meaningful changes</td>
+</tr>
+
+<tr>
+<td>Not normally shared with team</td>
+<td>Can be shared through GitHub</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q22 -->
+
+<div class="card">
+
+<h2>22. DevOps Interview Scenario: You have uncommitted changes but need to pull latest code. What do you do?</h2>
+
+<div class="answer">
+
+First determine whether the local changes are ready to commit. If
+they are unfinished, temporarily stash them.
+
+</div>
+
+<pre><code>git status
+
+git stash push -m "WIP"
+
+git pull origin main
+
+git stash pop</code></pre>
+
+<p>
+If conflicts occur while applying the stash, resolve them before
+continuing.
+</p>
+
+<div class="interview">
+
+<strong>Better real-world answer:</strong>
+
+<br><br>
+
+"I first check whether my changes can be committed safely. If they
+are incomplete, I can stash them, synchronize with the remote
+branch, and then restore the work. In a team environment I also
+follow the repository's merge/rebase policy."
+
+</div>
+
+</div>
+
+
+<!-- Q23 -->
+
+<div class="card">
+
+<h2>23. Common Git Stash Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>git stash</code></td>
+<td>Stash tracked changes</td>
+</tr>
+
+<tr>
+<td><code>git stash push -m "message"</code></td>
+<td>Create named stash</td>
+</tr>
+
+<tr>
+<td><code>git stash -u</code></td>
+<td>Include untracked files</td>
+</tr>
+
+<tr>
+<td><code>git stash -a</code></td>
+<td>Include ignored files too</td>
+</tr>
+
+<tr>
+<td><code>git stash list</code></td>
+<td>List stashes</td>
+</tr>
+
+<tr>
+<td><code>git stash show</code></td>
+<td>Show stash summary</td>
+</tr>
+
+<tr>
+<td><code>git stash show -p</code></td>
+<td>Show stash diff</td>
+</tr>
+
+<tr>
+<td><code>git stash apply</code></td>
+<td>Apply latest stash and keep it</td>
+</tr>
+
+<tr>
+<td><code>git stash pop</code></td>
+<td>Apply latest stash and remove it if successful</td>
+</tr>
+
+<tr>
+<td><code>git stash drop</code></td>
+<td>Remove a stash</td>
+</tr>
+
+<tr>
+<td><code>git stash clear</code></td>
+<td>Remove all stashes</td>
+</tr>
+
+<tr>
+<td><code>git stash branch branch-name</code></td>
+<td>Create branch from stash</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Common Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>What is git stash?</li>
+
+<li>Why do we use git stash?</li>
+
+<li>What is the difference between stash and commit?</li>
+
+<li>What is the difference between git stash apply and pop?</li>
+
+<li>How do you list stashes?</li>
+
+<li>How do you stash untracked files?</li>
+
+<li>How do you stash ignored files?</li>
+
+<li>How do you apply a specific stash?</li>
+
+<li>How do you delete a stash?</li>
+
+<li>How do you delete all stashes?</li>
+
+<li>Can Git stash be pushed to GitHub?</li>
+
+<li>What happens when stash application causes conflicts?</li>
+
+<li>Can you create a branch from a stash?</li>
+
+<li>What happens if you run git stash multiple times?</li>
+
+<li>When should you use a commit instead of stash?</li>
+
+</ul>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>Remember</th>
+</tr>
+
+<tr>
+<td>Stash</td>
+<td>Temporarily store local uncommitted work</td>
+</tr>
+
+<tr>
+<td>Apply</td>
+<td>Restore stash and keep stash entry</td>
+</tr>
+
+<tr>
+<td>Pop</td>
+<td>Restore stash and remove entry if successful</td>
+</tr>
+
+<tr>
+<td>-u</td>
+<td>Include untracked files</td>
+</tr>
+
+<tr>
+<td>-a</td>
+<td>Include ignored files too</td>
+</tr>
+
+<tr>
+<td>stash list</td>
+<td>View all stashes</td>
+</tr>
+
+<tr>
+<td>stash drop</td>
+<td>Delete one stash</td>
+</tr>
+
+<tr>
+<td>stash clear</td>
+<td>Delete all stashes</td>
+</tr>
+
+<tr>
+<td>stash branch</td>
+<td>Create a branch from a stash</td>
+</tr>
+
+</table>
+
+</div>
+
+</main>
+
+<footer>
+
+🐙 Git & GitHub • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

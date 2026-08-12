@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Docker Commands - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#60a5fa}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+.intro strong{color:#60a5fa}
+
+h2{
+    color:#60a5fa;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #60a5fa;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#60a5fa;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Docker <span>Commands</span></h1>
+
+<p>
+Essential Docker commands for images, containers, logs, execution,
+inspection, networking, cleanup and real-world DevOps troubleshooting.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ DOCKER COMMANDS — MUST KNOW</strong>
+
+<p>
+You do not need to memorize every Docker command for an interview.
+Focus on the commands used daily for building, running, inspecting,
+troubleshooting and cleaning Docker workloads.
+</p>
+
+<div class="flow">
+
+Image
+<br>
+↓
+<br>
+<strong>docker run</strong>
+<br>
+↓
+<br>
+Container
+<br>
+↓
+<br>
+logs / exec / inspect / stats
+<br>
+↓
+<br>
+stop / start / restart
+<br>
+↓
+<br>
+rm
+
+</div>
+
+</div>
+
+
+<!-- SECTION 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Docker Version & Information</h2>
+
+<h3>Check Docker version</h3>
+
+<pre><code>docker --version
+
+docker version</code></pre>
+
+<p>
+<code>docker --version</code> gives the CLI version, while
+<code>docker version</code> provides client and server/daemon details.
+</p>
+
+<h3>System information</h3>
+
+<pre><code>docker info</code></pre>
+
+<div class="answer">
+<code>docker info</code> is useful when troubleshooting the Docker
+environment because it provides information about the daemon,
+containers, images, storage driver and runtime configuration.
+</div>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Working with Docker Images</h2>
+
+<h3>List images</h3>
+
+<pre><code>docker images
+
+docker image ls</code></pre>
+
+<h3>Pull an image</h3>
+
+<pre><code>docker pull nginx
+
+docker pull nginx:latest</code></pre>
+
+<h3>Remove an image</h3>
+
+<pre><code>docker rmi nginx
+
+docker image rm nginx</code></pre>
+
+<h3>Inspect an image</h3>
+
+<pre><code>docker image inspect nginx</code></pre>
+
+<h3>View image history</h3>
+
+<pre><code>docker history nginx</code></pre>
+
+<h3>Tag an image</h3>
+
+<pre><code>docker tag myapp:latest username/myapp:1.0</code></pre>
+
+<div class="interview">
+
+<strong>Interview point:</strong>
+
+<br><br>
+
+Image commands are commonly used to inspect, version, tag, pull,
+push and remove application images.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. docker run</h2>
+
+<h3>Basic command</h3>
+
+<pre><code>docker run nginx</code></pre>
+
+<h3>Run in background</h3>
+
+<pre><code>docker run -d nginx</code></pre>
+
+<p>
+<code>-d</code> runs the container in detached mode.
+</p>
+
+<h3>Assign a name</h3>
+
+<pre><code>docker run -d --name web nginx</code></pre>
+
+<h3>Publish a port</h3>
+
+<pre><code>docker run -d --name web -p 8080:80 nginx</code></pre>
+
+<h3>Set environment variable</h3>
+
+<pre><code>docker run -d \
+--name app \
+-e APP_ENV=production \
+myapp:1.0</code></pre>
+
+<h3>Run interactively</h3>
+
+<pre><code>docker run -it ubuntu bash</code></pre>
+
+<div class="answer">
+<code>docker run</code> creates and starts a new container from an
+image. It can also configure the container's name, ports,
+environment variables, volumes, network and command.
+</div>
+
+</div>
+
+
+<!-- SECTION 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. List Containers</h2>
+
+<h3>Running containers</h3>
+
+<pre><code>docker ps</code></pre>
+
+<h3>All containers</h3>
+
+<pre><code>docker ps -a</code></pre>
+
+<h3>Only container IDs</h3>
+
+<pre><code>docker ps -q</code></pre>
+
+<h3>All container IDs</h3>
+
+<pre><code>docker ps -aq</code></pre>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>docker ps</code></td>
+<td>Shows running containers</td>
+</tr>
+
+<tr>
+<td><code>docker ps -a</code></td>
+<td>Shows running and stopped containers</td>
+</tr>
+
+<tr>
+<td><code>docker ps -q</code></td>
+<td>Shows IDs of running containers</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- SECTION 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Container Lifecycle</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>docker create</code></td>
+<td>Create a container without starting it</td>
+</tr>
+
+<tr>
+<td><code>docker start</code></td>
+<td>Start a stopped container</td>
+</tr>
+
+<tr>
+<td><code>docker stop</code></td>
+<td>Gracefully stop a running container</td>
+</tr>
+
+<tr>
+<td><code>docker restart</code></td>
+<td>Restart a container</td>
+</tr>
+
+<tr>
+<td><code>docker pause</code></td>
+<td>Pause container processes</td>
+</tr>
+
+<tr>
+<td><code>docker unpause</code></td>
+<td>Resume paused processes</td>
+</tr>
+
+<tr>
+<td><code>docker kill</code></td>
+<td>Forcefully stop a container using a signal</td>
+</tr>
+
+<tr>
+<td><code>docker rm</code></td>
+<td>Remove a container</td>
+</tr>
+
+</table>
+
+<h3>Example</h3>
+
+<pre><code>docker stop web
+
+docker start web
+
+docker restart web
+
+docker rm web</code></pre>
+
+<div class="warning">
+A stopped container is not automatically deleted. You must remove
+it separately with <code>docker rm</code> unless another cleanup
+mechanism handles it.
+</div>
+
+</div>
+
+
+<!-- SECTION 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Docker Logs</h2>
+
+<h3>View logs</h3>
+
+<pre><code>docker logs web</code></pre>
+
+<h3>Follow logs</h3>
+
+<pre><code>docker logs -f web</code></pre>
+
+<h3>Show recent logs</h3>
+
+<pre><code>docker logs --tail 100 web</code></pre>
+
+<h3>Show timestamps</h3>
+
+<pre><code>docker logs -t web</code></pre>
+
+<div class="scenario">
+
+<strong>Production scenario:</strong>
+
+A container is repeatedly stopping.
+
+First check:
+
+<pre><code>docker ps -a
+
+docker logs &lt;container-name&gt;</code></pre>
+
+The logs may reveal application startup errors, configuration
+problems or missing dependencies.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. docker exec</h2>
+
+<h3>Execute a command inside a running container</h3>
+
+<pre><code>docker exec web ls</code></pre>
+
+<h3>Open a shell</h3>
+
+<pre><code>docker exec -it web bash</code></pre>
+
+<p>
+If Bash is unavailable, a minimal image may provide <code>sh</code>.
+</p>
+
+<pre><code>docker exec -it web sh</code></pre>
+
+<h3>Check environment</h3>
+
+<pre><code>docker exec web env</code></pre>
+
+<h3>Check processes</h3>
+
+<pre><code>docker exec web ps</code></pre>
+
+<div class="answer">
+<code>docker exec</code> runs a new process inside an already running
+container. It is commonly used for troubleshooting and inspection.
+</div>
+
+</div>
+
+
+<!-- SECTION 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. docker inspect</h2>
+
+<h3>Inspect a container</h3>
+
+<pre><code>docker inspect web</code></pre>
+
+<p>
+This returns detailed JSON information about the container.
+</p>
+
+<h3>Common things to investigate</h3>
+
+<ul>
+<li>Container IP address</li>
+<li>Environment variables</li>
+<li>Port mappings</li>
+<li>Mounts</li>
+<li>Network configuration</li>
+<li>Container state</li>
+<li>Restart information</li>
+<li>Image used</li>
+</ul>
+
+<h3>Inspect an image</h3>
+
+<pre><code>docker image inspect nginx</code></pre>
+
+<div class="scenario">
+
+When an application cannot connect to another container, inspect
+the network configuration before changing random settings.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Container Resource Usage</h2>
+
+<h3>Live resource usage</h3>
+
+<pre><code>docker stats</code></pre>
+
+<h3>Specific container</h3>
+
+<pre><code>docker stats web</code></pre>
+
+<p>
+This displays live CPU, memory, network and block I/O information.
+</p>
+
+<div class="scenario">
+
+<strong>High CPU scenario:</strong>
+
+If an application suddenly consumes excessive CPU:
+
+<pre><code>docker stats
+
+docker logs web
+
+docker inspect web</code></pre>
+
+Then investigate the application process and host resources.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Copy Files To / From Containers</h2>
+
+<h3>Host → Container</h3>
+
+<pre><code>docker cp ./config.yml web:/app/config.yml</code></pre>
+
+<h3>Container → Host</h3>
+
+<pre><code>docker cp web:/app/logs.txt ./logs.txt</code></pre>
+
+<div class="answer">
+<code>docker cp</code> copies files or directories between the local
+filesystem and a container.
+</div>
+
+</div>
+
+
+<!-- SECTION 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Container Port Inspection</h2>
+
+<h3>Show published ports</h3>
+
+<pre><code>docker port web</code></pre>
+
+<h3>Example</h3>
+
+<pre><code>docker run -d --name web -p 8080:80 nginx
+
+docker port web</code></pre>
+
+<div class="answer">
+Use <code>docker port</code> when you want a quick view of the
+container's published port mappings.
+</div>
+
+</div>
+
+
+<!-- SECTION 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Docker Attach vs Exec</h2>
+
+<table>
+
+<tr>
+<th>docker exec</th>
+<th>docker attach</th>
+</tr>
+
+<tr>
+<td>Starts a new process inside the container</td>
+<td>Attaches to the container's existing main process</td>
+</tr>
+
+<tr>
+<td>Commonly safer for troubleshooting</td>
+<td>Can interact directly with the main process</td>
+</tr>
+
+<tr>
+<td>Example: open a shell</td>
+<td>Example: attach to process output</td>
+</tr>
+
+</table>
+
+<pre><code>docker exec -it web sh
+
+docker attach web</code></pre>
+
+<div class="warning">
+Be careful when using <code>docker attach</code> because interacting
+with the main process can affect the container depending on how the
+application handles input and signals.
+</div>
+
+</div>
+
+
+<!-- SECTION 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Docker Rename</h2>
+
+<pre><code>docker rename old-name new-name</code></pre>
+
+<p>
+Renames an existing container without changing the image.
+</p>
+
+</div>
+
+
+<!-- SECTION 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Docker Rename / Tag / Versioning</h2>
+
+<h3>Tag an image</h3>
+
+<pre><code>docker tag myapp:latest myapp:1.0</code></pre>
+
+<h3>Registry tag</h3>
+
+<pre><code>docker tag myapp:1.0 username/myapp:1.0</code></pre>
+
+<h3>Push</h3>
+
+<pre><code>docker push username/myapp:1.0</code></pre>
+
+<h3>Pull</h3>
+
+<pre><code>docker pull username/myapp:1.0</code></pre>
+
+<div class="interview">
+
+<strong>DevOps best practice:</strong>
+
+<br><br>
+
+Use meaningful immutable version tags for releases rather than
+depending only on a mutable tag such as <code>latest</code>.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Docker System Cleanup</h2>
+
+<h3>Check Docker disk usage</h3>
+
+<pre><code>docker system df</code></pre>
+
+<h3>Remove unused resources</h3>
+
+<pre><code>docker system prune</code></pre>
+
+<h3>More aggressive cleanup</h3>
+
+<pre><code>docker system prune -a</code></pre>
+
+<div class="warning">
+
+Be careful with cleanup commands.
+
+<code>docker system prune -a</code> can remove unused images and
+other unused Docker resources. Always understand what is unused
+before running cleanup on an important host.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Removing Containers & Images</h2>
+
+<h3>Remove stopped container</h3>
+
+<pre><code>docker rm web</code></pre>
+
+<h3>Force remove running container</h3>
+
+<pre><code>docker rm -f web</code></pre>
+
+<h3>Remove unused containers</h3>
+
+<pre><code>docker container prune</code></pre>
+
+<h3>Remove unused images</h3>
+
+<pre><code>docker image prune</code></pre>
+
+<h3>Remove unused networks</h3>
+
+<pre><code>docker network prune</code></pre>
+
+<h3>Remove unused volumes</h3>
+
+<pre><code>docker volume prune</code></pre>
+
+</div>
+
+
+<!-- SECTION 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Docker Command Categories</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Version</td>
+<td><code>docker version</code></td>
+</tr>
+
+<tr>
+<td>System info</td>
+<td><code>docker info</code></td>
+</tr>
+
+<tr>
+<td>List images</td>
+<td><code>docker images</code></td>
+</tr>
+
+<tr>
+<td>Pull image</td>
+<td><code>docker pull</code></td>
+</tr>
+
+<tr>
+<td>Run container</td>
+<td><code>docker run</code></td>
+</tr>
+
+<tr>
+<td>List containers</td>
+<td><code>docker ps</code></td>
+</tr>
+
+<tr>
+<td>Logs</td>
+<td><code>docker logs</code></td>
+</tr>
+
+<tr>
+<td>Enter container</td>
+<td><code>docker exec</code></td>
+</tr>
+
+<tr>
+<td>Inspect</td>
+<td><code>docker inspect</code></td>
+</tr>
+
+<tr>
+<td>Resource usage</td>
+<td><code>docker stats</code></td>
+</tr>
+
+<tr>
+<td>Copy files</td>
+<td><code>docker cp</code></td>
+</tr>
+
+<tr>
+<td>Stop</td>
+<td><code>docker stop</code></td>
+</tr>
+
+<tr>
+<td>Start</td>
+<td><code>docker start</code></td>
+</tr>
+
+<tr>
+<td>Restart</td>
+<td><code>docker restart</code></td>
+</tr>
+
+<tr>
+<td>Remove container</td>
+<td><code>docker rm</code></td>
+</tr>
+
+<tr>
+<td>Remove image</td>
+<td><code>docker rmi</code></td>
+</tr>
+
+<tr>
+<td>Disk usage</td>
+<td><code>docker system df</code></td>
+</tr>
+
+<tr>
+<td>Cleanup</td>
+<td><code>docker system prune</code></td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- SECTION 18 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 18. Real-Time Troubleshooting Scenarios</h2>
+
+<h3>Scenario 1 — Container is not running</h3>
+
+<pre><code>docker ps -a
+
+docker logs &lt;container&gt;
+
+docker inspect &lt;container&gt;</code></pre>
+
+<h3>Scenario 2 — Container exits immediately</h3>
+
+<pre><code>docker ps -a
+
+docker logs &lt;container&gt;</code></pre>
+
+<p>
+Check the exit status, logs and main process configured for the
+container.
+</p>
+
+<h3>Scenario 3 — Application is unreachable</h3>
+
+<pre><code>docker ps
+
+docker port &lt;container&gt;
+
+docker logs &lt;container&gt;
+
+docker inspect &lt;container&gt;</code></pre>
+
+<h3>Scenario 4 — High memory usage</h3>
+
+<pre><code>docker stats</code></pre>
+
+<h3>Scenario 5 — Docker host disk is full</h3>
+
+<pre><code>docker system df
+
+docker system prune</code></pre>
+
+<div class="warning">
+Do not immediately delete everything. Identify unused images,
+containers, volumes and build cache first.
+</div>
+
+</div>
+
+
+<!-- SECTION 19 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 19. Most Asked Docker Command Questions</h2>
+
+<ol>
+
+<li>What is the difference between <code>docker ps</code> and <code>docker ps -a</code>?</li>
+
+<li>What does <code>docker run</code> do?</li>
+
+<li>What is the difference between <code>docker start</code> and <code>docker run</code>?</li>
+
+<li>What is the difference between <code>docker stop</code> and <code>docker kill</code>?</li>
+
+<li>How do you check container logs?</li>
+
+<li>How do you enter a running container?</li>
+
+<li>What is the difference between <code>docker exec</code> and <code>docker attach</code>?</li>
+
+<li>How do you inspect a container?</li>
+
+<li>How do you check container resource usage?</li>
+
+<li>How do you copy a file from a container?</li>
+
+<li>How do you publish a container port?</li>
+
+<li>How do you remove a stopped container?</li>
+
+<li>How do you remove an image?</li>
+
+<li>How do you clean unused Docker resources?</li>
+
+<li>How do you troubleshoot a container that exits immediately?</li>
+
+<li>How do you troubleshoot an application that is not reachable?</li>
+
+<li>How do you check Docker disk usage?</li>
+
+<li>How do you tag an image?</li>
+
+<li>How do you push an image to a registry?</li>
+
+<li>What is the difference between an image and a container?</li>
+
+</ol>
+
+</div>
+
+
+<!-- SECTION 20 -->
+
+<div class="card">
+
+<h2>🧠 Final Docker Command Cheat Sheet</h2>
+
+<pre><code># Docker information
+docker --version
+docker version
+docker info
+
+# Images
+docker images
+docker pull nginx
+docker image inspect nginx
+docker history nginx
+docker tag myapp:latest myapp:1.0
+docker rmi myapp:1.0
+
+# Containers
+docker run -d --name web nginx
+docker run -d -p 8080:80 nginx
+docker run -it ubuntu bash
+docker ps
+docker ps -a
+
+# Lifecycle
+docker create nginx
+docker start web
+docker stop web
+docker restart web
+docker pause web
+docker unpause web
+docker kill web
+docker rm web
+
+# Troubleshooting
+docker logs web
+docker logs -f web
+docker exec -it web sh
+docker inspect web
+docker stats web
+docker port web
+
+# Files
+docker cp ./file.txt web:/app/file.txt
+docker cp web:/app/file.txt ./file.txt
+
+# Registry
+docker login
+docker tag myapp:1.0 username/myapp:1.0
+docker push username/myapp:1.0
+docker pull username/myapp:1.0
+
+# Cleanup
+docker system df
+docker system prune
+docker image prune
+docker container prune
+docker network prune
+docker volume prune</code></pre>
+
+</div>
+
+
+<!-- FINAL -->
+
+<div class="card">
+
+<h2>🎯 If the Interviewer Says: "Which Docker Commands Do You Use Daily?"</h2>
+
+<div class="interview">
+
+"I commonly use <code>docker ps</code> and
+<code>docker ps -a</code> to check containers,
+<code>docker logs</code> for troubleshooting,
+<code>docker exec</code> to inspect a running container,
+and <code>docker inspect</code> for detailed configuration.
+
+For images I use commands such as <code>docker pull</code>,
+<code>docker images</code>, <code>docker tag</code> and
+<code>docker push</code>.
+
+For container lifecycle management I use
+<code>docker start</code>, <code>docker stop</code>,
+<code>docker restart</code> and <code>docker rm</code>.
+
+For resource and disk troubleshooting I use
+<code>docker stats</code> and <code>docker system df</code>.
+I use cleanup commands carefully, especially on production hosts."
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+🐳 Docker • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

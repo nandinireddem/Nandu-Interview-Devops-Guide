@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>AWS Interview Questions | Nandu's DevOps Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+    /* ================= AWS PAGE ================= */
+
+    body {
+        background:
+            radial-gradient(circle at 10% 10%, rgba(255,153,0,0.08), transparent 30%),
+            #0b1020;
+    }
+
+    .aws-header {
+        padding: 55px 20px;
+        text-align: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                #17120a,
+                #20170b,
+                #0b1020
+            );
+
+        border-bottom: 1px solid #2d354c;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 25px;
+
+        color: #aab6d3;
+        text-decoration: none;
+
+        font-size: 14px;
+    }
+
+    .back-link:hover {
+        color: #ffb52e;
+    }
+
+    .aws-header h1 {
+        font-size: clamp(40px, 6vw, 65px);
+        margin-bottom: 12px;
+    }
+
+    .aws-header h1 span {
+        color: #ff9900;
+    }
+
+    .aws-header p {
+        max-width: 850px;
+        margin: auto;
+
+        color: #9ca8c4;
+        font-size: 16px;
+    }
+
+    .aws-badge {
+        display: inline-block;
+
+        padding: 7px 16px;
+        margin-bottom: 20px;
+
+        border-radius: 30px;
+
+        background: rgba(255,153,0,0.1);
+        border: 1px solid rgba(255,153,0,0.3);
+
+        color: #ffb52e;
+
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+
+    /* ================= PRIORITY GUIDE ================= */
+
+    .priority-section {
+        width: min(1200px, 92%);
+        margin: 45px auto 20px;
+    }
+
+    .priority-section h2 {
+        margin-bottom: 20px;
+    }
+
+    .priority-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(auto-fit, minmax(200px, 1fr));
+
+        gap: 15px;
+    }
+
+    .priority {
+        padding: 18px;
+
+        border-radius: 15px;
+
+        background: #121a30;
+        border: 1px solid #26314b;
+    }
+
+    .priority strong {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .priority p {
+        color: #8995b3;
+        font-size: 13px;
+    }
+
+    .p5 {
+        border-left: 4px solid #ff9900;
+    }
+
+    .p4 {
+        border-left: 4px solid #60a5fa;
+    }
+
+    .p3 {
+        border-left: 4px solid #a78bfa;
+    }
+
+    .p2 {
+        border-left: 4px solid #94a3b8;
+    }
+
+    .p1 {
+        border-left: 4px solid #64748b;
+    }
+
+
+    /* ================= AWS TOPICS ================= */
+
+    .aws-container {
+        width: min(1200px, 92%);
+        margin: auto;
+        padding: 35px 0 70px;
+    }
+
+    .section-title {
+        margin-bottom: 25px;
+    }
+
+    .section-title h2 {
+        font-size: 30px;
+    }
+
+    .section-title p {
+        color: #8995b3;
+    }
+
+    .aws-topics {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(260px, 1fr));
+
+        gap: 20px;
+    }
+
+    .aws-topic {
+        position: relative;
+
+        min-height: 225px;
+
+        padding: 25px;
+
+        text-decoration: none;
+        color: inherit;
+
+        background:
+            linear-gradient(
+                145deg,
+                #151d34,
+                #10172a
+            );
+
+        border: 1px solid #26314b;
+        border-radius: 18px;
+
+        transition: 0.3s;
+    }
+
+    .aws-topic:hover {
+        transform: translateY(-6px);
+
+        border-color: #ff9900;
+
+        box-shadow:
+            0 15px 40px rgba(0,0,0,0.3),
+            0 0 25px rgba(255,153,0,0.08);
+    }
+
+    .aws-topic-icon {
+        font-size: 34px;
+        margin-bottom: 10px;
+    }
+
+    .aws-topic h3 {
+        font-size: 21px;
+        margin-bottom: 8px;
+    }
+
+    .aws-topic p {
+        color: #8e9ab7;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .question-count {
+        display: inline-block;
+
+        margin-top: 18px;
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        background: rgba(255,153,0,0.08);
+        color: #ffb52e;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    /* ================= STUDY FLOW ================= */
+
+    .study-flow {
+        margin-top: 50px;
+        padding: 30px;
+
+        border-radius: 20px;
+
+        background: #10172a;
+        border: 1px solid #27324b;
+    }
+
+    .study-flow h2 {
+        margin-bottom: 20px;
+    }
+
+    .flow-list {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(190px, 1fr));
+
+        gap: 12px;
+    }
+
+    .flow-step {
+        padding: 15px;
+
+        background: #151e35;
+        border-radius: 12px;
+
+        color: #aab5cf;
+        font-size: 14px;
+    }
+
+    .flow-step strong {
+        color: #ffffff;
+    }
+
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 600px) {
+
+        .aws-header {
+            padding: 45px 18px;
+        }
+
+        .aws-container {
+            width: 94%;
+        }
+
+        .priority-section {
+            width: 94%;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- ================= HEADER ================= -->
+
+<header class="aws-header">
+
+    <a href="../index.html" class="back-link">
+        ← Back to Main Dashboard
+    </a>
+
+    <div class="aws-badge">
+        ☁️ AWS INTERVIEW MASTER
+    </div>
+
+    <h1>
+        AWS <span>Interview Questions</span>
+    </h1>
+
+    <p>
+        Complete AWS interview preparation covering fundamentals,
+        core services, architecture, security, networking,
+        troubleshooting and real-time scenarios.
+    </p>
+
+</header>
+
+
+<!-- ================= PRIORITY SYSTEM ================= -->
+
+<section class="priority-section">
+
+    <h2>🎯 Interview Priority System</h2>
+
+    <div class="priority-grid">
+
+        <div class="priority p5">
+            <strong>⭐⭐⭐⭐⭐ Must Know</strong>
+            <p>
+                Very frequently asked questions.
+                Highest interview priority.
+            </p>
+        </div>
+
+        <div class="priority p4">
+            <strong>⭐⭐⭐⭐ High Priority</strong>
+            <p>
+                Frequently asked conceptual
+                and practical questions.
+            </p>
+        </div>
+
+        <div class="priority p3">
+            <strong>⭐⭐⭐ Medium Priority</strong>
+            <p>
+                Deeper concepts and
+                occasional interview questions.
+            </p>
+        </div>
+
+        <div class="priority p2">
+            <strong>⭐⭐ Low Priority</strong>
+            <p>
+                Less frequently asked
+                but useful knowledge.
+            </p>
+        </div>
+
+        <div class="priority p1">
+            <strong>⭐ Bonus</strong>
+            <p>
+                Rare or advanced questions
+                for additional preparation.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TOPICS ================= -->
+
+<main class="aws-container">
+
+    <div class="section-title">
+
+        <h2>☁️ AWS Topics</h2>
+
+        <p>
+            Start with ⭐⭐⭐⭐⭐ questions and move down
+            only after completing the higher-priority sections.
+        </p>
+
+    </div>
+
+
+    <section class="aws-topics">
+
+
+        <!-- EC2 -->
+
+        <a href="ec2.html" class="aws-topic">
+
+            <div class="aws-topic-icon">🖥️</div>
+
+            <h3>Amazon EC2</h3>
+
+            <p>
+                Instances, AMIs, instance types, storage,
+                security, lifecycle, pricing and troubleshooting.
+            </p>
+
+            <span class="question-count">
+                Core Interview Topic
+            </span>
+
+        </a>
+
+
+        <!-- S3 -->
+
+        <a href="s3.html" class="aws-topic">
+
+            <div class="aws-topic-icon">🪣</div>
+
+            <h3>Amazon S3</h3>
+
+            <p>
+                Buckets, objects, storage classes,
+                versioning, lifecycle, encryption and security.
+            </p>
+
+            <span class="question-count">
+                Core Interview Topic
+            </span>
+
+        </a>
+
+
+        <!-- IAM -->
+
+        <a href="iam.html" class="aws-topic">
+
+            <div class="aws-topic-icon">🔐</div>
+
+            <h3>IAM</h3>
+
+            <p>
+                Users, groups, roles, policies,
+                permissions, MFA and least privilege.
+            </p>
+
+            <span class="question-count">
+                Security Essential
+            </span>
+
+        </a>
+
+
+        <!-- VPC -->
+
+        <a href="vpc.html" class="aws-topic">
+
+            <div class="aws-topic-icon">🌐</div>
+
+            <h3>VPC & Networking</h3>
+
+            <p>
+                VPC, subnets, route tables, IGW,
+                NAT Gateway, Security Groups and NACLs.
+            </p>
+
+            <span class="question-count">
+                Very Important
+            </span>
+
+        </a>
+
+
+        <!-- EBS EFS -->
+
+        <a href="ebs-efs.html" class="aws-topic">
+
+            <div class="aws-topic-icon">💾</div>
+
+            <h3>EBS & EFS</h3>
+
+            <p>
+                Block storage, file storage,
+                volumes, snapshots and use cases.
+            </p>
+
+            <span class="question-count">
+                Storage
+            </span>
+
+        </a>
+
+
+        <!-- LOAD BALANCER -->
+
+        <a href="load-balancer.html" class="aws-topic">
+
+            <div class="aws-topic-icon">⚖️</div>
+
+            <h3>Load Balancer</h3>
+
+            <p>
+                ALB, NLB, listeners, target groups,
+                health checks and high availability.
+            </p>
+
+            <span class="question-count">
+                High Priority
+            </span>
+
+        </a>
+
+
+        <!-- AUTO SCALING -->
+
+        <a href="auto-scaling.html" class="aws-topic">
+
+            <div class="aws-topic-icon">📈</div>
+
+            <h3>Auto Scaling</h3>
+
+            <p>
+                Auto Scaling Groups, policies,
+                scaling types and high availability.
+            </p>
+
+            <span class="question-count">
+                High Priority
+            </span>
+
+        </a>
+
+
+        <!-- CLOUDWATCH -->
+
+        <a href="cloudwatch.html" class="aws-topic">
+
+            <div class="aws-topic-icon">📊</div>
+
+            <h3>CloudWatch</h3>
+
+            <p>
+                Metrics, logs, alarms, dashboards,
+                monitoring and troubleshooting.
+            </p>
+
+            <span class="question-count">
+                Monitoring
+            </span>
+
+        </a>
+
+
+        <!-- AWS CLI -->
+
+        <a href="aws-cli.html" class="aws-topic">
+
+            <div class="aws-topic-icon">⌨️</div>
+
+            <h3>AWS CLI</h3>
+
+            <p>
+                Frequently used commands for EC2,
+                S3, IAM, EKS and general troubleshooting.
+            </p>
+
+            <span class="question-count">
+                Practical
+            </span>
+
+        </a>
+
+
+    </section>
+
+
+    <!-- ================= STUDY FLOW ================= -->
+
+    <section class="study-flow">
+
+        <h2>🧠 Recommended AWS Study Flow</h2>
+
+        <div class="flow-list">
+
+            <div class="flow-step">
+                <strong>01</strong><br>
+                ⭐⭐⭐⭐⭐ Must Know
+            </div>
+
+            <div class="flow-step">
+                <strong>02</strong><br>
+                ⭐⭐⭐⭐ High Priority
+            </div>
+
+            <div class="flow-step">
+                <strong>03</strong><br>
+                ⭐⭐⭐ Medium Priority
+            </div>
+
+            <div class="flow-step">
+                <strong>04</strong><br>
+                🎯 Scenario Questions
+            </div>
+
+            <div class="flow-step">
+                <strong>05</strong><br>
+                🛠️ Troubleshooting
+            </div>
+
+            <div class="flow-step">
+                <strong>06</strong><br>
+                💼 Project Questions
+            </div>
+
+            <div class="flow-step">
+                <strong>07</strong><br>
+                ⭐⭐ / ⭐ Bonus
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>☁️ AWS Interview Master Guide</p>
+
+    <span>
+        Nandu's DevOps Interview Preparation • 2026
+    </span>
+
+</footer>
+```
+
+</body>
+</html>

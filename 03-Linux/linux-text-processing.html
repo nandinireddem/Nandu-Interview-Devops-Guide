@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Text Processing Commands - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin:20px 0 5px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+
+h2{
+    margin:5px 0 12px;
+    font-size:25px;
+}
+
+h3{
+    margin-top:22px;
+    color:#dbeafe;
+}
+
+p{color:#c2ccde}
+
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{color:#93c5fd}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{color:#93c5fd}
+
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1;
+}
+
+code{
+    background:#080d18;
+    color:#bfdbfe;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+
+.note{
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0;
+}
+
+.warning{
+    background:rgba(248,113,113,.06);
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:0 10px 10px 0;
+    margin:20px 0;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">🔎</div>
+
+<h1>Linux <span>Text Processing Commands</span></h1>
+
+<p>
+Essential Linux commands for reading files, searching logs,
+filtering output and processing text in DevOps environments.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+
+<!-- CAT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 01</div>
+
+<h2>cat — Display File Content</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>cat</code> command is used to display the contents of
+a file directly in the terminal.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>cat app.txt
+
+cat config.yaml
+
+cat file1.txt file2.txt</pre>
+
+<p>
+It can also be used to create or combine files.
+</p>
+
+<pre>cat file1.txt file2.txt > combined.txt</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The cat command is used to display file contents in the terminal.
+It can also be used to concatenate multiple files."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LESS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 02</div>
+
+<h2>less — View Large Files</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+The <code>less</code> command allows us to view large files
+page by page without loading the entire file into the terminal.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>less /var/log/syslog</pre>
+
+<p>
+Useful keys while inside <code>less</code>:
+</p>
+
+<table>
+
+<tr>
+<th>Key</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>Space</code></td>
+<td>Next page</td>
+</tr>
+
+<tr>
+<td><code>b</code></td>
+<td>Previous page</td>
+</tr>
+
+<tr>
+<td><code>/keyword</code></td>
+<td>Search</td>
+</tr>
+
+<tr>
+<td><code>q</code></td>
+<td>Quit</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"less is used to view large files interactively, allowing us to
+scroll through the content and search without printing the entire
+file at once."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- HEAD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 03</div>
+
+<h2>head — View Beginning of a File</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+The <code>head</code> command displays the beginning of a file.
+By default, it normally shows the first 10 lines.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>head app.log
+
+head -n 20 app.log</pre>
+
+<p>
+The second command displays the first 20 lines.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"head is used to display the beginning of a file. By default it
+shows the first ten lines, and the number can be changed using
+the -n option."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TAIL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 04</div>
+
+<h2>tail — View End of a File</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+The <code>tail</code> command displays the end of a file.
+It is especially useful for checking recent log entries.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>tail app.log
+
+tail -n 20 app.log
+
+tail -f app.log</pre>
+
+<p>
+<code>tail -f</code> continuously follows a file as new content
+is added.
+</p>
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Real-Time DevOps Example</strong>
+
+<p>
+An application is running on a production Linux server and you
+want to monitor new log entries in real time.
+</p>
+
+<pre>tail -f /var/log/app.log</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"tail displays the end of a file. In DevOps, tail -f is commonly
+used to monitor application or system logs in real time."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- GREP -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 05</div>
+
+<h2>grep — Search Text</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>grep</code> command searches for matching text or
+patterns inside files or command output.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>grep "ERROR" app.log
+
+grep "failed" app.log
+
+grep -i "error" app.log
+
+grep -n "ERROR" app.log</pre>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>-i</code></td>
+<td>Ignore case</td>
+</tr>
+
+<tr>
+<td><code>-n</code></td>
+<td>Show line numbers</td>
+</tr>
+
+<tr>
+<td><code>-r</code></td>
+<td>Search recursively</td>
+</tr>
+
+<tr>
+<td><code>-v</code></td>
+<td>Show non-matching lines</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Real-Time DevOps Example</strong>
+
+<p>
+Find all ERROR entries in an application log:
+</p>
+
+<pre>grep "ERROR" /var/log/app.log</pre>
+
+<p>
+Search recursively inside an application directory:
+</p>
+
+<pre>grep -r "database" /var/log/</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"grep is used to search for specific text or patterns in files
+or command output. It is commonly used by DevOps engineers for
+log analysis and troubleshooting."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PIPE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">CONCEPT 06</div>
+
+<h2>Pipe ( | )</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A pipe sends the output of one command as the input to another
+command.
+</p>
+
+<div class="flow">
+
+Command 1
+
+↓
+
+Output
+
+↓
+
+<strong>|</strong>
+
+↓
+
+Command 2
+
+</div>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>ls -l | grep ".log"
+
+ps aux | grep nginx
+
+cat app.log | grep ERROR</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A pipe is used to pass the output of one command as input to
+another command. It allows us to combine Linux commands for
+efficient filtering and processing."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- WC -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 07</div>
+
+<h2>wc — Word, Line and Character Count</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+The <code>wc</code> command counts lines, words and bytes or
+characters depending on the options used.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>wc app.log
+
+wc -l app.log
+
+wc -w app.txt
+
+wc -c app.txt</pre>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>-l</code></td>
+<td>Count lines</td>
+</tr>
+
+<tr>
+<td><code>-w</code></td>
+<td>Count words</td>
+</tr>
+
+<tr>
+<td><code>-c</code></td>
+<td>Count bytes</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+Count the number of ERROR lines:
+</p>
+
+<pre>grep "ERROR" app.log | wc -l</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"wc is used to count lines, words and bytes in files. Combined
+with grep and pipes, it can be useful for log analysis."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SORT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 08</div>
+
+<h2>sort — Sort Text</h2>
+
+<span class="priority">⭐⭐⭐</span>
+
+<p>
+The <code>sort</code> command sorts lines of text.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>sort names.txt
+
+sort -r names.txt
+
+sort -n numbers.txt</pre>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>-r</code></td>
+<td>Reverse order</td>
+</tr>
+
+<tr>
+<td><code>-n</code></td>
+<td>Numeric sorting</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The sort command arranges lines of text in a specified order.
+Options can be used for reverse or numeric sorting."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- UNIQ -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 09</div>
+
+<h2>uniq — Remove Repeated Lines</h2>
+
+<span class="priority">⭐⭐⭐</span>
+
+<p>
+The <code>uniq</code> command removes or reports repeated
+adjacent lines.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>sort names.txt | uniq</pre>
+
+<p>
+To count repeated entries:
+</p>
+
+<pre>sort app.log | uniq -c</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"uniq is used to remove or count repeated adjacent lines. It is
+often combined with sort when analyzing repeated values."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CUT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 10</div>
+
+<h2>cut — Extract Fields</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+The <code>cut</code> command extracts selected sections or fields
+from each line of text.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+Suppose a file contains:
+</p>
+
+<pre>nandu:devops:1001
+rahul:developer:1002
+anil:admin:1003</pre>
+
+<p>
+Extract the first field:
+</p>
+
+<pre>cut -d ":" -f 1 users.txt</pre>
+
+<p>
+Output:
+</p>
+
+<pre>nandu
+rahul
+anil</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"cut is used to extract specific fields or sections from text.
+The -d option specifies the delimiter and -f selects the field."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- AWK -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 11</div>
+
+<h2>awk — Text Processing</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS INTERVIEW</span>
+
+<p>
+<code>awk</code> is a powerful text-processing and pattern-scanning
+tool used to process structured text and fields.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>awk '{print $1}' users.txt</pre>
+
+<p>
+Print the first field from each line.
+</p>
+
+<p>
+For colon-separated data:
+</p>
+
+<pre>awk -F ":" '{print $1}' /etc/passwd</pre>
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Real-Time DevOps Example</strong>
+
+<p>
+Suppose a command produces multiple columns and you need only
+one particular column.
+</p>
+
+<pre>ps aux | awk '{print $1}'</pre>
+
+<p>
+This can be useful when processing command output.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"awk is a powerful Linux text-processing tool used for pattern
+matching, field extraction and processing structured text. It is
+especially useful when working with command output and logs."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SED -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 12</div>
+
+<h2>sed — Stream Editor</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS INTERVIEW</span>
+
+<p>
+<code>sed</code> is a stream editor used to search, replace,
+delete and transform text.
+</p>
+
+<div class="example">
+
+<strong>💡 Example — Replace text</strong>
+
+<pre>sed 's/old/new/' file.txt</pre>
+
+<p>
+Replace all matching occurrences on each line:
+</p>
+
+<pre>sed 's/old/new/g' file.txt</pre>
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Real-Time DevOps Example</strong>
+
+<p>
+Suppose an application configuration contains an old server
+address and you need to replace it automatically during a
+deployment.
+</p>
+
+<pre>sed -i 's/old-server/new-server/g' config.txt</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"sed is a stream editor used to search, replace, delete and
+transform text. It is commonly used in Linux automation and
+deployment scripts to modify configuration files."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- REDIRECTION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">CONCEPT 13</div>
+
+<h2>Input and Output Redirection</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux provides operators to redirect command input and output.
+</p>
+
+<table>
+
+<tr>
+<th>Operator</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>&gt;</code></td>
+<td>Write output to a file and overwrite it</td>
+</tr>
+
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>Append output to a file</td>
+</tr>
+
+<tr>
+<td><code>&lt;</code></td>
+<td>Use a file as command input</td>
+</tr>
+
+<tr>
+<td><code>2&gt;</code></td>
+<td>Redirect standard error</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>ls > files.txt
+
+echo "hello" >> app.log
+
+command 2> error.log
+
+command > output.log 2>&1</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+<code>&gt;</code> overwrites the destination file.
+Use <code>&gt;&gt;</code> when you want to append instead.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux redirection allows command input and output to be
+redirected. The greater-than operator writes or overwrites a
+file, double greater-than appends output, and 2> redirects
+standard error."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DEVOPS LOG FLOW -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME DEVOPS SCENARIO</div>
+
+<h2>Application is throwing errors. How would you check the logs?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<div class="flow">
+
+Application
+
+↓
+
+Log File
+
+↓
+
+tail
+
+↓
+
+grep
+
+↓
+
+wc / sort / awk
+
+↓
+
+Identify Problem
+
+</div>
+
+<div class="example">
+
+<strong>Step 1 — Watch recent logs</strong>
+
+<pre>tail -f app.log</pre>
+
+<strong>Step 2 — Find errors</strong>
+
+<pre>grep "ERROR" app.log</pre>
+
+<strong>Step 3 — Count errors</strong>
+
+<pre>grep "ERROR" app.log | wc -l</pre>
+
+<strong>Step 4 — Search recursively</strong>
+
+<pre>grep -r "ERROR" /var/log/</pre>
+
+<strong>Step 5 — Extract useful information</strong>
+
+<pre>grep "ERROR" app.log | awk '{print $1,$2,$NF}'</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"First I would inspect the latest logs using tail or tail -f.
+Then I would use grep to filter ERROR or WARN messages. If
+necessary, I would combine grep with wc, sort or awk to count,
+sort or extract useful information. Based on the error pattern,
+I would investigate the application, system or dependency
+causing the issue."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- COMMAND COMBINATIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND COMBINATIONS</div>
+
+<h2>⭐ Important DevOps Command Combinations</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>ps aux | grep nginx</code></td>
+<td>Find nginx processes</td>
+</tr>
+
+<tr>
+<td><code>cat app.log | grep ERROR</code></td>
+<td>Find errors</td>
+</tr>
+
+<tr>
+<td><code>grep ERROR app.log | wc -l</code></td>
+<td>Count errors</td>
+</tr>
+
+<tr>
+<td><code>sort file.txt | uniq</code></td>
+<td>Remove duplicate adjacent lines</td>
+</tr>
+
+<tr>
+<td><code>grep ERROR app.log | sort</code></td>
+<td>Sort matching entries</td>
+</tr>
+
+<tr>
+<td><code>tail -f app.log | grep ERROR</code></td>
+<td>Watch new error entries</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- QUICK QUESTIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUICK INTERVIEW</div>
+
+<h2>⭐⭐⭐ Quick Questions</h2>
+
+<p>
+
+<strong>Q:</strong> What is cat?
+
+<br>
+<strong>A:</strong> Displays file contents and can concatenate
+files.
+
+<br><br>
+
+<strong>Q:</strong> cat vs less?
+
+<br>
+<strong>A:</strong> cat prints content directly; less provides
+interactive viewing of large files.
+
+<br><br>
+
+<strong>Q:</strong> head?
+
+<br>
+<strong>A:</strong> Displays the beginning of a file.
+
+<br><br>
+
+<strong>Q:</strong> tail?
+
+<br>
+<strong>A:</strong> Displays the end of a file.
+
+<br><br>
+
+<strong>Q:</strong> Why is tail -f important?
+
+<br>
+<strong>A:</strong> It continuously follows new log entries.
+
+<br><br>
+
+<strong>Q:</strong> What is grep?
+
+<br>
+<strong>A:</strong> Searches text or patterns in files/output.
+
+<br><br>
+
+<strong>Q:</strong> What is a pipe?
+
+<br>
+<strong>A:</strong> Passes output from one command to another.
+
+<br><br>
+
+<strong>Q:</strong> What is awk?
+
+<br>
+<strong>A:</strong> Powerful text-processing and field-extraction
+tool.
+
+<br><br>
+
+<strong>Q:</strong> What is sed?
+
+<br>
+<strong>A:</strong> Stream editor used for text transformation and
+replacement.
+
+<br><br>
+
+<strong>Q:</strong> What does >> do?
+
+<br>
+<strong>A:</strong> Appends output to a file.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — LINUX TEXT PROCESSING</h2>
+
+<div class="note">
+
+<strong>cat</strong>
+→ Display / concatenate files.
+
+<br><br>
+
+<strong>less</strong>
+→ View large files interactively.
+
+<br><br>
+
+<strong>head</strong>
+→ Beginning of file.
+
+<br><br>
+
+<strong>tail</strong>
+→ End of file.
+
+<br><br>
+
+<strong>tail -f</strong>
+→ Monitor logs in real time.
+
+<br><br>
+
+<strong>grep</strong>
+→ Search/filter text.
+
+<br><br>
+
+<strong>|</strong>
+→ Connect command output to another command.
+
+<br><br>
+
+<strong>wc</strong>
+→ Count lines, words and bytes.
+
+<br><br>
+
+<strong>sort</strong>
+→ Sort text.
+
+<br><br>
+
+<strong>uniq</strong>
+→ Handle repeated adjacent lines.
+
+<br><br>
+
+<strong>cut</strong>
+→ Extract fields.
+
+<br><br>
+
+<strong>awk</strong>
+→ Advanced field/text processing.
+
+<br><br>
+
+<strong>sed</strong>
+→ Search and transform text.
+
+<br><br>
+
+<strong>></strong>
+→ Write / overwrite.
+
+<br><br>
+
+<strong>>></strong>
+→ Append.
+
+<br><br>
+
+<strong>2></strong>
+→ Redirect errors.
+
+<br><br>
+
+<strong>🔥 DevOps Golden Flow</strong>
+
+<br><br>
+
+tail → grep → filter → wc/sort → awk/sed → troubleshoot
+
+</div>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🔎 Linux • Text Processing Commands</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

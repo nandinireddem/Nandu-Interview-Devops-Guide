@@ -1,0 +1,1673 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GitHub Actions Real-Time Scenarios - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+.icon{
+    font-size:48px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:5px 0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    color:#9ca8b8;
+    max-width:850px;
+    margin:auto;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:40px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:27px;
+    margin-bottom:22px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.question{
+    background:#111827;
+    border-left:4px solid #fbbf24;
+    padding:17px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:8px;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:17px;
+    border-radius:8px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:22px;
+    margin:18px 0;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+code{
+    color:#c4b5fd;
+    background:#020617;
+    padding:2px 5px;
+    border-radius:4px;
+}
+
+pre code{
+    color:#e5e7eb;
+    padding:0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:11px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    margin:3px;
+    border:1px solid #334155;
+    border-radius:20px;
+    background:#172033;
+    color:#fbbf24;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🛠️</div>
+
+<a class="back" href="index.html">← Back to GitHub Actions</a>
+
+<h1>GitHub Actions <span>Real-Time Scenarios</span></h1>
+
+<p>
+Production-style troubleshooting, DevOps interview scenarios,
+failure analysis and practical GitHub Actions problem solving.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="card">
+
+<h2>🎯 How to Approach GitHub Actions Scenarios</h2>
+
+<div class="flow">
+
+Identify Failure
+<br>↓<br>
+Find Failed Job
+<br>↓<br>
+Find Failed Step
+<br>↓<br>
+Read Logs
+<br>↓<br>
+Check Configuration
+<br>↓<br>
+Check Credentials / Permissions
+<br>↓<br>
+Fix Root Cause
+<br>↓<br>
+Rerun
+<br>↓<br>
+Verify
+
+</div>
+
+<div class="answer">
+
+In an interview, avoid randomly changing configuration.
+
+First identify exactly where the pipeline failed, then isolate the
+root cause and validate the fix.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 1 — Workflow Does Not Start</h2>
+
+<div class="question">
+
+<strong>Interviewer:</strong><br>
+
+"You pushed code to the main branch, but your GitHub Actions workflow
+did not start. What will you check?"
+
+</div>
+
+<div class="answer">
+
+<strong>Step 1:</strong> Check whether the workflow file exists under:
+
+<pre><code>.github/workflows/</code></pre>
+
+<strong>Step 2:</strong> Check the YAML syntax.
+
+<br><br>
+
+<strong>Step 3:</strong> Check the trigger.
+
+<pre><code>on:
+  push:
+    branches:
+      - main</code></pre>
+
+<strong>Step 4:</strong> Confirm that the push actually targeted
+the expected branch.
+
+<br><br>
+
+<strong>Step 5:</strong> Check whether the workflow is disabled or
+restricted by repository settings.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 2 — Workflow YAML Error</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"GitHub reports that the workflow file is invalid."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+• YAML indentation<br>
+• Incorrect key names<br>
+• Missing colon<br>
+• Incorrect expressions<br>
+• Invalid workflow syntax<br>
+• Incorrect <code>on</code> configuration<br>
+• Unsupported action configuration
+
+</div>
+
+<pre><code>jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build
+        run: echo "Building..."</code></pre>
+
+</div>
+
+
+<!-- SCENARIO 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 3 — Checkout Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"The checkout step failed."
+
+</div>
+
+<div class="answer">
+
+First verify the checkout action:
+
+<pre><code>- name: Checkout
+  uses: actions/checkout@v4</code></pre>
+
+Then check:
+
+<br><br>
+
+• Repository access<br>
+• Token permissions<br>
+• Branch/ref configuration<br>
+• Repository availability<br>
+• Action version<br>
+• Runner connectivity
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 4 — Dependency Installation Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"npm install/npm ci fails in GitHub Actions."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+1. Runtime version.
+<br>
+2. Lock file.
+<br>
+3. Package manager version.
+<br>
+4. Network connectivity.
+<br>
+5. Private package authentication.
+<br>
+6. Dependency compatibility.
+
+Example:
+
+<pre><code>- uses: actions/setup-node@v4
+  with:
+    node-version: 20
+
+- run: npm ci</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 5 — Tests Pass Locally but Fail in CI</h2>
+
+<div class="question">
+
+<strong>Interviewer:</strong><br>
+
+"The application works on the developer's laptop but tests fail in
+GitHub Actions. What could be wrong?"
+
+</div>
+
+<div class="answer">
+
+Possible causes:
+
+<br><br>
+
+• Different runtime version<br>
+• Missing environment variables<br>
+• Different OS<br>
+• Missing dependency<br>
+• Timezone differences<br>
+• Case-sensitive file paths<br>
+• Database/service dependency<br>
+• Test configuration differences
+
+</div>
+
+<div class="flow">
+
+Local Environment
+≠
+CI Environment
+<br>↓<br>
+Compare Versions
+<br>↓<br>
+Compare Variables
+<br>↓<br>
+Compare Dependencies
+<br>↓<br>
+Reproduce Failure
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 6 — Docker Build Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"The Docker build fails inside GitHub Actions."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+• Dockerfile syntax<br>
+• Build context<br>
+• Missing files<br>
+• Base image availability<br>
+• Build arguments<br>
+• Network access<br>
+• Dependency installation<br>
+• Architecture compatibility
+
+</div>
+
+<pre><code>docker build -t myapp:${{ github.sha }} .</code></pre>
+
+</div>
+
+
+<!-- SCENARIO 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 7 — Docker Push Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"The image builds successfully but Docker push fails."
+
+</div>
+
+<div class="answer">
+
+Check the sequence:
+
+<div class="flow">
+
+Docker Build
+<br>↓
+Docker Login
+<br>↓
+Docker Tag
+<br>↓
+Docker Push
+
+</div>
+
+Then verify:
+
+<br>
+
+• Registry URL<br>
+• Username/password or token<br>
+• GitHub Secrets<br>
+• Repository permissions<br>
+• Image name<br>
+• Image tag
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 8 — ECR Push Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"GitHub Actions cannot push an image to Amazon ECR."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+1. AWS authentication.
+<br>
+2. OIDC configuration.
+<br>
+3. IAM role trust policy.
+<br>
+4. IAM permissions.
+<br>
+5. ECR repository.
+<br>
+6. AWS region.
+<br>
+7. ECR login.
+<br>
+8. Image tag.
+
+</div>
+
+<pre><code>aws-actions/configure-aws-credentials
+        ↓
+aws-actions/amazon-ecr-login
+        ↓
+docker push</code></pre>
+
+</div>
+
+
+<!-- SCENARIO 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 9 — AWS OIDC Authentication Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"GitHub Actions says it cannot assume the AWS IAM role."
+
+</div>
+
+<div class="answer">
+
+Check the following in order:
+
+<br><br>
+
+<strong>1. Workflow permission</strong>
+
+<pre><code>permissions:
+  id-token: write
+  contents: read</code></pre>
+
+<strong>2. AWS OIDC provider</strong>
+
+Confirm the GitHub OIDC provider exists in AWS.
+
+<br><br>
+
+<strong>3. IAM trust policy</strong>
+
+Verify that the correct GitHub repository/branch or other intended
+claims are trusted.
+
+<br><br>
+
+<strong>4. Role ARN</strong>
+
+Verify that the workflow references the correct role.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 10 — Secret Is Empty or Unavailable</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"A GitHub Secret appears to be unavailable inside the workflow."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+• Exact secret name<br>
+• Repository vs environment secret<br>
+• Correct environment<br>
+• Workflow context<br>
+• Repository permissions<br>
+• Whether the secret actually exists
+
+Example:
+
+<pre><code>${{ secrets.AWS_ROLE_ARN }}</code></pre>
+
+</div>
+
+<div class="warning">
+
+Do not print the secret value while troubleshooting.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 11 — Permission Denied</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"The workflow receives a 403/permission denied error."
+
+</div>
+
+<div class="answer">
+
+Separate the problem into two possibilities:
+
+<br><br>
+
+<strong>GitHub permission:</strong>
+
+Check:
+
+<pre><code>permissions:</code></pre>
+
+<strong>Cloud permission:</strong>
+
+Check AWS IAM, Azure RBAC, GCP IAM or the target platform's access
+control.
+
+</div>
+
+<div class="flow">
+
+GitHub Permission
+<br>+
+Cloud Permission
+<br>↓<br>
+Successful Operation
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 12 — Kubernetes Deployment Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"GitHub Actions succeeds until the Kubernetes deployment step."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<pre><code>kubectl get nodes
+
+kubectl get pods
+
+kubectl get deployment
+
+kubectl describe deployment myapp
+
+kubectl get events</code></pre>
+
+Then verify:
+
+<br>
+
+• Cluster access<br>
+• kubeconfig/context<br>
+• RBAC permissions<br>
+• Image name/tag<br>
+• Registry authentication<br>
+• Manifest configuration
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 13 — ImagePullBackOff</h2>
+
+<div class="question">
+
+<strong>Interviewer:</strong><br>
+
+"Kubernetes shows ImagePullBackOff after your GitHub Actions
+deployment. How do you troubleshoot?"
+
+</div>
+
+<div class="answer">
+
+First inspect the pod:
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Check:
+
+<br>
+
+• Image repository<br>
+• Image tag<br>
+• ECR/registry access<br>
+• ImagePullSecrets<br>
+• Node network connectivity<br>
+• Registry permissions
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 14 — CrashLoopBackOff</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"The deployment succeeds but the application enters
+CrashLoopBackOff."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<pre><code>kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+Possible causes:
+
+<br><br>
+
+• Application startup failure<br>
+• Incorrect environment variables<br>
+• Missing Secret/ConfigMap<br>
+• Incorrect command<br>
+• Port/configuration issue<br>
+• Dependency unavailable<br>
+• Failed health checks
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 15 — Pipeline Succeeds but Deployment Is Wrong</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"GitHub Actions is green, but Kubernetes is still running the old
+image."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+1. Image tag generated by CI.
+<br>
+2. Image actually pushed to registry.
+<br>
+3. Deployment manifest.
+<br>
+4. Deployment rollout.
+<br>
+5. Kubernetes image field.
+<br>
+6. GitOps repository if ArgoCD is used.
+<br>
+7. ArgoCD sync status.
+
+</div>
+
+<div class="flow">
+
+GitHub Actions
+<br>↓
+Image Tag
+<br>↓
+Registry
+<br>↓
+Manifest
+<br>↓
+ArgoCD
+<br>↓
+Kubernetes
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 16 — ArgoCD Is Not Deploying the New Image</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"GitHub Actions pushed the image, but ArgoCD did not deploy it."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+• Did CI update the GitOps repository?<br>
+• Did the commit reach the correct branch?<br>
+• Is ArgoCD tracking the correct repository?<br>
+• Is ArgoCD tracking the correct path?<br>
+• Is the application OutOfSync?<br>
+• Are there manifest errors?<br>
+• Is auto-sync enabled?
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 17 — Job Is Stuck</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"A GitHub Actions job remains queued for a long time."
+
+</div>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+• Runner availability<br>
+• Self-hosted runner status<br>
+• Runner labels<br>
+• Concurrency restrictions<br>
+• Organization/repository limits<br>
+• Workflow queue
+
+For self-hosted runners, verify that the runner is online and has
+matching labels.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ Scenario 18 — Self-Hosted Runner Offline</h2>
+
+<div class="answer">
+
+Check:
+
+<br><br>
+
+1. Runner machine status.
+<br>
+2. Runner service/process.
+<br>
+3. Network connectivity.
+<br>
+4. Runner registration.
+<br>
+5. Labels.
+<br>
+6. Repository access.
+<br>
+7. Firewall/proxy configuration.
+
+<div class="flow">
+
+Runner Machine
+<br>↓<br>
+Network
+<br>↓<br>
+GitHub
+<br>↓<br>
+Runner Service
+<br>↓<br>
+Job
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 19 — Workflow Is Too Slow</h2>
+
+<div class="question">
+
+<strong>Interviewer:</strong><br>
+
+"Your pipeline takes 30 minutes. How can you optimize it?"
+
+</div>
+
+<div class="answer">
+
+Possible improvements:
+
+<br><br>
+
+• Cache dependencies<br>
+• Run independent jobs in parallel<br>
+• Avoid unnecessary checkout/build steps<br>
+• Use matrix strategy carefully<br>
+• Use reusable workflows<br>
+• Optimize Docker builds<br>
+• Use appropriate runners<br>
+• Separate fast PR CI from heavier deployment pipelines
+
+</div>
+
+<pre><code>- uses: actions/cache@v4</code></pre>
+
+</div>
+
+
+<!-- SCENARIO 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 20 — Need Different Environments</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"How would you design dev, staging and production deployments?"
+
+</div>
+
+<div class="answer">
+
+A common design is:
+
+<div class="flow">
+
+develop
+<br>↓<br>
+Development
+<br><br>
+
+staging
+<br>↓<br>
+Staging
+<br><br>
+
+main
+<br>↓<br>
+Production
+
+</div>
+
+Use environment-specific configuration and protection rules.
+
+Production should normally have stronger approval and access
+controls.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 21 — Production Deployment Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"Production deployment completed but the application is unhealthy."
+
+</div>
+
+<div class="answer">
+
+Immediate priorities:
+
+<br><br>
+
+<strong>1.</strong> Check application health.
+<br>
+<strong>2.</strong> Check monitoring and logs.
+<br>
+<strong>3.</strong> Determine blast radius.
+<br>
+<strong>4.</strong> Roll back if required.
+<br>
+<strong>5.</strong> Investigate root cause.
+<br>
+<strong>6.</strong> Prevent recurrence.
+
+</div>
+
+<pre><code>kubectl rollout status deployment/myapp
+
+kubectl rollout history deployment/myapp
+
+kubectl rollout undo deployment/myapp</code></pre>
+
+</div>
+
+
+<!-- SCENARIO 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 22 — Security Scan Failed</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"A Trivy/security scan failed the pipeline."
+
+</div>
+
+<div class="answer">
+
+Do not immediately bypass the scan.
+
+First determine:
+
+<br><br>
+
+• Vulnerability severity<br>
+• Affected package/image layer<br>
+• Whether a fixed version exists<br>
+• Whether the issue is actually exploitable<br>
+• Organization's security policy
+
+Then update the vulnerable dependency/base image or handle an
+approved exception through the security process.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 23 — Secret Accidentally Committed</h2>
+
+<div class="question">
+
+<strong>Interviewer:</strong><br>
+
+"A developer accidentally committed an AWS access key. What do you
+do?"
+
+</div>
+
+<div class="answer">
+
+<strong>1.</strong> Immediately disable/rotate the exposed credential.
+<br><br>
+<strong>2.</strong> Check CloudTrail or relevant logs for suspicious
+usage.
+<br><br>
+<strong>3.</strong> Remove the secret from source/history according
+to the incident procedure.
+<br><br>
+<strong>4.</strong> Move credentials into secure storage.
+<br><br>
+<strong>5.</strong> Enable secret scanning/prevention.
+<br><br>
+<strong>6.</strong> Review why the control failed.
+
+</div>
+
+<div class="warning">
+
+The most important first action is credential rotation/revocation,
+not simply deleting the file from Git.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 24 — PR Workflow Security Issue</h2>
+
+<div class="question">
+
+<strong>Problem:</strong><br>
+
+"A pull request from an untrusted contributor needs to run tests,
+but the workflow also has access to production secrets."
+
+</div>
+
+<div class="answer">
+
+Do not expose production secrets unnecessarily.
+
+Separate untrusted PR validation from privileged deployment workflows.
+
+Use:
+
+<br><br>
+
+• Minimal permissions<br>
+• Appropriate PR triggers<br>
+• Environment protection<br>
+• Approval gates<br>
+• Separate deployment workflow
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 25 — Need Manual Production Approval</h2>
+
+<pre><code>jobs:
+
+  deploy:
+
+    environment:
+      name: production
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Deploying production"</code></pre>
+
+<div class="answer">
+
+Configure production environment protection rules so the deployment
+requires the organization's intended approval process.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 26 — How Do You Debug a Failed Pipeline?</h2>
+
+<div class="flow">
+
+1. Open Workflow Run
+<br>↓<br>
+2. Identify Failed Job
+<br>↓<br>
+3. Identify Failed Step
+<br>↓<br>
+4. Read Logs
+<br>↓<br>
+5. Reproduce Locally if Possible
+<br>↓<br>
+6. Check Recent Changes
+<br>↓<br>
+7. Check Secrets / Permissions
+<br>↓<br>
+8. Fix Root Cause
+<br>↓<br>
+9. Rerun
+<br>↓<br>
+10. Verify
+
+</div>
+
+<div class="interview">
+
+<strong>Interview answer:</strong><br>
+
+"I start from the failed workflow run and identify the exact job
+and step. I read the logs, compare the failed run with the last
+successful run, verify configuration, secrets and permissions, fix
+the root cause and rerun the workflow. After it succeeds, I verify
+the deployed application rather than assuming a green pipeline means
+the release is healthy."
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 27 — CI Green but Application Down</h2>
+
+<div class="answer">
+
+A successful CI/CD workflow only confirms that the defined pipeline
+steps completed successfully.
+
+It does not automatically prove that the application is healthy.
+
+Check:
+
+<br><br>
+
+• Application logs<br>
+• Kubernetes pods<br>
+• Service endpoints<br>
+• Ingress/load balancer<br>
+• Health probes<br>
+• Metrics<br>
+• Alerts<br>
+• Recent deployment
+
+</div>
+
+<div class="flow">
+
+Pipeline Success
+<br>≠<br>
+Application Health
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ Scenario 28 — Need Rollback After Bad Release</h2>
+
+<div class="answer">
+
+If the application is unhealthy after deployment, first stabilize
+the service.
+
+For Kubernetes:
+
+<pre><code>kubectl rollout undo deployment/myapp</code></pre>
+
+Then verify:
+
+<pre><code>kubectl rollout status deployment/myapp
+
+kubectl get pods</code></pre>
+
+After recovery, investigate the failed release.
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ Scenario 29 — Multiple Jobs Should Run in Parallel</h2>
+
+<pre><code>jobs:
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm test
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Security scan"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run lint</code></pre>
+
+<div class="answer">
+
+Because these jobs have no dependency on each other, they can execute
+independently.
+
+If a deployment requires all three, a later job can use:
+
+<pre><code>needs:
+  - unit-tests
+  - security
+  - lint</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- SCENARIO 30 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Scenario 30 — Complete Production Troubleshooting Flow</h2>
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+Workflow Trigger?
+<br>↓<br>
+YAML Valid?
+<br>↓<br>
+Runner Available?
+<br>↓<br>
+Checkout?
+<br>↓<br>
+Build?
+<br>↓<br>
+Tests?
+<br>↓<br>
+Security Scan?
+<br>↓<br>
+Docker Build?
+<br>↓<br>
+Registry Push?
+<br>↓<br>
+Cloud Authentication?
+<br>↓<br>
+Deployment?
+<br>↓<br>
+Pods Healthy?
+<br>↓<br>
+Application Healthy?
+<br>↓<br>
+Monitoring Healthy?
+
+</div>
+
+</div>
+
+
+<!-- COMMON MISTAKES -->
+
+<div class="card">
+
+<h2>⚠️ Common Interview Mistakes</h2>
+
+<table>
+
+<tr>
+<th>Mistake</th>
+<th>Better Approach</th>
+</tr>
+
+<tr>
+<td>"I will rerun the pipeline."</td>
+<td>First identify and fix the root cause.</td>
+</tr>
+
+<tr>
+<td>"I will add admin permissions."</td>
+<td>Use least privilege.</td>
+</tr>
+
+<tr>
+<td>"I will print the secret to debug."</td>
+<td>Never expose secrets.</td>
+</tr>
+
+<tr>
+<td>"Green pipeline means deployment is healthy."</td>
+<td>Verify application health.</td>
+</tr>
+
+<tr>
+<td>"Delete the leaked secret from Git."</td>
+<td>Rotate/revoke it immediately.</td>
+</tr>
+
+<tr>
+<td>"Give AWS access keys to GitHub."</td>
+<td>Prefer OIDC and short-lived credentials.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- TOP QUESTIONS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ Top Scenario Questions</h2>
+
+<ol>
+
+<li>Workflow is not triggering — how do you troubleshoot?</li>
+
+<li>Tests pass locally but fail in GitHub Actions — why?</li>
+
+<li>Docker build works locally but fails in CI — what do you check?</li>
+
+<li>Docker push fails — how do you troubleshoot?</li>
+
+<li>ECR authentication fails — what do you check?</li>
+
+<li>AWS OIDC role assumption fails — how do you debug?</li>
+
+<li>Secret is unavailable — what could be wrong?</li>
+
+<li>Kubernetes deployment fails — how do you troubleshoot?</li>
+
+<li>Why is the pod showing ImagePullBackOff?</li>
+
+<li>Why is the pod showing CrashLoopBackOff?</li>
+
+<li>ArgoCD is not deploying the new image — what do you check?</li>
+
+<li>Pipeline is very slow — how do you optimize it?</li>
+
+<li>Production deployment is unhealthy — what is your response?</li>
+
+<li>How do you rollback a bad deployment?</li>
+
+<li>A secret was accidentally committed — what do you do?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FINAL INTERVIEW ANSWER -->
+
+<div class="card">
+
+<h2>🎯 Master Interview Answer</h2>
+
+<div class="answer">
+
+"When troubleshooting a GitHub Actions pipeline, I first identify
+whether the issue is with the trigger, workflow syntax, runner,
+application build, test, security scan, registry authentication,
+cloud authentication or deployment.
+
+I start from the failed workflow run, identify the failed job and
+step, and inspect the logs. Then I compare the failed run with the
+last successful run and check recent code or configuration changes.
+
+For cloud-related failures, I verify authentication and permissions.
+For AWS, I would check the OIDC configuration, IAM trust policy and
+role permissions.
+
+For Kubernetes failures, I check the deployment, pods, events,
+logs, image configuration and RBAC.
+
+After identifying the root cause, I make the smallest appropriate
+fix, rerun the workflow and verify the actual application health.
+
+If a production deployment causes an incident, I prioritize
+stabilization and rollback when necessary, followed by root-cause
+analysis and preventive actions."
+
+</div>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+
+<h2>🧠 60-Second Scenario Revision</h2>
+
+<div class="flow">
+
+Trigger
+→ YAML
+→ Runner
+→ Checkout
+→ Build
+→ Test
+→ Scan
+→ Docker
+→ Registry
+→ AWS/Auth
+→ Kubernetes
+→ Pods
+→ Application
+→ Monitoring
+
+<br><br>
+
+<strong>Always:</strong>
+
+Identify → Logs → Root Cause → Fix → Rerun → Verify
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+🏠 GitHub Actions Index
+</a>
+
+<br><br>
+
+<a href="github-actions-security.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: Security
+</a>
+
+<br><br>
+
+<a href="github-actions-final-revision.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next → Final Revision
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🛠️ GitHub Actions Real-Time Scenarios • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

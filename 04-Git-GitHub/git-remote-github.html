@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git Remote & GitHub - DevOps Interview Guide</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+h1{
+    font-size:clamp(32px,5vw,50px);
+    margin:25px 0 0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro{
+    background:#121a2d;
+    border:1px solid #29344d;
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:35px;
+}
+
+.intro strong{
+    color:#93c5fd;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:22px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.success{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:30px 0;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Git & GitHub</a>
+
+<h1>Git <span>Remote & GitHub</span></h1>
+
+<p>
+Remote repositories, GitHub, origin, upstream, push, pull, fetch,
+tracking branches and practical DevOps workflows.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ GIT & GITHUB — DEVOPS MUST KNOW</strong>
+
+<p>
+Git is primarily the version control system, while GitHub is a
+platform that hosts Git repositories and provides collaboration
+features such as pull requests, code reviews, issues and CI/CD
+integration.
+</p>
+
+<p>
+Understanding how local Git repositories communicate with remote
+repositories is essential for DevOps interviews.
+</p>
+
+</div>
+
+
+<!-- Q1 -->
+
+<div class="card">
+
+<h2>1. What is a Remote Repository?</h2>
+
+<div class="answer">
+
+A <strong>remote repository</strong> is a Git repository hosted at
+another location, usually on a server or cloud platform such as
+GitHub.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>Local Repository
+      |
+      | git push
+      ↓
+Remote Repository
+      |
+   GitHub</code></pre>
+
+<p>
+The local repository contains your working copy and Git history,
+while the remote repository allows teams to share and collaborate
+on the project.
+</p>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+<br><br>
+
+"A remote repository is a Git repository hosted on a remote server
+or platform such as GitHub. Developers use commands like push, pull
+and fetch to exchange changes between the local and remote
+repositories."
+
+</div>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="card">
+
+<h2>2. What is GitHub?</h2>
+
+<div class="answer">
+
+<strong>GitHub</strong> is a cloud-based platform for hosting and
+collaborating on Git repositories.
+
+</div>
+
+<p>
+GitHub provides features such as:
+</p>
+
+<ul>
+<li>Repository hosting</li>
+<li>Pull requests</li>
+<li>Code reviews</li>
+<li>Issues</li>
+<li>GitHub Actions</li>
+<li>Access control</li>
+<li>Branch protection</li>
+<li>Collaboration</li>
+</ul>
+
+<div class="interview">
+
+<strong>Important:</strong>
+
+Git and GitHub are not the same thing.
+
+<br><br>
+
+Git = distributed version control system
+
+<br>
+
+GitHub = platform for hosting and collaborating around Git repositories
+
+</div>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="card">
+
+<h2>3. What is the difference between Git and GitHub?</h2>
+
+<table>
+
+<tr>
+<th>Git</th>
+<th>GitHub</th>
+</tr>
+
+<tr>
+<td>Version control system</td>
+<td>Git repository hosting and collaboration platform</td>
+</tr>
+
+<tr>
+<td>Runs locally</td>
+<td>Cloud/web platform</td>
+</tr>
+
+<tr>
+<td>Tracks changes</td>
+<td>Hosts repositories and enables collaboration</td>
+</tr>
+
+<tr>
+<td>Works from command line</td>
+<td>Provides web UI, APIs and collaboration features</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="card">
+
+<h2>4. How do you check configured remote repositories?</h2>
+
+<pre><code>git remote -v</code></pre>
+
+<h3>Example</h3>
+
+<pre><code>origin  https://github.com/user/project.git (fetch)
+origin  https://github.com/user/project.git (push)</code></pre>
+
+<p>
+This shows the remote name and its fetch/push URLs.
+</p>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="card">
+
+<h2>5. What is origin in Git?</h2>
+
+<div class="answer">
+
+<strong>origin</strong> is the conventional default name given to a
+remote repository when it is cloned or when a remote is added
+using that name.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git remote -v
+
+origin  https://github.com/user/project.git (fetch)
+origin  https://github.com/user/project.git (push)</code></pre>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+<br><br>
+
+"Origin is simply a commonly used name for a Git remote. It is not
+a special server or protocol; it is a remote name that points to
+a repository URL."
+
+</div>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="card">
+
+<h2>6. How do you add a remote repository?</h2>
+
+<pre><code>git remote add origin https://github.com/user/project.git</code></pre>
+
+<p>
+This connects the local repository to the specified remote
+repository using the name <code>origin</code>.
+</p>
+
+<h3>Verify</h3>
+
+<pre><code>git remote -v</code></pre>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="card">
+
+<h2>7. How do you remove a remote?</h2>
+
+<pre><code>git remote remove origin</code></pre>
+
+<p>
+This removes the remote configuration from the local repository.
+It does not delete the remote repository itself.
+</p>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="card">
+
+<h2>8. What is git push?</h2>
+
+<div class="answer">
+
+<code>git push</code> sends commits from the local repository to a
+remote repository.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git push origin main</code></pre>
+
+<p>
+This pushes the local <code>main</code> branch to the
+<code>main</code> branch on the remote named <code>origin</code>.
+</p>
+
+<div class="flow">
+
+Local Commit
+<br>
+↓
+<br>
+<code>git push</code>
+<br>
+↓
+<br>
+Remote Repository
+
+</div>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="card">
+
+<h2>9. What is git fetch?</h2>
+
+<div class="answer">
+
+<code>git fetch</code> downloads changes and references from a remote
+repository without automatically merging those changes into the
+current working branch.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git fetch origin</code></pre>
+
+<p>
+After fetching, you can inspect the remote changes before deciding
+what to merge or rebase.
+</p>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="card">
+
+<h2>10. What is git pull?</h2>
+
+<div class="answer">
+
+<code>git pull</code> retrieves changes from a remote repository and
+integrates them into the current branch.
+
+</div>
+
+<h3>Typical concept</h3>
+
+<pre><code>git pull
+
+≈
+
+git fetch
++
+integration step</code></pre>
+
+<p>
+The exact integration behavior depends on the configured Git
+settings and options; it can involve a merge or rebase.
+</p>
+
+</div>
+
+
+<!-- Q11 -->
+
+<div class="card">
+
+<h2>11. Difference between git fetch and git pull</h2>
+
+<table>
+
+<tr>
+<th>git fetch</th>
+<th>git pull</th>
+</tr>
+
+<tr>
+<td>Downloads remote updates</td>
+<td>Downloads and integrates updates</td>
+</tr>
+
+<tr>
+<td>Does not automatically update current branch</td>
+<td>Updates the current branch through integration</td>
+</tr>
+
+<tr>
+<td>Safer for inspecting changes first</td>
+<td>Convenient for regular synchronization</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"Fetch downloads remote changes without integrating them into my
+current branch. Pull downloads the changes and then integrates them
+into the current branch."
+
+</div>
+
+</div>
+
+
+<!-- Q12 -->
+
+<div class="card">
+
+<h2>12. How do you push a new local branch to GitHub?</h2>
+
+<pre><code>git switch -c feature/login
+
+git add .
+
+git commit -m "Add login feature"
+
+git push -u origin feature/login</code></pre>
+
+<p>
+The <code>-u</code> option establishes an upstream tracking
+relationship between the local and remote branch.
+</p>
+
+</div>
+
+
+<!-- Q13 -->
+
+<div class="card">
+
+<h2>13. What is an upstream branch?</h2>
+
+<div class="answer">
+
+An upstream branch is the remote branch that a local branch tracks
+by default for operations such as push and pull.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git push -u origin feature/login</code></pre>
+
+<p>
+After this, the local <code>feature/login</code> branch tracks
+<code>origin/feature/login</code>.
+</p>
+
+<p>
+Later, you can often simply use:
+</p>
+
+<pre><code>git push
+git pull</code></pre>
+
+</div>
+
+
+<!-- Q14 -->
+
+<div class="card">
+
+<h2>14. What does git clone do?</h2>
+
+<div class="answer">
+
+<code>git clone</code> creates a local copy of a remote Git repository,
+including its Git history and remote-tracking information.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git clone https://github.com/user/project.git</code></pre>
+
+<p>
+After cloning, Git normally configures the remote repository under
+the name <code>origin</code>.
+</p>
+
+</div>
+
+
+<!-- Q15 -->
+
+<div class="card">
+
+<h2>15. What is a remote-tracking branch?</h2>
+
+<div class="answer">
+
+A remote-tracking branch is a local reference that represents the
+state of a branch on a remote repository.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>origin/main
+origin/development
+origin/feature/login</code></pre>
+
+<p>
+These references are updated when Git communicates with the remote,
+for example through <code>git fetch</code>.
+</p>
+
+</div>
+
+
+<!-- Q16 -->
+
+<div class="card">
+
+<h2>16. How do you see remote branches?</h2>
+
+<pre><code>git branch -r</code></pre>
+
+<p>
+To see both local and remote branches:
+</p>
+
+<pre><code>git branch -a</code></pre>
+
+</div>
+
+
+<!-- Q17 -->
+
+<div class="card">
+
+<h2>17. What is upstream in Git?</h2>
+
+<div class="answer">
+
+In Git workflows, <strong>upstream</strong> can refer to the original
+repository from which a fork was created.
+
+It is also commonly used as a remote name.
+
+</div>
+
+<h3>Fork workflow example</h3>
+
+<pre><code>origin   → your GitHub fork
+upstream → original project repository</code></pre>
+
+<p>
+This is especially common in open-source development.
+</p>
+
+</div>
+
+
+<!-- Q18 -->
+
+<div class="card">
+
+<h2>18. Origin vs Upstream</h2>
+
+<table>
+
+<tr>
+<th>Remote</th>
+<th>Common Meaning</th>
+</tr>
+
+<tr>
+<td>origin</td>
+<td>Your primary remote repository or fork</td>
+</tr>
+
+<tr>
+<td>upstream</td>
+<td>Original repository in a fork-based workflow</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+These names are conventions, not fixed Git keywords.
+You can technically name remotes differently.
+
+</div>
+
+</div>
+
+
+<!-- Q19 -->
+
+<div class="card">
+
+<h2>19. What happens when you push code to GitHub?</h2>
+
+<div class="flow">
+
+Local Changes
+<br>
+↓
+<br>
+<code>git add</code>
+<br>
+↓
+<br>
+<code>git commit</code>
+<br>
+↓
+<br>
+<code>git push</code>
+<br>
+↓
+<br>
+GitHub Remote Repository
+<br>
+↓
+<br>
+CI/CD Pipeline
+<br>
+↓
+<br>
+Build → Test → Deploy
+
+</div>
+
+<p>
+In a DevOps environment, pushing code to GitHub can trigger
+automated CI/CD workflows such as GitHub Actions or other
+pipeline systems.
+</p>
+
+</div>
+
+
+<!-- Q20 -->
+
+<div class="card">
+
+<h2>20. Real-Time DevOps Scenario: Developer pushes code</h2>
+
+<div class="answer">
+
+A developer completes a feature locally and needs to share it with
+the team.
+
+</div>
+
+<pre><code>git status
+
+git add .
+
+git commit -m "Add payment validation"
+
+git push -u origin feature/payment</code></pre>
+
+<p>
+The branch becomes available on GitHub, where the developer can
+open a pull request for review.
+</p>
+
+</div>
+
+
+<!-- Q21 -->
+
+<div class="card">
+
+<h2>21. Real-Time DevOps Scenario: Get latest changes before starting work</h2>
+
+<p>
+A developer wants to synchronize their local main branch with
+the latest remote changes.
+</p>
+
+<pre><code>git switch main
+
+git fetch origin
+
+git pull origin main</code></pre>
+
+<p>
+In a team workflow, the exact synchronization strategy may use
+merge or rebase according to the team's Git policy.
+</p>
+
+</div>
+
+
+<!-- Q22 -->
+
+<div class="card">
+
+<h2>22. What should you do if git push is rejected?</h2>
+
+<div class="answer">
+
+A push can be rejected when the remote branch contains commits
+that are not present in the local branch.
+
+</div>
+
+<h3>Typical message</h3>
+
+<pre><code>! [rejected] main -> main
+! [rejected] non-fast-forward</code></pre>
+
+<h3>Basic approach</h3>
+
+<pre><code>git fetch origin
+
+git pull origin main
+
+# Resolve conflicts if required
+
+git push origin main</code></pre>
+
+<div class="warning">
+
+Do not blindly use <code>git push --force</code> on a shared branch.
+Understand the reason for rejection first.
+
+</div>
+
+</div>
+
+
+<!-- Q23 -->
+
+<div class="card">
+
+<h2>23. What is a non-fast-forward push?</h2>
+
+<div class="answer">
+
+A non-fast-forward rejection usually means the remote branch has
+advanced and the local branch does not contain those remote commits.
+
+Git rejects the push to prevent accidentally overwriting remote
+history.
+
+</div>
+
+</div>
+
+
+<!-- Q24 -->
+
+<div class="card">
+
+<h2>24. How do you rename a remote?</h2>
+
+<pre><code>git remote rename origin upstream</code></pre>
+
+<p>
+This changes the remote name locally.
+</p>
+
+<h3>Check</h3>
+
+<pre><code>git remote -v</code></pre>
+
+</div>
+
+
+<!-- Q25 -->
+
+<div class="card">
+
+<h2>25. How do you change a remote URL?</h2>
+
+<pre><code>git remote set-url origin https://github.com/user/new-project.git</code></pre>
+
+<p>
+This is useful when a repository moves or the remote URL needs
+to be changed.
+</p>
+
+</div>
+
+
+<!-- Q26 -->
+
+<div class="card">
+
+<h2>26. What is the typical GitHub workflow in DevOps?</h2>
+
+<div class="flow">
+
+Clone Repository
+<br>
+↓
+<br>
+Create Feature Branch
+<br>
+↓
+<br>
+Develop
+<br>
+↓
+<br>
+Commit
+<br>
+↓
+<br>
+Push to GitHub
+<br>
+↓
+<br>
+Pull Request
+<br>
+↓
+<br>
+Code Review
+<br>
+↓
+<br>
+CI Pipeline
+<br>
+↓
+<br>
+Merge
+<br>
+↓
+<br>
+CD / Deployment
+
+</div>
+
+</div>
+
+
+<!-- Q27 -->
+
+<div class="card">
+
+<h2>27. Why is GitHub important in DevOps?</h2>
+
+<div class="answer">
+
+GitHub acts as an important collaboration and source-control
+platform in many DevOps workflows.
+
+It can integrate source code with CI/CD, security scanning,
+code review, issue tracking and deployment automation.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>Developer
+    ↓
+GitHub
+    ↓
+GitHub Actions / CI
+    ↓
+Build
+    ↓
+Test
+    ↓
+Security Scan
+    ↓
+Artifact / Container Image
+    ↓
+Deployment</code></pre>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Common Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>What is the difference between Git and GitHub?</li>
+
+<li>What is a remote repository?</li>
+
+<li>What is origin?</li>
+
+<li>What is upstream?</li>
+
+<li>What is the difference between origin and upstream?</li>
+
+<li>What is the difference between fetch and pull?</li>
+
+<li>What does git push do?</li>
+
+<li>What does git clone do?</li>
+
+<li>What is a tracking branch?</li>
+
+<li>What is a remote-tracking branch?</li>
+
+<li>Why does git push get rejected?</li>
+
+<li>What is a non-fast-forward error?</li>
+
+<li>How do you change a remote URL?</li>
+
+<li>How do you check configured remotes?</li>
+
+<li>How does GitHub fit into a DevOps CI/CD workflow?</li>
+
+</ul>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>git clone URL</code></td>
+<td>Clone remote repository</td>
+</tr>
+
+<tr>
+<td><code>git remote -v</code></td>
+<td>Show remote URLs</td>
+</tr>
+
+<tr>
+<td><code>git remote add origin URL</code></td>
+<td>Add remote</td>
+</tr>
+
+<tr>
+<td><code>git remote remove origin</code></td>
+<td>Remove remote</td>
+</tr>
+
+<tr>
+<td><code>git remote rename old new</code></td>
+<td>Rename remote</td>
+</tr>
+
+<tr>
+<td><code>git remote set-url origin URL</code></td>
+<td>Change remote URL</td>
+</tr>
+
+<tr>
+<td><code>git fetch origin</code></td>
+<td>Download remote updates</td>
+</tr>
+
+<tr>
+<td><code>git pull origin main</code></td>
+<td>Fetch and integrate changes</td>
+</tr>
+
+<tr>
+<td><code>git push origin main</code></td>
+<td>Push commits to remote</td>
+</tr>
+
+<tr>
+<td><code>git push -u origin branch</code></td>
+<td>Push and set upstream tracking</td>
+</tr>
+
+<tr>
+<td><code>git branch -r</code></td>
+<td>Show remote branches</td>
+</tr>
+
+<tr>
+<td><code>git branch -a</code></td>
+<td>Show local + remote branches</td>
+</tr>
+
+</table>
+
+</div>
+
+</main>
+
+<footer>
+
+🐙 Git & GitHub • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1389 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jenkins Final Interview Revision - DevOps Interview Master Guide">
+
+<title>Jenkins Final Revision - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#fbbf24}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#fbbf24}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:30px;
+    margin-bottom:24px;
+}
+
+h2{
+    color:#fbbf24;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #fbbf24;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:20px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#fbbf24;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    margin:4px;
+    border-radius:20px;
+    background:#172033;
+    border:1px solid #334155;
+    color:#fbbf24;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔧</div>
+
+<a href="index.html" class="back">← Back to Jenkins</a>
+
+<h1>Jenkins <span>Final Interview Revision</span></h1>
+
+<p>
+One-page style master revision covering Jenkins architecture,
+pipelines, Git, Docker, CI/CD, credentials, security, agents,
+troubleshooting and real-time interview scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- CORE -->
+
+<div class="intro">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Jenkins in One Picture</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓<br>
+📦 Git / GitHub
+<br>↓<br>
+🔔 Webhook
+<br>↓<br>
+⚙️ Jenkins Controller
+<br>↓<br>
+🖥️ Jenkins Agent
+<br>↓<br>
+📥 Checkout
+<br>↓<br>
+🔨 Build
+<br>↓<br>
+🧪 Test
+<br>↓<br>
+🔐 Security Scan
+<br>↓<br>
+🐳 Docker Build
+<br>↓<br>
+📦 Container Registry
+<br>↓<br>
+☸️ Kubernetes / ECS
+<br>↓<br>
+🚀 Application
+
+</div>
+
+<div class="answer">
+
+<strong>Core idea:</strong>
+
+Jenkins automates the software delivery process by connecting source
+control, build, test, security, packaging and deployment stages into
+an automated pipeline.
+
+</div>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Jenkins?</h2>
+
+<div class="answer">
+
+Jenkins is an open-source automation server widely used to implement
+CI/CD pipelines.
+
+It can automate activities such as source checkout, compilation,
+testing, security scanning, Docker image creation, artifact
+publishing and deployment.
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready:</strong>
+
+"Jenkins is an automation server used to implement CI/CD. It
+integrates with tools such as Git, Maven, Docker, cloud platforms and
+Kubernetes to automate the software delivery lifecycle."
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Jenkins Architecture</h2>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Controller</td>
+<td>Manages Jenkins configuration, jobs, scheduling and orchestration.</td>
+</tr>
+
+<tr>
+<td>Agent</td>
+<td>Executes build and deployment workloads.</td>
+</tr>
+
+<tr>
+<td>Executor</td>
+<td>Represents a slot that can run a build on a node.</td>
+</tr>
+
+<tr>
+<td>Plugin</td>
+<td>Extends Jenkins capabilities and integrations.</td>
+</tr>
+
+<tr>
+<td>Workspace</td>
+<td>Directory where a job operates on checked-out files.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Controller
+<br>↓
+<br>Schedule
+<br>↓
+<br>Agent
+<br>↓
+<br>Executor
+<br>↓
+<br>Workspace
+<br>↓
+<br>Build
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Freestyle vs Pipeline</h2>
+
+<table>
+
+<tr>
+<th>Freestyle</th>
+<th>Pipeline</th>
+</tr>
+
+<tr>
+<td>Configured mainly through Jenkins UI.</td>
+<td>Pipeline is defined as code.</td>
+</tr>
+
+<tr>
+<td>Good for simple jobs.</td>
+<td>Better for complex CI/CD workflows.</td>
+</tr>
+
+<tr>
+<td>Less version-control friendly.</td>
+<td>Jenkinsfile can be stored in Git.</td>
+</tr>
+
+<tr>
+<td>Limited structure compared with Pipeline.</td>
+<td>Supports stages, conditions, parallelism and post actions.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+"For modern CI/CD, I prefer Pipeline as Code because the pipeline
+definition can be version controlled and reviewed along with the
+application."
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Declarative Pipeline Structure</h2>
+
+<pre><code>pipeline {
+
+    agent any
+
+    environment {
+        APP_NAME = 'payment-app'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t payment-app:${BUILD_NUMBER} .'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline successful'
+        }
+
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}</code></pre>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Important Pipeline Concepts</h2>
+
+<span class="badge">pipeline</span>
+<span class="badge">agent</span>
+<span class="badge">stages</span>
+<span class="badge">stage</span>
+<span class="badge">steps</span>
+<span class="badge">environment</span>
+<span class="badge">when</span>
+<span class="badge">post</span>
+<span class="badge">credentials</span>
+<span class="badge">parallel</span>
+
+<div class="answer">
+
+<strong>pipeline</strong> → Complete pipeline definition.
+
+<br>
+
+<strong>agent</strong> → Where the pipeline executes.
+
+<br>
+
+<strong>stages</strong> → Logical collection of stages.
+
+<br>
+
+<strong>stage</strong> → Major step such as Build or Test.
+
+<br>
+
+<strong>steps</strong> → Commands executed inside a stage.
+
+<br>
+
+<strong>environment</strong> → Environment variables.
+
+<br>
+
+<strong>when</strong> → Conditional execution.
+
+<br>
+
+<strong>post</strong> → Actions after a stage/pipeline completes.
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Git + Jenkins</h2>
+
+<div class="flow">
+
+git push
+<br>↓
+<br>GitHub
+<br>↓
+<br>Webhook
+<br>↓
+<br>Jenkins
+<br>↓
+<br>Checkout
+<br>↓
+<br>Build
+
+</div>
+
+<div class="answer">
+
+Jenkins can integrate with Git repositories and use webhooks,
+polling or manual/API triggers to start builds.
+
+</div>
+
+<h3>Webhook vs Poll SCM</h3>
+
+<table>
+
+<tr>
+<th>Webhook</th>
+<th>Poll SCM</th>
+</tr>
+
+<tr>
+<td>Event-driven notification.</td>
+<td>Jenkins periodically checks the repository.</td>
+</tr>
+
+<tr>
+<td>Usually immediate.</td>
+<td>Depends on polling schedule.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Jenkins + Docker</h2>
+
+<div class="flow">
+
+Source Code
+<br>↓
+<br>Build
+<br>↓
+<br>Test
+<br>↓
+<br>Docker Build
+<br>↓
+<br>Docker Image
+<br>↓
+<br>Registry
+
+</div>
+
+<h3>Important commands</h3>
+
+<pre><code>docker build -t app:42 .
+
+docker images
+
+docker tag app:42 registry/app:42
+
+docker push registry/app:42</code></pre>
+
+<div class="warning">
+
+Do not rely only on <code>latest</code> for production traceability.
+Use meaningful version, build or source-revision tags.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Jenkins Credentials</h2>
+
+<div class="answer">
+
+Jenkins Credentials provides centralized storage and controlled use
+of sensitive information such as passwords, API tokens and SSH keys.
+
+</div>
+
+<pre><code>withCredentials([
+    string(
+        credentialsId: 'api-token',
+        variable: 'API_TOKEN'
+    )
+]) {
+
+    sh '''
+    ./deploy.sh
+    '''
+}</code></pre>
+
+<div class="warning">
+
+Never hard-code:
+
+<pre><code>PASSWORD=MyPassword123</code></pre>
+
+inside a Jenkinsfile or repository.
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Jenkins Security</h2>
+
+<ul>
+
+<li>Authentication</li>
+<li>Authorization</li>
+<li>RBAC</li>
+<li>Least privilege</li>
+<li>Credential management</li>
+<li>HTTPS/TLS</li>
+<li>CSRF protection</li>
+<li>Plugin maintenance</li>
+<li>Agent isolation</li>
+<li>Cloud IAM permissions</li>
+
+</ul>
+
+<div class="interview">
+
+<strong>Golden rule:</strong>
+
+"Never give Jenkins more access than the pipeline actually needs."
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Jenkins Controller vs Agent</h2>
+
+<table>
+
+<tr>
+<th>Controller</th>
+<th>Agent</th>
+</tr>
+
+<tr>
+<td>Schedules and orchestrates jobs.</td>
+<td>Executes build workloads.</td>
+</tr>
+
+<tr>
+<td>Stores Jenkins configuration.</td>
+<td>Provides execution environment.</td>
+</tr>
+
+<tr>
+<td>Should not be treated as a general build machine.</td>
+<td>Can be specialized for different workloads.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. CI vs CD</h2>
+
+<div class="flow">
+
+<strong>Continuous Integration</strong>
+
+<br><br>
+
+Git → Build → Test → Scan → Package
+
+<br><br><br>
+
+<strong>Continuous Delivery / Deployment</strong>
+
+<br><br>
+
+Artifact → Deploy → Verify
+
+</div>
+
+<div class="answer">
+
+CI focuses on integrating and validating code changes frequently.
+
+CD focuses on reliably delivering or deploying validated artifacts
+to environments.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. End-to-End CI/CD Pipeline</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓
+<br>📦 GitHub
+<br>↓
+<br>🔔 Webhook
+<br>↓
+<br>⚙️ Jenkins
+<br>↓
+<br>📥 Checkout
+<br>↓
+<br>🔨 Build
+<br>↓
+<br>🧪 Unit Tests
+<br>↓
+<br>🔐 Security Scan
+<br>↓
+<br>🐳 Docker Build
+<br>↓
+<br>📦 ECR / Registry
+<br>↓
+<br>☸️ Kubernetes / EKS
+<br>↓
+<br>📊 Monitoring
+<br>↓
+<br>🚀 Production
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Most Important Jenkins Environment Variables</h2>
+
+<table>
+
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>BUILD_NUMBER</code></td>
+<td>Current Jenkins build number.</td>
+</tr>
+
+<tr>
+<td><code>BUILD_ID</code></td>
+<td>Identifier associated with the build.</td>
+</tr>
+
+<tr>
+<td><code>JOB_NAME</code></td>
+<td>Name of the Jenkins job.</td>
+</tr>
+
+<tr>
+<td><code>WORKSPACE</code></td>
+<td>Workspace directory.</td>
+</tr>
+
+<tr>
+<td><code>BUILD_URL</code></td>
+<td>URL associated with the build.</td>
+</tr>
+
+<tr>
+<td><code>GIT_COMMIT</code></td>
+<td>Git commit associated with the checkout when available.</td>
+</tr>
+
+<tr>
+<td><code>BRANCH_NAME</code></td>
+<td>Branch name in multibranch Pipeline contexts.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Common Jenkins Troubleshooting</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First checks</th>
+</tr>
+
+<tr>
+<td>Git checkout failure</td>
+<td>Repository URL, credentials, branch, Git installation, network.</td>
+</tr>
+
+<tr>
+<td>Build failure</td>
+<td>Build logs, Java/Maven version, dependencies, disk.</td>
+</tr>
+
+<tr>
+<td>Docker not found</td>
+<td>Docker installation and PATH on agent.</td>
+</tr>
+
+<tr>
+<td>Docker daemon error</td>
+<td>Docker service, permissions, runtime/socket.</td>
+</tr>
+
+<tr>
+<td>Docker push denied</td>
+<td>Registry login, repository and permissions.</td>
+</tr>
+
+<tr>
+<td>Build stuck in queue</td>
+<td>Executors, agent status and labels.</td>
+</tr>
+
+<tr>
+<td>Kubernetes deployment failure</td>
+<td>Cluster access, namespace, identity, manifest, events.</td>
+</tr>
+
+<tr>
+<td>Disk full</td>
+<td>Workspace, Docker data and artifact retention.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Real-Time Scenario: Pipeline Failed</h2>
+
+<div class="flow">
+
+Pipeline Failed
+<br>↓
+<br>Find Failed Stage
+<br>↓
+<br>Read Exact Error
+<br>↓
+<br>Check Agent
+<br>↓
+<br>Check Credentials
+<br>↓
+<br>Check Dependency / Network
+<br>↓
+<br>Reproduce Command
+<br>↓
+<br>Fix Root Cause
+<br>↓
+<br>Re-run
+
+</div>
+
+<div class="interview">
+
+<strong>Interview tip:</strong>
+
+Do not say "I rerun the pipeline."
+
+Say:
+
+"I first identify the failed stage and analyze the exact error from
+the console output. Then I validate the agent, credentials,
+dependencies and external services before fixing the root cause."
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Real-Time Scenario: Secret Exposed</h2>
+
+<div class="scenario">
+
+If a credential appears in Jenkins logs:
+
+<br><br>
+
+<strong>1.</strong> Treat it as compromised.
+
+<br>
+
+<strong>2.</strong> Revoke or rotate it.
+
+<br>
+
+<strong>3.</strong> Remove unsafe logging.
+
+<br>
+
+<strong>4.</strong> Investigate where it was exposed.
+
+<br>
+
+<strong>5.</strong> Review access/audit logs.
+
+<br>
+
+<strong>6.</strong> Prevent recurrence.
+
+</div>
+
+<div class="warning">
+
+Deleting the log or Git file alone does not make an exposed credential
+safe. Rotate it.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Real-Time Scenario: Wrong Docker Image Deployed</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Production is running an unexpected image.
+
+<strong>Possible cause:</strong>
+
+A mutable tag such as <code>latest</code> was reused or the deployment
+was not updated as expected.
+
+<strong>Better:</strong>
+
+Use unique image tags.
+
+</div>
+
+<pre><code>payment-app:105
+payment-app:git-a8f32c1</code></pre>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Real-Time Scenario: Kubernetes Deployment Fails</h2>
+
+<div class="scenario">
+
+If:
+
+<pre><code>Docker Push → SUCCESS
+Kubernetes Deploy → FAILURE</code></pre>
+
+Check:
+
+<ul>
+
+<li>Cluster connectivity.</li>
+<li>kubectl configuration.</li>
+<li>Identity and RBAC.</li>
+<li>Namespace.</li>
+<li>Deployment manifest.</li>
+<li>Image name/tag.</li>
+<li>Pod events.</li>
+<li>Application logs.</li>
+
+</ul>
+
+</div>
+
+<pre><code>kubectl get nodes
+
+kubectl get pods -n production
+
+kubectl describe pod &lt;pod&gt; -n production
+
+kubectl get events -n production</code></pre>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Jenkins Interview Priority List</h2>
+
+<h3>⭐⭐⭐⭐⭐ Must Know</h3>
+
+<ul>
+
+<li>What is Jenkins?</li>
+<li>Jenkins architecture.</li>
+<li>Controller vs Agent.</li>
+<li>Freestyle vs Pipeline.</li>
+<li>Declarative Pipeline.</li>
+<li>Jenkinsfile.</li>
+<li>Stages and Steps.</li>
+<li>Git integration.</li>
+<li>Webhooks.</li>
+<li>Docker integration.</li>
+<li>Jenkins Credentials.</li>
+<li>CI vs CD.</li>
+<li>Pipeline troubleshooting.</li>
+<li>Jenkins security.</li>
+
+</ul>
+
+<h3>⭐⭐⭐⭐ Important</h3>
+
+<ul>
+
+<li>Environment variables.</li>
+<li>Parallel stages.</li>
+<li>Conditional stages.</li>
+<li>Artifacts.</li>
+<li>Agents and labels.</li>
+<li>Credential binding.</li>
+<li>Docker registry.</li>
+<li>Kubernetes deployment.</li>
+
+</ul>
+
+<h3>⭐⭐⭐ Good to Know</h3>
+
+<ul>
+
+<li>Plugin management.</li>
+<li>Build retention.</li>
+<li>Workspace cleanup.</li>
+<li>Pipeline optimization.</li>
+<li>Advanced agent strategies.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>🔥 20. Top 25 Interview Questions</h2>
+
+<ol>
+
+<li>What is Jenkins?</li>
+
+<li>Why is Jenkins used in DevOps?</li>
+
+<li>Explain Jenkins architecture.</li>
+
+<li>Controller vs Agent?</li>
+
+<li>What is an executor?</li>
+
+<li>What is a Jenkins Pipeline?</li>
+
+<li>Declarative vs Scripted Pipeline?</li>
+
+<li>What is a Jenkinsfile?</li>
+
+<li>What are stages and steps?</li>
+
+<li>What is an agent?</li>
+
+<li>How does Jenkins integrate with Git?</li>
+
+<li>What is a webhook?</li>
+
+<li>Webhook vs Poll SCM?</li>
+
+<li>How does Jenkins integrate with Docker?</li>
+
+<li>How do you push an image to a registry?</li>
+
+<li>How do you manage Jenkins credentials?</li>
+
+<li>How do you secure Jenkins?</li>
+
+<li>What is RBAC?</li>
+
+<li>What is least privilege?</li>
+
+<li>How do you troubleshoot a failed pipeline?</li>
+
+<li>Why is a Jenkins build stuck in queue?</li>
+
+<li>How do you troubleshoot Docker failures?</li>
+
+<li>How do you troubleshoot Git checkout failures?</li>
+
+<li>How do you deploy to Kubernetes using Jenkins?</li>
+
+<li>Explain your complete CI/CD pipeline.</li>
+
+</ol>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Jenkins Command & Concept Cheat Sheet</h2>
+
+<pre><code># Git
+git clone &lt;repo&gt;
+git status
+git branch
+git checkout main
+git pull
+
+# Maven
+mvn clean package
+mvn test
+
+# Docker
+docker build -t app:42 .
+docker images
+docker tag app:42 registry/app:42
+docker push registry/app:42
+
+# Kubernetes
+kubectl get nodes
+kubectl get pods
+kubectl apply -f deployment.yaml
+kubectl rollout status deployment/app
+kubectl rollout undo deployment/app
+kubectl get events
+
+# Jenkins pipeline flow
+
+Git
+ ↓
+Webhook
+ ↓
+Checkout
+ ↓
+Build
+ ↓
+Test
+ ↓
+Scan
+ ↓
+Docker Build
+ ↓
+Registry
+ ↓
+Deploy
+ ↓
+Verify</code></pre>
+
+</div>
+
+
+<!-- 60 SEC -->
+
+<div class="card">
+
+<h2>🚀 60-Second Jenkins Revision</h2>
+
+<div class="flow">
+
+<strong>Jenkins</strong>
+→ CI/CD Automation
+
+<br><br>
+
+<strong>Controller</strong>
+→ Orchestrates
+
+<br><br>
+
+<strong>Agent</strong>
+→ Executes
+
+<br><br>
+
+<strong>Jenkinsfile</strong>
+→ Pipeline as Code
+
+<br><br>
+
+<strong>Git</strong>
+→ Source Control
+
+<br><br>
+
+<strong>Webhook</strong>
+→ Trigger
+
+<br><br>
+
+<strong>Docker</strong>
+→ Package Application
+
+<br><br>
+
+<strong>Registry</strong>
+→ Store Image
+
+<br><br>
+
+<strong>Credentials</strong>
+→ Protect Secrets
+
+<br><br>
+
+<strong>RBAC</strong>
+→ Control Access
+
+<br><br>
+
+<strong>Kubernetes</strong>
+→ Deploy
+
+<br><br>
+
+<strong>Logs</strong>
+→ Troubleshoot
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 Best Interview Answer: "Explain Your Jenkins CI/CD Pipeline"</h2>
+
+<div class="interview">
+
+"In my CI/CD workflow, developers push application code to GitHub.
+A webhook triggers Jenkins automatically.
+
+Jenkins checks out the source code and runs the build and automated
+tests. After successful validation, security checks can be performed
+and Jenkins builds a Docker image.
+
+I tag the image using a unique build number or source revision and
+push it to a container registry such as Amazon ECR.
+
+The deployment stage then updates the target environment, such as
+Kubernetes/EKS, to use the validated image.
+
+For security, I store credentials in Jenkins Credentials or use
+appropriate workload identity mechanisms rather than hard-coding
+secrets.
+
+If a pipeline fails, I identify the failed stage, read the exact
+console error, check the agent and dependencies, validate external
+services and fix the root cause before rerunning.
+
+This gives us an automated, repeatable and traceable path from Git
+commit to deployed application."
+
+</div>
+
+</div>
+
+
+<!-- FINAL MEMORY -->
+
+<div class="card">
+
+<h2>⭐ Final Memory Trick</h2>
+
+<div class="flow">
+
+<strong>G</strong>it
+→
+<strong>W</strong>ebhook
+→
+<strong>J</strong>enkins
+→
+<strong>B</strong>uild
+→
+<strong>T</strong>est
+→
+<strong>S</strong>can
+→
+<strong>D</strong>ocker
+→
+<strong>R</strong>egistry
+→
+<strong>D</strong>eploy
+→
+<strong>M</strong>onitor
+
+<br><br>
+
+<strong>G W J B T S D R D M</strong>
+
+</div>
+
+<p>
+Interview lo complete pipeline explain cheyyamante ee sequence ni
+mind lo petkoni each stage purpose explain chesthe easy ga answer
+cheyyachu.
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔧 Jenkins Final Interview Revision • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

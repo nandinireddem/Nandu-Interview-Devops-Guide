@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IAM Interview Questions | Nandu's DevOps Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+    body {
+        background:
+            radial-gradient(
+                circle at 90% 5%,
+                rgba(255,153,0,0.08),
+                transparent 28%
+            ),
+            #0b1020;
+    }
+
+    .page-header {
+        padding: 50px 20px;
+        text-align: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                #1b160b,
+                #17130d,
+                #0b1020
+            );
+
+        border-bottom: 1px solid #29334c;
+    }
+
+    .back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #9da9c4;
+        text-decoration: none;
+    }
+
+    .back:hover {
+        color: #ff9900;
+    }
+
+    .page-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(38px, 6vw, 60px);
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 span {
+        color: #ff9900;
+    }
+
+    .page-header p {
+        max-width: 850px;
+        margin: auto;
+        color: #9ca8c4;
+    }
+
+    .content {
+        width: min(1000px, 92%);
+        margin: auto;
+        padding: 50px 0 80px;
+    }
+
+    .quick-map {
+        display: grid;
+        grid-template-columns:
+            repeat(auto-fit, minmax(170px, 1fr));
+        gap: 12px;
+        margin-bottom: 50px;
+    }
+
+    .map-item {
+        padding: 16px;
+
+        background: #121a30;
+
+        border: 1px solid #27324b;
+        border-radius: 12px;
+
+        color: #aab5cf;
+        font-size: 13px;
+    }
+
+    .map-item strong {
+        color: #ffffff;
+    }
+
+    .priority-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        margin: 50px 0 25px;
+    }
+
+    .priority-title h2 {
+        font-size: 27px;
+    }
+
+    .line {
+        flex: 1;
+        height: 1px;
+        background: #29334c;
+    }
+
+    .question {
+        margin-bottom: 25px;
+        padding: 28px;
+
+        background:
+            linear-gradient(
+                145deg,
+                #141d35,
+                #10172a
+            );
+
+        border: 1px solid #29344e;
+        border-radius: 18px;
+
+        transition: 0.25s;
+    }
+
+    .question:hover {
+        border-color: #465474;
+    }
+
+    .question-number {
+        color: #7582a2;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+        line-height: 1.45;
+        margin-bottom: 20px;
+    }
+
+    .label {
+        display: inline-block;
+
+        margin-bottom: 8px;
+
+        color: #ffb52e;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        letter-spacing: 0.8px;
+    }
+
+    .answer {
+        color: #c2cbe0;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .example {
+        padding: 18px 20px;
+        margin: 18px 0;
+
+        border-left: 4px solid #ff9900;
+
+        background: rgba(255,153,0,0.06);
+
+        border-radius: 0 10px 10px 0;
+    }
+
+    .example strong {
+        color: #ffb52e;
+    }
+
+    .example p {
+        color: #b7c2d8;
+        margin-top: 6px;
+    }
+
+    .interview-answer {
+        padding: 18px 20px;
+        margin-top: 18px;
+
+        background: #111a30;
+
+        border-radius: 12px;
+
+        border: 1px solid #303c59;
+    }
+
+    .interview-answer strong {
+        color: #60a5fa;
+    }
+
+    .followup {
+        padding: 18px 20px;
+
+        background: #0d1426;
+
+        border-radius: 12px;
+
+        border: 1px solid #222d46;
+    }
+
+    .followup strong {
+        color: #8fa3ff;
+    }
+
+    .followup ul {
+        margin-top: 8px;
+        padding-left: 20px;
+        color: #9ba7c0;
+    }
+
+    .followup li {
+        margin: 5px 0;
+    }
+
+    .flow {
+        padding: 20px;
+        margin: 20px 0;
+
+        background: #0d1426;
+
+        border: 1px solid #26314a;
+
+        border-radius: 12px;
+
+        text-align: center;
+
+        color: #c6d0e4;
+
+        line-height: 2;
+    }
+
+    .important {
+        padding: 20px;
+        margin: 30px 0;
+
+        border-radius: 14px;
+
+        background: rgba(96,165,250,0.06);
+
+        border: 1px solid rgba(96,165,250,0.2);
+
+        color: #b8c4dc;
+    }
+
+    pre {
+        overflow-x: auto;
+
+        margin-top: 10px;
+
+        padding: 18px;
+
+        background: #080d19;
+
+        border-radius: 10px;
+
+        border: 1px solid #202b43;
+
+        color: #cbd5e1;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+
+        color: #7582a2;
+
+        border-top: 1px solid #222d46;
+    }
+
+    footer span {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+
+        .content {
+            width: 94%;
+        }
+
+        .question {
+            padding: 22px;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+```
+<a href="index.html" class="back">
+    ← Back to AWS
+</a>
+
+<div class="page-icon">
+    🔐
+</div>
+
+<h1>
+    AWS <span>IAM</span>
+</h1>
+
+<p>
+    Complete IAM interview preparation covering users,
+    groups, roles, policies, permissions, MFA,
+    least privilege, STS and real-time DevOps scenarios.
+</p>
+```
+
+</header>
+
+<main class="content">
+
+```
+<!-- PRIORITY MAP -->
+
+<section class="quick-map">
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐⭐</strong><br>
+        Must Know
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐</strong><br>
+        High Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐</strong><br>
+        Medium
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐</strong><br>
+        Low Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐</strong><br>
+        Bonus
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     ⭐⭐⭐⭐⭐
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>⭐⭐⭐⭐⭐ Must Know</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<!-- Q1 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 01
+    </div>
+
+    <h3>
+        What is AWS IAM?
+    </h3>
+
+    <span class="label">
+        MOST FREQUENTLY ASKED
+    </span>
+
+    <p class="answer">
+
+        IAM stands for
+        <strong>Identity and Access Management</strong>.
+
+        AWS IAM is a service used to control
+        <strong>who can access AWS resources</strong>
+        and <strong>what actions they are allowed to perform</strong>.
+
+        In simple words:
+
+        <br><br>
+
+        <strong>
+            IAM = Authentication + Authorization + Access Control
+        </strong>
+
+        <br><br>
+
+        Authentication answers:
+
+        <br>
+
+        <strong>
+            "Who are you?"
+        </strong>
+
+        <br><br>
+
+        Authorization answers:
+
+        <br>
+
+        <strong>
+            "What are you allowed to do?"
+        </strong>
+
+    </p>
+
+
+    <div class="flow">
+
+        👤 Identity
+
+        →
+
+        🔐 IAM
+
+        →
+
+        📜 Policy
+
+        →
+
+        ☁️ AWS Resource
+
+        <br>
+
+        User / Role
+
+        →
+
+        Permission
+
+        →
+
+        Action
+
+    </div>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose a DevOps engineer needs to restart an EC2
+            instance.
+
+            We should not give unrestricted administrator
+            permissions just because the engineer needs EC2
+            access.
+
+            Instead, we can provide only the required
+            permissions according to the job requirement.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "AWS IAM is a service used to securely control
+            authentication and authorization for AWS
+            resources. It allows us to create identities,
+            define permissions using policies and provide
+            users or workloads only the access they require."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>What is an IAM User?</li>
+
+            <li>What is an IAM Role?</li>
+
+            <li>What is an IAM Policy?</li>
+
+            <li>User vs Role?</li>
+
+            <li>What is least privilege?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q2 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 02
+    </div>
+
+    <h3>
+        What are the main components of IAM?
+    </h3>
+
+    <span class="label">
+        MUST KNOW
+    </span>
+
+    <p class="answer">
+
+        The important IAM concepts are:
+
+        <br><br>
+
+        👤 <strong>Users</strong> —
+        identities generally representing people or
+        applications that need long-term credentials.
+
+        <br><br>
+
+        👥 <strong>Groups</strong> —
+        collections of IAM users used to manage permissions
+        for multiple users.
+
+        <br><br>
+
+        🎭 <strong>Roles</strong> —
+        identities with permissions that can be assumed by
+        trusted principals such as AWS services, users or
+        federated identities.
+
+        <br><br>
+
+        📜 <strong>Policies</strong> —
+        documents that define permissions.
+
+    </p>
+
+
+    <div class="flow">
+
+        👤 USER
+
+        +
+
+        👥 GROUP
+
+        +
+
+        🎭 ROLE
+
+        +
+
+        📜 POLICY
+
+        ↓
+
+        🔐 PERMISSIONS
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The main IAM concepts are users, groups, roles
+            and policies. Users represent identities, groups
+            help organize users and permissions, roles provide
+            assumable permissions, and policies define what
+            actions are allowed or denied."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q3 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 03
+    </div>
+
+    <h3>
+        What is an IAM User?
+    </h3>
+
+    <span class="label">
+        VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        An IAM User is an identity created in an AWS account.
+
+        A user can have credentials and permissions assigned
+        through IAM policies.
+
+        Historically, IAM users are commonly used for
+        individual people or specific long-term credentials,
+        although AWS generally recommends temporary
+        credentials and federation where appropriate.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Imagine a company has a developer who needs to
+            work with AWS.
+
+            The organization can use centralized identity
+            federation or other appropriate access mechanisms.
+            If an IAM user is used, its permissions should
+            follow least privilege and MFA should be enabled
+            where applicable.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An IAM user is an identity in an AWS account that
+            can be granted permissions to access AWS
+            resources. For human access, organizations often
+            prefer federation and temporary credentials,
+            while IAM users can still be used for specific
+            requirements."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q4 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 04
+    </div>
+
+    <h3>
+        What is an IAM Group?
+    </h3>
+
+    <span class="label">
+        VERY COMMON
+    </span>
+
+    <p class="answer">
+
+        An IAM Group is a collection of IAM users.
+
+        Groups help simplify permission management.
+
+        Instead of attaching the same policy individually to
+        ten developers, we can put the users into a group and
+        attach the required permissions to that group.
+
+    </p>
+
+
+    <div class="flow">
+
+        👤 Developer 1
+
+        ↘
+
+        👥 DevOps Group
+
+        ↗
+
+        👤 Developer 2
+
+        <br>
+
+        DevOps Group
+
+        →
+
+        📜 Required Policies
+
+    </div>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose 20 developers need read-only access to
+            CloudWatch.
+
+            Instead of managing 20 users separately, we can
+            create a Developers group and attach the required
+            policy to that group.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An IAM group is a collection of IAM users.
+            Groups allow us to manage common permissions for
+            multiple users centrally."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q5 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 05
+    </div>
+
+    <h3>
+        What is an IAM Role?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        An IAM Role is an identity that defines a set of
+        permissions that can be assumed by a trusted
+        principal.
+
+        Unlike a typical IAM user access-key setup, a role
+        does not require permanent credentials to be embedded
+        in the workload.
+
+        Roles are heavily used in DevOps and cloud
+        architectures.
+
+    </p>
+
+
+    <div class="flow">
+
+        🖥️ EC2
+
+        →
+
+        🎭 IAM Role
+
+        →
+
+        🔐 Temporary Credentials
+
+        →
+
+        🪣 S3
+
+    </div>
+
+
+    <div class="example">
+
+        <strong>💡 Most Important DevOps Example</strong>
+
+        <p>
+
+            Suppose an EC2 server needs to download files from
+            S3.
+
+            A bad approach is to put an IAM user's access key
+            and secret key inside the EC2 server.
+
+            A better approach is:
+
+            <br><br>
+
+            EC2 → IAM Role → S3 permissions.
+
+            <br><br>
+
+            AWS provides temporary credentials to the
+            workload through the role.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An IAM role is an identity with permissions that
+            can be assumed by trusted principals. Roles are
+            commonly used by AWS services and workloads such
+            as EC2 because they provide temporary credentials
+            instead of requiring long-term access keys to be
+            stored on the server."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Interviewer May Ask</strong>
+
+        <ul>
+
+            <li>Why use a role instead of access keys?</li>
+
+            <li>How does EC2 get credentials from a role?</li>
+
+            <li>What is a trust policy?</li>
+
+            <li>What is sts:AssumeRole?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q6 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 06
+    </div>
+
+    <h3>
+        What is an IAM Policy?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ MUST KNOW
+    </span>
+
+    <p class="answer">
+
+        An IAM Policy is a JSON document that defines
+        permissions.
+
+        It answers questions such as:
+
+        <br><br>
+
+        <strong>
+            What action?
+        </strong>
+
+        <br>
+
+        <strong>
+            On which resource?
+        </strong>
+
+        <br>
+
+        <strong>
+            Is it allowed or denied?
+        </strong>
+
+        <br><br>
+
+        A policy commonly contains:
+
+        <br>
+
+        <strong>Effect</strong> → Allow or Deny
+
+        <br>
+
+        <strong>Action</strong> → API operation
+
+        <br>
+
+        <strong>Resource</strong> → AWS resource
+
+        <br>
+
+        <strong>Condition</strong> → Optional conditions
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Simple Policy Structure</strong>
+
+        <pre>
+```
+
+{
+"Effect": "Allow",
+"Action": "s3:GetObject",
+"Resource": "arn:aws:s3:::my-bucket/*"
+} </pre>
+
+```
+        <p>
+
+            This example grants permission to retrieve
+            objects from the specified S3 bucket path.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An IAM policy is a JSON-based permission document
+            that defines which actions are allowed or denied
+            on which AWS resources, optionally under specific
+            conditions."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q7 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 07
+    </div>
+
+    <h3>
+        What is the difference between Authentication and Authorization?
+    </h3>
+
+    <span class="label">
+        BASIC BUT VERY IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        <strong>Authentication</strong> means verifying
+        identity.
+
+        <br><br>
+
+        It answers:
+
+        <br>
+
+        <strong>
+            "Who are you?"
+        </strong>
+
+        <br><br>
+
+        <strong>Authorization</strong> means determining
+        permissions.
+
+        <br><br>
+
+        It answers:
+
+        <br>
+
+        <strong>
+            "What are you allowed to do?"
+        </strong>
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Easy Example</strong>
+
+        <p>
+
+            Logging into AWS with valid credentials:
+
+            <br>
+
+            → Authentication
+
+            <br><br>
+
+            Being allowed to launch an EC2 instance:
+
+            <br>
+
+            → Authorization
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Authentication verifies who the identity is,
+            while authorization determines what that
+            authenticated identity is permitted to do."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     ⭐⭐⭐⭐
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>⭐⭐⭐⭐ High Priority</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<!-- Q8 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 08
+    </div>
+
+    <h3>
+        What is the difference between IAM User and IAM Role?
+    </h3>
+
+    <span class="label">
+        VERY FREQUENT INTERVIEW QUESTION
+    </span>
+
+    <div class="flow">
+
+        👤 IAM User
+
+        →
+
+        Long-term identity
+
+        <br><br>
+
+        🎭 IAM Role
+
+        →
+
+        Assumable identity
+
+        →
+
+        Temporary credentials
+
+    </div>
+
+
+    <p class="answer">
+
+        An IAM User is a persistent identity within an AWS
+        account.
+
+        An IAM Role is an identity that can be assumed by a
+        trusted principal and is commonly used to provide
+        temporary credentials.
+
+        In modern cloud architectures, roles are especially
+        important for workloads and federated human access.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 DevOps Example</strong>
+
+        <p>
+
+            <strong>Developer workstation:</strong>
+
+            <br>
+
+            Use appropriate federated/temporary access.
+
+            <br><br>
+
+            <strong>EC2 → S3:</strong>
+
+            <br>
+
+            Attach an IAM role to EC2 rather than storing
+            long-term access keys on the server.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An IAM user is a persistent identity, while an
+            IAM role is an assumable identity that provides
+            temporary credentials. Roles are preferred for
+            AWS workloads because they avoid embedding
+            long-term access keys in servers or applications."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q9 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 09
+    </div>
+
+    <h3>
+        What is the Principle of Least Privilege?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ SECURITY
+    </span>
+
+    <p class="answer">
+
+        Least privilege means giving an identity only the
+        permissions it actually needs to perform its task.
+
+        We should avoid giving unnecessary permissions.
+
+        For example:
+
+        <br><br>
+
+        If an application only needs to read S3 objects,
+        giving it:
+
+        <br>
+
+        <strong>
+            s3:GetObject
+        </strong>
+
+        is better than giving:
+
+        <br>
+
+        <strong>
+            AdministratorAccess
+        </strong>
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time DevOps Example</strong>
+
+        <p>
+
+            A CI/CD pipeline only needs permission to push
+            images to a specific ECR repository.
+
+            Instead of giving the pipeline full AWS
+            AdministratorAccess, create permissions only for
+            the required ECR actions and resources.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The principle of least privilege means providing
+            only the minimum permissions required to perform
+            a specific task. It reduces the potential impact
+            of compromised credentials or applications."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q10 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 10
+    </div>
+
+    <h3>
+        What is a Trust Policy?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐ IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        A role has two important permission concepts:
+
+        <br><br>
+
+        <strong>Trust Policy</strong> →
+        defines <strong>who can assume the role</strong>.
+
+        <br><br>
+
+        <strong>Permissions Policy</strong> →
+        defines <strong>what the role can do after it is
+        assumed</strong>.
+
+    </p>
+
+
+    <div class="flow">
+
+        WHO CAN ASSUME?
+
+        →
+
+        🤝 Trust Policy
+
+        <br><br>
+
+        WHAT CAN THEY DO?
+
+        →
+
+        📜 Permissions Policy
+
+    </div>
+
+
+    <div class="example">
+
+        <strong>💡 EC2 Example</strong>
+
+        <p>
+
+            EC2 needs to use an IAM role.
+
+            The role's trust relationship allows the EC2
+            service principal to assume the role.
+
+            The permissions policy then determines what the
+            role can do, for example access S3.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The trust policy of an IAM role defines which
+            principals are allowed to assume the role.
+            The permissions policy defines what actions the
+            role can perform after it is assumed."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q11 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 11
+    </div>
+
+    <h3>
+        What is MFA in AWS?
+    </h3>
+
+    <span class="label">
+        SECURITY
+    </span>
+
+    <p class="answer">
+
+        MFA stands for
+        <strong>Multi-Factor Authentication</strong>.
+
+        It adds another authentication factor in addition
+        to the primary credential.
+
+        This provides an additional security layer if a
+        password or credential is compromised.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Password alone:
+
+            <br>
+
+            ❌ One factor
+
+            <br><br>
+
+            Password + authenticator-based MFA:
+
+            <br>
+
+            ✅ Additional factor
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "MFA adds an additional authentication factor to
+            strengthen account security. It is an important
+            control for protecting privileged human access."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q12 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 12
+    </div>
+
+    <h3>
+        What is AWS STS?
+    </h3>
+
+    <span class="label">
+        HIGH PRIORITY
+    </span>
+
+    <p class="answer">
+
+        AWS STS stands for
+        <strong>Security Token Service</strong>.
+
+        It provides temporary security credentials that can
+        be used to access AWS resources.
+
+        STS is heavily involved when a principal assumes an
+        IAM role.
+
+    </p>
+
+
+    <div class="flow">
+
+        👤 Principal
+
+        →
+
+        AWS STS
+
+        →
+
+        🎫 Temporary Credentials
+
+        →
+
+        ☁️ AWS Service
+
+    </div>
+
+
+    <div class="example">
+
+        <strong>💡 DevOps Example</strong>
+
+        <p>
+
+            A deployment system assumes an IAM role.
+
+            STS provides temporary credentials.
+
+            The deployment system then uses those temporary
+            credentials to interact with AWS.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "AWS STS is a service that provides temporary
+            security credentials. It is commonly used with
+            IAM roles and role assumption to provide
+            short-lived access to AWS resources."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     ⭐⭐⭐
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>⭐⭐⭐ Medium Priority</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<!-- Q13 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 13
+    </div>
+
+    <h3>
+        What is a managed policy?
+    </h3>
+
+    <span class="label">
+        CONCEPT
+    </span>
+
+    <p class="answer">
+
+        Managed policies are standalone IAM policies that can
+        be attached to multiple identities.
+
+        There are two broad types:
+
+        <br><br>
+
+        <strong>AWS Managed Policies</strong>
+
+        <br>
+
+        Created and maintained by AWS.
+
+        <br><br>
+
+        <strong>Customer Managed Policies</strong>
+
+        <br>
+
+        Created and managed by the customer.
+
+    </p>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Managed policies are standalone IAM policies that
+            can be attached to multiple identities. AWS
+            managed policies are maintained by AWS, while
+            customer managed policies are created and
+            maintained by the organization."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q14 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 14
+    </div>
+
+    <h3>
+        What is an inline policy?
+    </h3>
+
+    <span class="label">
+        MEDIUM
+    </span>
+
+    <p class="answer">
+
+        An inline policy is a policy embedded directly into
+        a single IAM identity such as a user or role.
+
+        It has a one-to-one relationship with that identity.
+
+        Inline policies can be useful when the permission
+        should be tightly coupled to one identity, although
+        customer managed policies are often easier to
+        reuse and manage centrally.
+
+    </p>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An inline policy is embedded directly into a
+            specific IAM identity and has a one-to-one
+            relationship with that identity."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q15 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 15
+    </div>
+
+    <h3>
+        What is an ARN?
+    </h3>
+
+    <span class="label">
+        COMMON
+    </span>
+
+    <p class="answer">
+
+        ARN stands for
+        <strong>Amazon Resource Name</strong>.
+
+        It uniquely identifies many AWS resources.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <pre>
+```
+
+arn:aws:s3:::my-bucket/* </pre>
+
+```
+        <p>
+
+            IAM policies can use ARNs to specify which
+            resources permissions apply to.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An ARN is an Amazon Resource Name used to uniquely
+            identify AWS resources and is commonly used in IAM
+            policies to specify resource-level permissions."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     ⭐⭐
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>⭐⭐ Low Priority</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 16
+    </div>
+
+    <h3>
+        What is IAM Access Analyzer?
+    </h3>
+
+    <span class="label">
+        SECURITY
+    </span>
+
+    <p class="answer">
+
+        IAM Access Analyzer helps identify resources that are
+        accessible from outside an intended trust boundary.
+
+        It can help identify unintended external access and
+        assist with analyzing and validating policies.
+
+    </p>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "IAM Access Analyzer helps identify unintended
+            external access to AWS resources and assists with
+            analyzing resource policies."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     ⭐ BONUS
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>⭐ Bonus Questions</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 17
+    </div>
+
+    <h3>
+        What happens if an IAM policy has both Allow and Deny?
+    </h3>
+
+    <span class="label">
+        INTERVIEW TRICK
+    </span>
+
+    <p class="answer">
+
+        An explicit Deny overrides an Allow.
+
+        This is one of the most important IAM evaluation
+        concepts.
+
+    </p>
+
+
+    <div class="flow">
+
+        Allow
+
+        +
+
+        Explicit Deny
+
+        ↓
+
+        ❌ DENIED
+
+    </div>
+
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Suppose a user receives:
+
+            <br><br>
+
+            Policy A → Allow S3 access
+
+            <br>
+
+            Policy B → Explicitly Deny access to a specific
+            bucket
+
+            <br><br>
+
+            The explicit Deny wins for the request covered by
+            that Deny.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "In IAM policy evaluation, an explicit Deny
+            overrides an Allow."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     SCENARIOS
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>🎯 Real-Time DevOps Scenarios</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<!-- Scenario 1 -->
+
+<article class="question">
+
+    <div class="question-number">
+        SCENARIO 01
+    </div>
+
+    <h3>
+        An EC2 instance needs access to S3. How would you provide access securely?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ VERY IMPORTANT
+    </span>
+
+    <p class="answer">
+
+        I would create an IAM role with the minimum required
+        S3 permissions and attach that role to the EC2
+        instance.
+
+        I would avoid storing long-term access keys directly
+        on the EC2 server.
+
+    </p>
+
+
+    <div class="flow">
+
+        EC2
+
+        →
+
+        IAM Role
+
+        →
+
+        Temporary Credentials
+
+        →
+
+        S3
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would attach an IAM role to the EC2 instance
+            and grant the role only the required S3
+            permissions. This avoids storing long-term access
+            keys on the server and follows least privilege."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 2 -->
+
+<article class="question">
+
+    <div class="question-number">
+        SCENARIO 02
+    </div>
+
+    <h3>
+        Your application is getting AccessDenied when calling an AWS API. How do you troubleshoot?
+    </h3>
+
+    <span class="label">
+        ⭐⭐⭐⭐⭐ PRODUCTION QUESTION
+    </span>
+
+    <p class="answer">
+
+        I would troubleshoot from identity to permission.
+
+        First identify the principal making the API call.
+
+        Then check:
+
+        <br><br>
+
+        1. Which IAM user or role is being used?
+
+        <br>
+
+        2. Does the identity have the required action?
+
+        <br>
+
+        3. Is the resource ARN correct?
+
+        <br>
+
+        4. Are there conditions restricting access?
+
+        <br>
+
+        5. Is there an explicit Deny?
+
+        <br>
+
+        6. Are SCPs or permissions boundaries involved?
+
+        <br>
+
+        7. Is the request coming from the expected account,
+        Region or network context?
+
+    </p>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "For AccessDenied, I first identify the principal
+            and API operation. Then I review identity and
+            resource policies, resource ARNs, conditions and
+            explicit Denies. In an organization, I would also
+            check controls such as SCPs and permissions
+            boundaries."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 3 -->
+
+<article class="question">
+
+    <div class="question-number">
+        SCENARIO 03
+    </div>
+
+    <h3>
+        A developer stored AWS access keys inside GitHub. What would you do immediately?
+    </h3>
+
+    <span class="label">
+        🚨 SECURITY INCIDENT
+    </span>
+
+    <p class="answer">
+
+        I would treat the credentials as compromised.
+
+        The immediate priority is to stop unauthorized use
+        and then investigate.
+
+        Depending on the credential type and setup, I would
+        revoke or deactivate the exposed credentials,
+        investigate CloudTrail activity, rotate credentials
+        where applicable, remove the secret from the
+        repository/history as appropriate, and move the
+        workload toward short-lived credentials such as IAM
+        roles or OIDC-based federation.
+
+    </p>
+
+
+    <div class="flow">
+
+        🚨 Exposed Secret
+
+        →
+
+        🔒 Revoke / Rotate
+
+        →
+
+        🔎 Investigate CloudTrail
+
+        →
+
+        🧹 Remove Secret
+
+        →
+
+        🛡️ Use Short-Lived Credentials
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would treat the exposed credentials as
+            compromised. I would immediately revoke or
+            rotate them, investigate usage through logging,
+            remove the secret from the source-control
+            workflow, and replace long-lived credentials with
+            short-lived role or OIDC-based authentication
+            wherever possible."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 4 -->
+
+<article class="question">
+
+    <div class="question-number">
+        SCENARIO 04
+    </div>
+
+    <h3>
+        Why should we avoid giving AdministratorAccess to a CI/CD pipeline?
+    </h3>
+
+    <span class="label">
+        DEVSECOPS
+    </span>
+
+    <p class="answer">
+
+        Because a CI/CD pipeline is an automated workload.
+
+        If its credentials are compromised, AdministratorAccess
+        could allow an attacker to modify or delete a large
+        portion of the AWS environment.
+
+        The safer design is to give the pipeline only the
+        permissions required for its deployment task.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            If the pipeline only deploys to ECS and pushes
+            images to ECR, it should not automatically receive
+            permissions to modify unrelated IAM, billing,
+            networking or production resources.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "CI/CD pipelines should follow least privilege.
+            Giving AdministratorAccess increases the blast
+            radius if the pipeline credentials or runner are
+            compromised. I would create a deployment role
+            containing only the required permissions."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     CLI
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>🛠️ Important IAM CLI Commands</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<article class="question">
+
+    <h3>
+        Useful AWS IAM CLI commands
+    </h3>
+
+
+    <span class="label">
+        LIST USERS
+    </span>
+
+    <pre>
+```
+
+aws iam list-users </pre>
+
+```
+    <span class="label">
+        LIST ROLES
+    </span>
+
+    <pre>
+```
+
+aws iam list-roles </pre>
+
+```
+    <span class="label">
+        LIST GROUPS
+    </span>
+
+    <pre>
+```
+
+aws iam list-groups </pre>
+
+```
+    <span class="label">
+        LIST POLICIES
+    </span>
+
+    <pre>
+```
+
+aws iam list-policies </pre>
+
+```
+    <span class="label">
+        GET ROLE
+    </span>
+
+    <pre>
+```
+
+aws iam get-role --role-name MyRole </pre>
+
+```
+    <span class="label">
+        LIST USER POLICIES
+    </span>
+
+    <pre>
+```
+
+aws iam list-user-policies --user-name MyUser </pre>
+
+```
+    <span class="label">
+        LIST ROLE POLICIES
+    </span>
+
+    <pre>
+```
+
+aws iam list-role-policies --role-name MyRole </pre>
+
+```
+</article>
+
+
+<!-- =================================================
+     FINAL REVISION
+================================================= -->
+
+<div class="important">
+
+    <strong>🧠 IAM One-Line Revision</strong>
+
+    <br><br>
+
+    <strong>
+        USER = Identity
+        <br>
+        GROUP = Collection of Users
+        <br>
+        ROLE = Assumable Identity
+        <br>
+        POLICY = Permissions
+        <br>
+        TRUST POLICY = Who can assume the Role
+        <br>
+        STS = Temporary Credentials
+        <br>
+        LEAST PRIVILEGE = Minimum Required Access
+        <br>
+        EXPLICIT DENY = Overrides Allow
+    </strong>
+
+    <br><br>
+
+    <strong>🔥 Most Important DevOps Flow:</strong>
+
+    <br><br>
+
+    EC2 / CI-CD / EKS
+
+    →
+
+    IAM Role
+
+    →
+
+    STS
+
+    →
+
+    Temporary Credentials
+
+    →
+
+    AWS Resource
+
+</div>
+```
+
+</main>
+
+<footer>
+
+```
+<p>
+    🔐 IAM Interview Preparation
+</p>
+
+<span>
+    Nandu's DevOps Interview Master Guide • 2026
+</span>
+```
+
+</footer>
+
+</body>
+
+</html>
+

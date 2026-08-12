@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloud Availability & Architecture Fundamentals</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111b33,#101827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+.icon{
+    font-size:52px;
+    margin-top:25px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,50px);
+    margin:10px 0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.map{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:12px;
+    margin-bottom:45px;
+}
+
+.map div{
+    padding:15px;
+    background:#121a2d;
+    border:1px solid #29344d;
+    border-radius:12px;
+    text-align:center;
+    color:#aeb9cf;
+}
+
+.section{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:55px 0 25px;
+}
+
+.section h2{
+    margin:0;
+    font-size:27px;
+}
+
+.line{
+    height:1px;
+    background:#29344d;
+    flex:1;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.number{
+    font-size:12px;
+    color:#74819e;
+    font-weight:800;
+}
+
+.priority{
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    display:inline-block;
+    margin:8px 0 12px;
+}
+
+h3{
+    font-size:21px;
+    margin:5px 0 15px;
+}
+
+p{
+    color:#c2ccde;
+}
+
+.example{
+    background:rgba(147,197,253,.06);
+    border-left:4px solid #93c5fd;
+    border-radius:0 10px 10px 0;
+    padding:18px 20px;
+    margin:20px 0;
+}
+
+.example strong{
+    color:#93c5fd;
+}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{
+    color:#93c5fd;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+    color:#cbd5e1;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    padding:14px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+td{
+    color:#c2ccde;
+}
+
+.note{
+    padding:20px;
+    border-radius:14px;
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    margin:25px 0;
+}
+
+.scenario{
+    border-left:4px solid #93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#74819e;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Cloud Fundamentals</a>
+
+<div class="icon">🏗️⚡🌍</div>
+
+<h1>Cloud Availability <span>& Architecture Fundamentals</span></h1>
+
+<p>
+Load Balancing, Auto Scaling, Multi-AZ, Multi-Region,
+DNS, CDN, Backup, Disaster Recovery and
+Cloud Architecture fundamentals.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="map">
+
+<div><strong>⭐⭐⭐⭐⭐</strong><br>Must Know</div>
+<div><strong>⭐⭐⭐⭐</strong><br>High Priority</div>
+<div><strong>⭐⭐⭐</strong><br>Medium</div>
+<div><strong>🎯</strong><br>Scenarios</div>
+<div><strong>🧠</strong><br>Revision</div>
+
+</div>
+
+<!-- ===================================================== -->
+
+<!-- LOAD BALANCING -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Load Balancing</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h3>What is Load Balancing?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Load balancing distributes incoming application traffic across
+multiple healthy servers or resources.
+</p>
+
+<div class="flow">
+
+Users
+
+↓
+
+<strong>Load Balancer</strong>
+
+↓
+
+Server 1    Server 2    Server 3
+
+</div>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+Suppose an application receives thousands of requests.
+
+Instead of sending every request to one server, the load
+balancer distributes traffic across multiple application
+instances.
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Load balancing distributes incoming traffic across multiple
+healthy resources. It improves availability, scalability and
+fault tolerance by preventing a single server from handling all
+the traffic."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h3>Why do we need a Load Balancer?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+A load balancer can help:
+
+<br><br>
+→ Distribute traffic <br>
+→ Improve availability <br>
+→ Support horizontal scaling <br>
+→ Detect unhealthy targets <br>
+→ Reduce dependency on a single server
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Real-Time Example</strong>
+
+<p>
+If Server-1 becomes unhealthy, the load balancer can stop
+sending new requests to that unhealthy target and route traffic
+to healthy targets.
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 03</div>
+
+<h3>What is a Health Check?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+A health check verifies whether a target is healthy enough to
+receive traffic.
+</p>
+
+<div class="flow">
+
+Load Balancer
+
+↓
+
+Health Check
+
+↓
+
+Healthy → Receive Traffic
+
+Unhealthy → Do Not Receive New Traffic
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- AUTO SCALING -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Auto Scaling</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 04</div>
+
+<h3>What is Auto Scaling?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Auto Scaling automatically adjusts the number or capacity of
+resources according to workload requirements and configured
+policies.
+</p>
+
+<div class="flow">
+
+Low Traffic <br>
+↓
+Fewer Instances <br>
+↓
+Traffic Increases <br>
+↓
+More Instances <br>
+↓
+Traffic Decreases <br>
+↓
+Scale Down
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Auto Scaling automatically adds or removes resources according
+to workload demand. It helps maintain application performance
+during traffic changes while avoiding unnecessary resource
+usage."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 05</div>
+
+<h3>Scalability vs Auto Scaling?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+
+<tr>
+<th>Scalability</th>
+<th>Auto Scaling</th>
+</tr>
+
+<tr>
+<td>Ability to handle increased workload</td>
+<td>Mechanism that automatically adjusts resources</td>
+</tr>
+
+<tr>
+<td>General architecture capability</td>
+<td>Automated resource adjustment</td>
+</tr>
+
+<tr>
+<td>Can be manual or automatic</td>
+<td>Uses configured policies/rules</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Scalability is the ability of a system to handle increased
+workload, while Auto Scaling is an automated mechanism that adds
+or removes resources according to defined conditions."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- MULTI AZ -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Multi-AZ & High Availability</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 06</div>
+
+<h3>What is Multi-AZ architecture?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Multi-AZ architecture deploys application resources across
+multiple Availability Zones within an AWS Region.
+</p>
+
+<div class="flow">
+
+AWS Region
+
+↓
+
+AZ-A      AZ-B
+
+↓
+
+Application Instances
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Why?</strong>
+
+<p>
+If one Availability Zone experiences a failure, healthy
+resources in another Availability Zone can continue serving
+traffic.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Multi-AZ architecture distributes workloads across multiple
+Availability Zones within a region. It improves availability
+and resilience because the application does not depend on a
+single Availability Zone."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 07</div>
+
+<h3>How would you design a highly available application?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<div class="flow">
+
+Users
+
+↓
+
+Load Balancer
+
+↓
+
+AZ-A      AZ-B
+
+↓
+
+Application Instances
+
+↓
+
+Database
+
+</div>
+
+<p>
+I would distribute application instances across multiple
+Availability Zones and use a load balancer to route traffic to
+healthy instances.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"I would design the application across multiple Availability
+Zones and place a load balancer in front of the application
+instances. I would use health checks and Auto Scaling where
+appropriate so that unhealthy or insufficient capacity can be
+handled automatically."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- MULTI REGION -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐ Multi-Region</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h3>What is Multi-Region architecture?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+Multi-Region architecture deploys workloads across multiple
+geographic cloud regions.
+</p>
+
+<div class="flow">
+
+Region A
+
+↓
+
+Application
+
+     
+
+Region B
+
+↓
+
+Application
+
+</div>
+
+<p>
+It can be used for regional disaster recovery, geographic
+distribution, latency requirements or business continuity.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Multi-Region architecture deploys workloads across multiple
+geographic regions. It can provide additional resilience
+against regional failures and can also support geographic
+distribution and latency requirements."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 09</div>
+
+<h3>Multi-AZ vs Multi-Region?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+
+<tr>
+<th>Multi-AZ</th>
+<th>Multi-Region</th>
+</tr>
+
+<tr>
+<td>Multiple AZs in one region</td>
+<td>Multiple geographic regions</td>
+</tr>
+
+<tr>
+<td>High availability within region</td>
+<td>Protection against regional failure</td>
+</tr>
+
+<tr>
+<td>Common architecture</td>
+<td>More complex architecture</td>
+</tr>
+
+<tr>
+<td>Lower complexity</td>
+<td>Higher operational complexity</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Multi-AZ is commonly used for high availability within a
+region, while Multi-Region can provide additional protection
+against regional failures and support geographic distribution.
+The choice depends on business and recovery requirements."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DNS -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐ DNS Fundamentals</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 10</div>
+
+<h3>What is DNS?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+DNS stands for Domain Name System.
+
+It translates human-readable domain names into IP addresses or
+other DNS records that allow clients to locate services.
+
+</p>
+
+<div class="flow">
+
+example.com
+
+↓
+
+DNS
+
+↓
+
+IP Address / Service Endpoint
+
+↓
+
+Application
+
+</div>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+Instead of remembering an IP address, users access an application
+using a domain name such as:
+
+<br><br>
+
+<strong>[www.example.com](http://www.example.com)</strong>
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"DNS is the Domain Name System. It translates domain names into
+IP addresses or service endpoints and helps clients locate
+applications and services."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h3>What is a DNS record?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A DNS record defines information used to resolve or route a
+domain name.
+</p>
+
+<table>
+
+<tr>
+<th>Record</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>A</td>
+<td>Maps a domain name to an IPv4 address</td>
+</tr>
+
+<tr>
+<td>AAAA</td>
+<td>Maps a domain name to an IPv6 address</td>
+</tr>
+
+<tr>
+<td>CNAME</td>
+<td>Maps a name to another domain name</td>
+</tr>
+
+<tr>
+<td>MX</td>
+<td>Defines mail servers</td>
+</tr>
+
+<tr>
+<td>TXT</td>
+<td>Stores text-based information</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CDN -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐ CDN Fundamentals</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 12</div>
+
+<h3>What is a CDN?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+CDN stands for Content Delivery Network.
+
+A CDN uses geographically distributed edge locations to deliver
+cached or optimized content closer to users.
+
+</p>
+
+<div class="flow">
+
+Origin Server
+
+↓
+
+CDN Edge Locations
+
+↓
+
+Users
+
+</div>
+
+<div class="example">
+
+<strong>🔥 Real-Time Example</strong>
+
+<p>
+If users are located in different countries, a CDN can cache
+static content closer to those users, reducing latency and
+improving delivery performance.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A CDN is a distributed network of edge locations that delivers
+content closer to end users. It reduces latency and can improve
+application performance by caching and serving content from
+locations closer to users."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 13</div>
+
+<h3>Why use a CDN?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+
+→ Reduce latency <br>
+→ Improve content delivery performance <br>
+→ Reduce load on origin servers <br>
+→ Improve global user experience <br>
+→ Handle high volumes of static content requests
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- BACKUP -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Backup & Disaster Recovery</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 14</div>
+
+<h3>What is Backup?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A backup is a copy of data maintained so that the data can be
+restored after accidental deletion, corruption or other failures.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+Database backup is created daily.
+
+If important data is accidentally deleted, the organization can
+restore it from an available backup.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 15</div>
+
+<h3>What is Disaster Recovery?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Disaster Recovery, or DR, is the process and architecture used
+to restore applications and data after a major disruption.
+</p>
+
+<div class="flow">
+
+Primary Environment
+
+↓
+
+Failure / Disaster
+
+↓
+
+DR Environment / Backup
+
+↓
+
+Restore
+
+↓
+
+Application Available
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Disaster Recovery is the strategy and process for restoring
+applications and data after a major failure or disaster. It
+typically includes backups, recovery procedures and potentially
+a secondary environment."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 16</div>
+
+<h3>RPO vs RTO?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+
+<tr>
+<th>RPO</th>
+<th>RTO</th>
+</tr>
+
+<tr>
+<td>Recovery Point Objective</td>
+<td>Recovery Time Objective</td>
+</tr>
+
+<tr>
+<td>How much data loss is acceptable?</td>
+<td>How much downtime is acceptable?</td>
+</tr>
+
+<tr>
+<td>Measured in time/data point</td>
+<td>Measured in recovery time</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+RPO = 15 minutes
+
+<br>
+→ Business can tolerate losing up to around 15 minutes of
+data.
+
+<br><br>
+
+RTO = 1 hour
+
+<br>
+→ Application should be restored within approximately 1 hour.
+
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"RPO defines the maximum acceptable amount of data loss measured
+in time, while RTO defines the target time within which a system
+should be restored after a disruption."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- WELL ARCHITECTED -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐ Cloud Architecture / Well-Architected</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<div class="number">QUESTION 17</div>
+
+<h3>What is the AWS Well-Architected Framework?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+The AWS Well-Architected Framework provides principles and best
+practices for designing and evaluating cloud workloads.
+</p>
+
+<p>
+The major pillars are:
+
+<br><br>
+
+→ Operational Excellence <br>
+→ Security <br>
+→ Reliability <br>
+→ Performance Efficiency <br>
+→ Cost Optimization <br>
+→ Sustainability
+
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The AWS Well-Architected Framework provides best practices for
+designing secure, reliable, efficient and cost-effective cloud
+workloads. It is organized around six pillars: operational
+excellence, security, reliability, performance efficiency, cost
+optimization and sustainability."
+</p>
+
+</div>
+
+</article>
+
+<article class="card">
+
+<div class="number">QUESTION 18</div>
+
+<h3>Why is architecture important in Cloud?</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+Cloud architecture determines how resources are organized to
+achieve availability, security, scalability, performance and
+cost objectives.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Good cloud architecture balances availability, scalability,
+security, performance and cost according to the application's
+business requirements."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- COMPLETE ARCHITECTURE -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>⭐⭐⭐⭐⭐ Production Architecture</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<h3>How would you design a highly available web application?</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<div class="flow">
+
+Users
+
+↓
+
+DNS
+
+↓
+
+CDN / Edge
+
+↓
+
+Load Balancer
+
+↓
+
+┌─────────────────┐ <br>
+AZ-A       AZ-B <br>
+Application    Application <br>
+Instances     Instances <br>
+└─────────────────┘
+
+↓
+
+Database
+
+↓
+
+Backup / DR
+
+</div>
+
+<p>
+For a production application, I would avoid depending on a
+single server or Availability Zone.
+</p>
+
+<p>
+I would use DNS for name resolution, a CDN when global content
+delivery is required, a load balancer for traffic distribution,
+multiple Availability Zones for resilience and Auto Scaling for
+variable workload.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"I would design the application using a multi-tier and
+multi-AZ architecture. DNS would route users to the application,
+a CDN could serve cacheable content, and a load balancer would
+distribute traffic across healthy application instances in
+multiple Availability Zones. Auto Scaling would adjust capacity
+based on demand. I would use an appropriate highly available
+database configuration and implement backups and disaster
+recovery according to the application's RPO and RTO
+requirements."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SCENARIOS -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>🎯 Real-Time Interview Scenarios</h2>
+<div class="line"></div>
+</div>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 01</div>
+
+<h3>
+Traffic suddenly increases 10 times. What would you do?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+I would use horizontal scaling with a load balancer and Auto
+Scaling.
+</p>
+
+<div class="flow">
+
+Traffic Increase
+
+↓
+
+Load Balancer
+
+↓
+
+Auto Scaling
+
+↓
+
+More Instances
+
+↓
+
+Traffic Distributed
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+"I would use a load-balanced architecture with Auto Scaling.
+When demand increases, additional instances can be launched and
+traffic can be distributed across healthy instances. When demand
+falls, capacity can scale down."
+</p>
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 02</div>
+
+<h3>
+One Availability Zone goes down. How can the application remain available?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Deploy the application across multiple Availability Zones and
+use a load balancer to route traffic to healthy resources.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+"I would deploy application instances across multiple
+Availability Zones and use health checks with a load balancer.
+If one AZ becomes unavailable, traffic can continue through
+healthy resources in another AZ."
+</p>
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 03</div>
+
+<h3>
+Users from different countries complain about slow static content.
+</h3>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+I would evaluate using a CDN so that cacheable content can be
+served from edge locations closer to users.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+"I would use a CDN for cacheable static content. The CDN can
+serve content from geographically distributed edge locations,
+reducing latency for users who are far from the origin."
+</p>
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 04</div>
+
+<h3>
+The business says the application must recover within 30 minutes and can tolerate only 5 minutes of data loss.
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ RTO/RPO</span>
+
+<p>
+
+RTO = 30 minutes
+
+<br>
+
+RPO = 5 minutes
+
+</p>
+
+<div class="answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+"The recovery requirements are an RTO of 30 minutes and an RPO
+of 5 minutes. I would design the backup and disaster recovery
+strategy to meet those objectives."
+</p>
+
+</div>
+
+</article>
+
+<article class="card scenario">
+
+<div class="number">SCENARIO 05</div>
+
+<h3>
+Should every application use Multi-Region architecture?
+</h3>
+
+<span class="priority">⭐⭐⭐⭐⭐ TRICK QUESTION</span>
+
+<p>
+No.
+
+Multi-Region architecture adds operational complexity and cost.
+It should be selected when business requirements justify it.
+
+</p>
+
+<div class="answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+"No. I would choose Multi-Region based on requirements such as
+regional disaster recovery, geographic distribution, latency or
+business continuity. For many applications, Multi-AZ provides
+sufficient high availability within a region."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- QUICK FIRE -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>🧠 Quick-Fire Questions</h2>
+<div class="line"></div>
+</div>
+
+<article class="card">
+
+<h3>Rapid Revision</h3>
+
+<p>
+
+<strong>Q:</strong> Load Balancer?
+
+<br>
+<strong>A:</strong> Distributes traffic across healthy resources.
+
+<br><br>
+
+<strong>Q:</strong> Health Check?
+
+<br>
+<strong>A:</strong> Determines whether a target is healthy.
+
+<br><br>
+
+<strong>Q:</strong> Auto Scaling?
+
+<br>
+<strong>A:</strong> Automatically adjusts resource capacity.
+
+<br><br>
+
+<strong>Q:</strong> Multi-AZ?
+
+<br>
+<strong>A:</strong> Deploy resources across multiple AZs in one region.
+
+<br><br>
+
+<strong>Q:</strong> Multi-Region?
+
+<br>
+<strong>A:</strong> Deploy workloads across multiple geographic regions.
+
+<br><br>
+
+<strong>Q:</strong> DNS?
+
+<br>
+<strong>A:</strong> Resolves domain names to addresses/endpoints.
+
+<br><br>
+
+<strong>Q:</strong> CDN?
+
+<br>
+<strong>A:</strong> Delivers content from locations closer to users.
+
+<br><br>
+
+<strong>Q:</strong> Backup?
+
+<br>
+<strong>A:</strong> Copy of data used for restoration.
+
+<br><br>
+
+<strong>Q:</strong> Disaster Recovery?
+
+<br>
+<strong>A:</strong> Process and architecture for restoring systems after disruption.
+
+<br><br>
+
+<strong>Q:</strong> RPO?
+
+<br>
+<strong>A:</strong> Maximum acceptable data loss measured in time.
+
+<br><br>
+
+<strong>Q:</strong> RTO?
+
+<br>
+<strong>A:</strong> Target recovery time after disruption.
+
+<br><br>
+
+<strong>Q:</strong> Well-Architected Framework?
+
+<br>
+<strong>A:</strong> Best-practice framework for designing and evaluating cloud workloads.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<div class="section">
+<h2>🧠 FINAL REVISION — CLOUD AVAILABILITY & ARCHITECTURE</h2>
+<div class="line"></div>
+</div>
+
+<div class="note">
+
+<strong>Load Balancer</strong>
+
+→ Distribute traffic.
+
+<br><br>
+
+<strong>Health Check</strong>
+
+→ Send traffic only to healthy resources.
+
+<br><br>
+
+<strong>Auto Scaling</strong>
+
+→ Automatically add/remove capacity.
+
+<br><br>
+
+<strong>Multi-AZ</strong>
+
+→ High availability within a region.
+
+<br><br>
+
+<strong>Multi-Region</strong>
+
+→ Regional resilience / geographic distribution.
+
+<br><br>
+
+<strong>DNS</strong>
+
+→ Domain name resolution.
+
+<br><br>
+
+<strong>CDN</strong>
+
+→ Deliver content closer to users.
+
+<br><br>
+
+<strong>Backup</strong>
+
+→ Copy of data for restoration.
+
+<br><br>
+
+<strong>Disaster Recovery</strong>
+
+→ Restore applications/data after major disruption.
+
+<br><br>
+
+<strong>RPO</strong>
+
+→ How much data loss can we tolerate?
+
+<br><br>
+
+<strong>RTO</strong>
+
+→ How much downtime can we tolerate?
+
+<br><br>
+
+<strong>Well-Architected</strong>
+
+→ Operational Excellence + Security + Reliability +
+Performance Efficiency + Cost Optimization + Sustainability.
+
+<br><br>
+
+<strong>🧠 Golden Architecture</strong>
+
+<br><br>
+
+User
+
+↓
+
+DNS
+
+↓
+
+CDN
+
+↓
+
+Load Balancer
+
+↓
+
+Multi-AZ Application
+
+↓
+
+Database
+
+↓
+
+Backup / Disaster Recovery
+
+</div>
+
+<div class="note">
+
+<strong>🎤 FINAL INTERVIEW ANSWER</strong>
+
+<p>
+"For a production cloud application, I would design for
+availability, scalability, security and recoverability. I would
+use DNS for name resolution, a CDN when required for global
+content delivery, a load balancer to distribute traffic, multiple
+Availability Zones for resilience and Auto Scaling for variable
+workloads. I would select an appropriate database architecture
+and implement backup and disaster recovery based on the required
+RPO and RTO. The final architecture would be driven by business,
+security, performance and cost requirements."
+</p>
+
+</div>
+
+</main>
+
+<footer>
+
+<p>🏗️⚡🌍 Cloud Availability & Architecture Fundamentals</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

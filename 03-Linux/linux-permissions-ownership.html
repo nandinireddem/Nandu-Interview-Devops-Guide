@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Permissions & Ownership - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin:20px 0 5px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+
+h2{
+    margin:5px 0 12px;
+    font-size:25px;
+}
+
+h3{
+    margin-top:22px;
+    color:#dbeafe;
+}
+
+p{color:#c2ccde}
+
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{color:#93c5fd}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{color:#93c5fd}
+
+.warning{
+    background:rgba(248,113,113,.06);
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:0 10px 10px 0;
+    margin:20px 0;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1;
+}
+
+code{
+    background:#080d18;
+    color:#bfdbfe;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+
+.note{
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">🔐</div>
+
+<h1>Linux <span>Permissions & Ownership</span></h1>
+
+<p>
+Linux file permissions, ownership, chmod, chown, chgrp, rwx,
+numeric permissions, umask and real-world DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+
+<!-- WHY PERMISSIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h2>What are Linux File Permissions?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux file permissions control who can read, modify or execute
+a file or directory.
+</p>
+
+<p>
+The three basic permissions are:
+</p>
+
+<p>
+→ <strong>r</strong> = Read
+
+<br>
+→ <strong>w</strong> = Write
+
+<br>
+→ <strong>x</strong> = Execute
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>-rwxr-xr--</pre>
+
+<p>
+This permission string tells us which operations are allowed for
+the owner, group and others.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux permissions control access to files and directories.
+The basic permissions are read, write and execute, and they are
+assigned separately to the owner, group and other users."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- OWNERSHIP -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h2>Linux File Ownership</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Every Linux file and directory has an owner and an associated
+group.
+</p>
+
+<div class="flow">
+
+File
+
+↓
+
+<strong>Owner</strong> + <strong>Group</strong>
+
+↓
+
+Permissions
+
+↓
+
+User Access
+
+</div>
+
+<div class="example">
+
+<strong>💡 Check ownership</strong>
+
+<pre>ls -l</pre>
+
+<p>Example output:</p>
+
+<pre>-rw-r--r-- 1 nandu devops 1200 app.log</pre>
+
+<p>
+Here:
+</p>
+
+<p>
+Owner → <strong>nandu</strong>
+
+<br>
+Group → <strong>devops</strong>
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux associates each file with an owner and a group. Permissions
+are then defined for the owner, group members and other users."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LS -L -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 03</div>
+
+<h2>How do you check permissions?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+Use the <code>ls -l</code> command.
+</p>
+
+<div class="example">
+
+<pre>ls -l app.sh</pre>
+
+<p>Example:</p>
+
+<pre>-rwxr-xr-- 1 nandu devops 2048 Aug 12 app.sh</pre>
+
+</div>
+
+<table>
+
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>-</code></td>
+<td>File type</td>
+</tr>
+
+<tr>
+<td><code>rwx</code></td>
+<td>Owner permissions</td>
+</tr>
+
+<tr>
+<td><code>r-x</code></td>
+<td>Group permissions</td>
+</tr>
+
+<tr>
+<td><code>r--</code></td>
+<td>Others permissions</td>
+</tr>
+
+<tr>
+<td><code>nandu</code></td>
+<td>Owner</td>
+</tr>
+
+<tr>
+<td><code>devops</code></td>
+<td>Group</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- R W X -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 04</div>
+
+<h2>What do r, w and x mean?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<table>
+
+<tr>
+<th>Permission</th>
+<th>File</th>
+<th>Directory</th>
+</tr>
+
+<tr>
+<td><strong>r</strong></td>
+<td>Read file contents</td>
+<td>List directory contents</td>
+</tr>
+
+<tr>
+<td><strong>w</strong></td>
+<td>Modify file</td>
+<td>Create/delete/rename entries</td>
+</tr>
+
+<tr>
+<td><strong>x</strong></td>
+<td>Execute file</td>
+<td>Enter/access directory</td>
+</tr>
+
+</table>
+
+<div class="note">
+
+<strong>🧠 Important:</strong>
+
+<p>
+Execute permission on a directory means you can access/traverse
+that directory. Directory permissions behave differently from
+file permissions.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"For files, read allows viewing contents, write allows modifying
+contents and execute allows running the file. For directories,
+read allows listing entries, write allows modifying directory
+entries and execute allows traversing or accessing the directory."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- THREE GROUPS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 05</div>
+
+<h2>Owner, Group and Others</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux permissions are divided into three categories.
+</p>
+
+<div class="flow">
+
+<strong>Owner</strong>
+
+↓
+
+<strong>Group</strong>
+
+↓
+
+<strong>Others</strong>
+
+</div>
+
+<table>
+
+<tr>
+<th>Category</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Owner</td>
+<td>User who owns the file</td>
+</tr>
+
+<tr>
+<td>Group</td>
+<td>Users belonging to the associated group</td>
+</tr>
+
+<tr>
+<td>Others</td>
+<td>All other users</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<pre>-rwxr-x---</pre>
+
+<p>
+
+Owner → <strong>rwx</strong>
+
+<br>
+
+Group → <strong>r-x</strong>
+
+<br>
+
+Others → <strong>---</strong>
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CHMOD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 06</div>
+
+<h2>chmod — Change Permissions</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>chmod</code> command changes permissions on files and
+directories.
+</p>
+
+<div class="example">
+
+<strong>💡 Symbolic Mode</strong>
+
+<pre>chmod u+x script.sh
+
+chmod g+w file.txt
+
+chmod o-r file.txt
+
+chmod a+x script.sh</pre>
+
+</div>
+
+<table>
+
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>u</code></td>
+<td>User / Owner</td>
+</tr>
+
+<tr>
+<td><code>g</code></td>
+<td>Group</td>
+</tr>
+
+<tr>
+<td><code>o</code></td>
+<td>Others</td>
+</tr>
+
+<tr>
+<td><code>a</code></td>
+<td>All</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"chmod is used to modify Linux file permissions. It supports
+symbolic notation such as u, g, o and a, as well as numeric
+permission notation."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- NUMERIC -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 07</div>
+
+<h2>Numeric Permissions in Linux</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+Linux permissions can also be represented using numeric values.
+</p>
+
+<table>
+
+<tr>
+<th>Permission</th>
+<th>Value</th>
+</tr>
+
+<tr>
+<td>Read (r)</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>Write (w)</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>Execute (x)</td>
+<td>1</td>
+</tr>
+
+</table>
+
+<p>
+The values are added together for each permission group.
+</p>
+
+<div class="example">
+
+<strong>💡 Example: 755</strong>
+
+<pre>7 = 4 + 2 + 1 = rwx
+
+5 = 4 + 1 = r-x
+
+5 = 4 + 1 = r-x</pre>
+
+<p>
+Therefore:
+</p>
+
+<pre>755 = rwxr-xr-x</pre>
+
+</div>
+
+<div class="example">
+
+<strong>💡 Example: 644</strong>
+
+<pre>6 = 4 + 2 = rw-
+
+4 = r--
+
+4 = r--</pre>
+
+<p>
+Therefore:
+</p>
+
+<pre>644 = rw-r--r--</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"In numeric Linux permissions, read is 4, write is 2 and execute
+is 1. The values are added for owner, group and others. For
+example, 755 represents rwxr-xr-x and 644 represents rw-r--r--."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- COMMON PERMISSIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h2>Common Permission Values</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<table>
+
+<tr>
+<th>Value</th>
+<th>Permission</th>
+<th>Typical Usage</th>
+</tr>
+
+<tr>
+<td>777</td>
+<td>rwxrwxrwx</td>
+<td>Full access to everyone — usually avoid</td>
+</tr>
+
+<tr>
+<td>755</td>
+<td>rwxr-xr-x</td>
+<td>Executable scripts/directories</td>
+</tr>
+
+<tr>
+<td>700</td>
+<td>rwx------</td>
+<td>Owner only</td>
+</tr>
+
+<tr>
+<td>644</td>
+<td>rw-r--r--</td>
+<td>Regular files</td>
+</tr>
+
+<tr>
+<td>600</td>
+<td>rw-------</td>
+<td>Private/sensitive files</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+Avoid blindly using <code>chmod 777</code>. It grants read, write
+and execute permissions to everyone and can create security
+risks.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CHOWN -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 09</div>
+
+<h2>chown — Change Ownership</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>chown</code> command changes the owner and optionally
+the group of a file or directory.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>sudo chown nandu app.log
+
+sudo chown nandu:devops app.log
+
+sudo chown -R nandu:devops /opt/app</pre>
+
+<p>
+The <code>-R</code> option applies the ownership change
+recursively.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"chown is used to change the owner of a file or directory. It can
+also change the associated group, and the -R option applies the
+change recursively."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CHGRP -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 10</div>
+
+<h2>chgrp — Change Group Ownership</h2>
+
+<span class="priority">⭐⭐⭐</span>
+
+<p>
+The <code>chgrp</code> command changes the group associated with
+a file or directory.
+</p>
+
+<div class="example">
+
+<pre>sudo chgrp devops app.log
+
+sudo chgrp -R devops /opt/app</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"chgrp is used to change the group ownership of a file or
+directory."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- WHOAMI ID -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h2>whoami and id</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+These commands help identify the current user and group
+information.
+</p>
+
+<div class="example">
+
+<pre>whoami
+
+id</pre>
+
+<p>
+<code>whoami</code> displays the current username.
+</p>
+
+<p>
+<code>id</code> displays the user ID, group ID and group
+membership information.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- UMASK -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 12</div>
+
+<h2>What is umask?</h2>
+
+<span class="priority">⭐⭐⭐⭐ INTERVIEW</span>
+
+<p>
+<code>umask</code> defines the default permission restrictions
+applied when new files and directories are created.
+</p>
+
+<div class="example">
+
+<strong>💡 Check current umask</strong>
+
+<pre>umask</pre>
+
+<p>
+A common value is:
+</p>
+
+<pre>0022</pre>
+
+</div>
+
+<p>
+The exact resulting permissions depend on the system's default
+base permissions and the umask value.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"umask defines default permission restrictions for newly created
+files and directories. It prevents certain permission bits from
+being granted by default."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- EXECUTABLE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 13</div>
+
+<h2>How do you make a script executable?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+Use <code>chmod +x</code>.
+</p>
+
+<div class="example">
+
+<pre>chmod +x deploy.sh
+
+./deploy.sh</pre>
+
+<p>
+You can verify it using:
+</p>
+
+<pre>ls -l deploy.sh</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I would add execute permission using chmod +x and then execute
+the script using ./script-name.sh."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SSH KEY -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 14</div>
+
+<h2>Why are SSH private key permissions important?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ AWS / DEVOPS FAVORITE</span>
+
+<p>
+SSH private keys contain sensitive authentication material and
+should not be accessible to other users.
+</p>
+
+<div class="example">
+
+<strong>💡 Common permission</strong>
+
+<pre>chmod 400 my-key.pem</pre>
+
+<p>
+Then connect:
+
+</p>
+
+<pre>ssh -i my-key.pem ec2-user@SERVER-IP</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+If an SSH private key is too permissive, SSH may reject it for
+security reasons. Always protect private keys appropriately.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"SSH private keys should have restrictive permissions so that
+other users cannot read them. A common practice is chmod 400 or
+another appropriately restrictive permission depending on the
+environment."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- REAL-TIME DEVOPS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME DEVOPS SCENARIO</div>
+
+<h2>Application cannot read its configuration file</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p>
+Suppose an application is running on a Linux server but cannot
+read its configuration file.
+</p>
+
+<div class="flow">
+
+Check User
+
+↓
+
+Check File
+
+↓
+
+Check Ownership
+
+↓
+
+Check Permissions
+
+↓
+
+Fix Ownership / Permissions
+
+↓
+
+Test Application
+
+</div>
+
+<div class="example">
+
+<strong>Step 1 — Identify current user</strong>
+
+<pre>whoami
+id</pre>
+
+<strong>Step 2 — Check file permissions</strong>
+
+<pre>ls -l /opt/app/config.yaml</pre>
+
+<strong>Step 3 — Change ownership if required</strong>
+
+<pre>sudo chown appuser:appgroup /opt/app/config.yaml</pre>
+
+<strong>Step 4 — Set appropriate permissions</strong>
+
+<pre>sudo chmod 640 /opt/app/config.yaml</pre>
+
+<strong>Step 5 — Verify</strong>
+
+<pre>ls -l /opt/app/config.yaml</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"First I would identify which user the application is running as.
+Then I would inspect the file's ownership and permissions using
+ls -l. If required, I would correct the owner or group using
+chown and set the minimum required permissions using chmod. I
+would then test the application again."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SECURITY PRINCIPLE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 15</div>
+
+<h2>What is the Principle of Least Privilege?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ SECURITY MUST KNOW</span>
+
+<p>
+The principle of least privilege means giving users, processes
+and applications only the permissions they actually need.
+</p>
+
+<div class="example">
+
+<strong>❌ Bad Practice</strong>
+
+<pre>chmod 777 application.conf</pre>
+
+<strong>✅ Better Approach</strong>
+
+<pre>chmod 640 application.conf</pre>
+
+<p>
+Then assign the appropriate owner and group.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Least privilege means granting only the minimum permissions
+required for a user or application to perform its task. This
+reduces the security impact of accidental or unauthorized access."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TROUBLESHOOTING -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">TROUBLESHOOTING</div>
+
+<h2>🎯 Permission Denied — What would you check?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+When a Linux command returns "Permission denied", I would inspect
+the current user, file ownership, permissions and directory
+access.
+</p>
+
+<div class="example">
+
+<pre>whoami
+
+id
+
+ls -l file.txt
+
+ls -ld /path/to/directory</pre>
+
+<p>
+Then, depending on the requirement:
+
+</p>
+
+<pre>sudo chown user:group file.txt
+
+sudo chmod 640 file.txt</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"For a permission denied issue, I would first identify the
+current user and groups, then inspect the file and parent
+directory permissions. I would verify ownership and only make
+the minimum required permission or ownership change. I would
+avoid blindly granting broad permissions such as 777."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- QUICK QUESTIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUICK INTERVIEW</div>
+
+<h2>⭐⭐⭐ Quick Questions</h2>
+
+<p>
+
+<strong>Q:</strong> What are the three basic Linux permissions?
+
+<br>
+<strong>A:</strong> Read, write and execute.
+
+<br><br>
+
+<strong>Q:</strong> What are the three permission categories?
+
+<br>
+<strong>A:</strong> Owner, group and others.
+
+<br><br>
+
+<strong>Q:</strong> What is chmod?
+
+<br>
+<strong>A:</strong> Changes file or directory permissions.
+
+<br><br>
+
+<strong>Q:</strong> What is chown?
+
+<br>
+<strong>A:</strong> Changes file or directory ownership.
+
+<br><br>
+
+<strong>Q:</strong> What is chgrp?
+
+<br>
+<strong>A:</strong> Changes group ownership.
+
+<br><br>
+
+<strong>Q:</strong> What does 755 mean?
+
+<br>
+<strong>A:</strong> rwxr-xr-x.
+
+<br><br>
+
+<strong>Q:</strong> What does 644 mean?
+
+<br>
+<strong>A:</strong> rw-r--r--.
+
+<br><br>
+
+<strong>Q:</strong> What does 400 mean?
+
+<br>
+<strong>A:</strong> r--------.
+
+<br><br>
+
+<strong>Q:</strong> What is umask?
+
+<br>
+<strong>A:</strong> Controls default permission restrictions for
+new files and directories.
+
+<br><br>
+
+<strong>Q:</strong> Why avoid chmod 777?
+
+<br>
+<strong>A:</strong> It grants broad permissions to everyone and
+can create security risks.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — LINUX PERMISSIONS</h2>
+
+<div class="note">
+
+<strong>r</strong>
+→ Read = 4
+
+<br><br>
+
+<strong>w</strong>
+→ Write = 2
+
+<br><br>
+
+<strong>x</strong>
+→ Execute = 1
+
+<br><br>
+
+<strong>Owner</strong>
+→ File owner permissions.
+
+<br><br>
+
+<strong>Group</strong>
+→ Group member permissions.
+
+<br><br>
+
+<strong>Others</strong>
+→ Everyone else.
+
+<br><br>
+
+<strong>chmod</strong>
+→ Change permissions.
+
+<br><br>
+
+<strong>chown</strong>
+→ Change owner/group ownership.
+
+<br><br>
+
+<strong>chgrp</strong>
+→ Change group.
+
+<br><br>
+
+<strong>755</strong>
+→ rwxr-xr-x
+
+<br><br>
+
+<strong>644</strong>
+→ rw-r--r--
+
+<br><br>
+
+<strong>600</strong>
+→ rw-------
+
+<br><br>
+
+<strong>400</strong>
+→ r--------
+
+<br><br>
+
+<strong>umask</strong>
+→ Default permission restrictions.
+
+<br><br>
+
+<strong>Least Privilege</strong>
+→ Give only required access.
+
+<br><br>
+
+<strong>🔥 Permission Troubleshooting Flow</strong>
+
+<br><br>
+
+whoami → id → ls -l → check owner/group → check permissions
+→ fix with chown/chmod → test
+
+</div>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🔐 Linux • Permissions & Ownership</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="Kubernetes Final Revision - DevOps Interview Master Guide">
+<title>Kubernetes Final Revision - DevOps Interview Master Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:60px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,54px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:20px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:25px;
+    margin:20px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    background:#172033;
+    margin:4px;
+    color:#bfdbfe;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">☸️🚀</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>Final Revision</span></h1>
+
+<p>
+Complete last-minute Kubernetes revision covering architecture,
+workloads, networking, storage, security, configuration, probes,
+scheduling, autoscaling, Helm, monitoring, troubleshooting,
+real-time scenarios and interview-ready answers.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>🔥 Kubernetes — One Page Mindset</h2>
+
+<div class="flow">
+
+<strong>Developer</strong>
+<br>↓
+<br>
+<strong>Git / CI Pipeline</strong>
+<br>↓
+<br>
+<strong>Container Image</strong>
+<br>↓
+<br>
+<strong>Kubernetes Cluster</strong>
+<br>↓
+<br>
+<strong>Deployment / Workload</strong>
+<br>↓
+<br>
+<strong>Pods</strong>
+<br>↓
+<br>
+<strong>Service</strong>
+<br>↓
+<br>
+<strong>Ingress / Load Balancer</strong>
+<br>↓
+<br>
+<strong>Users</strong>
+
+</div>
+
+<div class="answer">
+
+<strong>Core idea:</strong>
+
+Kubernetes is a container orchestration platform used to deploy,
+manage, scale, network and maintain containerized applications.
+
+</div>
+
+<div class="scenario">
+
+<strong>Interview mindset:</strong>
+
+Don't memorize Kubernetes as isolated commands.
+
+Understand:
+
+<strong>Application → Pod → Workload → Service → Networking →
+Storage → Security → Scaling → Monitoring → Troubleshooting.</strong>
+
+</div>
+
+</div>
+
+
+<!-- ARCHITECTURE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Kubernetes Architecture</h2>
+
+<div class="flow">
+
+<strong>Control Plane</strong>
+
+<br><br>
+
+API Server → Scheduler → Controller Manager → etcd
+
+<br><br>
+
+↓
+
+<br><br>
+
+<strong>Worker Nodes</strong>
+
+<br><br>
+
+kubelet → Container Runtime → Pods
+
+<br><br>
+
+kube-proxy / Networking
+
+</div>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>API Server</td>
+<td>Entry point for Kubernetes API requests.</td>
+</tr>
+
+<tr>
+<td>etcd</td>
+<td>Stores Kubernetes cluster state and configuration.</td>
+</tr>
+
+<tr>
+<td>Scheduler</td>
+<td>Decides which node should run a newly scheduled Pod.</td>
+</tr>
+
+<tr>
+<td>Controller Manager</td>
+<td>Runs controllers that continuously reconcile desired and actual state.</td>
+</tr>
+
+<tr>
+<td>kubelet</td>
+<td>Runs on worker nodes and ensures assigned Pods are running.</td>
+</tr>
+
+<tr>
+<td>Container Runtime</td>
+<td>Runs containers through the Kubernetes container runtime interface.</td>
+</tr>
+
+<tr>
+<td>kube-proxy</td>
+<td>Provides node-level Service networking behavior.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Kubernetes follows a control-plane and worker-node architecture.
+The API Server receives requests, etcd stores cluster state, the
+Scheduler assigns Pods to nodes and Controllers maintain the desired
+state. Worker nodes run Pods using kubelet and a container runtime."
+
+</div>
+
+</div>
+
+
+<!-- DESIRED STATE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Desired State vs Actual State</h2>
+
+<div class="flow">
+
+Desired State
+<br>
+↓
+<br>
+Kubernetes Controllers
+<br>
+↓
+<br>
+Actual State
+<br>
+↓
+<br>
+Reconciliation
+
+</div>
+
+<div class="answer">
+
+Kubernetes continuously compares the desired state defined by the
+user with the current state of the cluster and takes action to
+reduce the difference.
+
+</div>
+
+<div class="scenario">
+
+Example:
+
+Deployment requests:
+
+<pre><code>replicas: 3</code></pre>
+
+If one Pod crashes, the Deployment/ReplicaSet mechanism works toward
+restoring the desired number of replicas.
+
+</div>
+
+</div>
+
+
+<!-- PODS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Pod</h2>
+
+<div class="answer">
+
+A Pod is the smallest deployable unit in Kubernetes.
+
+A Pod can contain one or more containers that share networking and
+can share storage volumes.
+
+</div>
+
+<div class="flow">
+
+Pod
+<br>
+├── Container
+<br>
+├── Container
+<br>
+├── Shared Network
+<br>
+└── Shared Volumes
+
+</div>
+
+<div class="warning">
+
+In production, applications are normally managed through higher-level
+workloads such as Deployments rather than manually creating Pods.
+
+</div>
+
+</div>
+
+
+<!-- WORKLOADS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Kubernetes Workloads</h2>
+
+<table>
+
+<tr>
+<th>Workload</th>
+<th>Use Case</th>
+</tr>
+
+<tr>
+<td>Deployment</td>
+<td>Stateless applications and rolling updates.</td>
+</tr>
+
+<tr>
+<td>ReplicaSet</td>
+<td>Maintains desired number of matching Pods; usually managed by Deployment.</td>
+</tr>
+
+<tr>
+<td>StatefulSet</td>
+<td>Stateful applications requiring stable identity and storage.</td>
+</tr>
+
+<tr>
+<td>DaemonSet</td>
+<td>Runs a Pod on selected/all eligible nodes.</td>
+</tr>
+
+<tr>
+<td>Job</td>
+<td>Runs a task until successful completion.</td>
+</tr>
+
+<tr>
+<td>CronJob</td>
+<td>Runs Jobs according to a schedule.</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<strong>Examples:</strong>
+
+Deployment → Web application
+
+StatefulSet → Database
+
+DaemonSet → Node monitoring agent
+
+Job → Database migration
+
+CronJob → Scheduled backup
+
+</div>
+
+</div>
+
+
+<!-- DEPLOYMENT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Deployment</h2>
+
+<div class="answer">
+
+A Deployment manages ReplicaSets and provides declarative updates
+for Pods, including rolling updates and rollback capabilities.
+
+</div>
+
+<pre><code>kubectl get deployments
+
+kubectl rollout status deployment myapp
+
+kubectl rollout history deployment myapp
+
+kubectl rollout undo deployment myapp</code></pre>
+
+<div class="scenario">
+
+Production deployment:
+
+<pre><code>Version 1
+↓
+Rolling Update
+↓
+Version 2
+↓
+Health Checks
+↓
+Traffic continues</code></pre>
+
+If Version 2 fails, rollback can restore the previous version.
+
+</div>
+
+</div>
+
+
+<!-- SERVICES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Kubernetes Services</h2>
+
+<table>
+
+<tr>
+<th>Service</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>ClusterIP</td>
+<td>Internal cluster communication. Default Service type.</td>
+</tr>
+
+<tr>
+<td>NodePort</td>
+<td>Exposes a Service through a port on nodes.</td>
+</tr>
+
+<tr>
+<td>LoadBalancer</td>
+<td>Typically integrates with a cloud load-balancing mechanism.</td>
+</tr>
+
+<tr>
+<td>ExternalName</td>
+<td>Maps a Service name to an external DNS name.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Client
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Selector
+<br>↓
+<br>
+Pod Endpoints
+
+</div>
+
+<div class="warning">
+
+A Service does not automatically mean that traffic reaches every
+Pod. Its selector and endpoint health must match correctly.
+
+</div>
+
+</div>
+
+
+<!-- NETWORKING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Kubernetes Networking</h2>
+
+<div class="answer">
+
+The Kubernetes networking model allows Pods to communicate with each
+other and enables Services to provide stable access to changing Pods.
+
+</div>
+
+<div class="flow">
+
+Pod
+<br>↓
+<br>
+Service DNS
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Endpoints
+<br>↓
+<br>
+Target Pod
+
+</div>
+
+<h3>Important DNS example</h3>
+
+<pre><code>backend-service
+
+backend-service.backend.svc.cluster.local</code></pre>
+
+<div class="scenario">
+
+For cross-namespace communication, the fully qualified Service DNS
+name includes the namespace.
+
+</div>
+
+</div>
+
+
+<!-- INGRESS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Ingress</h2>
+
+<div class="answer">
+
+Ingress provides HTTP/HTTPS routing rules for exposing applications,
+usually through an Ingress Controller.
+
+</div>
+
+<div class="flow">
+
+Internet
+<br>↓
+<br>
+Load Balancer
+<br>↓
+<br>
+Ingress Controller
+<br>↓
+<br>
+Ingress Rules
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Pods
+
+</div>
+
+<div class="scenario">
+
+Example:
+
+<pre><code>app.example.com
+        ↓
+     Ingress
+        ↓
+ frontend-service
+        ↓
+     frontend Pods</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- CONFIGMAP -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. ConfigMap</h2>
+
+<div class="answer">
+
+ConfigMap stores non-sensitive configuration separately from the
+container image.
+
+</div>
+
+<pre><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_ENV: production
+  LOG_LEVEL: info</code></pre>
+
+Common uses:
+
+<ul>
+<li>Environment variables</li>
+<li>Application settings</li>
+<li>URLs</li>
+<li>Feature flags</li>
+<li>Configuration files</li>
+</ul>
+
+</div>
+
+
+<!-- SECRETS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Secret</h2>
+
+<div class="answer">
+
+Secret is designed for sensitive data such as passwords, tokens and
+credentials.
+
+</div>
+
+<pre><code>apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+stringData:
+  username: admin
+  password: example</code></pre>
+
+<div class="warning">
+
+Base64 encoding is NOT encryption.
+
+Production Secret management should include appropriate access
+control, encryption and rotation.
+
+</div>
+
+</div>
+
+
+<!-- STORAGE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Kubernetes Storage</h2>
+
+<div class="flow">
+
+Pod
+<br>↓
+<br>
+PVC
+<br>↓
+<br>
+PV
+<br>↓
+<br>
+Storage Backend
+
+</div>
+
+<table>
+
+<tr>
+<th>Object</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>PV</td>
+<td>Persistent storage resource available to the cluster.</td>
+</tr>
+
+<tr>
+<td>PVC</td>
+<td>Request for persistent storage.</td>
+</tr>
+
+<tr>
+<td>StorageClass</td>
+<td>Defines storage provisioning behavior/classes.</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+Application needs persistent data.
+
+Pod → PVC → dynamically provisioned PV → storage backend.
+
+If the Pod is recreated, the persistent data can remain available
+depending on the storage configuration.
+
+</div>
+
+</div>
+
+
+<!-- PROBES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Health Probes</h2>
+
+<table>
+
+<tr>
+<th>Probe</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Liveness</td>
+<td>Checks whether the container should be restarted.</td>
+</tr>
+
+<tr>
+<td>Readiness</td>
+<td>Checks whether the Pod should receive traffic.</td>
+</tr>
+
+<tr>
+<td>Startup</td>
+<td>Helps handle slow-starting applications before normal probes take over.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Liveness Failure
+→ Container Restart
+
+<br><br>
+
+Readiness Failure
+→ Remove from Service Traffic
+
+<br><br>
+
+Startup Probe
+→ Allow Slow Startup
+
+</div>
+
+</div>
+
+
+<!-- RESOURCES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Requests and Limits</h2>
+
+<div class="answer">
+
+<strong>Request</strong> is the amount of CPU/memory Kubernetes uses
+when making scheduling decisions.
+
+<strong>Limit</strong> is the maximum resource amount enforced for
+the container according to the resource type.
+
+</div>
+
+<pre><code>resources:
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+
+  limits:
+    cpu: "500m"
+    memory: "512Mi"</code></pre>
+
+<div class="scenario">
+
+If a Pod requests more resources than available on eligible nodes,
+the Scheduler may leave the Pod Pending.
+
+If a container exceeds its memory limit, it can be terminated with
+an OOMKilled status.
+
+</div>
+
+</div>
+
+
+<!-- SCHEDULING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Kubernetes Scheduling</h2>
+
+Important concepts:
+
+<span class="badge">Node Selector</span>
+<span class="badge">Node Affinity</span>
+<span class="badge">Pod Affinity</span>
+<span class="badge">Pod Anti-Affinity</span>
+<span class="badge">Taints</span>
+<span class="badge">Tolerations</span>
+
+<div class="answer">
+
+The Scheduler evaluates whether a node satisfies the Pod's
+requirements and selects an appropriate node.
+
+</div>
+
+<div class="scenario">
+
+Example:
+
+A workload must run only on nodes labelled:
+
+<pre><code>workload=production</code></pre>
+
+A nodeSelector or node affinity rule can be used to constrain
+placement.
+
+</div>
+
+</div>
+
+
+<!-- AUTOSCALING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Autoscaling</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>HPA</td>
+<td>Scales workload replicas based on metrics such as CPU/memory or configured custom metrics.</td>
+</tr>
+
+<tr>
+<td>VPA</td>
+<td>Adjusts Pod resource requests/limits according to observed usage, depending on configuration.</td>
+</tr>
+
+<tr>
+<td>Cluster Autoscaler</td>
+<td>Adjusts the number of cluster nodes based on scheduling/resource needs.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Traffic Increase
+<br>↓
+<br>
+HPA
+<br>↓
+<br>
+More Pods
+<br>↓
+<br>
+Cluster Capacity
+<br>↓
+<br>
+Cluster Autoscaler if needed
+
+</div>
+
+</div>
+
+
+<!-- RBAC -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. RBAC</h2>
+
+<div class="answer">
+
+RBAC controls which identities can perform which actions on
+Kubernetes resources.
+
+</div>
+
+<table>
+
+<tr>
+<th>Object</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Role</td>
+<td>Permissions within a namespace.</td>
+</tr>
+
+<tr>
+<td>ClusterRole</td>
+<td>Cluster-scoped permissions or reusable permissions depending on binding.</td>
+</tr>
+
+<tr>
+<td>RoleBinding</td>
+<td>Binds a Role or ClusterRole to subjects within a namespace.</td>
+</tr>
+
+<tr>
+<td>ClusterRoleBinding</td>
+<td>Binds a ClusterRole at cluster scope.</td>
+</tr>
+
+</table>
+
+<pre><code>kubectl auth can-i get pods
+
+kubectl auth can-i create deployments
+
+kubectl get role
+kubectl get rolebinding</code></pre>
+
+</div>
+
+
+<!-- SECURITY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Kubernetes Security</h2>
+
+<ul>
+<li>Use least-privilege RBAC.</li>
+<li>Protect Secrets.</li>
+<li>Use NetworkPolicies where required.</li>
+<li>Use trusted and scanned container images.</li>
+<li>Run containers with appropriate security settings.</li>
+<li>Avoid privileged containers unless required.</li>
+<li>Keep Kubernetes and node components updated.</li>
+<li>Restrict API access.</li>
+<li>Use image scanning and admission controls where appropriate.</li>
+<li>Monitor cluster activity.</li>
+</ul>
+
+<div class="scenario">
+
+<strong>DevSecOps example:</strong>
+
+Git push → CI scan → image build → vulnerability scan → registry →
+Kubernetes deployment → runtime monitoring.
+
+</div>
+
+</div>
+
+
+<!-- HELM -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. Helm</h2>
+
+<div class="answer">
+
+Helm is a package manager for Kubernetes. It uses Charts to package
+Kubernetes resources and templates.
+
+</div>
+
+<pre><code>helm create myapp
+
+helm install myapp ./myapp
+
+helm list
+
+helm upgrade myapp ./myapp
+
+helm rollback myapp 1
+
+helm uninstall myapp</code></pre>
+
+<div class="scenario">
+
+Instead of maintaining many almost-identical YAML files for Dev,
+QA and Production, Helm values can be used to provide environment
+specific configuration.
+
+</div>
+
+</div>
+
+
+<!-- MONITORING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 19. Kubernetes Monitoring</h2>
+
+<div class="flow">
+
+Application
+<br>↓
+<br>
+Metrics
+<br>↓
+<br>
+Prometheus
+<br>↓
+<br>
+Grafana
+<br>↓
+<br>
+Dashboards / Alerts
+
+</div>
+
+Useful commands:
+
+<pre><code>kubectl top pods
+
+kubectl top nodes</code></pre>
+
+Common monitoring areas:
+
+<ul>
+<li>CPU</li>
+<li>Memory</li>
+<li>Pod restarts</li>
+<li>Node health</li>
+<li>Application latency</li>
+<li>Error rate</li>
+<li>Request rate</li>
+</ul>
+
+</div>
+
+
+<!-- NAMESPACE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 20. Namespace</h2>
+
+<div class="answer">
+
+Namespaces provide logical isolation within a Kubernetes cluster and
+are commonly used to separate teams, applications or environments.
+
+</div>
+
+<pre><code>kubectl get namespaces
+
+kubectl get pods -n dev
+
+kubectl get svc -n production
+
+kubectl create namespace dev</code></pre>
+
+<div class="scenario">
+
+Example:
+
+<pre><code>dev
+qa
+production</code></pre>
+
+The same application can exist in separate namespaces with
+environment-specific configuration.
+
+</div>
+
+</div>
+
+
+<!-- LABELS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Labels and Selectors</h2>
+
+<div class="answer">
+
+Labels identify and organize Kubernetes objects.
+
+Selectors are used by resources such as Services and controllers to
+find matching objects.
+
+</div>
+
+<pre><code>labels:
+  app: frontend
+
+selector:
+  app: frontend</code></pre>
+
+<div class="warning">
+
+A very common troubleshooting issue is a mismatch between Service
+selectors and Pod labels.
+
+</div>
+
+</div>
+
+
+<!-- FINAL COMMANDS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 22. Essential kubectl Commands</h2>
+
+<pre><code># Cluster
+kubectl cluster-info
+kubectl get nodes
+kubectl describe node &lt;node&gt;
+
+# Namespaces
+kubectl get ns
+kubectl get all -n &lt;namespace&gt;
+
+# Pods
+kubectl get pods
+kubectl get pods -o wide
+kubectl get pods --show-labels
+kubectl describe pod &lt;pod&gt;
+kubectl logs &lt;pod&gt;
+kubectl logs &lt;pod&gt; --previous
+kubectl exec -it &lt;pod&gt; -- sh
+
+# Deployments
+kubectl get deployments
+kubectl describe deployment &lt;deployment&gt;
+kubectl rollout status deployment &lt;deployment&gt;
+kubectl rollout history deployment &lt;deployment&gt;
+kubectl rollout undo deployment &lt;deployment&gt;
+
+# Services
+kubectl get svc
+kubectl describe svc &lt;service&gt;
+kubectl get endpoints
+kubectl get endpointslices
+
+# Config
+kubectl get configmaps
+kubectl get secrets
+
+# Storage
+kubectl get pv
+kubectl get pvc
+kubectl get storageclass
+
+# Ingress
+kubectl get ingress
+kubectl describe ingress &lt;ingress&gt;
+
+# Resources
+kubectl top pods
+kubectl top nodes
+
+# RBAC
+kubectl auth can-i get pods
+kubectl auth can-i create deployments
+
+# Events
+kubectl get events --sort-by=.lastTimestamp
+
+# Debugging
+kubectl get all
+kubectl get all -n &lt;namespace&gt;</code></pre>
+
+</div>
+
+
+<!-- TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 23. Kubernetes Troubleshooting Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Things to Check</th>
+</tr>
+
+<tr>
+<td>Pending</td>
+<td>describe Pod → Events → resources → taints → affinity</td>
+</tr>
+
+<tr>
+<td>CrashLoopBackOff</td>
+<td>logs → logs --previous → describe → probes/config</td>
+</tr>
+
+<tr>
+<td>ImagePullBackOff</td>
+<td>image name/tag → registry → credentials → ImagePullSecret</td>
+</tr>
+
+<tr>
+<td>OOMKilled</td>
+<td>memory usage → limits → application memory behavior</td>
+</tr>
+
+<tr>
+<td>No Service endpoints</td>
+<td>selector → Pod labels → readiness → namespace</td>
+</tr>
+
+<tr>
+<td>Connection refused</td>
+<td>Service → targetPort → endpoints → application listening port</td>
+</tr>
+
+<tr>
+<td>DNS failure</td>
+<td>CoreDNS → Service → DNS name → network connectivity</td>
+</tr>
+
+<tr>
+<td>PVC Pending</td>
+<td>StorageClass → PV → provisioner → events</td>
+</tr>
+
+<tr>
+<td>Forbidden</td>
+<td>RBAC → Role → Binding → identity → auth can-i</td>
+</tr>
+
+<tr>
+<td>Ingress 404</td>
+<td>host/path → Ingress rules → controller → Service</td>
+</tr>
+
+<tr>
+<td>Ingress 502/503</td>
+<td>Service → endpoints → targetPort → Pod health</td>
+</tr>
+
+<tr>
+<td>Node NotReady</td>
+<td>node conditions → kubelet → runtime → resources</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+<strong>Golden Troubleshooting Flow</strong>
+
+<br><br>
+
+get
+→ describe
+→ events
+→ logs
+→ dependencies
+→ fix
+→ verify
+
+</div>
+
+</div>
+
+
+<!-- REAL TIME -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 24. Real-Time Scenario — Production Website Down</h2>
+
+<div class="scenario">
+
+Do not restart everything immediately.
+
+Check from outside to inside:
+
+<pre><code>DNS
+ ↓
+Load Balancer
+ ↓
+Ingress
+ ↓
+Service
+ ↓
+Endpoints
+ ↓
+Pods
+ ↓
+Application
+ ↓
+Database</code></pre>
+
+Commands:
+
+<pre><code>kubectl get ingress
+kubectl get svc
+kubectl get endpoints
+kubectl get pods
+kubectl logs &lt;pod&gt;</code></pre>
+
+<strong>Goal:</strong> Find the first broken layer.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 25. Real-Time Scenario — New Version Broke Production</h2>
+
+<div class="scenario">
+
+Check:
+
+<pre><code>kubectl rollout status deployment myapp
+
+kubectl rollout history deployment myapp</code></pre>
+
+If confirmed as a bad deployment and rollback is appropriate:
+
+<pre><code>kubectl rollout undo deployment myapp</code></pre>
+
+Then investigate:
+
+<ul>
+<li>Application logs</li>
+<li>Image version</li>
+<li>Configuration changes</li>
+<li>Secrets</li>
+<li>Probes</li>
+<li>Resource changes</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 26. Real-Time Scenario — Application Cannot Reach Database</h2>
+
+<div class="flow">
+
+Application Pod
+<br>↓
+<br>
+Database DNS
+<br>↓
+<br>
+Database Service
+<br>↓
+<br>
+Database Endpoint
+<br>↓
+<br>
+Database
+
+</div>
+
+Check:
+
+<pre><code>kubectl logs &lt;pod&gt;
+
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl get secrets
+
+kubectl get networkpolicy</code></pre>
+
+Possible causes:
+
+<ul>
+<li>Wrong hostname</li>
+<li>Wrong port</li>
+<li>Wrong credentials</li>
+<li>Missing Secret</li>
+<li>DNS issue</li>
+<li>NetworkPolicy</li>
+<li>Database unavailable</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 27. Real-Time Scenario — Pods keep restarting</h2>
+
+<div class="scenario">
+
+First check:
+
+<pre><code>kubectl get pods
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl logs &lt;pod&gt;
+
+kubectl logs &lt;pod&gt; --previous</code></pre>
+
+Then identify whether the cause is:
+
+<ul>
+<li>CrashLoopBackOff</li>
+<li>OOMKilled</li>
+<li>Liveness failure</li>
+<li>Startup failure</li>
+<li>Bad configuration</li>
+<li>Application dependency failure</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- INTERVIEW QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 28. Most Important Kubernetes Interview Questions</h2>
+
+<ol>
+
+<li>What is Kubernetes?</li>
+
+<li>Why do we use Kubernetes?</li>
+
+<li>Explain Kubernetes architecture.</li>
+
+<li>What is the role of API Server?</li>
+
+<li>What is etcd?</li>
+
+<li>What does Scheduler do?</li>
+
+<li>What does Controller Manager do?</li>
+
+<li>What is kubelet?</li>
+
+<li>What is a Pod?</li>
+
+<li>Why don't we normally manage production applications using raw Pods?</li>
+
+<li>What is a Deployment?</li>
+
+<li>Deployment vs ReplicaSet?</li>
+
+<li>Deployment vs StatefulSet?</li>
+
+<li>What is DaemonSet?</li>
+
+<li>Job vs CronJob?</li>
+
+<li>What is a Service?</li>
+
+<li>Explain ClusterIP, NodePort and LoadBalancer.</li>
+
+<li>How does a Service find Pods?</li>
+
+<li>What happens if a Service has no endpoints?</li>
+
+<li>What is Ingress?</li>
+
+<li>What is ConfigMap?</li>
+
+<li>What is Secret?</li>
+
+<li>ConfigMap vs Secret?</li>
+
+<li>Is Base64 encryption?</li>
+
+<li>What is PV?</li>
+
+<li>What is PVC?</li>
+
+<li>What is StorageClass?</li>
+
+<li>What are liveness, readiness and startup probes?</li>
+
+<li>Requests vs limits?</li>
+
+<li>What is HPA?</li>
+
+<li>What is node affinity?</li>
+
+<li>What are taints and tolerations?</li>
+
+<li>What is RBAC?</li>
+
+<li>Role vs ClusterRole?</li>
+
+<li>What is Helm?</li>
+
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+
+<li>How do you troubleshoot ImagePullBackOff?</li>
+
+<li>Why is a Pod Pending?</li>
+
+<li>How do you troubleshoot a Service?</li>
+
+<li>How do you troubleshoot DNS?</li>
+
+<li>How do you troubleshoot a failed Deployment?</li>
+
+<li>How do you rollback a Deployment?</li>
+
+<li>How do you troubleshoot OOMKilled?</li>
+
+<li>How do you troubleshoot Node NotReady?</li>
+
+<li>How do you troubleshoot a PVC Pending?</li>
+
+<li>How do you troubleshoot RBAC Forbidden?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 29. Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>What happens internally when you run kubectl apply?</li>
+
+<li>How does Kubernetes maintain desired state?</li>
+
+<li>How does the Scheduler select a node?</li>
+
+<li>How does a Service route traffic to Pods?</li>
+
+<li>What happens when a Pod dies?</li>
+
+<li>What happens when a node goes down?</li>
+
+<li>How does Kubernetes perform rolling updates?</li>
+
+<li>How does rollback work?</li>
+
+<li>What happens when readiness fails?</li>
+
+<li>What happens when liveness fails?</li>
+
+<li>How does HPA decide to scale?</li>
+
+<li>Why can a Pod be Running but not receive traffic?</li>
+
+<li>Why can a Pod be Pending?</li>
+
+<li>Why can a Service have no endpoints?</li>
+
+<li>How do you secure Kubernetes Secrets?</li>
+
+<li>How would you debug a production outage?</li>
+
+<li>How would you prevent a bad deployment from reaching all users?</li>
+
+</ul>
+
+</div>
+
+
+<!-- PROJECT CONNECTION -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 30. Kubernetes in a Real DevOps Project</h2>
+
+<div class="flow">
+
+Developer
+<br>↓
+<br>
+GitHub
+<br>↓
+<br>
+CI Pipeline
+<br>↓
+<br>
+Build & Test
+<br>↓
+<br>
+Docker Image
+<br>↓
+<br>
+Security Scan
+<br>↓
+<br>
+Container Registry
+<br>↓
+<br>
+Kubernetes
+<br>↓
+<br>
+Deployment
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Ingress
+<br>↓
+<br>
+Users
+<br>
+<br>
+Prometheus + Grafana
+<br>↓
+<br>
+Monitoring & Alerts
+
+</div>
+
+<div class="scenario">
+
+<strong>GitOps version:</strong>
+
+Git → CI → Image Registry → Manifest/Helm Repository → Argo CD →
+Kubernetes → Application.
+
+This is a strong way to explain how Kubernetes fits into a modern
+DevOps workflow.
+
+</div>
+
+</div>
+
+
+<!-- PROJECT INTERVIEW -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 31. Project Interview Answer</h2>
+
+<div class="interview">
+
+"In my DevOps project, I used Kubernetes to deploy and manage the
+containerized application.
+
+I used Deployments to maintain application replicas and rolling
+updates. Services provided stable internal access to Pods, while
+Ingress handled external HTTP/HTTPS routing.
+
+I separated configuration using ConfigMaps and Secrets and used
+persistent storage through PV/PVC where required.
+
+I configured readiness and liveness probes for application health
+and resource requests and limits for predictable scheduling and
+resource management.
+
+For security, I used RBAC and followed least-privilege principles.
+For observability, I integrated monitoring using Prometheus and
+Grafana.
+
+For deployment automation, Kubernetes can be integrated with CI/CD
+and GitOps tools such as Argo CD.
+
+When troubleshooting, I use kubectl get, describe, events and logs
+to identify the root cause before applying a fix."
+
+</div>
+
+</div>
+
+
+<!-- RAPID REVISION -->
+
+<div class="card">
+
+<h2>🚀 32. 60-Second Kubernetes Revision</h2>
+
+<div class="flow">
+
+<strong>Kubernetes</strong>
+→ Container orchestration
+
+<br><br>
+
+<strong>Pod</strong>
+→ Smallest deployable unit
+
+<br><br>
+
+<strong>Deployment</strong>
+→ Stateless app management + rolling updates
+
+<br><br>
+
+<strong>StatefulSet</strong>
+→ Stateful workloads
+
+<br><br>
+
+<strong>DaemonSet</strong>
+→ Node-level workloads
+
+<br><br>
+
+<strong>Service</strong>
+→ Stable networking
+
+<br><br>
+
+<strong>Ingress</strong>
+→ HTTP/HTTPS routing
+
+<br><br>
+
+<strong>ConfigMap</strong>
+→ Non-sensitive configuration
+
+<br><br>
+
+<strong>Secret</strong>
+→ Sensitive configuration
+
+<br><br>
+
+<strong>PV/PVC</strong>
+→ Persistent storage
+
+<br><br>
+
+<strong>Readiness</strong>
+→ Receive traffic?
+
+<br><br>
+
+<strong>Liveness</strong>
+→ Restart container?
+
+<br><br>
+
+<strong>HPA</strong>
+→ Scale Pods
+
+<br><br>
+
+<strong>RBAC</strong>
+→ Authorization
+
+<br><br>
+
+<strong>Helm</strong>
+→ Kubernetes package management
+
+<br><br>
+
+<strong>Prometheus/Grafana</strong>
+→ Monitoring
+
+<br><br>
+
+<strong>Argo CD</strong>
+→ GitOps delivery
+
+</div>
+
+</div>
+
+
+<!-- FIVE MINUTE -->
+
+<div class="card">
+
+<h2>🔥 33. 5-Minute Final Revision Flow</h2>
+
+<ol>
+
+<li>
+<strong>Architecture:</strong>
+API Server, etcd, Scheduler, Controllers, kubelet.
+</li>
+
+<li>
+<strong>Workloads:</strong>
+Pod, Deployment, StatefulSet, DaemonSet, Job, CronJob.
+</li>
+
+<li>
+<strong>Networking:</strong>
+Service, ClusterIP, NodePort, LoadBalancer, Ingress, DNS.
+</li>
+
+<li>
+<strong>Configuration:</strong>
+ConfigMaps and Secrets.
+</li>
+
+<li>
+<strong>Storage:</strong>
+PV, PVC, StorageClass.
+</li>
+
+<li>
+<strong>Reliability:</strong>
+Readiness, Liveness, Startup probes.
+</li>
+
+<li>
+<strong>Scaling:</strong>
+Requests, limits, HPA, node scaling.
+</li>
+
+<li>
+<strong>Security:</strong>
+RBAC, Secrets, NetworkPolicies, least privilege.
+</li>
+
+<li>
+<strong>Operations:</strong>
+Helm, monitoring, logging, GitOps.
+</li>
+
+<li>
+<strong>Troubleshooting:</strong>
+get → describe → events → logs → dependencies → fix → verify.
+</li>
+
+</ol>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 34. If Interviewer Says: "Explain Kubernetes"</h2>
+
+<div class="interview">
+
+"Kubernetes is a container orchestration platform used to automate
+the deployment, scaling and management of containerized applications.
+
+It follows a desired-state model. The control plane consists of
+components such as the API Server, etcd, Scheduler and Controller
+Manager, while worker nodes run application Pods through kubelet and
+the container runtime.
+
+I use Deployments for stateless applications, Services for stable
+network communication and Ingress for external HTTP/HTTPS routing.
+ConfigMaps and Secrets help separate configuration and sensitive
+data from application images.
+
+For persistent workloads, Kubernetes provides PV, PVC and
+StorageClass. Readiness, liveness and startup probes help manage
+application health.
+
+For scalability, I use resource requests and limits and HPA.
+RBAC and NetworkPolicies help control access and communication.
+
+In production, I combine Kubernetes with CI/CD, monitoring and
+GitOps practices. When issues occur, I troubleshoot systematically
+using kubectl get, describe, events and logs instead of making
+random changes."
+
+</div>
+
+</div>
+
+
+<!-- TOP 20 -->
+
+<div class="card">
+
+<h2>🏆 35. Top 20 — Must Know Before Interview</h2>
+
+<ol>
+
+<li>Explain Kubernetes architecture.</li>
+
+<li>What is a Pod?</li>
+
+<li>Deployment vs StatefulSet?</li>
+
+<li>What happens when a Pod crashes?</li>
+
+<li>What is a Service?</li>
+
+<li>ClusterIP vs NodePort vs LoadBalancer?</li>
+
+<li>How does Service discovery work?</li>
+
+<li>What is Ingress?</li>
+
+<li>ConfigMap vs Secret?</li>
+
+<li>Is Secret Base64 encrypted?</li>
+
+<li>PV vs PVC?</li>
+
+<li>Readiness vs Liveness?</li>
+
+<li>Requests vs Limits?</li>
+
+<li>What is HPA?</li>
+
+<li>Taints vs Tolerations?</li>
+
+<li>What is RBAC?</li>
+
+<li>How does rolling update work?</li>
+
+<li>How do you rollback?</li>
+
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+
+<li>Explain a real-time Kubernetes production project.</li>
+
+</ol>
+
+<div class="warning">
+
+If these 20 questions are clear with real-time examples, you have a
+strong foundation for most Kubernetes interview discussions.
+
+</div>
+
+</div>
+
+
+<!-- GOLDEN RULES -->
+
+<div class="card">
+
+<h2>🧠 36. Kubernetes Golden Rules</h2>
+
+<ul>
+
+<li>
+<strong>Pod is not the application architecture.</strong>
+Use appropriate workload controllers.
+</li>
+
+<li>
+<strong>Service is not the same as Pod.</strong>
+Service provides stable networking.
+</li>
+
+<li>
+<strong>Running does not always mean healthy.</strong>
+Use readiness and application health checks.
+</li>
+
+<li>
+<strong>Base64 is not encryption.</strong>
+Protect Secrets appropriately.
+</li>
+
+<li>
+<strong>Requests influence scheduling.</strong>
+Limits constrain resource usage.
+</li>
+
+<li>
+<strong>Don't blindly restart Pods.</strong>
+Find the root cause.
+</li>
+
+<li>
+<strong>Don't expose everything publicly.</strong>
+Use appropriate Services, Ingress and security controls.
+</li>
+
+<li>
+<strong>Don't hard-code environment-specific configuration.</strong>
+Use configuration management.
+</li>
+
+<li>
+<strong>Don't give excessive permissions.</strong>
+Follow least privilege.
+</li>
+
+<li>
+<strong>Always verify after fixing.</strong>
+</li>
+
+</ul>
+
+</div>
+
+
+<!-- FINAL CHECKLIST -->
+
+<div class="card">
+
+<h2>✅ 37. Kubernetes Interview Readiness Checklist</h2>
+
+<ul>
+
+<li>☑ Architecture understood</li>
+<li>☑ Pod understood</li>
+<li>☑ Deployments understood</li>
+<li>☑ StatefulSet / DaemonSet understood</li>
+<li>☑ Services understood</li>
+<li>☑ Networking and DNS understood</li>
+<li>☑ Ingress understood</li>
+<li>☑ ConfigMaps and Secrets understood</li>
+<li>☑ PV / PVC understood</li>
+<li>☑ Probes understood</li>
+<li>☑ Requests / Limits understood</li>
+<li>☑ Scheduling understood</li>
+<li>☑ HPA understood</li>
+<li>☑ RBAC understood</li>
+<li>☑ Helm basics understood</li>
+<li>☑ Monitoring basics understood</li>
+<li>☑ Troubleshooting commands practiced</li>
+<li>☑ Real-time scenarios practiced</li>
+<li>☑ Project explanation prepared</li>
+<li>☑ Top interview questions revised</li>
+
+</ul>
+
+</div>
+
+
+<!-- FOOTER REVISION -->
+
+<div class="card">
+
+<h2>🔥 Final Kubernetes Memory Map</h2>
+
+<div class="flow">
+
+<strong>ARCHITECTURE</strong>
+<br>
+API Server → etcd → Scheduler → Controllers
+<br>
+↓
+<br>
+Nodes → kubelet → Runtime → Pods
+
+<br><br><hr><br>
+
+<strong>WORKLOAD</strong>
+<br>
+Deployment → ReplicaSet → Pods
+
+<br><br>
+
+<strong>NETWORK</strong>
+<br>
+Ingress → Service → Endpoints → Pods
+
+<br><br>
+
+<strong>CONFIG</strong>
+<br>
+ConfigMap + Secret
+
+<br><br>
+
+<strong>STORAGE</strong>
+<br>
+PVC → PV → Storage
+
+<br><br>
+
+<strong>HEALTH</strong>
+<br>
+Startup → Readiness → Liveness
+
+<br><br>
+
+<strong>SCALE</strong>
+<br>
+Requests/Limits → HPA → Node Scaling
+
+<br><br>
+
+<strong>SECURITY</strong>
+<br>
+RBAC + Secrets + NetworkPolicy
+
+<br><br>
+
+<strong>OPERATE</strong>
+<br>
+Helm + Monitoring + Logging + GitOps
+
+<br><br>
+
+<strong>TROUBLESHOOT</strong>
+<br>
+get → describe → events → logs → dependencies → fix → verify
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+☸️ Kubernetes Final Revision • Nandu's DevOps Interview Master Guide
+
+<br><br>
+
+Architecture • Workloads • Networking • Storage • Security •
+Scaling • Monitoring • Troubleshooting • Real-Time Scenarios
+
+<br><br>
+
+2026
+
+</footer>
+
+</body>
+</html>

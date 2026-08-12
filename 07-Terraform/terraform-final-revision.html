@@ -1,0 +1,1952 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terraform Final Revision - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:10px 0;
+}
+
+h1 span{color:#60a5fa}
+
+header p{
+    max-width:900px;
+    margin:15px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{color:#60a5fa}
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#60a5fa;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#172554;
+    color:#93c5fd;
+    margin:3px;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🏗️</div>
+
+<a href="index.html" class="back">← Back to Terraform</a>
+
+<h1>Terraform <span>Final Revision</span></h1>
+
+<p>
+Complete interview revision covering Terraform fundamentals,
+workflow, state, variables, modules, lifecycle, provisioners,
+security, CI/CD, troubleshooting, real-time scenarios and
+interview-ready answers.
+</p>
+
+<div>
+<span class="badge">AWS</span>
+<span class="badge">IaC</span>
+<span class="badge">DevOps</span>
+<span class="badge">CI/CD</span>
+<span class="badge">Production</span>
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Terraform?</h2>
+
+<div class="answer">
+
+<strong>Terraform</strong> is an Infrastructure as Code (IaC) tool
+used to define, provision and manage infrastructure using
+declarative configuration files.
+
+Instead of manually creating AWS resources through the console,
+we define the desired infrastructure in code and Terraform
+creates or updates it.
+
+</div>
+
+<div class="flow">
+
+Terraform Code
+<br>↓<br>
+Terraform Plan
+<br>↓<br>
+Review Changes
+<br>↓<br>
+Terraform Apply
+<br>↓<br>
+Cloud Infrastructure
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+Instead of manually creating a VPC, subnets, security groups and
+EC2 instances in AWS, I can define them in Terraform and create
+the same architecture repeatedly.
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why Terraform?</h2>
+
+<ul>
+<li>Infrastructure as Code</li>
+<li>Repeatable infrastructure</li>
+<li>Version control through Git</li>
+<li>Automation</li>
+<li>Consistent environments</li>
+<li>Reusable modules</li>
+<li>Change preview using plan</li>
+<li>Works with multiple providers</li>
+<li>Suitable for CI/CD automation</li>
+</ul>
+
+<div class="interview">
+
+<strong>Interview wording:</strong>
+
+"Terraform helps us provision and manage infrastructure
+consistently through code. It provides repeatability, version
+control, automation and a clear plan of infrastructure changes."
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Declarative vs Imperative</h2>
+
+<table>
+
+<tr>
+<th>Declarative</th>
+<th>Imperative</th>
+</tr>
+
+<tr>
+<td>Defines the desired end state.</td>
+<td>Defines step-by-step instructions.</td>
+</tr>
+
+<tr>
+<td>Terraform</td>
+<td>Traditional scripts</td>
+</tr>
+
+<tr>
+<td>Terraform determines required actions.</td>
+<td>User explicitly specifies actions.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+Terraform is primarily <strong>declarative</strong>.
+
+You describe what infrastructure should look like and Terraform
+determines how to reach that state.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Terraform Core Workflow</h2>
+
+<div class="flow">
+
+<strong>Write</strong>
+<br>↓<br>
+<strong>terraform init</strong>
+<br>↓<br>
+<strong>terraform validate</strong>
+<br>↓<br>
+<strong>terraform plan</strong>
+<br>↓<br>
+<strong>terraform apply</strong>
+<br>↓<br>
+<strong>terraform destroy</strong> when intentionally required
+
+</div>
+
+<pre><code>terraform init
+terraform fmt
+terraform validate
+terraform plan
+terraform apply</code></pre>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Terraform Files</h2>
+
+<table>
+
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>main.tf</code></td>
+<td>Main resources and configuration</td>
+</tr>
+
+<tr>
+<td><code>variables.tf</code></td>
+<td>Input variables</td>
+</tr>
+
+<tr>
+<td><code>outputs.tf</code></td>
+<td>Output values</td>
+</tr>
+
+<tr>
+<td><code>terraform.tfvars</code></td>
+<td>Variable values</td>
+</tr>
+
+<tr>
+<td><code>providers.tf</code></td>
+<td>Provider configuration</td>
+</tr>
+
+<tr>
+<td><code>versions.tf</code></td>
+<td>Terraform/provider version constraints</td>
+</tr>
+
+<tr>
+<td><code>backend.tf</code></td>
+<td>Backend configuration when separated</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Provider</h2>
+
+<div class="answer">
+
+A provider is a Terraform plugin that allows Terraform to interact
+with an external platform such as AWS, Azure, GCP or Kubernetes.
+
+</div>
+
+<pre><code>terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}</code></pre>
+
+<div class="interview">
+
+The provider translates Terraform resource configuration into API
+operations for the target platform.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Resource</h2>
+
+<pre><code>resource "aws_instance" "web" {
+  ami           = "ami-xxxxxxxx"
+  instance_type = "t3.micro"
+
+  tags = {
+    Name = "web-server"
+  }
+}</code></pre>
+
+<div class="answer">
+
+A resource represents an infrastructure object that Terraform
+manages.
+
+Examples include EC2, S3, VPC, IAM role, security group and load
+balancer.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Variables</h2>
+
+<pre><code>variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t3.micro"
+}</code></pre>
+
+<p>Use the variable:</p>
+
+<pre><code>resource "aws_instance" "web" {
+  instance_type = var.instance_type
+}</code></pre>
+
+<div class="answer">
+
+Variables make Terraform configurations reusable and reduce
+hard-coded values.
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 9. Variable Types</h2>
+
+<pre><code>variable "name" {
+  type = string
+}
+
+variable "count" {
+  type = number
+}
+
+variable "enabled" {
+  type = bool
+}
+
+variable "ports" {
+  type = list(number)
+}
+
+variable "tags" {
+  type = map(string)
+}
+
+variable "config" {
+  type = object({
+    environment = string
+    region      = string
+  })
+}</code></pre>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. tfvars</h2>
+
+<pre><code>instance_type = "t3.medium"
+environment   = "production"</code></pre>
+
+Terraform can automatically load:
+
+<pre><code>terraform.tfvars
+*.auto.tfvars</code></pre>
+
+Or explicitly:
+
+<pre><code>terraform plan -var-file="prod.tfvars"</code></pre>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Locals</h2>
+
+<pre><code>locals {
+  project_name = "payment-app"
+
+  common_tags = {
+    Project     = local.project_name
+    Environment = "production"
+  }
+}</code></pre>
+
+<div class="answer">
+
+Locals are useful for calculated or reusable expressions inside
+a Terraform configuration.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Outputs</h2>
+
+<pre><code>output "instance_id" {
+  value = aws_instance.web.id
+}
+
+output "public_ip" {
+  value = aws_instance.web.public_ip
+}</code></pre>
+
+Run:
+
+<pre><code>terraform output</code></pre>
+
+<div class="answer">
+
+Outputs expose useful values after Terraform creates infrastructure.
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 13. Data Sources</h2>
+
+<div class="answer">
+
+Data sources allow Terraform to read existing information without
+creating that resource.
+
+</div>
+
+<pre><code>data "aws_ami" "amazon_linux" {
+  most_recent = true
+
+  owners = ["amazon"]
+}</code></pre>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+Instead of hard-coding an AMI ID, Terraform can query for a suitable
+AMI dynamically.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Terraform State</h2>
+
+<div class="answer">
+
+Terraform state is Terraform's record of the infrastructure it
+manages and the relationship between configuration and real-world
+resources.
+
+Common file:
+
+<pre><code>terraform.tfstate</code></pre>
+
+</div>
+
+<div class="warning">
+
+Do not commit production Terraform state files to Git.
+
+State may contain sensitive infrastructure information.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Local vs Remote State</h2>
+
+<table>
+
+<tr>
+<th>Local State</th>
+<th>Remote State</th>
+</tr>
+
+<tr>
+<td>Stored locally</td>
+<td>Stored in a shared backend</td>
+</tr>
+
+<tr>
+<td>Suitable mainly for simple/local use</td>
+<td>Better for teams and CI/CD</td>
+</tr>
+
+<tr>
+<td>Difficult collaboration</td>
+<td>Centralized access</td>
+</tr>
+
+<tr>
+<td>Limited locking depending on setup</td>
+<td>Can support state locking depending on backend</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Remote Backend</h2>
+
+<pre><code>terraform {
+  backend "s3" {
+    bucket = "company-terraform-state"
+    key    = "prod/network/terraform.tfstate"
+    region = "ap-south-1"
+  }
+}</code></pre>
+
+<div class="answer">
+
+A remote backend allows a team or CI/CD system to work with
+centralized Terraform state.
+
+The backend should be secured with appropriate access controls,
+encryption and recovery mechanisms.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. State Locking</h2>
+
+<div class="answer">
+
+State locking prevents multiple Terraform operations from modifying
+the same state simultaneously when the selected backend supports
+locking.
+
+</div>
+
+<div class="scenario">
+
+If another Terraform process is already using the state, a second
+operation should not blindly modify it.
+
+</div>
+
+<div class="warning">
+
+Never use force-unlock simply because Terraform reports a lock.
+First confirm that the lock is stale and no active operation is
+running.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Terraform Plan</h2>
+
+<pre><code>terraform plan</code></pre>
+
+<div class="answer">
+
+Plan compares the desired configuration with the current state and
+provider information and shows proposed changes before apply.
+
+Typical symbols:
+
+<pre><code>+   create
+-   destroy
+~   update
+-/+ replace</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Terraform Apply</h2>
+
+<pre><code>terraform apply</code></pre>
+
+<div class="answer">
+
+Apply executes the approved changes required to make the actual
+infrastructure match the desired configuration.
+
+</div>
+
+<div class="scenario">
+
+In production, apply should normally happen through a controlled
+workflow with review and appropriate approvals.
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Terraform Destroy</h2>
+
+<pre><code>terraform destroy</code></pre>
+
+<div class="warning">
+
+Destroy removes resources managed by the selected Terraform
+configuration.
+
+Never run it blindly against production.
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Modules</h2>
+
+<div class="answer">
+
+A module is a reusable collection of Terraform configuration.
+
+</div>
+
+<pre><code>module "vpc" {
+  source = "./modules/vpc"
+
+  cidr_block = "10.0.0.0/16"
+}</code></pre>
+
+Example structure:
+
+<pre><code>terraform/
+├── modules/
+│   ├── vpc/
+│   ├── ec2/
+│   └── security/
+│
+└── environments/
+    ├── dev/
+    ├── qa/
+    └── prod/</code></pre>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. count vs for_each</h2>
+
+<table>
+
+<tr>
+<th>count</th>
+<th>for_each</th>
+</tr>
+
+<tr>
+<td>Good for indexed identical resources.</td>
+<td>Good for uniquely identified resources.</td>
+</tr>
+
+<tr>
+<td><code>resource[0]</code></td>
+<td><code>resource["web"]</code></td>
+</tr>
+
+</table>
+
+<pre><code>resource "aws_instance" "web" {
+  count = 2
+
+  ami           = var.ami
+  instance_type = "t3.micro"
+}</code></pre>
+
+<pre><code>resource "aws_instance" "app" {
+  for_each = {
+    web = "t3.micro"
+    api = "t3.small"
+  }
+
+  ami           = var.ami
+  instance_type = each.value
+}</code></pre>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 23. depends_on</h2>
+
+<pre><code>resource "aws_instance" "app" {
+
+  depends_on = [
+    aws_iam_role_policy.app
+  ]
+
+}</code></pre>
+
+<div class="answer">
+
+Terraform normally creates dependencies automatically when one
+resource references another. <code>depends_on</code> is useful when
+the dependency cannot be inferred from an expression.
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 24. Lifecycle Rules</h2>
+
+<pre><code>resource "aws_instance" "web" {
+
+  lifecycle {
+    create_before_destroy = true
+
+    prevent_destroy = true
+
+    ignore_changes = [
+      tags
+    ]
+  }
+
+}</code></pre>
+
+<table>
+
+<tr>
+<th>Rule</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>create_before_destroy</td>
+<td>Create replacement before destroying old resource when supported.</td>
+</tr>
+
+<tr>
+<td>prevent_destroy</td>
+<td>Protect against Terraform destroying the resource.</td>
+</tr>
+
+<tr>
+<td>ignore_changes</td>
+<td>Ignore selected configuration differences.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 25. Provisioners</h2>
+
+<div class="answer">
+
+Provisioners allow Terraform to perform actions such as running
+commands after resource creation.
+
+However, they should generally be avoided when a better native
+resource, cloud-init/user-data, configuration-management tool or
+other approach exists.
+
+</div>
+
+<pre><code>provisioner "local-exec" {
+  command = "echo Instance created"
+}</code></pre>
+
+<div class="warning">
+
+Provisioners can make infrastructure less predictable and harder to
+maintain.
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Terraform Import</h2>
+
+<div class="scenario">
+
+An EC2 instance already exists in AWS but is not managed by
+Terraform.
+
+</div>
+
+<pre><code>terraform import aws_instance.web i-0123456789abcdef0</code></pre>
+
+Then:
+
+<pre><code>terraform plan</code></pre>
+
+<div class="answer">
+
+Import associates an existing real-world resource with a Terraform
+resource address. Configuration should then be aligned with the
+actual resource.
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Terraform Drift</h2>
+
+<div class="answer">
+
+Drift occurs when infrastructure is changed outside Terraform.
+
+Example:
+
+Terraform says:
+
+<pre><code>instance_type = "t3.micro"</code></pre>
+
+Someone manually changes AWS to:
+
+<pre><code>t3.medium</code></pre>
+
+Run:
+
+<pre><code>terraform plan</code></pre>
+
+to identify the difference.
+
+</div>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. State Commands</h2>
+
+<pre><code>terraform state list
+
+terraform state show &lt;resource&gt;
+
+terraform state mv &lt;old&gt; &lt;new&gt;
+
+terraform state rm &lt;resource&gt;
+
+terraform show</code></pre>
+
+<div class="warning">
+
+State manipulation is powerful. Always understand the effect before
+changing production state.
+
+</div>
+
+</div>
+
+
+<!-- 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 29. State Rename</h2>
+
+<div class="scenario">
+
+Resource address changes from:
+
+<pre><code>aws_instance.web</code></pre>
+
+to:
+
+<pre><code>aws_instance.frontend</code></pre>
+
+</div>
+
+<pre><code>terraform state mv \
+  aws_instance.web \
+  aws_instance.frontend</code></pre>
+
+This tells Terraform that the address changed while the underlying
+managed object is intended to remain the same.
+
+</div>
+
+
+<!-- 30 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Terraform Validation & Formatting</h2>
+
+<pre><code>terraform fmt
+
+terraform validate</code></pre>
+
+<div class="answer">
+
+<strong>fmt</strong> formats Terraform files.
+
+<strong>validate</strong> checks whether the configuration is
+syntactically valid and internally consistent for the initialized
+configuration.
+
+</div>
+
+</div>
+
+
+<!-- 31 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Terraform CI/CD</h2>
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+Pull Request
+<br>↓<br>
+terraform fmt
+<br>↓<br>
+terraform validate
+<br>↓<br>
+terraform plan
+<br>↓<br>
+Review
+<br>↓<br>
+Approval
+<br>↓<br>
+terraform apply
+<br>↓<br>
+Verify Infrastructure
+
+</div>
+
+<div class="answer">
+
+This workflow provides version control, automated validation,
+reviewable plans, approvals and auditability.
+
+</div>
+
+</div>
+
+
+<!-- 32 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 32. Terraform Security</h2>
+
+<ul>
+<li>Do not commit secrets to Git.</li>
+<li>Protect remote state.</li>
+<li>Encrypt state at rest where supported.</li>
+<li>Use least-privilege IAM.</li>
+<li>Use short-lived credentials where possible.</li>
+<li>Protect CI/CD credentials.</li>
+<li>Enable secret scanning.</li>
+<li>Restrict production access.</li>
+<li>Review destructive plans.</li>
+<li>Maintain state backups/recovery mechanisms.</li>
+</ul>
+
+</div>
+
+
+<!-- 33 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 33. Terraform State and Secrets</h2>
+
+<div class="answer">
+
+Terraform state can contain sensitive information depending on the
+resources and expressions being managed.
+
+Therefore state should be treated as sensitive infrastructure data.
+
+</div>
+
+<div class="warning">
+
+Do not assume that marking an output as sensitive means the value
+cannot exist in state. Sensitive values may still be stored in the
+state required by Terraform.
+
+</div>
+
+</div>
+
+
+<!-- 34 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 34. Existing Resource Scenario</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Terraform says a resource already exists.
+
+<strong>Solution:</strong>
+
+Import the existing resource, inspect the configuration and state,
+then run a plan.
+
+<pre><code>terraform import &lt;address&gt; &lt;id&gt;
+
+terraform plan</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- 35 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 35. Apply Failed Halfway</h2>
+
+<div class="scenario">
+
+Never assume everything was rolled back.
+
+Check:
+
+<pre><code>terraform plan
+terraform state list
+terraform show</code></pre>
+
+Fix the root cause and run the plan again.
+
+</div>
+
+<div class="answer">
+
+Terraform records successful operations in state, so after resolving
+the error it can usually continue toward the desired state.
+
+</div>
+
+</div>
+
+
+<!-- 36 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 36. AWS Authentication Troubleshooting</h2>
+
+<pre><code>aws sts get-caller-identity
+
+aws configure list
+
+aws configure get region
+
+terraform plan</code></pre>
+
+Check:
+
+<ul>
+<li>Credentials</li>
+<li>IAM role/user</li>
+<li>Expired credentials</li>
+<li>Profile</li>
+<li>Region</li>
+<li>IAM permissions</li>
+</ul>
+
+</div>
+
+
+<!-- 37 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 37. Terraform Works Locally but Fails in CI</h2>
+
+<div class="answer">
+
+I would compare:
+
+<ul>
+<li>Terraform version</li>
+<li>Provider versions</li>
+<li>AWS credentials</li>
+<li>AWS profile</li>
+<li>AWS region</li>
+<li>Environment variables</li>
+<li>Variable files</li>
+<li>Backend</li>
+<li>Working directory</li>
+<li>IAM permissions</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 38 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 38. Dev / QA / Production</h2>
+
+<div class="flow">
+
+Reusable Modules
+<br>↓<br>
+Dev State
+<br>↓<br>
+QA State
+<br>↓<br>
+Production State
+
+</div>
+
+<div class="answer">
+
+Keep environment state isolated so a Dev operation cannot
+accidentally modify Production.
+
+The exact implementation can use separate root configurations,
+workspaces or other environment-management approaches depending on
+the organization's requirements.
+
+</div>
+
+</div>
+
+
+<!-- 39 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 39. Workspace</h2>
+
+<pre><code>terraform workspace list
+
+terraform workspace new dev
+
+terraform workspace select dev
+
+terraform workspace show</code></pre>
+
+<div class="answer">
+
+Workspaces allow multiple state instances for the same configuration.
+They can be useful in some scenarios, but teams should not assume
+workspaces alone provide all environment isolation or security
+controls required for production.
+
+</div>
+
+</div>
+
+
+<!-- 40 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 40. Provider Version Locking</h2>
+
+Terraform creates a dependency lock file:
+
+<pre><code>.terraform.lock.hcl</code></pre>
+
+<div class="answer">
+
+The lock file records selected provider versions and checksums so
+different machines and CI environments can use consistent provider
+versions.
+
+</div>
+
+</div>
+
+
+<!-- 41 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 41. Terraform Version Management</h2>
+
+<pre><code>terraform {
+  required_version = ">= 1.6, < 2.0"
+}</code></pre>
+
+<div class="answer">
+
+Version constraints help ensure the project is executed with a
+compatible Terraform version.
+
+Teams should also standardize the version used by developers and
+CI/CD.
+
+</div>
+
+</div>
+
+
+<!-- 42 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 42. Production Architecture</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git
+<br>↓<br>
+Pull Request
+<br>↓<br>
+CI Validation
+<br>↓<br>
+Terraform Plan
+<br>↓<br>
+Approval
+<br>↓<br>
+Terraform Apply
+<br>↓<br>
+Remote State
+<br>↓<br>
+AWS Infrastructure
+<br>↓<br>
+Monitoring
+
+</div>
+
+</div>
+
+
+<!-- 43 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 43. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is Terraform?</li>
+
+<li>Why do we use Terraform?</li>
+
+<li>What is Infrastructure as Code?</li>
+
+<li>Terraform vs CloudFormation?</li>
+
+<li>Terraform vs Ansible?</li>
+
+<li>What is a provider?</li>
+
+<li>What is a resource?</li>
+
+<li>What is a data source?</li>
+
+<li>What is a variable?</li>
+
+<li>What is a local value?</li>
+
+<li>What is an output?</li>
+
+<li>What is terraform init?</li>
+
+<li>What is terraform plan?</li>
+
+<li>What is terraform apply?</li>
+
+<li>What is terraform destroy?</li>
+
+<li>What is Terraform state?</li>
+
+<li>Why do we need remote state?</li>
+
+<li>What is state locking?</li>
+
+<li>What is state drift?</li>
+
+<li>What is terraform import?</li>
+
+<li>What is terraform state mv?</li>
+
+<li>What are Terraform modules?</li>
+
+<li>count vs for_each?</li>
+
+<li>What is depends_on?</li>
+
+<li>What are lifecycle rules?</li>
+
+<li>What are provisioners?</li>
+
+<li>What is a backend?</li>
+
+<li>What is .terraform.lock.hcl?</li>
+
+<li>How do you manage Dev, QA and Production?</li>
+
+<li>How do you secure Terraform state?</li>
+
+<li>How do you use Terraform in CI/CD?</li>
+
+<li>How do you handle infrastructure drift?</li>
+
+<li>How do you troubleshoot AWS authentication errors?</li>
+
+<li>What if terraform apply fails halfway?</li>
+
+<li>What if Terraform wants to destroy a production resource?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 44 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 44. Interview Follow-Up Questions</h2>
+
+<ul>
+
+<li>Can Terraform work without state?</li>
+
+<li>Why shouldn't state be stored in Git?</li>
+
+<li>Can two people run Terraform simultaneously?</li>
+
+<li>What happens if state is locked?</li>
+
+<li>What happens if state is deleted?</li>
+
+<li>How do you import an existing resource?</li>
+
+<li>How do you rename a resource without recreating it?</li>
+
+<li>How do you detect drift?</li>
+
+<li>How do you protect production?</li>
+
+<li>How do you manage secrets?</li>
+
+<li>Why are provisioners discouraged?</li>
+
+<li>When would you use for_each?</li>
+
+<li>When would you use count?</li>
+
+<li>What is implicit dependency?</li>
+
+<li>What is explicit dependency?</li>
+
+<li>What does create_before_destroy do?</li>
+
+<li>What does prevent_destroy do?</li>
+
+<li>What does ignore_changes do?</li>
+
+<li>How do modules help?</li>
+
+<li>How would you design Terraform for a large organization?</li>
+
+</ul>
+
+</div>
+
+
+<!-- 45 -->
+
+<div class="card">
+
+<h2>🧠 45. Terraform Command Cheat Sheet</h2>
+
+<pre><code># Initialize
+terraform init
+
+# Format
+terraform fmt
+
+# Validate
+terraform validate
+
+# Plan
+terraform plan
+
+# Apply
+terraform apply
+
+# Destroy
+terraform destroy
+
+# Show outputs
+terraform output
+
+# Show state
+terraform show
+
+# List resources
+terraform state list
+
+# Inspect resource
+terraform state show &lt;address&gt;
+
+# Import
+terraform import &lt;address&gt; &lt;id&gt;
+
+# Move resource address
+terraform state mv &lt;old&gt; &lt;new&gt;
+
+# Remove resource from state
+terraform state rm &lt;address&gt;
+
+# Providers
+terraform providers
+
+# Workspace
+terraform workspace list
+terraform workspace select dev
+
+# AWS identity
+aws sts get-caller-identity</code></pre>
+
+</div>
+
+
+<!-- 46 -->
+
+<div class="card">
+
+<h2>🚨 46. Common Terraform Mistakes</h2>
+
+<ul>
+<li>Running apply without reviewing the plan.</li>
+<li>Storing state in Git.</li>
+<li>Hard-coding credentials.</li>
+<li>Using AdministratorAccess unnecessarily.</li>
+<li>Ignoring state locking.</li>
+<li>Blindly using force-unlock.</li>
+<li>Using provisioners for everything.</li>
+<li>Creating one huge Terraform configuration.</li>
+<li>Mixing production and development state.</li>
+<li>Ignoring provider version changes.</li>
+<li>Running destructive commands against production.</li>
+<li>Ignoring drift.</li>
+</ul>
+
+</div>
+
+
+<!-- 47 -->
+
+<div class="card">
+
+<h2>🎯 47. "Explain Terraform" — Interview Answer</h2>
+
+<div class="interview">
+
+"Terraform is an Infrastructure as Code tool that allows us to
+define and manage infrastructure using declarative configuration.
+
+I use Terraform to provision resources such as VPCs, subnets,
+security groups, EC2 instances, IAM resources and other cloud
+components.
+
+The normal workflow is terraform init, validate, plan and apply.
+
+Terraform maintains state to track the relationship between the
+configuration and real infrastructure. In a team environment I
+prefer a secure remote backend with appropriate state protection and
+locking.
+
+I use variables, outputs, locals and reusable modules to make the
+configuration maintainable.
+
+For production, infrastructure changes go through Git and CI/CD.
+The pipeline validates the code, generates a plan and applies
+approved changes.
+
+I also handle real-time situations such as drift, importing
+existing resources, state issues, authentication failures and
+failed deployments.
+
+The main benefit is repeatable, version-controlled and automated
+infrastructure management."
+
+</div>
+
+</div>
+
+
+<!-- 48 -->
+
+<div class="card">
+
+<h2>🚀 48. 60-Second Terraform Revision</h2>
+
+<div class="flow">
+
+<strong>Terraform</strong>
+→ Infrastructure as Code
+
+<br><br>
+
+<strong>Provider</strong>
+→ Connects Terraform to AWS/Azure/GCP/etc.
+
+<br><br>
+
+<strong>Resource</strong>
+→ Infrastructure object
+
+<br><br>
+
+<strong>Variable</strong>
+→ Input
+
+<br><br>
+
+<strong>Local</strong>
+→ Reusable internal value
+
+<br><br>
+
+<strong>Output</strong>
+→ Exposes useful result
+
+<br><br>
+
+<strong>Data Source</strong>
+→ Reads existing information
+
+<br><br>
+
+<strong>Module</strong>
+→ Reusable Terraform code
+
+<br><br>
+
+<strong>State</strong>
+→ Tracks managed infrastructure
+
+<br><br>
+
+<strong>Backend</strong>
+→ Stores state
+
+<br><br>
+
+<strong>Locking</strong>
+→ Prevents conflicting state operations
+
+<br><br>
+
+<strong>Plan</strong>
+→ Preview changes
+
+<br><br>
+
+<strong>Apply</strong>
+→ Execute changes
+
+<br><br>
+
+<strong>Import</strong>
+→ Bring existing resource under management
+
+<br><br>
+
+<strong>Drift</strong>
+→ Actual infrastructure differs from desired configuration
+
+<br><br>
+
+<strong>Lifecycle</strong>
+→ Controls resource replacement behavior
+
+<br><br>
+
+<strong>CI/CD</strong>
+→ Automated and controlled infrastructure delivery
+
+</div>
+
+</div>
+
+
+<!-- 49 -->
+
+<div class="card">
+
+<h2>🔥 49. Final Production Mental Model</h2>
+
+<div class="flow">
+
+<strong>Git</strong>
+<br>
+Infrastructure Code
+<br>↓<br>
+
+<strong>Terraform</strong>
+<br>
+Desired State
+<br>↓<br>
+
+<strong>Plan</strong>
+<br>
+Review Changes
+<br>↓<br>
+
+<strong>Approval</strong>
+<br>
+Human / Policy Check
+<br>↓<br>
+
+<strong>Apply</strong>
+<br>
+Create / Update Infrastructure
+<br>↓<br>
+
+<strong>Remote State</strong>
+<br>
+Track Infrastructure
+<br>↓<br>
+
+<strong>AWS</strong>
+<br>
+Actual Infrastructure
+<br>↓<br>
+
+<strong>Monitoring & Drift Detection</strong>
+
+</div>
+
+</div>
+
+
+<!-- FINAL CHECKLIST -->
+
+<div class="card">
+
+<h2>✅ 50. Terraform Interview Checklist</h2>
+
+<ul>
+<li>☑ Terraform basics</li>
+<li>☑ IaC concept</li>
+<li>☑ Declarative approach</li>
+<li>☑ Providers</li>
+<li>☑ Resources</li>
+<li>☑ Variables</li>
+<li>☑ tfvars</li>
+<li>☑ Locals</li>
+<li>☑ Outputs</li>
+<li>☑ Data sources</li>
+<li>☑ State</li>
+<li>☑ Remote backend</li>
+<li>☑ State locking</li>
+<li>☑ Modules</li>
+<li>☑ count / for_each</li>
+<li>☑ depends_on</li>
+<li>☑ lifecycle</li>
+<li>☑ provisioners</li>
+<li>☑ Import</li>
+<li>☑ State commands</li>
+<li>☑ Drift</li>
+<li>☑ CI/CD</li>
+<li>☑ Security</li>
+<li>☑ AWS troubleshooting</li>
+<li>☑ Production scenarios</li>
+<li>☑ Interview answers</li>
+</ul>
+
+<div class="scenario">
+
+<strong>Final goal:</strong>
+
+You should be able to explain not only "what Terraform is", but also
+<strong>how you would use Terraform safely in a real production
+DevOps environment.</strong>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🏗️ Terraform Final Revision • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

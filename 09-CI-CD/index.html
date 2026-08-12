@@ -1,0 +1,412 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CI/CD DevOps Interview Master Guide">
+<title>CI/CD - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.6;
+}
+
+header{
+    text-align:center;
+    padding:65px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.icon{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+h1{
+    font-size:clamp(34px,5vw,55px);
+    margin:10px 0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:25px;
+    margin:22px 0;
+    font-size:17px;
+}
+
+.flow strong{
+    color:#93c5fd;
+}
+
+.file-card{
+    display:block;
+    text-decoration:none;
+    color:#e5e7eb;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:22px;
+    margin:16px 0;
+    transition:0.2s;
+}
+
+.file-card:hover{
+    border-color:#93c5fd;
+    transform:translateY(-2px);
+}
+
+.file-name{
+    color:#c4b5fd;
+    font-size:20px;
+    font-weight:700;
+}
+
+.number{
+    color:#64748b;
+    margin-right:8px;
+}
+
+.description{
+    color:#9ca8c0;
+    margin-top:7px;
+}
+
+.priority{
+    display:inline-block;
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:20px;
+    padding:3px 10px;
+    margin-top:10px;
+    color:#fbbf24;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔄</div>
+
+<a href="../index.html" class="back">← Back to DevOps Guide</a>
+
+<h1>CI/CD <span>Interview Guide</span></h1>
+
+<p>
+A focused, interview-oriented guide covering Continuous Integration,
+Continuous Delivery, Continuous Deployment, pipeline strategies,
+tool integration, real-time scenarios and end-to-end CI/CD workflows.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>🚀 CI/CD Learning Flow</h2>
+
+<p>
+CI/CD connects development, testing, security, packaging and
+deployment into an automated software delivery process.
+</p>
+
+<div class="flow">
+
+<strong>Developer</strong>
+<br>↓<br>
+<strong>Git</strong>
+<br>↓<br>
+<strong>CI</strong>
+<br>↓<br>
+Build → Test → Scan
+<br>↓<br>
+<strong>Artifact / Container Registry</strong>
+<br>↓<br>
+<strong>CD</strong>
+<br>↓<br>
+Deploy → Verify → Monitor
+
+</div>
+
+</div>
+
+
+<!-- FILES -->
+
+<div class="card">
+
+<h2>📚 CI/CD Modules</h2>
+
+<a href="ci-cd-basics.html" class="file-card">
+
+<div class="file-name">
+<span class="number">01.</span>
+ci-cd-basics.html
+</div>
+
+<div class="description">
+CI/CD fundamentals, CI vs CD, Continuous Delivery vs Continuous
+Deployment, pipeline stages, benefits and core interview concepts.
+</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+</a>
+
+
+<a href="ci-cd-pipeline-strategies.html" class="file-card">
+
+<div class="file-name">
+<span class="number">02.</span>
+ci-cd-pipeline-strategies.html
+</div>
+
+<div class="description">
+End-to-end pipeline design, deployment strategies, Rolling,
+Blue-Green, Canary, approvals, rollback and zero-downtime concepts.
+</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ IMPORTANT</div>
+
+</a>
+
+
+<a href="ci-cd-tools-integration.html" class="file-card">
+
+<div class="file-name">
+<span class="number">03.</span>
+ci-cd-tools-integration.html
+</div>
+
+<div class="description">
+Git, Jenkins, Docker, Terraform, Kubernetes, ArgoCD, registries and
+how these tools work together in a real DevOps pipeline.
+</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ IMPORTANT</div>
+
+</a>
+
+
+<a href="ci-cd-real-time-scenarios.html" class="file-card">
+
+<div class="file-name">
+<span class="number">04.</span>
+ci-cd-real-time-scenarios.html
+</div>
+
+<div class="description">
+Production deployment failures, rollback, approvals, secrets,
+zero-downtime deployment and practical troubleshooting scenarios.
+</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ REAL-TIME</div>
+
+</a>
+
+
+<a href="ci-cd-final-revision.html" class="file-card">
+
+<div class="file-name">
+<span class="number">05.</span>
+ci-cd-final-revision.html
+</div>
+
+<div class="description">
+Final interview revision with priority-based questions, scenarios,
+complete pipeline explanation, cheat sheet and 60-second revision.
+</div>
+
+<div class="priority">🔥 FINAL REVISION</div>
+
+</a>
+
+</div>
+
+
+<!-- COMPLETE FLOW -->
+
+<div class="card">
+
+<h2>🧠 Complete CI/CD Flow</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓<br>
+📦 Git Repository
+<br>↓<br>
+🔔 Webhook / Trigger
+<br>↓<br>
+⚙️ CI Pipeline
+<br>↓<br>
+🔨 Build
+<br>↓<br>
+🧪 Test
+<br>↓<br>
+🔐 Security Scan
+<br>↓<br>
+🐳 Package / Docker Build
+<br>↓<br>
+📦 Registry
+<br>↓<br>
+🚀 Deployment
+<br>↓<br>
+☸️ Kubernetes / Cloud
+<br>↓<br>
+📊 Monitoring
+<br>↓<br>
+✅ Verify
+
+</div>
+
+</div>
+
+
+<!-- INTERVIEW PRIORITY -->
+
+<div class="card">
+
+<h2>🎯 Interview Priority</h2>
+
+<h3>⭐⭐⭐⭐⭐ Must Know</h3>
+
+<p>
+CI vs CD • Continuous Delivery vs Deployment • Pipeline stages •
+Deployment strategies • Rollback • Zero-downtime deployment •
+End-to-end CI/CD flow
+</p>
+
+<h3>⭐⭐⭐⭐ Important</h3>
+
+<p>
+Approvals • Artifacts • Container registries • Git integration •
+Infrastructure integration • Kubernetes deployment
+</p>
+
+<h3>⭐⭐⭐ Good to Know</h3>
+
+<p>
+Advanced pipeline optimization • Release patterns • Parallelization •
+Advanced deployment scenarios
+</p>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Guide Navigation</h2>
+
+<div class="flow">
+
+<a href="../08-Jenkins/index.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: Jenkins
+</a>
+
+<br><br>
+
+<strong>09 — CI/CD</strong>
+
+<br><br>
+
+<a href="../10-GitHub-Actions/index.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next: GitHub Actions →
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔄 CI/CD • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

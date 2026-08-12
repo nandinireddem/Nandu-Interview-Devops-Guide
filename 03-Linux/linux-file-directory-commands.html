@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux File & Directory Commands - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin:20px 0 5px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+
+h2{
+    margin:5px 0 12px;
+    font-size:25px;
+}
+
+h3{
+    margin-top:22px;
+    color:#dbeafe;
+}
+
+p{color:#c2ccde}
+
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{color:#93c5fd}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{color:#93c5fd}
+
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1;
+}
+
+code{
+    background:#080d18;
+    color:#bfdbfe;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+
+.note{
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">📁</div>
+
+<h1>Linux <span>File & Directory Commands</span></h1>
+
+<p>
+Essential Linux commands for navigating, creating, copying,
+moving, deleting and locating files and directories.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+
+<!-- PWD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 01</div>
+
+<h2>pwd — Print Working Directory</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>pwd</code> command displays the absolute path of the
+current working directory.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>pwd</pre>
+
+<p>Output:</p>
+
+<pre>/home/nandu/projects</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The pwd command displays the absolute path of the current
+working directory."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 02</div>
+
+<h2>ls — List Files and Directories</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>ls</code> command lists files and directories in the
+current directory.
+</p>
+
+<h3>Common options</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>ls</code></td>
+<td>List files and directories</td>
+</tr>
+
+<tr>
+<td><code>ls -l</code></td>
+<td>Detailed listing</td>
+</tr>
+
+<tr>
+<td><code>ls -a</code></td>
+<td>Show hidden files</td>
+</tr>
+
+<tr>
+<td><code>ls -lh</code></td>
+<td>Human-readable file sizes</td>
+</tr>
+
+<tr>
+<td><code>ls -la</code></td>
+<td>Detailed listing including hidden files</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>ls
+ls -l
+ls -la
+ls -lh</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The ls command is used to list files and directories. Common
+options include -l for detailed information, -a to show hidden
+files and -h for human-readable sizes."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 03</div>
+
+<h2>cd — Change Directory</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>cd</code> command is used to move between directories.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>cd /var/log
+
+cd /home
+
+cd ..
+
+cd ~
+
+cd -</pre>
+
+</div>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>cd ..</code></td>
+<td>Move to parent directory</td>
+</tr>
+
+<tr>
+<td><code>cd ~</code></td>
+<td>Move to user's home directory</td>
+</tr>
+
+<tr>
+<td><code>cd -</code></td>
+<td>Move to previous directory</td>
+</tr>
+
+<tr>
+<td><code>cd /path</code></td>
+<td>Move to specified directory</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The cd command is used to change the current working directory.
+It can be used with absolute paths, relative paths, .. for the
+parent directory and ~ for the user's home directory."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- MKDIR -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 04</div>
+
+<h2>mkdir — Create Directory</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>mkdir</code> command creates a new directory.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>mkdir project
+
+mkdir devops
+
+mkdir -p project/app/logs</pre>
+
+<p>
+The <code>-p</code> option creates parent directories when they
+do not already exist.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"mkdir is used to create directories. The -p option allows us to
+create a directory structure including any missing parent
+directories."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TOUCH -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 05</div>
+
+<h2>touch — Create File</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+The <code>touch</code> command can create an empty file and can
+also update file timestamps.
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>touch app.txt
+
+touch config.yaml
+
+touch file1 file2 file3</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The touch command is commonly used to create empty files. It can
+also update the access and modification timestamps of existing
+files."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- CP -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 06</div>
+
+<h2>cp — Copy Files and Directories</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>cp</code> command copies files or directories from one
+location to another.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>cp app.txt backup.txt
+
+cp app.txt /tmp/
+
+cp -r project project-backup</pre>
+
+<p>
+The <code>-r</code> option is used to copy directories
+recursively.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The cp command copies files and directories. For directories,
+the recursive option -r is commonly used."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- MV -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 07</div>
+
+<h2>mv — Move or Rename</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>mv</code> command is used to move files or directories
+and can also be used to rename them.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>mv app.txt /tmp/
+
+mv oldname.txt newname.txt
+
+mv project /opt/project</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The mv command is used to move files or directories. It can also
+rename a file or directory when the source and destination are in
+the same location."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- RM -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 08</div>
+
+<h2>rm — Remove Files and Directories</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>rm</code> command removes files and directories.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>rm app.txt
+
+rm -r project
+
+rm -f app.txt
+
+rm -rf project</pre>
+
+<p>
+Be extremely careful with <code>rm -rf</code> because it can
+recursively and forcefully delete data.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"The rm command removes files and directories. The -r option
+allows recursive deletion of directories, while -f forces
+deletion without interactive confirmation. It should be used
+carefully."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FIND -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 09</div>
+
+<h2>find — Search Files and Directories</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+The <code>find</code> command searches for files and directories
+based on conditions such as name, type, size and modification
+time.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>find /var/log -name "*.log"
+
+find /home -name "app.txt"
+
+find . -type f
+
+find . -type d
+
+find /tmp -type f -size +100M</pre>
+
+</div>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>-name</code></td>
+<td>Search by name</td>
+</tr>
+
+<tr>
+<td><code>-type f</code></td>
+<td>Search files</td>
+</tr>
+
+<tr>
+<td><code>-type d</code></td>
+<td>Search directories</td>
+</tr>
+
+<tr>
+<td><code>-size</code></td>
+<td>Search based on file size</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>🔥 Real-Time DevOps Example</strong>
+
+<p>
+If a production server has many log files and you need to find
+all <code>.log</code> files under <code>/var/log</code>:
+</p>
+
+<pre>find /var/log -type f -name "*.log"</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"find is a powerful Linux command used to search files and
+directories based on conditions such as name, type and size. It
+is frequently useful during server troubleshooting."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TREE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 10</div>
+
+<h2>Directory Structure Navigation</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+Linux directories form a hierarchical tree starting from
+<code>/</code>.
+</p>
+
+<div class="flow">
+
+/
+
+↓
+
+home
+
+↓
+
+nandu
+
+↓
+
+projects
+
+↓
+
+devops
+
+</div>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<pre>pwd
+ls
+cd projects
+ls
+cd ..
+pwd</pre>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- HIDDEN FILES -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h2>What are Hidden Files?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+In Linux, files and directories whose names begin with a dot
+(<code>.</code>) are commonly treated as hidden.
+</p>
+
+<div class="example">
+
+<strong>💡 Examples</strong>
+
+<pre>.bashrc
+.profile
+.git
+.gitignore</pre>
+
+<p>
+To display hidden files:
+</p>
+
+<pre>ls -a</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux commonly treats files and directories beginning with a dot
+as hidden. They can be displayed using ls -a."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PRACTICAL FLOW -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">REAL-TIME PRACTICE</div>
+
+<h2>🔥 Create a Project Directory Structure</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS PRACTICAL</span>
+
+<p>
+Suppose you need to create a basic application structure on a
+Linux server.
+</p>
+
+<div class="example">
+
+<strong>Step 1 — Create directories</strong>
+
+<pre>mkdir -p devops-project/{app,config,logs,backup}</pre>
+
+<strong>Step 2 — Enter the project</strong>
+
+<pre>cd devops-project</pre>
+
+<strong>Step 3 — Create files</strong>
+
+<pre>touch app/app.py
+touch config/app.conf</pre>
+
+<strong>Step 4 — Verify</strong>
+
+<pre>ls -la
+ls -la app
+ls -la config</pre>
+
+<strong>Step 5 — Create backup</strong>
+
+<pre>cp -r app backup/</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I can use mkdir and touch to create the required project
+structure, cd and ls to navigate and verify it, and cp or mv to
+copy or move application files."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TROUBLESHOOTING -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">SCENARIO</div>
+
+<h2>🎯 File or Directory Not Found</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p>
+If a file or directory is not found, I would first verify my
+current location and then search for the required resource.
+</p>
+
+<div class="example">
+
+<pre>pwd
+ls -la
+find / -name "filename" 2>/dev/null</pre>
+
+</div>
+
+<p>
+The issue may be caused by:
+
+</p>
+
+<p>
+→ Wrong directory
+
+<br>
+→ Incorrect filename
+
+<br>
+→ Case-sensitive filename
+
+<br>
+→ File was moved
+
+<br>
+→ File was deleted
+
+</p>
+
+<div class="answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+"First I would check the current working directory using pwd and
+list its contents using ls -la. If the file is not there, I would
+use find to locate it and verify the exact filename and path."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- COMMAND SUMMARY -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 Command Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Remember</th>
+</tr>
+
+<tr>
+<td><code>pwd</code></td>
+<td>Where am I?</td>
+</tr>
+
+<tr>
+<td><code>ls</code></td>
+<td>What is here?</td>
+</tr>
+
+<tr>
+<td><code>cd</code></td>
+<td>Move</td>
+</tr>
+
+<tr>
+<td><code>mkdir</code></td>
+<td>Create directory</td>
+</tr>
+
+<tr>
+<td><code>touch</code></td>
+<td>Create file</td>
+</tr>
+
+<tr>
+<td><code>cp</code></td>
+<td>Copy</td>
+</tr>
+
+<tr>
+<td><code>mv</code></td>
+<td>Move / Rename</td>
+</tr>
+
+<tr>
+<td><code>rm</code></td>
+<td>Delete</td>
+</tr>
+
+<tr>
+<td><code>find</code></td>
+<td>Search</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — FILE & DIRECTORY COMMANDS</h2>
+
+<div class="note">
+
+<strong>pwd</strong>
+→ Show current directory.
+
+<br><br>
+
+<strong>ls</strong>
+→ List files and directories.
+
+<br><br>
+
+<strong>cd</strong>
+→ Change directory.
+
+<br><br>
+
+<strong>mkdir</strong>
+→ Create directory.
+
+<br><br>
+
+<strong>touch</strong>
+→ Create empty file / update timestamp.
+
+<br><br>
+
+<strong>cp</strong>
+→ Copy files or directories.
+
+<br><br>
+
+<strong>mv</strong>
+→ Move or rename.
+
+<br><br>
+
+<strong>rm</strong>
+→ Remove files or directories.
+
+<br><br>
+
+<strong>find</strong>
+→ Search files and directories.
+
+<br><br>
+
+<strong>Absolute Path</strong>
+→ Complete path starting from <code>/</code>.
+
+<br><br>
+
+<strong>Relative Path</strong>
+→ Path relative to the current directory.
+
+<br><br>
+
+<strong>Hidden File</strong>
+→ Usually starts with <code>.</code>.
+
+<br><br>
+
+<strong>Golden Troubleshooting Flow</strong>
+
+<br><br>
+
+pwd → ls -la → verify path → find → troubleshoot
+
+</div>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🐧 Linux • File & Directory Commands</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

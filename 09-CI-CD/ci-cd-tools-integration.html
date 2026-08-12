@@ -1,0 +1,1485 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI/CD Tools Integration - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,50px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+.tool{
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:16px 0;
+}
+
+.tool-title{
+    color:#c4b5fd;
+    font-size:20px;
+    font-weight:700;
+}
+
+.badge{
+    display:inline-block;
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:20px;
+    padding:4px 10px;
+    margin:4px;
+    color:#fbbf24;
+    font-size:13px;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔗</div>
+
+<a href="index.html" class="back">← Back to CI/CD</a>
+
+<h1>CI/CD <span>Tools Integration</span></h1>
+
+<p>
+How Git, Jenkins, Docker, container registries, Kubernetes,
+Terraform and ArgoCD fit together in a real-world DevOps workflow.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="card intro">
+
+<h2>⭐⭐⭐⭐⭐ 1. Complete CI/CD Toolchain</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓
+<br>
+<strong>Git / GitHub</strong>
+<br>↓
+<br>
+<strong>Jenkins / CI Server</strong>
+<br>↓
+<br>
+Build + Test + Scan
+<br>↓
+<br>
+<strong>Docker</strong>
+<br>↓
+<br>
+<strong>Container Registry</strong>
+<br>↓
+<br>
+<strong>Kubernetes</strong>
+<br>↓
+<br>
+🚀 Application
+<br>↓
+<br>
+<strong>Prometheus + Grafana</strong>
+<br>↓
+<br>
+📊 Monitoring
+
+</div>
+
+<div class="answer">
+
+The tools do different jobs. CI/CD is the overall delivery process;
+Jenkins is one automation engine, Docker packages applications,
+Kubernetes runs containers, and monitoring tools observe the running
+system.
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Git's Role in CI/CD</h2>
+
+<div class="answer">
+
+Git is used for source-code version control. The CI/CD pipeline can be
+triggered when developers push code, create pull requests or merge
+changes.
+
+</div>
+
+<div class="flow">
+
+Developer
+<br>↓
+<br>
+Git Branch
+<br>↓
+<br>
+Pull Request
+<br>↓
+<br>
+Code Review
+<br>↓
+<br>
+Merge
+<br>↓
+<br>
+Pipeline Trigger
+
+</div>
+
+<h3>What Git provides</h3>
+
+<ul>
+<li>Version history</li>
+<li>Branching</li>
+<li>Pull requests</li>
+<li>Code review workflow</li>
+<li>Change traceability</li>
+<li>Webhook events</li>
+</ul>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Git acts as the source of truth for application code and pipeline
+configuration. Repository events can trigger automated CI/CD
+pipelines."
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Git → Jenkins Integration</h2>
+
+<div class="flow">
+
+Git Push
+<br>↓
+<br>
+Webhook
+<br>↓
+<br>
+Jenkins
+<br>↓
+<br>
+Jenkinsfile
+<br>↓
+<br>
+Pipeline
+
+</div>
+
+<div class="answer">
+
+A common integration is to configure a webhook in the Git provider.
+When a relevant repository event occurs, Jenkins receives the event
+and starts the pipeline.
+
+</div>
+
+<h3>Typical Jenkinsfile flow</h3>
+
+<pre><code>pipeline {
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh './build.sh'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh './test.sh'
+            }
+        }
+
+    }
+}</code></pre>
+
+<div class="warning">
+
+The exact commands depend on the application and build system. The
+important interview concept is the integration flow, not memorizing
+one specific Jenkinsfile.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Jenkins + Docker</h2>
+
+<div class="answer">
+
+Jenkins can automate Docker image creation after the application
+passes its build and test stages.
+
+</div>
+
+<div class="flow">
+
+Git
+<br>↓
+<br>
+Jenkins
+<br>↓
+<br>
+Build Application
+<br>↓
+<br>
+Test
+<br>↓
+<br>
+Docker Build
+<br>↓
+<br>
+Docker Image
+<br>↓
+<br>
+Registry
+
+</div>
+
+<h3>Example commands</h3>
+
+<pre><code>docker build -t myapp:1.0.0 .
+
+docker tag myapp:1.0.0 \
+registry.example.com/myapp:1.0.0
+
+docker push \
+registry.example.com/myapp:1.0.0</code></pre>
+
+<div class="interview">
+
+The pipeline should preferably use immutable/versioned image tags so
+that a specific deployment can be traced back to a specific build.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Container Registry</h2>
+
+<div class="answer">
+
+A container registry stores Docker/OCI images so that deployment
+systems can retrieve the exact image version they need.
+
+</div>
+
+<h3>Examples</h3>
+
+<span class="badge">Amazon ECR</span>
+<span class="badge">Docker Hub</span>
+<span class="badge">GitHub Container Registry</span>
+<span class="badge">Azure Container Registry</span>
+<span class="badge">Google Artifact Registry</span>
+
+<div class="flow">
+
+Jenkins
+<br>↓
+<br>
+Build Image
+<br>↓
+<br>
+Push
+<br>↓
+<br>
+<strong>Container Registry</strong>
+<br>↓
+<br>
+Pull
+<br>↓
+<br>
+Kubernetes
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Docker → Kubernetes</h2>
+
+<div class="answer">
+
+Kubernetes schedules and runs containerized workloads. A Kubernetes
+Deployment references a container image, and Kubernetes pulls that
+image from the configured registry when creating Pods.
+
+</div>
+
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: myapp
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+
+    spec:
+      containers:
+        - name: myapp
+          image: registry.example.com/myapp:1.0.0
+          ports:
+            - containerPort: 8080</code></pre>
+
+<div class="flow">
+
+Registry
+<br>↓
+<br>
+Kubernetes Deployment
+<br>↓
+<br>
+ReplicaSet
+<br>↓
+<br>
+Pods
+<br>↓
+<br>
+Containers
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Jenkins → Kubernetes Deployment</h2>
+
+<div class="answer">
+
+Jenkins can deploy a new application version to Kubernetes by
+updating Kubernetes manifests or using deployment tooling.
+
+</div>
+
+<div class="flow">
+
+Jenkins
+<br>↓
+<br>
+Build Image
+<br>↓
+<br>
+Push Image
+<br>↓
+<br>
+Update Deployment
+<br>↓
+<br>
+Kubernetes
+<br>↓
+<br>
+New Pods
+<br>↓
+<br>
+Health Checks
+
+</div>
+
+<h3>Simple example</h3>
+
+<pre><code>kubectl set image deployment/myapp \
+myapp=registry.example.com/myapp:1.1.0
+
+kubectl rollout status deployment/myapp</code></pre>
+
+<div class="warning">
+
+In a GitOps model, Jenkins does not necessarily change the cluster
+directly. Instead, the pipeline updates the desired-state repository,
+and ArgoCD reconciles that change into Kubernetes.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Terraform's Role in CI/CD</h2>
+
+<div class="answer">
+
+Terraform is primarily used for Infrastructure as Code. It can be
+integrated into CI/CD to validate, plan and apply infrastructure
+changes under controlled processes.
+
+</div>
+
+<div class="flow">
+
+Git
+<br>↓
+<br>
+Terraform Code
+<br>↓
+<br>
+terraform fmt
+<br>↓
+<br>
+terraform validate
+<br>↓
+<br>
+terraform plan
+<br>↓
+<br>
+Approval
+<br>↓
+<br>
+terraform apply
+
+</div>
+
+<h3>Common commands</h3>
+
+<pre><code>terraform fmt
+terraform init
+terraform validate
+terraform plan
+terraform apply</code></pre>
+
+<div class="interview">
+
+Terraform manages infrastructure; CI/CD orchestrates automation around
+that infrastructure and application delivery.
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. CI/CD + Terraform + Application Deployment</h2>
+
+<div class="flow">
+
+Infrastructure Code
+<br>↓
+<br>
+Terraform
+<br>↓
+<br>
+AWS / Azure / GCP
+<br>↓
+<br>
+Kubernetes Cluster
+<br>↓
+<br>
+Application Deployment
+<br>↓
+<br>
+Monitoring
+
+</div>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+Terraform can create the VPC, IAM resources, load balancers and
+Kubernetes cluster infrastructure. A separate application pipeline
+can then build and deploy the application.
+
+</div>
+
+<div class="warning">
+
+Do not treat application deployment and infrastructure provisioning as
+the same problem. They can be connected through automation, but they
+have different responsibilities and lifecycles.
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. GitOps and ArgoCD</h2>
+
+<div class="answer">
+
+In a GitOps model, Git contains the desired state of the application
+or infrastructure. ArgoCD continuously compares that desired state
+with the Kubernetes cluster and reconciles differences.
+
+</div>
+
+<div class="flow">
+
+Developer
+<br>↓
+<br>
+Application Code
+<br>↓
+<br>
+CI Pipeline
+<br>↓
+<br>
+Build Image
+<br>↓
+<br>
+Container Registry
+<br>↓
+<br>
+Update Manifest Repository
+<br>↓
+<br>
+<strong>ArgoCD</strong>
+<br>↓
+<br>
+Kubernetes
+<br>↓
+<br>
+Pods
+
+</div>
+
+<div class="interview">
+
+A common separation is:
+
+<strong>CI builds and validates.</strong>
+
+<br>
+
+<strong>ArgoCD handles GitOps-based Kubernetes delivery.</strong>
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Jenkins vs ArgoCD</h2>
+
+<table>
+
+<tr>
+<th>Jenkins</th>
+<th>ArgoCD</th>
+</tr>
+
+<tr>
+<td>Automation server</td>
+<td>GitOps continuous delivery tool</td>
+</tr>
+
+<tr>
+<td>Can build and test applications</td>
+<td>Primarily reconciles desired state</td>
+</tr>
+
+<tr>
+<td>Can build Docker images</td>
+<td>Deploys/synchronizes Kubernetes state</td>
+</tr>
+
+<tr>
+<td>Can run Terraform</td>
+<td>Focused on Kubernetes delivery</td>
+</tr>
+
+<tr>
+<td>Pipeline-driven</td>
+<td>Reconciliation-driven</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+They are not necessarily competitors. They can work together in a
+modern DevOps platform.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Complete Modern DevOps Flow</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓
+<br>
+<strong>GitHub</strong>
+<br>↓
+<br>
+<strong>Jenkins</strong>
+<br>↓
+<br>
+Build
+<br>↓
+<br>
+Test
+<br>↓
+<br>
+SonarQube / Quality
+<br>↓
+<br>
+Trivy / Security
+<br>↓
+<br>
+<strong>Docker</strong>
+<br>↓
+<br>
+<strong>Amazon ECR</strong>
+<br>↓
+<br>
+Update GitOps Manifest
+<br>↓
+<br>
+<strong>ArgoCD</strong>
+<br>↓
+<br>
+<strong>Kubernetes / EKS</strong>
+<br>↓
+<br>
+Prometheus
+<br>↓
+<br>
+Grafana
+
+</div>
+
+<div class="interview">
+
+<strong>Interview-ready explanation:</strong>
+
+"The developer pushes code to Git. Jenkins detects the change and
+runs the CI pipeline. It builds and tests the application, performs
+quality and security checks, creates a Docker image and pushes it to
+a container registry.
+
+For GitOps-based delivery, the deployment manifest is updated in a
+Git repository. ArgoCD detects the desired-state change and
+synchronizes it with Kubernetes. The application then runs on the
+cluster and is monitored using tools such as Prometheus and Grafana."
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What happens if the Docker push fails?</h2>
+
+<div class="scenario">
+
+Check:
+
+<br><br>
+
+1. Registry URL.
+<br>
+2. Registry authentication.
+<br>
+3. Repository existence.
+<br>
+4. Image tag.
+<br>
+5. Network connectivity.
+<br>
+6. Permissions.
+<br>
+7. Registry credentials configured in the CI system.
+
+</div>
+
+<pre><code>docker login &lt;registry&gt;
+
+docker push &lt;registry&gt;/myapp:1.0.0</code></pre>
+
+<div class="warning">
+
+Never hard-code registry passwords or access tokens inside a
+Jenkinsfile.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Secrets in CI/CD</h2>
+
+<div class="answer">
+
+Credentials should be stored in a secure secret-management mechanism
+rather than committed into Git or written directly into pipeline
+source code.
+
+</div>
+
+<h3>Examples</h3>
+
+<ul>
+<li>Jenkins Credentials</li>
+<li>AWS IAM roles</li>
+<li>AWS Secrets Manager</li>
+<li>HashiCorp Vault</li>
+<li>Kubernetes Secrets</li>
+<li>Cloud-native identity mechanisms</li>
+</ul>
+
+<div class="warning">
+
+Never commit:
+
+<pre><code>AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+DOCKER_PASSWORD=...</code></pre>
+
+to a source repository.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Artifact Traceability</h2>
+
+<div class="answer">
+
+Every production deployment should ideally be traceable back to the
+source commit, build and artifact that produced it.
+
+</div>
+
+<div class="flow">
+
+Git Commit
+<br>↓
+<br>
+Build #245
+<br>↓
+<br>
+Image
+<br>
+<code>myapp:git-a82f31c</code>
+<br>↓
+<br>
+Deployment
+<br>↓
+<br>
+Production
+
+</div>
+
+<div class="scenario">
+
+If production reports an issue, the team can identify which commit
+and build produced the running version.
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. CI/CD Tool Responsibility Map</h2>
+
+<table>
+
+<tr>
+<th>Tool</th>
+<th>Primary Responsibility</th>
+</tr>
+
+<tr>
+<td>Git / GitHub</td>
+<td>Source control and collaboration</td>
+</tr>
+
+<tr>
+<td>Jenkins</td>
+<td>Pipeline automation</td>
+</tr>
+
+<tr>
+<td>Docker</td>
+<td>Container packaging</td>
+</tr>
+
+<tr>
+<td>Container Registry</td>
+<td>Store and distribute images</td>
+</tr>
+
+<tr>
+<td>Terraform</td>
+<td>Infrastructure as Code</td>
+</tr>
+
+<tr>
+<td>Kubernetes</td>
+<td>Container orchestration</td>
+</tr>
+
+<tr>
+<td>ArgoCD</td>
+<td>GitOps-based Kubernetes delivery</td>
+</tr>
+
+<tr>
+<td>Prometheus</td>
+<td>Metrics collection</td>
+</tr>
+
+<tr>
+<td>Grafana</td>
+<td>Metrics visualization</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Real-Time Scenario: New Application Release</h2>
+
+<div class="scenario">
+
+<strong>Requirement:</strong>
+
+Deploy a new version of a Java application to Kubernetes.
+
+<br><br>
+
+<strong>Flow:</strong>
+
+1. Developer pushes code.
+<br>
+2. Git webhook triggers Jenkins.
+<br>
+3. Jenkins checks out source.
+<br>
+4. Application is built.
+<br>
+5. Tests execute.
+<br>
+6. Code/security checks run.
+<br>
+7. Docker image is created.
+<br>
+8. Image is pushed to ECR.
+<br>
+9. GitOps repository is updated with the new image version.
+<br>
+10. ArgoCD detects the Git change.
+<br>
+11. ArgoCD synchronizes Kubernetes.
+<br>
+12. New Pods start.
+<br>
+13. Readiness checks verify them.
+<br>
+14. Prometheus/Grafana monitor the release.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. If Kubernetes Deployment Fails</h2>
+
+<div class="scenario">
+
+Check the issue layer by layer:
+
+<br><br>
+
+<strong>1. Image</strong>
+→ Does the image exist?
+
+<br><br>
+
+<strong>2. Registry</strong>
+→ Can the cluster pull it?
+
+<br><br>
+
+<strong>3. Manifest</strong>
+→ Is the Deployment configuration valid?
+
+<br><br>
+
+<strong>4. Pod</strong>
+→ Check Pod status and events.
+
+<br><br>
+
+<strong>5. Application</strong>
+→ Check container logs.
+
+<br><br>
+
+<strong>6. Health Checks</strong>
+→ Check readiness/liveness probes.
+
+<br><br>
+
+<strong>7. Service / Ingress</strong>
+→ Check networking.
+
+</div>
+
+<pre><code>kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+kubectl get events
+kubectl get deployment</code></pre>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. CI/CD Security Flow</h2>
+
+<div class="flow">
+
+Git
+<br>↓
+<br>
+Secret Detection
+<br>↓
+<br>
+SAST / Code Quality
+<br>↓
+<br>
+Dependency Scan
+<br>↓
+<br>
+Container Scan
+<br>↓
+<br>
+Artifact
+<br>↓
+<br>
+Deploy
+<br>↓
+<br>
+Runtime Security
+
+</div>
+
+<div class="answer">
+
+Security should be integrated throughout the delivery lifecycle
+rather than treated as only a final production step.
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>How does Git integrate with Jenkins?</li>
+
+<li>How does Jenkins integrate with Docker?</li>
+
+<li>What is the role of a container registry?</li>
+
+<li>How does Docker integrate with Kubernetes?</li>
+
+<li>How does Jenkins deploy to Kubernetes?</li>
+
+<li>What is Terraform's role in CI/CD?</li>
+
+<li>What is GitOps?</li>
+
+<li>What is the role of ArgoCD?</li>
+
+<li>Jenkins vs ArgoCD?</li>
+
+<li>Explain an end-to-end CI/CD pipeline.</li>
+
+<li>How do you manage secrets in CI/CD?</li>
+
+<li>How do you troubleshoot a failed Docker push?</li>
+
+<li>How do you troubleshoot a failed Kubernetes deployment?</li>
+
+<li>How do you trace a production deployment back to Git?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Why use a registry instead of building directly on Kubernetes?</li>
+
+<li>Why should image tags be immutable?</li>
+
+<li>Can Jenkins and ArgoCD be used together?</li>
+
+<li>What happens when the GitOps repository changes?</li>
+
+<li>What happens if ArgoCD detects drift?</li>
+
+<li>Where should cloud credentials be stored?</li>
+
+<li>How would you secure a Jenkins pipeline?</li>
+
+<li>What if Jenkins succeeds but Kubernetes deployment fails?</li>
+
+<li>What if the Docker image exists but Kubernetes cannot pull it?</li>
+
+<li>How do you implement rollback in a GitOps workflow?</li>
+
+</ul>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 CI/CD Integration Cheat Sheet</h2>
+
+<pre><code>GIT
+Source Code
+↓
+JENKINS
+Automation
+↓
+BUILD + TEST + SCAN
+↓
+DOCKER
+Package Application
+↓
+REGISTRY
+Store Image
+↓
+KUBERNETES
+Run Application
+
+GitOps Model:
+
+JENKINS
+↓
+Build Image
+↓
+Registry
+↓
+Update GitOps Repo
+↓
+ARGOCD
+↓
+KUBERNETES
+
+Infrastructure:
+
+TERRAFORM
+↓
+Cloud Infrastructure
+↓
+KUBERNETES / EKS
+↓
+Application
+
+Observability:
+
+KUBERNETES
+↓
+PROMETHEUS
+↓
+GRAFANA</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second Revision</h2>
+
+<div class="flow">
+
+Git
+→ Source Control
+
+<br><br>
+
+Jenkins
+→ Pipeline Automation
+
+<br><br>
+
+Docker
+→ Container Packaging
+
+<br><br>
+
+Registry
+→ Image Storage
+
+<br><br>
+
+Terraform
+→ Infrastructure
+
+<br><br>
+
+Kubernetes
+→ Container Orchestration
+
+<br><br>
+
+ArgoCD
+→ GitOps Delivery
+
+<br><br>
+
+Prometheus
+→ Metrics
+
+<br><br>
+
+Grafana
+→ Visualization
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain How Your CI/CD Tools Work Together"</h2>
+
+<div class="interview">
+
+"In my CI/CD workflow, Git is the source of truth for the application
+code. A push or pull request can trigger Jenkins.
+
+Jenkins checks out the code, builds the application, runs tests and
+security checks, and creates a Docker image. The image is pushed to a
+container registry such as Amazon ECR.
+
+For Kubernetes delivery, I can use a GitOps approach. Instead of
+directly changing the cluster from Jenkins, the pipeline updates the
+desired image version in a GitOps repository. ArgoCD detects that
+change and synchronizes the desired state with Kubernetes.
+
+Terraform is used separately to provision and manage infrastructure
+such as networking, IAM and Kubernetes cluster resources.
+
+Finally, Prometheus and Grafana provide monitoring and visibility
+into the deployed application and infrastructure."
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="ci-cd-pipeline-strategies.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: Pipeline Strategies
+</a>
+
+<br><br>
+
+<a href="ci-cd-real-time-scenarios.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next: CI/CD Real-Time Scenarios →
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔗 CI/CD Tools Integration • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,1745 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Docker Registry - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+.intro strong{color:#93c5fd}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.priority{
+    font-weight:800;
+    white-space:nowrap;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Docker <span>Registry</span></h1>
+
+<p>
+Docker Hub, private registries, image tagging, push/pull,
+AWS ECR and real-world DevOps interview scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ DOCKER REGISTRY — INTERVIEW FOCUS</strong>
+
+<p>
+A Docker registry is a storage and distribution system for
+container images. Developers build images locally or through CI,
+push them to a registry, and deployment systems pull those images
+from the registry.
+</p>
+
+<div class="flow">
+
+Developer
+<br>
+↓
+<br>
+Docker Build
+<br>
+↓
+<br>
+Docker Image
+<br>
+↓
+<br>
+Tag
+<br>
+↓
+<br>
+Docker Registry
+<br>
+↓
+<br>
+Pull
+<br>
+↓
+<br>
+Server / Kubernetes / ECS
+
+</div>
+
+</div>
+
+
+<!-- SECTION 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a Docker Registry?</h2>
+
+<h3>Q. What is a Docker registry?</h3>
+
+<div class="answer">
+
+A Docker registry is a service that stores and distributes
+container images. Developers and CI/CD pipelines can push images
+to a registry, while servers or orchestration platforms can pull
+those images for deployment.
+
+</div>
+
+<h3>Examples</h3>
+
+<ul>
+<li>Docker Hub</li>
+<li>Amazon Elastic Container Registry (ECR)</li>
+<li>Google Artifact Registry</li>
+<li>Azure Container Registry</li>
+<li>GitHub Container Registry</li>
+<li>Self-hosted Docker Registry</li>
+</ul>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Registry vs Repository vs Image vs Container</h2>
+
+<table>
+
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Registry</td>
+<td>Service that stores and distributes container images.</td>
+</tr>
+
+<tr>
+<td>Repository</td>
+<td>A collection of related image versions/tags inside a registry.</td>
+</tr>
+
+<tr>
+<td>Image</td>
+<td>Immutable package/template used to create containers.</td>
+</tr>
+
+<tr>
+<td>Container</td>
+<td>Running instance created from an image.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Registry
+<br>
+↓
+<br>
+Repository
+<br>
+↓
+<br>
+Image Tag
+<br>
+↓
+<br>
+Container
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>docker.io/nandinireddem/myapp:v1.0</code></pre>
+
+<table>
+
+<tr>
+<th>Part</th>
+<th>Value</th>
+</tr>
+
+<tr>
+<td>Registry</td>
+<td>docker.io</td>
+</tr>
+
+<tr>
+<td>Repository / namespace</td>
+<td>nandinireddem/myapp</td>
+</tr>
+
+<tr>
+<td>Tag</td>
+<td>v1.0</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Docker Hub</h2>
+
+<h3>Q. What is Docker Hub?</h3>
+
+<div class="answer">
+
+Docker Hub is a hosted container registry service commonly used
+to store, share and distribute Docker images.
+
+</div>
+
+<h3>Login</h3>
+
+<pre><code>docker login</code></pre>
+
+<h3>Pull an image</h3>
+
+<pre><code>docker pull nginx:latest</code></pre>
+
+<h3>List local images</h3>
+
+<pre><code>docker images</code></pre>
+
+<h3>Push an image</h3>
+
+<pre><code>docker push username/myapp:v1.0</code></pre>
+
+</div>
+
+
+<!-- SECTION 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Docker Image Tagging</h2>
+
+<h3>Q. Why do we tag Docker images?</h3>
+
+<div class="answer">
+
+Tags identify different versions or variants of an image.
+They allow CI/CD pipelines and deployment systems to reference
+a specific image version.
+
+</div>
+
+<h3>Tag syntax</h3>
+
+<pre><code>registry/namespace/repository:tag</code></pre>
+
+<h3>Example</h3>
+
+<pre><code>docker tag myapp:latest nandinireddem/myapp:v1.0</code></pre>
+
+<p>
+The <code>docker tag</code> command creates another reference to
+the same image. It does not rebuild the image.
+</p>
+
+<h3>Verify</h3>
+
+<pre><code>docker images</code></pre>
+
+</div>
+
+
+<!-- SECTION 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Complete Push Workflow</h2>
+
+<h3>Step 1 — Build image</h3>
+
+<pre><code>docker build -t myapp:v1.0 .</code></pre>
+
+<h3>Step 2 — Login</h3>
+
+<pre><code>docker login</code></pre>
+
+<h3>Step 3 — Tag image</h3>
+
+<pre><code>docker tag myapp:v1.0 username/myapp:v1.0</code></pre>
+
+<h3>Step 4 — Push</h3>
+
+<pre><code>docker push username/myapp:v1.0</code></pre>
+
+<h3>Step 5 — Pull from another machine</h3>
+
+<pre><code>docker pull username/myapp:v1.0</code></pre>
+
+<div class="flow">
+
+Dockerfile
+<br>
+↓
+<br>
+<strong>docker build</strong>
+<br>
+↓
+<br>
+Local Image
+<br>
+↓
+<br>
+<strong>docker tag</strong>
+<br>
+↓
+<br>
+Registry Name
+<br>
+↓
+<br>
+<strong>docker push</strong>
+<br>
+↓
+<br>
+Registry
+<br>
+↓
+<br>
+<strong>docker pull</strong>
+<br>
+↓
+<br>
+Deployment Server
+
+</div>
+
+</div>
+
+
+<!-- SECTION 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Push vs Pull</h2>
+
+<table>
+
+<tr>
+<th>Push</th>
+<th>Pull</th>
+</tr>
+
+<tr>
+<td>Uploads an image</td>
+<td>Downloads an image</td>
+</tr>
+
+<tr>
+<td>Usually performed after build</td>
+<td>Usually performed before deployment</td>
+</tr>
+
+<tr>
+<td>Developer / CI pipeline commonly performs it</td>
+<td>Server / Kubernetes / ECS commonly performs it</td>
+</tr>
+
+</table>
+
+<pre><code>docker push username/myapp:v1.0
+
+docker pull username/myapp:v1.0</code></pre>
+
+</div>
+
+
+<!-- SECTION 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Public vs Private Registry</h2>
+
+<table>
+
+<tr>
+<th>Public</th>
+<th>Private</th>
+</tr>
+
+<tr>
+<td>Images can be publicly accessible</td>
+<td>Access is restricted</td>
+</tr>
+
+<tr>
+<td>Useful for public/open-source images</td>
+<td>Preferred for proprietary application images</td>
+</tr>
+
+<tr>
+<td>Lower access-control requirements</td>
+<td>Requires authentication and authorization</td>
+</tr>
+
+</table>
+
+<div class="scenario">
+
+<strong>DevOps scenario:</strong>
+
+A company has a proprietary application image. The image should
+not be publicly downloadable.
+
+The team should use a private registry such as a private ECR
+repository and configure the deployment environment with appropriate
+permissions to pull the image.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Docker Registry Authentication</h2>
+
+<h3>Q. Why is authentication required?</h3>
+
+<div class="answer">
+
+Private registries require authentication so that only authorized
+users, systems or workloads can push and/or pull images.
+
+</div>
+
+<h3>Docker Hub</h3>
+
+<pre><code>docker login</code></pre>
+
+<h3>Logout</h3>
+
+<pre><code>docker logout</code></pre>
+
+<h3>Security best practices</h3>
+
+<ul>
+<li>Do not hard-code registry passwords in Dockerfiles.</li>
+<li>Do not commit registry credentials to Git.</li>
+<li>Use CI/CD secret management.</li>
+<li>Use short-lived credentials where supported.</li>
+<li>Apply least-privilege permissions.</li>
+<li>Use private repositories for proprietary images.</li>
+</ul>
+
+</div>
+
+
+<!-- SECTION 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. AWS ECR</h2>
+
+<h3>Q. What is Amazon ECR?</h3>
+
+<div class="answer">
+
+Amazon Elastic Container Registry (ECR) is a managed AWS container
+registry used to store, manage and deploy container images.
+
+</div>
+
+<h3>Why use ECR?</h3>
+
+<ul>
+<li>Private container image storage</li>
+<li>AWS IAM integration</li>
+<li>Works with ECS</li>
+<li>Works with EKS</li>
+<li>Works with CI/CD pipelines</li>
+<li>Supports image scanning features</li>
+<li>Integrates with AWS infrastructure</li>
+</ul>
+
+</div>
+
+
+<!-- SECTION 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. AWS ECR Push Workflow</h2>
+
+<h3>Step 1 — Create ECR repository</h3>
+
+<pre><code>aws ecr create-repository \
+    --repository-name myapp \
+    --region ap-south-1</code></pre>
+
+<h3>Step 2 — Authenticate Docker to ECR</h3>
+
+<pre><code>aws ecr get-login-password \
+    --region ap-south-1 |
+docker login \
+    --username AWS \
+    --password-stdin \
+    &lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com</code></pre>
+
+<h3>Step 3 — Build image</h3>
+
+<pre><code>docker build -t myapp:v1.0 .</code></pre>
+
+<h3>Step 4 — Tag image</h3>
+
+<pre><code>docker tag myapp:v1.0 \
+&lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com/myapp:v1.0</code></pre>
+
+<h3>Step 5 — Push</h3>
+
+<pre><code>docker push \
+&lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com/myapp:v1.0</code></pre>
+
+<div class="flow">
+
+Docker Build
+<br>
+↓
+<br>
+Tag
+<br>
+↓
+<br>
+ECR Login
+<br>
+↓
+<br>
+Docker Push
+<br>
+↓
+<br>
+ECR Repository
+<br>
+↓
+<br>
+ECS / EKS
+<br>
+↓
+<br>
+Container Deployment
+
+</div>
+
+</div>
+
+
+<!-- SECTION 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. ECR Pull Workflow</h2>
+
+<h3>Authenticate</h3>
+
+<pre><code>aws ecr get-login-password \
+    --region ap-south-1 |
+docker login \
+    --username AWS \
+    --password-stdin \
+    &lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com</code></pre>
+
+<h3>Pull</h3>
+
+<pre><code>docker pull \
+&lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com/myapp:v1.0</code></pre>
+
+<div class="scenario">
+
+In a production environment, you normally configure the compute
+platform's IAM permissions so the workload can pull private images.
+You should not manually store long-lived AWS access keys on servers
+just to pull images.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Docker Registry in CI/CD</h2>
+
+<div class="flow">
+
+Developer
+<br>
+↓
+<br>
+Git Push
+<br>
+↓
+<br>
+CI Pipeline
+<br>
+↓
+<br>
+Run Tests
+<br>
+↓
+<br>
+Security Scan
+<br>
+↓
+<br>
+Docker Build
+<br>
+↓
+<br>
+Docker Tag
+<br>
+↓
+<br>
+Registry Login
+<br>
+↓
+<br>
+Docker Push
+<br>
+↓
+<br>
+ECR / Docker Hub
+<br>
+↓
+<br>
+Deploy
+<br>
+↓
+<br>
+ECS / EKS / Kubernetes
+
+</div>
+
+<h3>Typical pipeline commands</h3>
+
+<pre><code>docker build -t myapp:$VERSION .
+
+docker tag myapp:$VERSION \
+$REGISTRY/myapp:$VERSION
+
+docker push \
+$REGISTRY/myapp:$VERSION</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"In CI/CD, after the application passes tests and security checks,
+the pipeline builds a Docker image, tags it with a unique version,
+authenticates to the container registry, and pushes the image.
+The deployment stage then references that image from the registry."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Image Tagging Strategy</h2>
+
+<h3>Bad approach</h3>
+
+<pre><code>myapp:latest</code></pre>
+
+<p>
+Using only <code>latest</code> makes it harder to identify exactly
+which version was deployed.
+</p>
+
+<h3>Better approaches</h3>
+
+<pre><code>myapp:v1.0.0
+
+myapp:2026-08-12
+
+myapp:build-152
+
+myapp:git-a83f21c</code></pre>
+
+<h3>Recommended production concept</h3>
+
+<div class="answer">
+
+Use immutable, traceable image references whenever possible.
+A deployment should be able to identify exactly which application
+build is running.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Why Avoid Using latest in Production?</h2>
+
+<div class="answer">
+
+The <code>latest</code> tag is mutable. A new image can be pushed
+with the same tag, meaning the same deployment configuration can
+resolve to a different image later.
+
+</div>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+Today:
+
+<pre><code>myapp:latest → version 1.0</code></pre>
+
+Later:
+
+<pre><code>myapp:latest → version 1.1</code></pre>
+
+The tag stayed the same, but the image changed.
+
+A production deployment is easier to audit when it references
+a specific immutable version or image digest.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Image Digest</h2>
+
+<h3>Q. What is an image digest?</h3>
+
+<div class="answer">
+
+An image digest is a content-based identifier for a specific image
+manifest. It can be used to reference an exact image version rather
+than relying only on a mutable tag.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>myapp@sha256:abcdef123456...</code></pre>
+
+<h3>Tag vs Digest</h3>
+
+<table>
+
+<tr>
+<th>Tag</th>
+<th>Digest</th>
+</tr>
+
+<tr>
+<td>Human-friendly name</td>
+<td>Content-based identifier</td>
+</tr>
+
+<tr>
+<td>Can be moved to another image</td>
+<td>Identifies a specific image manifest</td>
+</tr>
+
+<tr>
+<td>Easy for releases</td>
+<td>Useful for exact, reproducible references</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- SECTION 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 16. Image Pull Policy</h2>
+
+<h3>Why does image pulling matter?</h3>
+
+<div class="answer">
+
+Deployment platforms need to determine when an image should be
+downloaded from the registry rather than using a locally cached
+image.
+
+</div>
+
+<h3>Kubernetes example</h3>
+
+<pre><code>image: myrepo/myapp:v1.0
+imagePullPolicy: IfNotPresent</code></pre>
+
+<p>
+The exact image-pull behavior depends on the configured image
+reference and pull policy.
+</p>
+
+<div class="interview">
+
+For production deployments, prefer versioned image references
+instead of relying on mutable tags such as <code>latest</code>.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. Registry vs Docker Hub</h2>
+
+<div class="answer">
+
+"Registry" is the general concept. Docker Hub is one specific
+hosted registry service.
+
+</div>
+
+<table>
+
+<tr>
+<th>Registry</th>
+<th>Docker Hub</th>
+</tr>
+
+<tr>
+<td>General concept/service</td>
+<td>Specific hosted platform</td>
+</tr>
+
+<tr>
+<td>Can be self-hosted or cloud-managed</td>
+<td>Hosted by Docker</td>
+</tr>
+
+<tr>
+<td>Can be private or public depending on implementation</td>
+<td>Provides public and private repository options</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- SECTION 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. What Happens During docker push?</h2>
+
+<div class="answer">
+
+Docker authenticates to the registry, checks which image layers
+are already present remotely, and uploads the layers and image
+metadata that the registry does not already have.
+
+</div>
+
+<div class="flow">
+
+Local Image
+<br>
+↓
+<br>
+Registry Authentication
+<br>
+↓
+<br>
+Compare Layers
+<br>
+↓
+<br>
+Upload Missing Layers
+<br>
+↓
+<br>
+Upload Manifest / Metadata
+<br>
+↓
+<br>
+Registry Stores Image
+
+</div>
+
+<h3>Important point</h3>
+
+<p>
+Docker images consist of layers. If the registry already contains
+a layer, it generally does not need to upload the same layer again.
+</p>
+
+</div>
+
+
+<!-- SECTION 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 19. What Happens During docker pull?</h2>
+
+<div class="answer">
+
+Docker contacts the registry, retrieves the image manifest and
+downloads the required layers that are not already available
+locally.
+
+</div>
+
+<div class="flow">
+
+docker pull
+<br>
+↓
+<br>
+Registry
+<br>
+↓
+<br>
+Image Manifest
+<br>
+↓
+<br>
+Required Layers
+<br>
+↓
+<br>
+Local Image
+<br>
+↓
+<br>
+Container
+
+</div>
+
+</div>
+
+
+<!-- SECTION 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Registry Security</h2>
+
+<h3>Important practices</h3>
+
+<ul>
+<li>Use private repositories for proprietary images.</li>
+<li>Use least-privilege IAM permissions.</li>
+<li>Protect registry credentials.</li>
+<li>Enable image vulnerability scanning where available.</li>
+<li>Scan images before deployment.</li>
+<li>Use trusted base images.</li>
+<li>Keep base images updated.</li>
+<li>Do not embed secrets in images.</li>
+<li>Use immutable versioning where possible.</li>
+<li>Restrict who can push production images.</li>
+</ul>
+
+<div class="warning">
+
+A Docker image should not contain passwords, API keys, AWS access
+keys, private keys or other secrets. Anything baked into an image
+can potentially be extracted by someone who can access the image.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Real-Time Scenario: Docker Push Denied</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+You run:
+
+<pre><code>docker push username/myapp:v1.0</code></pre>
+
+and receive an authorization or access-denied error.
+
+</div>
+
+<h3>Check</h3>
+
+<ol>
+<li>Are you logged in?</li>
+<li>Is the repository name correct?</li>
+<li>Do you have permission to push?</li>
+<li>Is the registry URL correct?</li>
+<li>Are you using the correct AWS account/region for ECR?</li>
+<li>Does the repository exist?</li>
+</ol>
+
+<h3>Docker Hub</h3>
+
+<pre><code>docker login
+
+docker push username/myapp:v1.0</code></pre>
+
+<h3>ECR</h3>
+
+<p>
+Verify ECR authentication and IAM permissions.
+</p>
+
+</div>
+
+
+<!-- SECTION 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Real-Time Scenario: ECS Cannot Pull Image</h2>
+
+<div class="scenario">
+
+An ECS task starts but fails because it cannot pull the private
+image from ECR.
+
+</div>
+
+<h3>Possible causes</h3>
+
+<ul>
+<li>Incorrect image URI</li>
+<li>Incorrect image tag</li>
+<li>Image does not exist in ECR</li>
+<li>Task execution role lacks required ECR permissions</li>
+<li>Network connectivity problem</li>
+<li>Wrong AWS region</li>
+<li>Repository access issue</li>
+</ul>
+
+<h3>Investigation</h3>
+
+<pre><code>aws ecr describe-images \
+    --repository-name myapp \
+    --region ap-south-1</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I would first verify the image URI, repository, tag and region.
+Then I would check whether the image exists in ECR and verify the
+ECS task execution role and its permissions to pull the image.
+Finally, I would check the task and service events for the exact
+pull failure."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Real-Time Scenario: Image Exists Locally but Deployment Fails</h2>
+
+<div class="scenario">
+
+A Docker image runs successfully on your laptop, but ECS or
+Kubernetes cannot deploy it.
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Was the image actually pushed to the registry?</li>
+<li>Is the deployment using the correct registry URI?</li>
+<li>Is the tag correct?</li>
+<li>Can the workload authenticate to the registry?</li>
+<li>Is the image architecture compatible with the target?</li>
+<li>Are network and IAM permissions correct?</li>
+</ul>
+
+<div class="warning">
+
+"Works on my machine" does not mean the production environment can
+pull the same image. The registry, authentication, architecture,
+network and deployment configuration must also be correct.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. CI/CD Scenario — Build and Push to ECR</h2>
+
+<pre><code>Developer
+   ↓
+GitHub
+   ↓
+GitHub Actions
+   ↓
+Checkout Code
+   ↓
+Run Tests
+   ↓
+Trivy / Security Scan
+   ↓
+Docker Build
+   ↓
+ECR Login
+   ↓
+Docker Tag
+   ↓
+Docker Push
+   ↓
+ECS / EKS Deployment</code></pre>
+
+<h3>Conceptual pipeline</h3>
+
+<pre><code>docker build -t myapp:$GIT_SHA .
+
+docker tag myapp:$GIT_SHA \
+$ECR_URI/myapp:$GIT_SHA
+
+docker push \
+$ECR_URI/myapp:$GIT_SHA</code></pre>
+
+<div class="interview">
+
+The Git commit SHA is useful as an image tag because it creates
+a direct relationship between the deployed container image and
+the source-code revision.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 25. Why Use Commit SHA as Image Tag?</h2>
+
+<div class="answer">
+
+A Git commit SHA provides a unique reference to a source-code
+revision. Using it as an image tag improves traceability between
+source code, CI builds and deployed containers.
+
+</div>
+
+<pre><code>Git Commit
+a83f21c
+   ↓
+Docker Image
+myapp:a83f21c
+   ↓
+Registry
+   ↓
+Deployment</code></pre>
+
+<h3>Benefits</h3>
+
+<ul>
+<li>Traceability</li>
+<li>Easy rollback</li>
+<li>Better debugging</li>
+<li>Clear CI/CD history</li>
+<li>Reduced ambiguity compared with latest</li>
+</ul>
+
+</div>
+
+
+<!-- SECTION 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 26. Registry Cleanup</h2>
+
+<h3>Why clean old images?</h3>
+
+<div class="answer">
+
+Container registries can accumulate old image versions, increasing
+storage usage and making repository management harder.
+
+</div>
+
+<h3>Good practice</h3>
+
+<ul>
+<li>Define an image retention policy.</li>
+<li>Keep required production versions.</li>
+<li>Remove obsolete development images.</li>
+<li>Use lifecycle policies where supported.</li>
+<li>Never delete images that active deployments still depend on.</li>
+</ul>
+
+<div class="scenario">
+
+For ECR, lifecycle policies can automatically expire images based
+on rules such as image age or the number of images retained.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 27. Important Registry Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>docker login</code></td>
+<td>Authenticate to a registry.</td>
+</tr>
+
+<tr>
+<td><code>docker logout</code></td>
+<td>Log out from a registry.</td>
+</tr>
+
+<tr>
+<td><code>docker images</code></td>
+<td>List local images.</td>
+</tr>
+
+<tr>
+<td><code>docker tag</code></td>
+<td>Create a new image reference/tag.</td>
+</tr>
+
+<tr>
+<td><code>docker push</code></td>
+<td>Upload image to registry.</td>
+</tr>
+
+<tr>
+<td><code>docker pull</code></td>
+<td>Download image from registry.</td>
+</tr>
+
+<tr>
+<td><code>docker image inspect</code></td>
+<td>Inspect image metadata.</td>
+</tr>
+
+</table>
+
+<pre><code>docker login
+
+docker logout
+
+docker images
+
+docker tag myapp:v1 username/myapp:v1
+
+docker push username/myapp:v1
+
+docker pull username/myapp:v1
+
+docker image inspect username/myapp:v1</code></pre>
+
+</div>
+
+
+<!-- SECTION 28 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Interview Questions</h2>
+
+<ol>
+
+<li>What is a Docker registry?</li>
+
+<li>What is Docker Hub?</li>
+
+<li>What is the difference between a registry and a repository?</li>
+
+<li>What is the difference between an image and a container?</li>
+
+<li>What does docker push do?</li>
+
+<li>What does docker pull do?</li>
+
+<li>Why do we tag Docker images?</li>
+
+<li>How do you push a Docker image to Docker Hub?</li>
+
+<li>How do you pull an image from a private registry?</li>
+
+<li>What is Amazon ECR?</li>
+
+<li>How do you push a Docker image to ECR?</li>
+
+<li>How does ECS pull an image from ECR?</li>
+
+<li>Why should we avoid latest in production?</li>
+
+<li>What is an image digest?</li>
+
+<li>How do you tag an image with a Git commit SHA?</li>
+
+<li>How does Docker registry integrate with CI/CD?</li>
+
+<li>What happens when docker push is denied?</li>
+
+<li>What happens when ECS cannot pull an image?</li>
+
+<li>How do you secure a private registry?</li>
+
+<li>How do you manage old images in a registry?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>What is the difference between a public and private registry?</li>
+
+<li>What is the difference between a Docker tag and digest?</li>
+
+<li>Why is latest not recommended for production?</li>
+
+<li>What happens internally during docker push?</li>
+
+<li>What happens internally during docker pull?</li>
+
+<li>Does docker tag create another image?</li>
+
+<li>Why does Docker push sometimes upload only some layers?</li>
+
+<li>How does ECS authenticate with ECR?</li>
+
+<li>What IAM permissions are required for ECR image pulling?</li>
+
+<li>How would you troubleshoot ImagePullBackOff in Kubernetes?</li>
+
+<li>How would you troubleshoot an ECS image pull failure?</li>
+
+<li>How would you connect a Git commit to a Docker image?</li>
+
+<li>How would you implement rollback using registry images?</li>
+
+<li>How would you prevent unauthorized image pushes?</li>
+
+<li>How would you clean old images automatically?</li>
+
+</ul>
+
+</div>
+
+
+<!-- FINAL CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Final Docker Registry Cheat Sheet</h2>
+
+<pre><code># Docker Hub
+
+docker login
+
+docker pull nginx:latest
+
+docker build -t myapp:v1.0 .
+
+docker tag myapp:v1.0 username/myapp:v1.0
+
+docker push username/myapp:v1.0
+
+docker logout
+
+
+# Image inspection
+
+docker images
+
+docker image inspect username/myapp:v1.0
+
+
+# AWS ECR
+
+aws ecr create-repository \
+    --repository-name myapp \
+    --region ap-south-1
+
+
+# ECR login
+
+aws ecr get-login-password \
+    --region ap-south-1 |
+docker login \
+    --username AWS \
+    --password-stdin \
+    &lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com
+
+
+# Build
+
+docker build -t myapp:v1.0 .
+
+
+# Tag
+
+docker tag myapp:v1.0 \
+&lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com/myapp:v1.0
+
+
+# Push
+
+docker push \
+&lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com/myapp:v1.0
+
+
+# Pull
+
+docker pull \
+&lt;ACCOUNT_ID&gt;.dkr.ecr.ap-south-1.amazonaws.com/myapp:v1.0
+
+
+# Check ECR images
+
+aws ecr describe-images \
+    --repository-name myapp \
+    --region ap-south-1</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND -->
+
+<div class="card">
+
+<h2>🚀 60-Second Docker Registry Revision</h2>
+
+<div class="flow">
+
+<strong>Dockerfile</strong>
+<br>
+↓
+<br>
+<strong>docker build</strong>
+<br>
+↓
+<br>
+Docker Image
+<br>
+↓
+<br>
+<strong>docker tag</strong>
+<br>
+↓
+<br>
+Registry Reference
+<br>
+↓
+<br>
+<strong>docker push</strong>
+<br>
+↓
+<br>
+Docker Hub / ECR
+<br>
+↓
+<br>
+<strong>docker pull</strong>
+<br>
+↓
+<br>
+ECS / EKS / Kubernetes
+<br>
+<br>
+
+<strong>Production</strong>
+<br>
+Versioned Tag / Digest
+<br>
+↓
+<br>
+Traceability
+<br>
+↓
+<br>
+Security Scan
+<br>
+↓
+<br>
+Controlled Deployment
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If the Interviewer Says: "Explain Docker Registry"</h2>
+
+<div class="interview">
+
+"A Docker registry is a service used to store and distribute
+container images.
+
+In a typical DevOps workflow, the developer pushes code to Git,
+and the CI pipeline builds and tests the Docker image. After
+security scanning, the pipeline tags the image with a unique
+version such as the Git commit SHA and pushes it to a private
+registry such as Amazon ECR.
+
+During deployment, platforms such as ECS or Kubernetes pull the
+required image from the registry using the appropriate permissions.
+
+For production, I prefer traceable versioned image tags or image
+digests instead of relying only on the latest tag. I would also
+use private repositories, least-privilege access, image scanning
+and lifecycle policies to improve security and registry management."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🐳 Docker Registry • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

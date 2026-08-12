@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Storage & Disk Management - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+.back:hover{color:#93c5fd}
+.icon{font-size:50px;margin:20px 0 5px}
+h1{font-size:clamp(30px,5vw,48px);margin:0}
+h1 span{color:#93c5fd}
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+h2{margin:5px 0 12px;font-size:25px}
+p{color:#c2ccde}
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+.example strong{color:#93c5fd}
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+.answer strong{color:#93c5fd}
+.warning{
+    background:rgba(248,113,113,.06);
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:0 10px 10px 0;
+    margin:20px 0;
+}
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1;
+}
+code{
+    background:#080d18;
+    color:#bfdbfe;
+    padding:3px 7px;
+    border-radius:5px;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+.note{
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0;
+}
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">💾</div>
+
+<h1>Linux <span>Storage & Disk Management</span></h1>
+
+<p>
+Disk usage, filesystems, partitions, mounts, df, du, lsblk,
+mount, fstab, inode, LVM basics and real-time DevOps troubleshooting.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+
+<!-- STORAGE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h2>What is Storage in Linux?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux storage is used to store operating system files,
+applications, configuration files, logs and user data.
+</p>
+
+<div class="flow">
+
+Physical Disk
+
+↓
+
+Partition
+
+↓
+
+Filesystem
+
+↓
+
+Mount Point
+
+↓
+
+Files & Directories
+
+</div>
+
+<div class="example">
+
+<strong>💡 DevOps Example</strong>
+
+<p>
+An EC2 server may have an EBS volume attached to it.
+Linux can partition or format the storage and mount it at a
+directory such as <code>/data</code>.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Linux storage consists of disks or block devices that can be
+partitioned, formatted with a filesystem and mounted into the
+Linux directory structure for storing data."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- BLOCK DEVICE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h2>What is a Block Device?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A block device provides storage that can be accessed in fixed-size
+blocks. Disks and many storage volumes appear to Linux as block
+devices.
+</p>
+
+<div class="example">
+
+<pre>lsblk</pre>
+
+<p>
+Typical device names may look like:
+</p>
+
+<pre>/dev/xvda
+/dev/nvme0n1
+/dev/nvme1n1</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A block device is a storage device that provides data access in
+blocks. In Linux, disks and cloud block storage volumes commonly
+appear as block devices."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LSBLK -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 03</div>
+
+<h2>lsblk</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+<code>lsblk</code> displays information about block devices,
+partitions and their mount points.
+</p>
+
+<div class="example">
+
+<pre>lsblk</pre>
+
+<strong>More detailed information</strong>
+
+<pre>lsblk -f</pre>
+
+</div>
+
+<p>
+The <code>-f</code> option is useful for viewing filesystem type,
+label, UUID and mount point information.
+</p>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I use lsblk to identify disks, partitions, filesystems and mount
+points. lsblk -f also shows filesystem and UUID information."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DF -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 04</div>
+
+<h2>df</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+The <code>df</code> command displays filesystem disk space usage.
+</p>
+
+<div class="example">
+
+<strong>Human-readable output</strong>
+
+<pre>df -h</pre>
+
+<strong>Filesystem type</strong>
+
+<pre>df -Th</pre>
+
+</div>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>-h</code></td>
+<td>Human-readable sizes</td>
+</tr>
+
+<tr>
+<td><code>-T</code></td>
+<td>Show filesystem type</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"df shows filesystem-level disk space usage. I commonly use
+df -h to quickly identify filesystems that are running out of
+space."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DU -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 05</div>
+
+<h2>du</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+The <code>du</code> command estimates the disk space consumed by
+files and directories.
+</p>
+
+<div class="example">
+
+<strong>Directory size</strong>
+
+<pre>du -sh /var/log</pre>
+
+<strong>Sizes of items in current directory</strong>
+
+<pre>du -sh *</pre>
+
+<strong>Top-level directory usage</strong>
+
+<pre>du -h --max-depth=1 /var</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I use du to find which directories or files are consuming disk
+space. For example, du -sh /var/log shows the approximate size of
+the log directory."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DF VS DU -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 06</div>
+
+<h2>df vs du</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<table>
+
+<tr>
+<th>df</th>
+<th>du</th>
+</tr>
+
+<tr>
+<td>Filesystem usage</td>
+<td>File/directory usage</td>
+</tr>
+
+<tr>
+<td>Shows available filesystem space</td>
+<td>Shows space consumed by files/directories</td>
+</tr>
+
+<tr>
+<td>Useful to detect full filesystems</td>
+<td>Useful to find what is consuming space</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Disk Full?
+
+↓
+
+<code>df -h</code>
+
+↓
+
+Which filesystem?
+
+↓
+
+<code>du -sh *</code>
+
+↓
+
+Which directory is large?
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"df tells me how much space is used and available at the
+filesystem level, while du helps me identify which files or
+directories are consuming that space."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FILESYSTEM -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 07</div>
+
+<h2>What is a Filesystem?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A filesystem defines how data is organized, stored and retrieved
+on a storage device.
+</p>
+
+<div class="example">
+
+<strong>Common Linux filesystems</strong>
+
+<pre>ext4
+xfs</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A filesystem provides the structure used by an operating system
+to organize and manage files on storage devices. Common Linux
+filesystems include ext4 and XFS."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FORMAT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h2>What does formatting a disk mean?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+Formatting a storage device or partition creates a filesystem on
+it so the operating system can store files using that filesystem.
+</p>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<pre>sudo mkfs.ext4 /dev/xvdf1</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ IMPORTANT</strong>
+
+<p>
+Running <code>mkfs</code> on the wrong device can destroy existing
+data. Always verify the device using <code>lsblk</code> before
+formatting.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- MOUNT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 09</div>
+
+<h2>What is Mounting?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Mounting makes a filesystem available at a directory in the
+Linux filesystem hierarchy.
+</p>
+
+<div class="flow">
+
+Disk
+
+↓
+
+Filesystem
+
+↓
+
+Mount
+
+↓
+
+/data
+
+↓
+
+Application accesses files
+
+</div>
+
+<div class="example">
+
+<strong>Create mount point</strong>
+
+<pre>sudo mkdir /data</pre>
+
+<strong>Mount filesystem</strong>
+
+<pre>sudo mount /dev/xvdf1 /data</pre>
+
+<strong>Check mounts</strong>
+
+<pre>mount | grep /data</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"Mounting attaches a filesystem to a directory in the Linux
+filesystem hierarchy, making the storage accessible through that
+mount point."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- UMOUNT -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 10</div>
+
+<h2>umount</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+<code>umount</code> detaches a mounted filesystem from its mount
+point.
+</p>
+
+<div class="example">
+
+<pre>sudo umount /data</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+A filesystem may fail to unmount if a process is currently using
+files or directories under that mount point.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FSTAB -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h2>What is /etc/fstab?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+<code>/etc/fstab</code> contains filesystem mount configuration
+that can be used to mount filesystems automatically during boot.
+</p>
+
+<div class="example">
+
+<pre>cat /etc/fstab</pre>
+
+</div>
+
+<div class="flow">
+
+Server Reboot
+
+↓
+
+Read /etc/fstab
+
+↓
+
+Mount configured filesystems
+
+↓
+
+Storage Available
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"/etc/fstab contains persistent filesystem mount configuration.
+It allows filesystems to be mounted automatically during system
+boot."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- UUID -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 12</div>
+
+<h2>What is UUID?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+UUID stands for Universally Unique Identifier. Filesystems can
+have UUIDs that provide stable identifiers for mounting.
+</p>
+
+<div class="example">
+
+<pre>blkid</pre>
+
+<strong>or</strong>
+
+<pre>lsblk -f</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"UUID is a unique identifier associated with a filesystem. Using
+UUIDs in /etc/fstab can provide more stable mount configuration
+than relying only on device names."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- INODE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 13</div>
+
+<h2>What is an Inode?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p>
+An inode stores metadata about a filesystem object such as file
+type, permissions, ownership and timestamps, along with pointers
+to the file's data blocks.
+</p>
+
+<div class="example">
+
+<strong>Check inode usage</strong>
+
+<pre>df -i</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>🔥 Real-Time Problem</strong>
+
+<p>
+A server can report "No space left on device" even when
+<code>df -h</code> shows free disk space if the filesystem has
+run out of inodes.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"An inode stores filesystem metadata about a file. If a filesystem
+runs out of inodes, new files may not be created even when there
+is still free disk capacity."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PARTITION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 14</div>
+
+<h2>What is a Partition?</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A partition is a logical division of a physical disk or block
+device.
+</p>
+
+<div class="example">
+
+<pre>lsblk</pre>
+
+<p>
+Example:
+</p>
+
+<pre>/dev/nvme0n1
+├── /dev/nvme0n1p1
+└── /dev/nvme0n1p2</pre>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LVM -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 15</div>
+
+<h2>What is LVM?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+LVM stands for Logical Volume Manager.
+It provides a flexible way to manage storage using logical
+volumes.
+</p>
+
+<div class="flow">
+
+Physical Disk
+
+↓
+
+Physical Volume (PV)
+
+↓
+
+Volume Group (VG)
+
+↓
+
+Logical Volume (LV)
+
+↓
+
+Filesystem
+
+↓
+
+Mount Point
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"LVM is a storage management framework that abstracts physical
+storage into logical volumes. It provides flexibility for
+creating, resizing and managing storage."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LVM COMPONENTS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 16</div>
+
+<h2>LVM Components</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>PV</td>
+<td>Physical Volume</td>
+</tr>
+
+<tr>
+<td>VG</td>
+<td>Volume Group</td>
+</tr>
+
+<tr>
+<td>LV</td>
+<td>Logical Volume</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>Common commands</strong>
+
+<pre>pvs
+vgs
+lvs</pre>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DISK FULL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME DEVOPS SCENARIO</div>
+
+<h2>Disk is 100% full. What will you do?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<div class="flow">
+
+Disk Alert
+
+↓
+
+df -h
+
+↓
+
+Identify Full Filesystem
+
+↓
+
+du -sh *
+
+↓
+
+Find Large Directories
+
+↓
+
+Check Logs / Temporary Files
+
+↓
+
+Clean Safely
+
+↓
+
+Verify df -h Again
+
+</div>
+
+<div class="example">
+
+<strong>Step 1 — Check filesystem usage</strong>
+
+<pre>df -h</pre>
+
+<strong>Step 2 — Find large directories</strong>
+
+<pre>sudo du -h --max-depth=1 /var</pre>
+
+<strong>Step 3 — Check logs</strong>
+
+<pre>sudo du -sh /var/log/*</pre>
+
+<strong>Step 4 — Check inode usage</strong>
+
+<pre>df -i</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Never blindly delete files</strong>
+
+<p>
+Do not randomly remove system files or active application files.
+First identify what is consuming space and understand whether it
+is safe to remove, rotate or archive it.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"First I would use df -h to identify the full filesystem. Then I
+would use du to locate large directories or files. I would also
+check inode usage with df -i. After identifying the cause, I would
+safely clean, rotate or archive unnecessary data and verify the
+available space again."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DELETED FILE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME SCENARIO</div>
+
+<h2>df shows high usage but du doesn't show the same usage</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p>
+One possible cause is a deleted file that is still held open by a
+running process.
+</p>
+
+<div class="example">
+
+<strong>Find deleted-but-open files</strong>
+
+<pre>sudo lsof +L1</pre>
+
+</div>
+
+<div class="flow">
+
+File Deleted
+
+↓
+
+Process Still Has File Open
+
+↓
+
+Disk Blocks Still Occupied
+
+↓
+
+df Shows Usage
+
+↓
+
+du Does Not Show Deleted File
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"If df shows significantly more usage than du, I would investigate
+deleted files that are still held open by running processes using
+lsof. The disk space is released when the process closes the file."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- EBS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 17</div>
+
+<h2>AWS EBS and Linux Storage</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ CLOUD + DEVOPS</span>
+
+<p>
+Amazon EBS provides persistent block storage volumes that can be
+attached to EC2 instances.
+</p>
+
+<div class="flow">
+
+AWS EBS Volume
+
+↓
+
+EC2 Instance
+
+↓
+
+Linux Block Device
+
+↓
+
+Filesystem
+
+↓
+
+Mount Point
+
+↓
+
+Application
+
+</div>
+
+<div class="example">
+
+<p>
+After attaching a volume, you may need to:
+</p>
+
+<pre>lsblk
+sudo mkfs.ext4 /dev/DEVICE
+sudo mkdir /data
+sudo mount /dev/DEVICE /data
+df -h</pre>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+Do not run mkfs on an existing volume containing important data.
+Always identify the correct device first.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- STORAGE TROUBLESHOOTING -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 DEVOPS TROUBLESHOOTING</div>
+
+<h2>New Disk Attached but Not Visible in Application</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<div class="flow">
+
+Disk Attached
+
+↓
+
+lsblk
+
+↓
+
+Partition?
+
+↓
+
+Filesystem?
+
+↓
+
+Mount Point?
+
+↓
+
+df -h
+
+↓
+
+Application Configuration
+
+</div>
+
+<div class="example">
+
+<strong>Useful commands</strong>
+
+<pre>lsblk
+lsblk -f
+sudo blkid
+df -h
+mount
+cat /etc/fstab</pre>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+"I would first confirm that Linux detects the block device using
+lsblk. Then I would check whether it has a filesystem, verify the
+mount point and confirm that the filesystem is mounted. Finally,
+I would verify /etc/fstab if persistent mounting is required and
+check whether the application is using the correct path."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- COMMON COMMANDS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧰 Linux Storage Quick Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>lsblk</code></td>
+<td>List block devices</td>
+</tr>
+
+<tr>
+<td><code>lsblk -f</code></td>
+<td>Show filesystem information</td>
+</tr>
+
+<tr>
+<td><code>df -h</code></td>
+<td>Filesystem disk usage</td>
+</tr>
+
+<tr>
+<td><code>df -i</code></td>
+<td>Inode usage</td>
+</tr>
+
+<tr>
+<td><code>du -sh</code></td>
+<td>Directory/file usage</td>
+</tr>
+
+<tr>
+<td><code>mount</code></td>
+<td>Show mounted filesystems</td>
+</tr>
+
+<tr>
+<td><code>umount</code></td>
+<td>Unmount filesystem</td>
+</tr>
+
+<tr>
+<td><code>blkid</code></td>
+<td>Show device UUID/filesystem information</td>
+</tr>
+
+<tr>
+<td><code>cat /etc/fstab</code></td>
+<td>View persistent mount configuration</td>
+</tr>
+
+<tr>
+<td><code>pvs</code></td>
+<td>Show LVM physical volumes</td>
+</tr>
+
+<tr>
+<td><code>vgs</code></td>
+<td>Show LVM volume groups</td>
+</tr>
+
+<tr>
+<td><code>lvs</code></td>
+<td>Show LVM logical volumes</td>
+</tr>
+
+<tr>
+<td><code>lsof +L1</code></td>
+<td>Find deleted files still held open</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL QUESTIONS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🎤 FINAL INTERVIEW QUESTIONS</h2>
+
+<p>
+
+<strong>Q:</strong> How do you check disk usage?
+
+<br>
+<strong>A:</strong> <code>df -h</code>
+
+<br><br>
+
+<strong>Q:</strong> How do you find which directory is consuming space?
+
+<br>
+<strong>A:</strong> Use <code>du</code>.
+
+<br><br>
+
+<strong>Q:</strong> df vs du?
+
+<br>
+<strong>A:</strong> df shows filesystem usage; du shows file and
+directory usage.
+
+<br><br>
+
+<strong>Q:</strong> How do you list disks?
+
+<br>
+<strong>A:</strong> <code>lsblk</code>
+
+<br><br>
+
+<strong>Q:</strong> What is mounting?
+
+<br>
+<strong>A:</strong> Attaching a filesystem to a directory.
+
+<br><br>
+
+<strong>Q:</strong> What is /etc/fstab?
+
+<br>
+<strong>A:</strong> Persistent filesystem mount configuration.
+
+<br><br>
+
+<strong>Q:</strong> What is an inode?
+
+<br>
+<strong>A:</strong> A filesystem data structure containing metadata
+about a file.
+
+<br><br>
+
+<strong>Q:</strong> What happens if inodes are exhausted?
+
+<br>
+<strong>A:</strong> New files may not be created even if disk
+capacity is still available.
+
+<br><br>
+
+<strong>Q:</strong> What is LVM?
+
+<br>
+<strong>A:</strong> Logical Volume Manager, used for flexible
+storage management.
+
+<br><br>
+
+<strong>Q:</strong> What do PV, VG and LV mean?
+
+<br>
+<strong>A:</strong> Physical Volume, Volume Group and Logical Volume.
+
+<br><br>
+
+<strong>Q:</strong> How do you troubleshoot a full disk?
+
+<br>
+<strong>A:</strong> df -h → du → inspect logs/files → df -i →
+check deleted open files → clean safely → verify again.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — LINUX STORAGE</h2>
+
+<div class="note">
+
+<strong>lsblk</strong>
+→ List disks and partitions.
+
+<br><br>
+
+<strong>df -h</strong>
+→ Filesystem disk usage.
+
+<br><br>
+
+<strong>du -sh</strong>
+→ Directory/file disk usage.
+
+<br><br>
+
+<strong>df -i</strong>
+→ Inode usage.
+
+<br><br>
+
+<strong>mount</strong>
+→ Attach filesystem to directory.
+
+<br><br>
+
+<strong>umount</strong>
+→ Detach filesystem.
+
+<br><br>
+
+<strong>/etc/fstab</strong>
+→ Persistent mount configuration.
+
+<br><br>
+
+<strong>UUID</strong>
+→ Stable filesystem identifier.
+
+<br><br>
+
+<strong>Partition</strong>
+→ Logical division of a disk.
+
+<br><br>
+
+<strong>LVM</strong>
+→ Flexible logical storage management.
+
+<br><br>
+
+<strong>PV → VG → LV</strong>
+→ LVM structure.
+
+<br><br>
+
+<strong>🔥 Disk Full</strong>
+
+<br><br>
+
+df -h
+
+↓
+
+du
+
+↓
+
+Check logs
+
+↓
+
+df -i
+
+↓
+
+Check deleted open files
+
+↓
+
+Clean safely
+
+↓
+
+Verify
+
+</div>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>💾 Linux • Storage & Disk Management</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

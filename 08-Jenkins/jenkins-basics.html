@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jenkins Basics - DevOps Interview Master Guide">
+<title>Jenkins Basics - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#fbbf24}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#fbbf24}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#fbbf24;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #fbbf24;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#fbbf24;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔧</div>
+
+<a href="index.html" class="back">← Back to Jenkins</a>
+
+<h1>Jenkins <span>Basics</span></h1>
+
+<p>
+Interview-focused guide covering Jenkins architecture, Controller and
+Agents, Jobs, Builds, Plugins, Workspace, CI/CD workflow and
+real-time DevOps usage.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Core Concept</h2>
+
+<p>
+<strong>Jenkins</strong> is an open-source automation server mainly
+used to implement Continuous Integration and Continuous Delivery /
+Deployment pipelines.
+</p>
+
+<div class="flow">
+
+Developer
+<br>
+↓
+<br>
+Git Repository
+<br>
+↓
+<br>
+Webhook
+<br>
+↓
+<br>
+<strong>Jenkins</strong>
+<br>
+↓
+<br>
+Build → Test → Scan → Package
+<br>
+↓
+<br>
+Docker Image / Artifact
+<br>
+↓
+<br>
+Deployment
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A developer pushes code to GitHub. A webhook triggers Jenkins.
+Jenkins checks out the code, builds the application, runs tests,
+creates a Docker image and pushes it to a container registry.
+The pipeline can then deploy the application to Kubernetes or AWS.
+
+</div>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Jenkins?</h2>
+
+<div class="answer">
+
+Jenkins is an open-source automation server used to automate
+software build, test, integration and deployment activities.
+
+It is widely used in DevOps to create CI/CD pipelines.
+
+</div>
+
+<h3>Interview Answer</h3>
+
+<div class="interview">
+
+"Jenkins is an open-source automation server that helps automate
+CI/CD processes. We can integrate Jenkins with Git, Docker, cloud
+platforms, Kubernetes and many testing or security tools to automate
+the software delivery lifecycle."
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why do we use Jenkins?</h2>
+
+<ul>
+
+<li>Automate application builds.</li>
+
+<li>Run automated tests.</li>
+
+<li>Integrate with Git repositories.</li>
+
+<li>Build CI/CD pipelines.</li>
+
+<li>Create Docker images.</li>
+
+<li>Push artifacts to repositories.</li>
+
+<li>Deploy applications automatically.</li>
+
+<li>Integrate security and code-quality tools.</li>
+
+</ul>
+
+<div class="scenario">
+
+<strong>Without Jenkins:</strong>
+
+Developer manually builds, tests and deploys the application.
+
+<br><br>
+
+<strong>With Jenkins:</strong>
+
+A Git push can automatically trigger the complete workflow.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Jenkins Architecture</h2>
+
+<div class="answer">
+
+Modern Jenkins commonly follows a controller-agent architecture.
+
+<strong>Controller:</strong> manages Jenkins configuration,
+jobs/pipelines and coordinates execution.
+
+<strong>Agent:</strong> provides the environment where build or pipeline
+steps execute.
+
+</div>
+
+<div class="flow">
+
+Jenkins Controller
+<br>
+↓
+<br>
+Pipeline / Job Scheduling
+<br>
+↓
+<br>
+Agent 1 → Build
+<br>
+Agent 2 → Test
+<br>
+Agent 3 → Docker
+<br>
+↓
+<br>
+Artifacts / Deployment
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Controller vs Agent</h2>
+
+<table>
+
+<tr>
+<th>Controller</th>
+<th>Agent</th>
+</tr>
+
+<tr>
+<td>Manages Jenkins configuration.</td>
+<td>Executes assigned build or pipeline work.</td>
+</tr>
+
+<tr>
+<td>Schedules jobs.</td>
+<td>Runs commands and tools.</td>
+</tr>
+
+<tr>
+<td>Stores Jenkins configuration.</td>
+<td>Provides execution environment.</td>
+</tr>
+
+<tr>
+<td>Can manage multiple agents.</td>
+<td>Can be labeled for specific workloads.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview tip:</strong>
+
+Do not say the controller must execute every build.
+
+A production Jenkins setup can use dedicated agents so workloads
+are distributed and the controller is not overloaded.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is a Jenkins Job?</h2>
+
+<div class="answer">
+
+A Jenkins Job is a configured task that Jenkins can execute.
+
+Depending on the setup, it can represent a build, test,
+pipeline or another automated process.
+
+</div>
+
+<h3>Common examples</h3>
+
+<ul>
+
+<li>Freestyle project</li>
+
+<li>Pipeline</li>
+
+<li>Multibranch Pipeline</li>
+
+<li>Organization Folder</li>
+
+</ul>
+
+<div class="scenario">
+
+Example:
+
+<strong>Payment-Service-CI</strong> can be configured to checkout
+code, run tests, build a Docker image and publish the image.
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is a Build?</h2>
+
+<div class="answer">
+
+A build is an execution of a Jenkins job or pipeline.
+
+Every execution can produce a build result such as
+<strong>SUCCESS</strong>, <strong>FAILURE</strong>,
+<strong>ABORTED</strong> or <strong>UNSTABLE</strong>, depending on
+the job and configuration.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>Build #101 → SUCCESS
+Build #102 → SUCCESS
+Build #103 → FAILURE
+Build #104 → SUCCESS</code></pre>
+
+<div class="interview">
+
+When a build fails, I first inspect the console logs and identify
+which stage or command failed before changing the pipeline.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is a Jenkins Plugin?</h2>
+
+<div class="answer">
+
+A Jenkins plugin extends Jenkins functionality and allows Jenkins
+to integrate with external tools and platforms.
+
+</div>
+
+<h3>Examples</h3>
+
+<ul>
+
+<li>Git integration</li>
+
+<li>Pipeline functionality</li>
+
+<li>Credentials management</li>
+
+<li>Docker integration</li>
+
+<li>Kubernetes integration</li>
+
+<li>Notifications</li>
+
+</ul>
+
+<div class="warning">
+
+Do not install unnecessary plugins.
+
+A production Jenkins installation should keep plugins controlled,
+compatible and regularly maintained.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is Jenkins Workspace?</h2>
+
+<div class="answer">
+
+A workspace is the directory where Jenkins performs operations
+such as source-code checkout, compilation, testing and artifact
+generation for a build.
+
+</div>
+
+<div class="flow">
+
+Agent
+<br>
+↓
+<br>
+Workspace
+<br>
+↓
+<br>
+Git Checkout
+<br>
+↓
+<br>
+Build / Test
+<br>
+↓
+<br>
+Artifacts
+
+</div>
+
+<h3>Useful troubleshooting command</h3>
+
+<pre><code>pwd
+ls -la</code></pre>
+
+<p>
+Inside a Jenkins pipeline, shell commands execute in the workspace
+unless another directory is specified.
+</p>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Jenkins CI/CD Flow</h2>
+
+<div class="flow">
+
+<strong>Developer</strong>
+<br>
+↓
+<br>
+git push
+<br>
+↓
+<br>
+<strong>GitHub</strong>
+<br>
+↓
+<br>
+Webhook
+<br>
+↓
+<br>
+<strong>Jenkins</strong>
+<br>
+↓
+<br>
+Checkout
+<br>
+↓
+<br>
+Build
+<br>
+↓
+<br>
+Test
+<br>
+↓
+<br>
+Security Scan
+<br>
+↓
+<br>
+Docker Build
+<br>
+↓
+<br>
+Push Image
+<br>
+↓
+<br>
+Deploy
+<br>
+↓
+<br>
+<strong>Application</strong>
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time DevOps example:</strong>
+
+GitHub → Jenkins → Maven → SonarQube → Docker → ECR →
+Kubernetes/EKS.
+
+This is a common pattern for an end-to-end CI/CD workflow.
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Freestyle Job vs Pipeline</h2>
+
+<table>
+
+<tr>
+<th>Freestyle</th>
+<th>Pipeline</th>
+</tr>
+
+<tr>
+<td>Configured mainly through Jenkins UI.</td>
+<td>Pipeline can be defined as code.</td>
+</tr>
+
+<tr>
+<td>Suitable for simple jobs.</td>
+<td>Better for complex CI/CD workflows.</td>
+</tr>
+
+<tr>
+<td>Harder to version configuration.</td>
+<td>Jenkinsfile can be stored in Git.</td>
+</tr>
+
+<tr>
+<td>Less suitable for complex stages.</td>
+<td>Supports stages, conditions and reusable logic.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"For modern CI/CD, I prefer Pipeline as Code using a Jenkinsfile
+because the pipeline definition can be version-controlled along
+with the application source code."
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is Pipeline as Code?</h2>
+
+<div class="answer">
+
+Pipeline as Code means defining the CI/CD workflow in a file,
+commonly called a <strong>Jenkinsfile</strong>, instead of relying
+only on Jenkins UI configuration.
+
+</div>
+
+<h3>Basic example</h3>
+
+<pre><code>pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Building application'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application'
+            }
+        }
+    }
+}</code></pre>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. What is Continuous Integration?</h2>
+
+<div class="answer">
+
+Continuous Integration means developers frequently integrate code
+changes into a shared repository and automated processes build and
+test those changes.
+
+</div>
+
+<div class="scenario">
+
+Developer pushes code.
+
+<br>
+↓
+
+Jenkins starts automatically.
+
+<br>
+↓
+
+Code is compiled and tested.
+
+<br>
+↓
+
+Failure is reported quickly.
+
+</div>
+
+<p>
+The main goal is to detect integration problems early.
+</p>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 13. Continuous Delivery vs Continuous Deployment</h2>
+
+<table>
+
+<tr>
+<th>Continuous Delivery</th>
+<th>Continuous Deployment</th>
+</tr>
+
+<tr>
+<td>Software is kept ready for release.</td>
+<td>Successful changes are automatically released.</td>
+</tr>
+
+<tr>
+<td>May require manual production approval.</td>
+<td>Production deployment can happen automatically.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+Example:
+
+<strong>Delivery:</strong> Jenkins builds and tests the application,
+then waits for production approval.
+
+<br><br>
+
+<strong>Deployment:</strong> Jenkins automatically deploys the
+successful build to production.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. How does Jenkins trigger a pipeline?</h2>
+
+<div class="answer">
+
+A Jenkins job can be triggered through several mechanisms,
+depending on configuration.
+
+</div>
+
+<ul>
+
+<li>GitHub/GitLab webhook</li>
+
+<li>Manual trigger</li>
+
+<li>Scheduled trigger</li>
+
+<li>SCM polling</li>
+
+<li>Another Jenkins job</li>
+
+<li>API or automation</li>
+
+</ul>
+
+<div class="scenario">
+
+<strong>Preferred modern approach:</strong>
+
+Git push → Webhook → Jenkins pipeline.
+
+This avoids Jenkins repeatedly polling the repository just to
+discover changes.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. How do you troubleshoot a failed Jenkins build?</h2>
+
+<div class="answer">
+
+I follow a systematic approach rather than randomly changing the
+pipeline.
+
+</div>
+
+<div class="flow">
+
+Build Failed
+<br>
+↓
+<br>
+Open Console Output
+<br>
+↓
+<br>
+Identify Failed Stage
+<br>
+↓
+<br>
+Check Exact Error
+<br>
+↓
+<br>
+Verify Agent / Workspace
+<br>
+↓
+<br>
+Check Credentials / Permissions
+<br>
+↓
+<br>
+Check Tool / Dependency
+<br>
+↓
+<br>
+Fix → Re-run
+
+</div>
+
+<h3>Useful areas to inspect</h3>
+
+<ul>
+
+<li>Console output</li>
+<li>Pipeline stage logs</li>
+<li>Agent availability</li>
+<li>Workspace files</li>
+<li>Credentials</li>
+<li>Docker / Kubernetes connectivity</li>
+<li>Disk space</li>
+<li>Network access</li>
+
+</ul>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Real-Time Scenario: Agent Offline</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Jenkins pipeline is waiting because the required agent is offline.
+
+<br><br>
+
+<strong>Approach:</strong>
+
+1. Check the agent status.
+<br>
+2. Check connectivity.
+<br>
+3. Verify agent process/service.
+<br>
+4. Check resource availability.
+<br>
+5. Verify labels match the pipeline requirement.
+<br>
+6. Reconnect or replace the agent if required.
+
+</div>
+
+<div class="interview">
+
+I would not immediately restart the entire Jenkins controller.
+First I identify whether the issue is isolated to the agent.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Real-Time Scenario: Build is very slow</h2>
+
+<div class="scenario">
+
+Possible causes:
+
+<ul>
+
+<li>Insufficient CPU or memory.</li>
+<li>Slow dependency downloads.</li>
+<li>Large Docker builds.</li>
+<li>Too many builds on one agent.</li>
+<li>Disk or workspace problems.</li>
+<li>Unnecessary stages.</li>
+<li>Network latency.</li>
+
+</ul>
+
+<strong>Solution:</strong>
+
+Use appropriate agents, parallelize independent stages, cache
+dependencies where suitable and optimize Docker/build processes.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Jenkins Production Best Practices</h2>
+
+<ul>
+
+<li>Use Pipeline as Code.</li>
+
+<li>Store Jenkinsfiles in Git.</li>
+
+<li>Use dedicated agents for workloads.</li>
+
+<li>Use credentials management instead of hard-coded secrets.</li>
+
+<li>Apply least-privilege access.</li>
+
+<li>Keep plugins maintained and controlled.</li>
+
+<li>Monitor Jenkins disk, CPU and memory.</li>
+
+<li>Back up important Jenkins configuration and data.</li>
+
+<li>Use webhooks for event-driven CI where appropriate.</li>
+
+<li>Keep production pipelines reproducible.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>What is Jenkins?</li>
+
+<li>Why is Jenkins used in DevOps?</li>
+
+<li>Explain Jenkins architecture.</li>
+
+<li>What is the difference between Controller and Agent?</li>
+
+<li>What is a Jenkins Job?</li>
+
+<li>What is a Jenkins Build?</li>
+
+<li>What is a Jenkins Plugin?</li>
+
+<li>What is Jenkins Workspace?</li>
+
+<li>What is CI/CD?</li>
+
+<li>What is Pipeline as Code?</li>
+
+<li>What is a Jenkinsfile?</li>
+
+<li>Freestyle vs Pipeline?</li>
+
+<li>How can Jenkins trigger a build?</li>
+
+<li>Webhook vs polling?</li>
+
+<li>How do you troubleshoot a failed build?</li>
+
+<li>What happens when a Jenkins agent goes offline?</li>
+
+<li>How do you secure Jenkins?</li>
+
+<li>Why should secrets not be hard-coded in Jenkinsfiles?</li>
+
+<li>How would you design Jenkins for production?</li>
+
+<li>Explain a real-time Jenkins CI/CD workflow.</li>
+
+</ol>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Jenkins Quick Revision</h2>
+
+<pre><code>Developer
+    ↓
+Git
+    ↓
+Webhook
+    ↓
+Jenkins Controller
+    ↓
+Pipeline
+    ↓
+Agent
+    ↓
+Checkout
+    ↓
+Build
+    ↓
+Test
+    ↓
+Scan
+    ↓
+Docker Build
+    ↓
+Registry
+    ↓
+Deploy</code></pre>
+
+<div class="interview">
+
+<strong>Remember:</strong>
+
+Jenkins = Automation
+
+<br><br>
+
+Pipeline = CI/CD workflow
+
+<br><br>
+
+Jenkinsfile = Pipeline as Code
+
+<br><br>
+
+Controller = Manages / coordinates
+
+<br><br>
+
+Agent = Executes workload
+
+<br><br>
+
+Webhook = Event-based trigger
+
+<br><br>
+
+Workspace = Build working directory
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Jenkins"</h2>
+
+<div class="interview">
+
+"Jenkins is an open-source automation server widely used for CI/CD.
+In a typical DevOps workflow, a developer pushes code to GitHub and
+a webhook triggers Jenkins.
+
+Jenkins checks out the source code and executes a pipeline on an
+appropriate agent. The pipeline can build the application, run
+tests and security scans, create a Docker image and push it to a
+container registry. The image can then be deployed to platforms
+such as Kubernetes or AWS.
+
+For production, I prefer Pipeline as Code using Jenkinsfiles,
+dedicated agents, secure credential management, controlled plugins
+and proper monitoring and backups."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔧 Jenkins Basics • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

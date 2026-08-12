@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Nandu | DevOps Interview Master Guide</title>
+
+<link rel="stylesheet" href="style.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- ================= HEADER ================= -->
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            🚀 DEVOPS INTERVIEW PREPARATION
+        </div>
+
+        <h1>
+            Nandu's
+            <span>DevOps Interview Master Guide</span>
+        </h1>
+
+        <p class="hero-description">
+            AWS • Linux • Docker • Kubernetes • Terraform • Jenkins •
+            CI/CD • GitOps • Monitoring • DevSecOps
+        </p>
+
+        <div class="hero-stats">
+
+            <div class="stat">
+                <strong>18+</strong>
+                <span>Topics</span>
+            </div>
+
+            <div class="stat">
+                <strong>500+</strong>
+                <span>Questions</span>
+            </div>
+
+            <div class="stat">
+                <strong>100+</strong>
+                <span>Scenarios</span>
+            </div>
+
+            <div class="stat">
+                <strong>∞</strong>
+                <span>Practice</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+    <!-- Search -->
+
+    <section class="search-section">
+
+        <div>
+            <h2>📚 Interview Question Bank</h2>
+
+            <p>
+                Select a topic and start preparing.
+                Every topic will contain questions, answers,
+                real-time examples and follow-up questions.
+            </p>
+        </div>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search topic..."
+                onkeyup="searchTopics()"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= TOPIC GRID ================= -->
+
+    <section class="topics-grid" id="topicsGrid">
+
+
+        <!-- AWS -->
+
+        <a href="01-AWS/index.html" class="topic-card aws">
+
+            <div class="card-icon">☁️</div>
+
+            <div class="card-number">01</div>
+
+            <h3>AWS</h3>
+
+            <p>
+                EC2, S3, IAM, VPC, EBS, EFS,
+                Load Balancer, Auto Scaling & CloudWatch
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- CLOUD -->
+
+        <a href="02-Cloud-Fundamentals/index.html" class="topic-card cloud">
+
+            <div class="card-icon">🌐</div>
+
+            <div class="card-number">02</div>
+
+            <h3>Cloud Fundamentals</h3>
+
+            <p>
+                IaaS, PaaS, SaaS, Regions,
+                Availability Zones, Scalability & HA
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- LINUX -->
+
+        <a href="03-Linux/index.html" class="topic-card linux">
+
+            <div class="card-icon">🐧</div>
+
+            <div class="card-number">03</div>
+
+            <h3>Linux</h3>
+
+            <p>
+                Commands, permissions, processes,
+                services, SSH, logs & troubleshooting
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- GIT -->
+
+        <a href="04-Git-GitHub/index.html" class="topic-card git">
+
+            <div class="card-icon">🔀</div>
+
+            <div class="card-number">04</div>
+
+            <h3>Git & GitHub</h3>
+
+            <p>
+                Branching, merging, rebase,
+                conflicts, reset, revert & GitHub
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- DOCKER -->
+
+        <a href="05-Docker/index.html" class="topic-card docker">
+
+            <div class="card-icon">🐳</div>
+
+            <div class="card-number">05</div>
+
+            <h3>Docker</h3>
+
+            <p>
+                Images, containers, Dockerfile,
+                volumes, networking & registries
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- KUBERNETES -->
+
+        <a href="06-Kubernetes/index.html" class="topic-card kubernetes">
+
+            <div class="card-icon">☸️</div>
+
+            <div class="card-number">06</div>
+
+            <h3>Kubernetes</h3>
+
+            <p>
+                Pods, Deployments, Services,
+                HPA, VPA, StatefulSets & troubleshooting
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- TERRAFORM -->
+
+        <a href="07-Terraform/index.html" class="topic-card terraform">
+
+            <div class="card-icon">🏗️</div>
+
+            <div class="card-number">07</div>
+
+            <h3>Terraform</h3>
+
+            <p>
+                IaC, providers, resources, modules,
+                state, variables & EKS
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- JENKINS -->
+
+        <a href="08-Jenkins/index.html" class="topic-card jenkins">
+
+            <div class="card-icon">🔨</div>
+
+            <div class="card-number">08</div>
+
+            <h3>Jenkins</h3>
+
+            <p>
+                Pipelines, Jenkinsfile, agents,
+                credentials, webhooks & CI/CD
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- CI/CD -->
+
+        <a href="09-CI-CD/index.html" class="topic-card cicd">
+
+            <div class="card-icon">🚀</div>
+
+            <div class="card-number">09</div>
+
+            <h3>CI/CD</h3>
+
+            <p>
+                Build, test, scan, deploy,
+                rollback & deployment strategies
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- GITHUB ACTIONS -->
+
+        <a href="10-GitHub-Actions/index.html" class="topic-card actions">
+
+            <div class="card-icon">⚙️</div>
+
+            <div class="card-number">10</div>
+
+            <h3>GitHub Actions</h3>
+
+            <p>
+                Workflows, jobs, runners, secrets,
+                artifacts & Docker/ECR deployments
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- ARGOCD -->
+
+        <a href="11-ArgoCD-GitOps/index.html" class="topic-card argocd">
+
+            <div class="card-icon">🔄</div>
+
+            <div class="card-number">11</div>
+
+            <h3>ArgoCD & GitOps</h3>
+
+            <p>
+                Applications, sync, self-healing,
+                drift detection & GitOps architecture
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- MONITORING -->
+
+        <a href="12-Monitoring/index.html" class="topic-card monitoring">
+
+            <div class="card-icon">📊</div>
+
+            <div class="card-number">12</div>
+
+            <h3>Monitoring</h3>
+
+            <p>
+                Prometheus, Grafana, metrics,
+                exporters, dashboards & alerts
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- DEVSECOPS -->
+
+        <a href="13-DevSecOps/index.html" class="topic-card security">
+
+            <div class="card-icon">🔐</div>
+
+            <div class="card-number">13</div>
+
+            <h3>DevSecOps</h3>
+
+            <p>
+                Trivy, Gitleaks, Hadolint,
+                SonarQube & security scanning
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- NETWORKING -->
+
+        <a href="14-Networking/index.html" class="topic-card networking">
+
+            <div class="card-icon">🌍</div>
+
+            <div class="card-number">14</div>
+
+            <h3>Networking</h3>
+
+            <p>
+                TCP/IP, HTTP/HTTPS, DNS,
+                CIDR, ports & networking concepts
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- EKS -->
+
+        <a href="15-EKS/index.html" class="topic-card eks">
+
+            <div class="card-icon">☁️</div>
+
+            <div class="card-number">15</div>
+
+            <h3>AWS EKS</h3>
+
+            <p>
+                EKS architecture, node groups,
+                IAM, kubeconfig & troubleshooting
+            </p>
+
+            <span class="start">
+                Start Learning →
+            </span>
+
+        </a>
+
+
+        <!-- SCENARIOS -->
+
+        <a href="16-Real-Time-Scenarios/index.html" class="topic-card scenarios">
+
+            <div class="card-icon">🎯</div>
+
+            <div class="card-number">16</div>
+
+            <h3>Real-Time Scenarios</h3>
+
+            <p>
+                Production failures,
+                troubleshooting & incident-based questions
+            </p>
+
+            <span class="start">
+                Practice Scenarios →
+            </span>
+
+        </a>
+
+
+        <!-- PROJECT -->
+
+        <a href="17-Project-Questions/index.html" class="topic-card projects">
+
+            <div class="card-icon">💻</div>
+
+            <div class="card-number">17</div>
+
+            <h3>Project Questions</h3>
+
+            <p>
+                Architecture, CI/CD, deployment,
+                monitoring & project follow-ups
+            </p>
+
+            <span class="start">
+                Prepare Projects →
+            </span>
+
+        </a>
+
+
+        <!-- HR -->
+
+        <a href="18-HR-Questions/index.html" class="topic-card hr">
+
+            <div class="card-icon">👔</div>
+
+            <div class="card-number">18</div>
+
+            <h3>HR Questions</h3>
+
+            <p>
+                Tell me about yourself,
+                strengths, goals, salary & relocation
+            </p>
+
+            <span class="start">
+                Prepare HR →
+            </span>
+
+        </a>
+
+
+    </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        Built for interview preparation 🚀
+    </p>
+
+    <span>
+        Nandu's DevOps Interview Master Guide • 2026
+    </span>
+
+</footer>
+
+
+<script src="script.js"></script>
+```
+
+</body>
+</html>

@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Docker Images & Containers - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+    border-radius:18px;
+}
+
+.intro strong{color:#93c5fd}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Docker <span>Images & Containers</span></h1>
+
+<p>
+Interview-focused guide covering Docker images, containers,
+layers, lifecycle, storage, logs, inspection, resource usage,
+troubleshooting and real-time DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ DOCKER IMAGES & CONTAINERS — MUST KNOW</strong>
+
+<p>
+Docker images and containers are among the most frequently discussed
+Docker concepts in DevOps interviews. You should understand not only
+the commands but also what happens internally when a container starts.
+</p>
+
+<div class="flow">
+
+Dockerfile
+<br>
+↓
+<br>
+<strong>Docker Image</strong>
+<br>
+↓
+<br>
+<strong>Container</strong>
+<br>
+↓
+<br>
+Process + Filesystem + Network
+<br>
+↓
+<br>
+Application
+
+</div>
+
+</div>
+
+
+<!-- IMAGE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a Docker Image?</h2>
+
+<div class="answer">
+A Docker image is an immutable, read-only template containing the
+application code, dependencies, libraries, configuration and
+filesystem layers required to create a container.
+</div>
+
+<h3>Interview answer</h3>
+
+<div class="interview">
+A Docker image is a packaged application environment. It contains
+everything required to run the application except the running
+container process itself.
+</div>
+
+<h3>Example</h3>
+
+<pre><code>docker pull nginx
+
+docker images</code></pre>
+
+</div>
+
+
+<!-- CONTAINER -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is a Docker Container?</h2>
+
+<div class="answer">
+A container is a running or stopped instance of a Docker image.
+It provides an isolated environment for running application
+processes.
+</div>
+
+<pre><code>docker run nginx
+
+docker ps
+
+docker ps -a</code></pre>
+
+<div class="flow">
+
+Image
+<br>
+↓
+<br>
+<strong>docker run</strong>
+<br>
+↓
+<br>
+Container
+<br>
+↓
+<br>
+Application Process
+
+</div>
+
+<h3>Important point</h3>
+
+<p>
+An image is a template. A container is an instance created from
+that template.
+</p>
+
+</div>
+
+
+<!-- IMAGE VS CONTAINER -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Docker Image vs Container</h2>
+
+<table>
+
+<tr>
+<th>Image</th>
+<th>Container</th>
+</tr>
+
+<tr>
+<td>Read-only template</td>
+<td>Running/stopped instance of an image</td>
+</tr>
+
+<tr>
+<td>Used to create containers</td>
+<td>Used to run applications</td>
+</tr>
+
+<tr>
+<td>Immutable</td>
+<td>Has a writable container layer</td>
+</tr>
+
+<tr>
+<td>Can be stored in registry</td>
+<td>Runs on Docker Engine</td>
+</tr>
+
+<tr>
+<td>Example: nginx:latest</td>
+<td>Example: running nginx container</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- LAYERS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Docker Image Layers</h2>
+
+<div class="answer">
+Docker images are built from layers. Each Dockerfile instruction
+that creates filesystem changes can contribute a layer to the image.
+Layers are cached and reused when possible.
+</div>
+
+<pre><code>FROM ubuntu
+
+RUN apt-get update
+
+RUN apt-get install -y nginx
+
+COPY index.html /var/www/html/</code></pre>
+
+<div class="flow">
+
+Base Image
+<br>
+↓
+<br>
+Package Layer
+<br>
+↓
+<br>
+Application Layer
+<br>
+↓
+<br>
+Docker Image
+
+</div>
+
+<h3>Why are layers important?</h3>
+
+<ul>
+<li>Image reuse</li>
+<li>Build caching</li>
+<li>Faster builds</li>
+<li>Reduced storage through shared layers</li>
+<li>Efficient image distribution</li>
+</ul>
+
+</div>
+
+
+<!-- WRITABLE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is the Container Writable Layer?</h2>
+
+<div class="answer">
+When a container starts, Docker adds a writable layer above the
+read-only image layers. Changes made inside the container are stored
+in this writable layer unless persistent storage is used.
+</div>
+
+<div class="warning">
+The writable container layer is not the correct place for important
+persistent application data.
+</div>
+
+<h3>Production solution</h3>
+
+<p>
+Use volumes or external storage for data that must survive container
+replacement.
+</p>
+
+</div>
+
+
+<!-- LIFECYCLE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Docker Container Lifecycle</h2>
+
+<div class="flow">
+
+Created
+<br>
+↓
+<br>
+Running
+<br>
+↓
+<br>
+Stopped
+<br>
+↓
+<br>
+Removed
+
+</div>
+
+<pre><code>docker create nginx
+
+docker start &lt;container&gt;
+
+docker stop &lt;container&gt;
+
+docker restart &lt;container&gt;
+
+docker rm &lt;container&gt;</code></pre>
+
+<h3>Useful command</h3>
+
+<pre><code>docker ps -a</code></pre>
+
+<p>
+This displays both running and stopped containers.
+</p>
+
+</div>
+
+
+<!-- RUN -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What happens when you run docker run?</h2>
+
+<pre><code>docker run -d --name web -p 8080:80 nginx</code></pre>
+
+<p>Conceptually Docker:</p>
+
+<ol>
+<li>Checks whether the image exists locally.</li>
+<li>Pulls the image from a registry if required.</li>
+<li>Creates a container from the image.</li>
+<li>Adds the writable container layer.</li>
+<li>Configures networking.</li>
+<li>Applies the port mapping.</li>
+<li>Starts the container's main process.</li>
+</ol>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"docker run is a high-level command that creates and starts a
+container from an image, including configuration such as ports,
+environment variables, volumes and networking."
+
+</div>
+
+</div>
+
+
+<!-- DETACHED -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 8. Foreground vs Detached Mode</h2>
+
+<h3>Foreground</h3>
+
+<pre><code>docker run nginx</code></pre>
+
+<p>
+The terminal remains attached to the container process.
+</p>
+
+<h3>Detached</h3>
+
+<pre><code>docker run -d nginx</code></pre>
+
+<p>
+The container runs in the background.
+</p>
+
+<h3>Attach</h3>
+
+<pre><code>docker attach &lt;container&gt;</code></pre>
+
+<div class="warning">
+Be careful with <code>docker attach</code>. Depending on the process
+and terminal handling, exiting the attached session can affect the
+foreground process.
+</div>
+
+</div>
+
+
+<!-- EXEC -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. docker exec vs docker attach</h2>
+
+<table>
+
+<tr>
+<th>docker exec</th>
+<th>docker attach</th>
+</tr>
+
+<tr>
+<td>Runs a new command inside a running container</td>
+<td>Attaches to the container's existing main process</td>
+</tr>
+
+<tr>
+<td>Commonly used for troubleshooting</td>
+<td>Used to interact with the main process</td>
+</tr>
+
+</table>
+
+<pre><code>docker exec -it web /bin/bash
+
+docker exec -it web sh</code></pre>
+
+<div class="interview">
+For production troubleshooting, <code>docker exec</code> is commonly
+more useful because it allows you to run a separate diagnostic
+command without replacing or directly controlling the main process.
+</div>
+
+</div>
+
+
+<!-- INSPECT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Docker Inspect</h2>
+
+<div class="answer">
+<code>docker inspect</code> provides detailed low-level information
+about Docker objects such as containers, images, networks and
+volumes.
+</div>
+
+<pre><code>docker inspect web
+
+docker inspect nginx
+
+docker inspect web --format '{{.NetworkSettings.IPAddress}}'</code></pre>
+
+<h3>What can you investigate?</h3>
+
+<ul>
+<li>Container configuration</li>
+<li>Environment variables</li>
+<li>Mounts</li>
+<li>Network settings</li>
+<li>Container IP</li>
+<li>Port bindings</li>
+<li>Image information</li>
+</ul>
+
+</div>
+
+
+<!-- LOGS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Container Logs</h2>
+
+<pre><code>docker logs web
+
+docker logs -f web
+
+docker logs --tail 100 web
+
+docker logs --since 10m web</code></pre>
+
+<h3>Production scenario</h3>
+
+<div class="scenario">
+
+The application is returning errors after deployment.
+
+First check:
+
+<pre><code>docker ps
+
+docker logs web
+
+docker inspect web</code></pre>
+
+Then investigate the application, network, configuration and
+dependencies.
+
+</div>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Docker Stats</h2>
+
+<pre><code>docker stats
+
+docker stats web</code></pre>
+
+<p>
+This displays live resource usage for running containers.
+</p>
+
+<table>
+
+<tr>
+<th>Metric</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>CPU</td>
+<td>Container CPU usage</td>
+</tr>
+
+<tr>
+<td>Memory</td>
+<td>Memory usage and limits</td>
+</tr>
+
+<tr>
+<td>Network I/O</td>
+<td>Network traffic</td>
+</tr>
+
+<tr>
+<td>Block I/O</td>
+<td>Storage I/O</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- RESOURCE LIMITS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Container Resource Limits</h2>
+
+<p>
+Containers can be configured with resource constraints to prevent
+one workload from consuming excessive host resources.
+</p>
+
+<pre><code>docker run -d \
+  --name web \
+  --memory=512m \
+  --cpus=1 \
+  nginx</code></pre>
+
+<div class="scenario">
+
+<strong>DevOps scenario:</strong>
+
+One container consumes excessive CPU and memory, affecting other
+applications on the host.
+
+Resource limits can reduce the blast radius, while the root cause
+should still be investigated.
+
+</div>
+
+</div>
+
+
+<!-- PORT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Container Port Mapping</h2>
+
+<div class="answer">
+The <code>-p</code> option publishes a container port on the Docker
+host.
+</div>
+
+<pre><code>docker run -d -p 8080:80 nginx</code></pre>
+
+<table>
+
+<tr>
+<th>Port</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>8080</td>
+<td>Host port</td>
+</tr>
+
+<tr>
+<td>80</td>
+<td>Container port</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Client
+<br>
+↓
+<br>
+Host :8080
+<br>
+↓
+<br>
+Container :80
+<br>
+↓
+<br>
+Nginx
+
+</div>
+
+</div>
+
+
+<!-- ENV -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Environment Variables</h2>
+
+<pre><code>docker run -d \
+  --name app \
+  -e APP_ENV=production \
+  nginx</code></pre>
+
+<h3>Check environment</h3>
+
+<pre><code>docker inspect app</code></pre>
+
+<div class="warning">
+Do not use ordinary environment variables as the preferred long-term
+solution for highly sensitive production secrets. Use an appropriate
+secret-management mechanism.
+</div>
+
+</div>
+
+
+<!-- NAMING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 16. Container Naming</h2>
+
+<pre><code>docker run -d --name my-nginx nginx
+
+docker ps
+
+docker stop my-nginx
+
+docker start my-nginx
+
+docker rm my-nginx</code></pre>
+
+<p>
+Explicit names make operational commands easier and clearer.
+</p>
+
+</div>
+
+
+<!-- COPY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. Copy Files To/From Containers</h2>
+
+<pre><code>docker cp file.txt web:/tmp/file.txt
+
+docker cp web:/var/log/app.log ./app.log</code></pre>
+
+<div class="scenario">
+
+Useful during troubleshooting when you need to temporarily extract
+a file from a container for investigation.
+
+</div>
+
+</div>
+
+
+<!-- DIFF -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. docker diff</h2>
+
+<div class="answer">
+<code>docker diff</code> shows filesystem changes made inside a
+container compared with its original image state.
+</div>
+
+<pre><code>docker diff web</code></pre>
+
+<p>
+It can show added, changed and deleted files.
+</p>
+
+</div>
+
+
+<!-- COMMIT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 19. docker commit</h2>
+
+<div class="answer">
+<code>docker commit</code> creates a new image from a container's
+current filesystem state.
+</div>
+
+<pre><code>docker commit web my-custom-image:v1</code></pre>
+
+<div class="warning">
+
+In normal DevOps workflows, prefer rebuilding an image from a
+Dockerfile rather than manually committing container changes.
+Dockerfiles provide reproducibility and version-controlled builds.
+
+</div>
+
+</div>
+
+
+<!-- REMOVE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 20. Removing Containers and Images</h2>
+
+<pre><code>docker stop web
+
+docker rm web
+
+docker rmi nginx:latest</code></pre>
+
+<h3>Force removal</h3>
+
+<pre><code>docker rm -f web</code></pre>
+
+<div class="warning">
+Be careful with removal commands in production. Verify the target
+container and understand whether persistent data is stored outside
+the container.
+</div>
+
+</div>
+
+
+<!-- PRUNE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 21. Docker Prune</h2>
+
+<pre><code>docker container prune
+
+docker image prune
+
+docker network prune
+
+docker volume prune
+
+docker system prune</code></pre>
+
+<div class="warning">
+
+Prune commands remove unused Docker objects. Always understand what
+will be deleted before using them on an important host.
+
+</div>
+
+</div>
+
+
+<!-- TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Container Troubleshooting Flow</h2>
+
+<div class="flow">
+
+Container not working
+<br>
+↓
+<br>
+<code>docker ps -a</code>
+<br>
+↓
+<br>
+Check STATUS / EXIT CODE
+<br>
+↓
+<br>
+<code>docker logs</code>
+<br>
+↓
+<br>
+<code>docker inspect</code>
+<br>
+↓
+<br>
+Check ports / network
+<br>
+↓
+<br>
+<code>docker exec</code>
+<br>
+↓
+<br>
+Check application process
+<br>
+↓
+<br>
+Fix configuration / image / dependency
+
+</div>
+
+<h3>First commands</h3>
+
+<pre><code>docker ps -a
+
+docker logs &lt;container&gt;
+
+docker inspect &lt;container&gt;
+
+docker stats
+
+docker exec -it &lt;container&gt; sh</code></pre>
+
+</div>
+
+
+<!-- EXIT CODES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Container Exited — What Do You Check?</h2>
+
+<div class="answer">
+
+First check the container status and exit code, then inspect the
+logs and configuration.
+
+</div>
+
+<pre><code>docker ps -a
+
+docker inspect &lt;container&gt;
+
+docker logs &lt;container&gt;</code></pre>
+
+<div class="scenario">
+
+A common reason is that the container's main process completed or
+crashed. Containers remain alive only while their main process is
+running.
+
+</div>
+
+</div>
+
+
+<!-- PID 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Why does a container stop when the application exits?</h2>
+
+<div class="answer">
+A container is fundamentally tied to its main process. When the
+container's primary process exits, the container stops.
+</div>
+
+<pre><code>docker run ubuntu echo "Hello"
+
+docker ps -a</code></pre>
+
+<p>
+The command completes, so there is no long-running foreground process
+keeping the container alive.
+</p>
+
+</div>
+
+
+<!-- PERSISTENCE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Why shouldn't important data be stored only inside a container?</h2>
+
+<div class="answer">
+Containers are replaceable. Recreating or removing a container can
+remove data stored only in its writable layer.
+</div>
+
+<div class="flow">
+
+Container
+<br>
+↓
+<br>
+Application
+<br>
+↓
+<br>
+<strong>Volume / External Storage</strong>
+<br>
+↓
+<br>
+Persistent Data
+
+</div>
+
+<p>
+Persistent data should be stored using Docker volumes or appropriate
+external storage depending on the application architecture.
+</p>
+
+</div>
+
+
+<!-- REGISTRY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Image Naming and Tags</h2>
+
+<pre><code>nginx:latest
+
+nginx:1.27
+
+myuser/myapp:v1.0.0
+
+registry.example.com/team/app:1.2.0</code></pre>
+
+<table>
+
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>registry.example.com</td>
+<td>Registry hostname</td>
+</tr>
+
+<tr>
+<td>team/app</td>
+<td>Repository</td>
+</tr>
+
+<tr>
+<td>1.2.0</td>
+<td>Tag</td>
+</tr>
+
+</table>
+
+<div class="warning">
+
+Avoid relying on <code>latest</code> for controlled production
+deployments. Explicit version tags or immutable image references
+make deployments easier to reproduce.
+
+</div>
+
+</div>
+
+
+<!-- TAG PUSH -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Tag and Push an Image</h2>
+
+<pre><code>docker build -t myapp:v1 .
+
+docker tag myapp:v1 username/myapp:v1
+
+docker login
+
+docker push username/myapp:v1</code></pre>
+
+<h3>Pull</h3>
+
+<pre><code>docker pull username/myapp:v1</code></pre>
+
+<div class="flow">
+
+Dockerfile
+<br>
+↓
+<br>
+Build
+<br>
+↓
+<br>
+Image
+<br>
+↓
+<br>
+Tag
+<br>
+↓
+<br>
+Registry
+<br>
+↓
+<br>
+Pull
+<br>
+↓
+<br>
+Container
+
+</div>
+
+</div>
+
+
+<!-- IMMUTABILITY -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Why are immutable images important?</h2>
+
+<div class="answer">
+An immutable deployment uses a specific image version rather than
+changing the contents of a running container manually.
+</div>
+
+<p>
+This improves reproducibility, rollback and debugging.
+</p>
+
+<div class="scenario">
+
+Instead of manually modifying a production container:
+
+<pre><code>myapp:v1
+   ↓
+myapp:v2
+   ↓
+myapp:v3</code></pre>
+
+Deploy a new tested image version and replace the old container.
+
+</div>
+
+</div>
+
+
+<!-- INTERVIEW QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is a Docker image?</li>
+
+<li>What is a Docker container?</li>
+
+<li>Image vs container?</li>
+
+<li>What are Docker image layers?</li>
+
+<li>What is the writable container layer?</li>
+
+<li>What happens when you run <code>docker run</code>?</li>
+
+<li>What is the difference between <code>docker run</code> and <code>docker start</code>?</li>
+
+<li>What is the difference between <code>docker exec</code> and <code>docker attach</code>?</li>
+
+<li>How do you check container logs?</li>
+
+<li>How do you inspect a container?</li>
+
+<li>How do you check resource usage?</li>
+
+<li>How do you expose a container port?</li>
+
+<li>What does <code>-p 8080:80</code> mean?</li>
+
+<li>Why does a container stop when its main process exits?</li>
+
+<li>How do you troubleshoot an exited container?</li>
+
+<li>How do you copy files between host and container?</li>
+
+<li>What is <code>docker diff</code>?</li>
+
+<li>What is <code>docker commit</code> and why is Dockerfile preferred?</li>
+
+<li>Why shouldn't persistent data be stored only inside a container?</li>
+
+<li>What are Docker volumes?</li>
+
+<li>What is an image tag?</li>
+
+<li>Why avoid using <code>latest</code> for controlled production deployments?</li>
+
+<li>How do you tag and push an image?</li>
+
+<li>What is an image registry?</li>
+
+<li>How would you troubleshoot a container that immediately exits?</li>
+
+</ol>
+
+</div>
+
+
+<!-- RAPID -->
+
+<div class="card">
+
+<h2>🧠 Docker Images & Containers — Rapid Revision</h2>
+
+<div class="flow">
+
+<strong>Image</strong>
+→ Read-only template
+
+<br><br>
+
+<strong>Container</strong>
+→ Image + writable layer + running process
+
+<br><br>
+
+<strong>docker run</strong>
+→ Create + Start
+
+<br><br>
+
+<strong>docker start</strong>
+→ Start existing container
+
+<br><br>
+
+<strong>docker exec</strong>
+→ Run command inside running container
+
+<br><br>
+
+<strong>docker logs</strong>
+→ Application/container output
+
+<br><br>
+
+<strong>docker inspect</strong>
+→ Detailed metadata/configuration
+
+<br><br>
+
+<strong>docker stats</strong>
+→ Resource usage
+
+<br><br>
+
+<strong>-p</strong>
+→ Publish host port to container port
+
+<br><br>
+
+<strong>Volume</strong>
+→ Persistent data
+
+<br><br>
+
+<strong>Tag</strong>
+→ Identify image version
+
+<br><br>
+
+<strong>Registry</strong>
+→ Store/distribute images
+
+<br><br>
+
+<strong>Immutable Image</strong>
+→ Reproducible deployment
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE -->
+
+<div class="card">
+
+<h2>🎯 Explain Docker Images & Containers in 1 Minute</h2>
+
+<div class="interview">
+
+"A Docker image is an immutable template containing the application,
+dependencies and filesystem layers required to run an application.
+
+A container is an instance of that image with a writable layer and
+a running process.
+
+When I run a container, Docker creates the container, configures its
+networking and storage, and starts its main process.
+
+For troubleshooting, I commonly use docker ps -a, docker logs,
+docker inspect, docker stats and docker exec.
+
+For production workloads, I avoid storing important data only in
+the container writable layer and use persistent storage.
+
+I also prefer versioned images instead of relying on latest so that
+deployments are reproducible and rollbacks are easier."
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+🐳 Docker • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

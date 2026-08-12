@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git Merge Conflicts - DevOps Interview Guide</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+h1{
+    font-size:clamp(32px,5vw,50px);
+    margin:25px 0 0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro{
+    background:#121a2d;
+    border:1px solid #29344d;
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:35px;
+}
+
+.intro strong{
+    color:#93c5fd;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:22px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.success{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:30px 0;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Git & GitHub</a>
+
+<h1>Git <span>Merge Conflicts</span></h1>
+
+<p>
+Understand why merge conflicts occur, how Git identifies them,
+and how to resolve them safely in real DevOps environments.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</strong>
+
+<p>
+Merge conflicts are one of the most common practical Git interview
+topics. In real projects, multiple developers may modify the same
+file at the same time. Git may not be able to automatically decide
+which change should be kept.
+</p>
+
+<p>
+A DevOps engineer should know how to identify, resolve, verify and
+safely complete a conflicted merge.
+</p>
+
+</div>
+
+
+<!-- Q1 -->
+
+<div class="card">
+
+<h2>1. What is a Git Merge Conflict?</h2>
+
+<div class="answer">
+
+A <strong>merge conflict</strong> occurs when Git cannot automatically
+combine changes from two branches because the same part of a file
+has been changed differently.
+
+</div>
+
+<h3>Simple Example</h3>
+
+<pre><code>main branch
+    |
+    A
+    |
+    B  ← Version 1
+
+feature branch
+    |
+    A
+    |
+    C  ← Version 2
+
+Both changed the same lines.
+
+Git cannot decide which version should be kept.</code></pre>
+
+<div class="interview">
+
+<strong>Interview-ready answer:</strong>
+
+<br><br>
+
+"A merge conflict occurs when Git cannot automatically combine
+changes from different branches, usually because the same lines
+or nearby parts of a file were modified differently. We manually
+resolve the conflict, stage the resolved file and complete the merge."
+
+</div>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="card">
+
+<h2>2. Why do Merge Conflicts occur?</h2>
+
+<div class="answer">
+
+Conflicts commonly occur when two branches modify the same lines
+of the same file differently.
+
+</div>
+
+<h3>Example</h3>
+
+<p>Developer A changes:</p>
+
+<pre><code>PORT=8080</code></pre>
+
+<p>Developer B changes the same line to:</p>
+
+<pre><code>PORT=9090</code></pre>
+
+<p>
+When Git tries to merge both branches, it cannot automatically
+choose between <code>8080</code> and <code>9090</code>.
+</p>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="card">
+
+<h2>3. Does every merge create a conflict?</h2>
+
+<div class="answer">
+
+<strong>No.</strong>
+
+Most merges can be completed automatically by Git.
+
+A conflict occurs only when Git cannot determine which change
+should be preserved.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>Developer A → file1.txt
+Developer B → file2.txt
+
+Different files
+      ↓
+Git can usually merge automatically</code></pre>
+
+<p>
+If both developers modify the same section of the same file,
+a conflict may occur.
+</p>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="card">
+
+<h2>4. How do you reproduce a merge conflict?</h2>
+
+<p>Start from the main branch:</p>
+
+<pre><code>git switch main
+
+git switch -c feature-a</code></pre>
+
+<p>Modify the same line in a file and commit:</p>
+
+<pre><code>git add .
+git commit -m "Change configuration"</code></pre>
+
+<p>Create another branch from the original main:</p>
+
+<pre><code>git switch main
+git switch -c feature-b</code></pre>
+
+<p>
+Modify the same line differently and commit again.
+</p>
+
+<p>Now try to merge one branch into the other:</p>
+
+<pre><code>git switch feature-a
+
+git merge feature-b</code></pre>
+
+<p>
+Git may report a merge conflict.
+</p>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="card">
+
+<h2>5. What does Git show when a conflict occurs?</h2>
+
+<p>
+Git marks the conflicting section inside the file.
+</p>
+
+<h3>Conflict Markers</h3>
+
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+
+PORT=8080
+
+=======
+
+PORT=9090
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-b</code></pre>
+
+<h3>Meaning</h3>
+
+<table>
+
+<tr>
+<th>Marker</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code></td>
+<td>Current branch changes</td>
+</tr>
+
+<tr>
+<td><code>=======</code></td>
+<td>Separator between changes</td>
+</tr>
+
+<tr>
+<td><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-b</code></td>
+<td>Incoming branch changes</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="card">
+
+<h2>6. How do you check which files have conflicts?</h2>
+
+<pre><code>git status</code></pre>
+
+<p>
+Git identifies files that are currently in a conflicted state.
+</p>
+
+<h3>Example</h3>
+
+<pre><code>On branch feature-a
+
+You have unmerged paths.
+
+Unmerged paths:
+    both modified:   app.py</code></pre>
+
+<div class="interview">
+
+<strong>Interview tip:</strong>
+
+<br><br>
+
+The first command you should normally run after seeing a merge
+conflict is:
+
+<br><br>
+
+<code>git status</code>
+
+</div>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="card">
+
+<h2>7. How do you resolve a merge conflict?</h2>
+
+<div class="flow">
+
+<strong>1. Check status</strong>
+<br>
+↓
+<br>
+<strong>2. Open conflicted file</strong>
+<br>
+↓
+<br>
+<strong>3. Decide which changes to keep</strong>
+<br>
+↓
+<br>
+<strong>4. Remove conflict markers</strong>
+<br>
+↓
+<br>
+<strong>5. Test the code</strong>
+<br>
+↓
+<br>
+<strong>6. git add</strong>
+<br>
+↓
+<br>
+<strong>7. Complete merge</strong>
+
+</div>
+
+<h3>Step 1 — Check status</h3>
+
+<pre><code>git status</code></pre>
+
+<h3>Step 2 — Open the conflicted file</h3>
+
+<p>
+Look for the conflict markers.
+</p>
+
+<h3>Step 3 — Choose the correct content</h3>
+
+<p>
+Keep the correct version or combine both changes if required.
+</p>
+
+<h3>Step 4 — Remove conflict markers</h3>
+
+<p>
+The final file must not contain:
+</p>
+
+<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+=======
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code></pre>
+
+<h3>Step 5 — Test</h3>
+
+<p>
+Run the appropriate application tests before completing the merge.
+</p>
+
+<h3>Step 6 — Stage the resolved file</h3>
+
+<pre><code>git add app.py</code></pre>
+
+<h3>Step 7 — Complete the merge</h3>
+
+<pre><code>git commit</code></pre>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="card">
+
+<h2>8. What is the purpose of git add after resolving a conflict?</h2>
+
+<div class="answer">
+
+After manually resolving a conflict, Git needs to know that the
+file has been resolved.
+
+Running <code>git add</code> stages the resolved version and marks
+the conflict as resolved.
+
+</div>
+
+<pre><code>git add app.py
+
+git status</code></pre>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="card">
+
+<h2>9. Can you abort a merge conflict?</h2>
+
+<div class="answer">
+
+<strong>Yes.</strong>
+
+If you do not want to continue with the merge, you can abort it.
+
+</div>
+
+<pre><code>git merge --abort</code></pre>
+
+<p>
+This attempts to return the working tree to the state it had
+before the merge started.
+</p>
+
+<div class="warning">
+
+<strong>Important:</strong>
+
+<br><br>
+
+Do not blindly delete or overwrite files to solve a conflict.
+First understand what changes are present and use Git's merge
+state safely.
+
+</div>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="card">
+
+<h2>10. What is the difference between resolving and aborting a merge?</h2>
+
+<table>
+
+<tr>
+<th>Action</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Resolve conflict</td>
+<td>Keep or combine the required changes and complete the merge</td>
+</tr>
+
+<tr>
+<td><code>git merge --abort</code></td>
+<td>Cancel the current merge attempt</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Q11 -->
+
+<div class="card">
+
+<h2>11. How do you check whether conflicts are resolved?</h2>
+
+<pre><code>git status</code></pre>
+
+<p>
+After resolving all conflicts and staging the files, Git should
+no longer show them as unmerged.
+</p>
+
+<h3>Then verify the changes</h3>
+
+<pre><code>git diff --cached</code></pre>
+
+<p>
+This lets you inspect what is staged before completing the merge.
+</p>
+
+</div>
+
+
+<!-- Q12 -->
+
+<div class="card">
+
+<h2>12. What happens if you run git commit before resolving conflicts?</h2>
+
+<div class="answer">
+
+Git normally prevents the merge from being completed while
+unmerged files remain.
+
+You must resolve the conflicts and stage the resolved files first.
+
+</div>
+
+<pre><code>git status
+
+# resolve conflicts
+
+git add .
+
+git commit</code></pre>
+
+</div>
+
+
+<!-- Q13 -->
+
+<div class="card">
+
+<h2>13. Can a merge conflict happen during git pull?</h2>
+
+<div class="answer">
+
+<strong>Yes.</strong>
+
+A <code>git pull</code> typically fetches remote changes and then
+integrates them into the current branch. If the local and remote
+changes conflict, Git can report a merge conflict.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>git pull origin main
+
+# conflict occurs
+
+git status
+
+# resolve files
+
+git add .
+
+git commit</code></pre>
+
+</div>
+
+
+<!-- Q14 -->
+
+<div class="card">
+
+<h2>14. How can you reduce merge conflicts in a team?</h2>
+
+<ul>
+
+<li>Keep branches short-lived.</li>
+
+<li>Pull the latest changes regularly.</li>
+
+<li>Communicate before modifying heavily shared files.</li>
+
+<li>Keep commits small and focused.</li>
+
+<li>Use pull requests and code reviews.</li>
+
+<li>Run CI tests before merging.</li>
+
+<li>Avoid unnecessary large changes in shared files.</li>
+
+</ul>
+
+<div class="interview">
+
+<strong>DevOps perspective:</strong>
+
+<br><br>
+
+Good Git practices reduce conflicts, but they cannot completely
+eliminate them in a collaborative development environment.
+
+</div>
+
+</div>
+
+
+<!-- Q15 -->
+
+<div class="card">
+
+<h2>15. Real-Time DevOps Scenario: Production deployment conflict</h2>
+
+<div class="answer">
+
+Suppose two developers are working on an application.
+
+Developer A changes the Kubernetes deployment configuration.
+
+Developer B changes the same deployment file for a different
+environment.
+
+Both create pull requests.
+
+When the second branch is merged, Git reports a conflict.
+
+</div>
+
+<h3>DevOps Resolution</h3>
+
+<pre><code>git switch feature-a
+
+git pull origin main
+
+# Resolve conflict
+
+git status
+
+# Edit the file
+
+git add deployment.yaml
+
+# Run tests
+
+git commit
+
+git push</code></pre>
+
+<p>
+The pull request can then be reviewed again before merging.
+</p>
+
+</div>
+
+
+<!-- Q16 -->
+
+<div class="card">
+
+<h2>16. What is the safest approach when resolving a conflict?</h2>
+
+<div class="success">
+
+<strong>Understand → Resolve → Test → Stage → Review → Commit</strong>
+
+</div>
+
+<p>
+Never resolve conflicts simply by choosing "ours" or "theirs"
+without understanding the business or application requirement.
+</p>
+
+</div>
+
+
+<!-- Q17 -->
+
+<div class="card">
+
+<h2>17. What are "ours" and "theirs" in a merge conflict?</h2>
+
+<div class="answer">
+
+During a normal merge:
+
+<br><br>
+
+<strong>ours</strong> generally refers to the current branch.
+
+<br><br>
+
+<strong>theirs</strong> generally refers to the branch being merged in.
+
+</div>
+
+<p>
+Git can provide options such as:
+</p>
+
+<pre><code>git checkout --ours file.txt
+git checkout --theirs file.txt</code></pre>
+
+<p>
+Modern Git also supports restore-style workflows, but these
+commands should be used carefully because they can discard changes.
+</p>
+
+<div class="warning">
+
+<strong>Interview point:</strong>
+
+Do not say "always choose ours" or "always choose theirs."
+The correct choice depends on which change is required.
+
+</div>
+
+</div>
+
+
+<!-- Q18 -->
+
+<div class="card">
+
+<h2>18. Merge Conflict Troubleshooting Flow</h2>
+
+<div class="flow">
+
+Merge Conflict
+<br>
+↓
+<br>
+<code>git status</code>
+<br>
+↓
+<br>
+Identify conflicted files
+<br>
+↓
+<br>
+Open files
+<br>
+↓
+<br>
+Understand both changes
+<br>
+↓
+<br>
+Resolve manually
+<br>
+↓
+<br>
+Remove conflict markers
+<br>
+↓
+<br>
+Run tests
+<br>
+↓
+<br>
+<code>git add</code>
+<br>
+↓
+<br>
+<code>git commit</code>
+<br>
+↓
+<br>
+<code>git push</code>
+
+</div>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Common Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>What is a merge conflict?</li>
+
+<li>Why does Git create merge conflicts?</li>
+
+<li>How do you resolve a merge conflict?</li>
+
+<li>What does <code>git status</code> show during a conflict?</li>
+
+<li>What are Git conflict markers?</li>
+
+<li>What does <code>git merge --abort</code> do?</li>
+
+<li>Can <code>git pull</code> cause a merge conflict?</li>
+
+<li>What is the difference between ours and theirs?</li>
+
+<li>How do you verify a conflict is resolved?</li>
+
+<li>How can teams reduce merge conflicts?</li>
+
+</ul>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>git status</code></td>
+<td>Check conflicted files</td>
+</tr>
+
+<tr>
+<td><code>git diff</code></td>
+<td>View unstaged changes</td>
+</tr>
+
+<tr>
+<td><code>git diff --cached</code></td>
+<td>View staged changes</td>
+</tr>
+
+<tr>
+<td><code>git add file</code></td>
+<td>Mark resolved file as staged</td>
+</tr>
+
+<tr>
+<td><code>git commit</code></td>
+<td>Complete the merge</td>
+</tr>
+
+<tr>
+<td><code>git merge --abort</code></td>
+<td>Cancel current merge</td>
+</tr>
+
+<tr>
+<td><code>git push</code></td>
+<td>Push resolved merge to remote</td>
+</tr>
+
+</table>
+
+</div>
+
+</main>
+
+<footer>
+
+🐙 Git & GitHub • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

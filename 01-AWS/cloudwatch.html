@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS CloudWatch Interview Questions | Nandu's DevOps Guide</title>
+
+```
+<link rel="stylesheet" href="../style.css">
+
+<style>
+    body {
+        background:
+            radial-gradient(circle at 10% 5%, rgba(34,211,238,.07), transparent 30%),
+            #0b1020;
+    }
+
+    .page-header {
+        padding: 50px 20px;
+        text-align: center;
+        background: linear-gradient(135deg,#081a22,#111827,#0b1020);
+        border-bottom: 1px solid #29334c;
+    }
+
+    .back {
+        color: #9da9c4;
+        text-decoration: none;
+    }
+
+    .back:hover {
+        color: #22d3ee;
+    }
+
+    .page-icon {
+        font-size: 52px;
+        margin-top: 25px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(36px,6vw,58px);
+        margin: 10px 0;
+    }
+
+    .page-header h1 span {
+        color: #22d3ee;
+    }
+
+    .page-header p {
+        max-width: 900px;
+        margin: auto;
+        color: #9ca8c4;
+        line-height: 1.7;
+    }
+
+    .content {
+        width: min(1000px,92%);
+        margin: auto;
+        padding: 50px 0 80px;
+    }
+
+    .quick-map {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+        gap: 12px;
+        margin-bottom: 45px;
+    }
+
+    .map-item {
+        padding: 16px;
+        background: #121a30;
+        border: 1px solid #27324b;
+        border-radius: 12px;
+        color: #aab5cf;
+        font-size: 13px;
+    }
+
+    .map-item strong {
+        color: #fff;
+    }
+
+    .priority-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 50px 0 25px;
+    }
+
+    .priority-title h2 {
+        font-size: 27px;
+    }
+
+    .line {
+        flex: 1;
+        height: 1px;
+        background: #29334c;
+    }
+
+    .question {
+        margin-bottom: 25px;
+        padding: 28px;
+        background: linear-gradient(145deg,#141d35,#10172a);
+        border: 1px solid #29344e;
+        border-radius: 18px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+        line-height: 1.45;
+        margin-bottom: 16px;
+    }
+
+    .question-number {
+        color: #7582a2;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .label {
+        display: inline-block;
+        margin-bottom: 12px;
+        color: #67e8f9;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .7px;
+    }
+
+    .answer {
+        color: #c2cbe0;
+        line-height: 1.8;
+        margin-bottom: 18px;
+    }
+
+    .example {
+        padding: 18px 20px;
+        margin: 18px 0;
+        border-left: 4px solid #22d3ee;
+        background: rgba(34,211,238,.05);
+        border-radius: 0 10px 10px 0;
+    }
+
+    .example strong {
+        color: #67e8f9;
+    }
+
+    .example p {
+        color: #b7c2d8;
+        line-height: 1.75;
+        margin-top: 7px;
+    }
+
+    .interview-answer {
+        padding: 18px 20px;
+        margin-top: 18px;
+        background: #111a30;
+        border-radius: 12px;
+        border: 1px solid #303c59;
+    }
+
+    .interview-answer strong {
+        color: #67e8f9;
+    }
+
+    .interview-answer p {
+        color: #c4cee1;
+        line-height: 1.75;
+    }
+
+    .important {
+        padding: 22px;
+        margin: 30px 0;
+        border-radius: 14px;
+        background: rgba(34,211,238,.05);
+        border: 1px solid rgba(34,211,238,.2);
+        color: #b8c4dc;
+        line-height: 1.8;
+    }
+
+    pre {
+        overflow-x: auto;
+        margin: 12px 0 20px;
+        padding: 18px;
+        background: #080d19;
+        border-radius: 10px;
+        border: 1px solid #202b43;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    code {
+        color: #67e8f9;
+    }
+
+    .flow {
+        padding: 20px;
+        margin: 20px 0;
+        background: #0d1426;
+        border: 1px solid #26314a;
+        border-radius: 12px;
+        text-align: center;
+        color: #c6d0e4;
+        line-height: 2;
+        overflow-x: auto;
+    }
+
+    .scenario {
+        border-left: 4px solid #22d3ee;
+    }
+
+    .command-title {
+        color: #67e8f9;
+        margin-top: 22px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: #7582a2;
+        border-top: 1px solid #222d46;
+    }
+
+    footer span {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+```
+<a href="index.html" class="back">← Back to AWS</a>
+
+<div class="page-icon">📊</div>
+
+<h1>AWS <span>CloudWatch</span></h1>
+
+<p>
+    Monitoring, metrics, logs, alarms, dashboards, events,
+    observability and real-time DevOps interview scenarios.
+</p>
+```
+
+</header>
+
+<main class="content">
+
+```
+<!-- PRIORITY MAP -->
+
+<section class="quick-map">
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐⭐</strong><br>
+        Must Know
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐</strong><br>
+        High Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐</strong><br>
+        Medium
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐</strong><br>
+        Less Asked
+    </div>
+
+    <div class="map-item">
+        <strong>⭐</strong><br>
+        Bonus
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐⭐ Very Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q1 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 01</div>
+
+    <h3>What is Amazon CloudWatch?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        Amazon CloudWatch is an AWS monitoring and observability
+        service.
+
+        It helps us monitor AWS resources, applications and
+        infrastructure by collecting and analyzing metrics,
+        logs and other operational data.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Simple Example</strong>
+
+        <p>
+
+            Suppose we have an EC2 server running our application.
+
+            We can use CloudWatch to monitor things such as:
+
+            <br><br>
+
+            → CPU utilization
+
+            <br>
+            → Network activity
+
+            <br>
+            → Status-related metrics
+
+            <br>
+            → Application logs
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Amazon CloudWatch is an AWS monitoring and
+            observability service used to collect metrics and
+            logs, create alarms and dashboards, and monitor the
+            health and performance of AWS resources and
+            applications."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q2 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 02</div>
+
+    <h3>What are the main components of CloudWatch?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+    <p class="answer">
+
+        Important CloudWatch concepts include:
+
+        <br><br>
+
+        📊 <strong>Metrics</strong>
+
+        <br>
+
+        📝 <strong>Logs</strong>
+
+        <br>
+
+        🚨 <strong>Alarms</strong>
+
+        <br>
+
+        📈 <strong>Dashboards</strong>
+
+        <br>
+
+        ⚡ <strong>Events / EventBridge integration</strong>
+
+        <br>
+
+        📋 <strong>Logs Insights</strong>
+
+    </p>
+
+    <div class="flow">
+
+        AWS Resources / Applications
+
+        →
+
+        CloudWatch
+
+        →
+
+        Metrics + Logs
+
+        →
+
+        Alarms / Dashboards / Actions
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The major CloudWatch capabilities I use are metrics,
+            logs, alarms, dashboards and log analysis. These help
+            monitor infrastructure and applications and trigger
+            actions when defined conditions occur."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q3 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 03</div>
+
+    <h3>What is a CloudWatch Metric?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        A metric is a time-ordered set of data points used to
+        measure the performance or behavior of a resource or
+        application.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 EC2 Example</strong>
+
+        <p>
+
+            EC2 can publish metrics such as:
+
+            <br><br>
+
+            → CPUUtilization
+
+            <br>
+            → NetworkIn
+
+            <br>
+            → NetworkOut
+
+        </p>
+
+    </div>
+
+    <div class="important">
+
+        Easy memory:
+
+        <br><br>
+
+        <strong>Metric = numerical measurement.</strong>
+
+        <br><br>
+
+        Example: CPU utilization = 82%
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A CloudWatch metric is a time-series measurement
+            used to monitor the performance or health of a
+            resource. For example, EC2 CPUUtilization is a
+            CloudWatch metric."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q4 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 04</div>
+
+    <h3>What is a CloudWatch Alarm?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+    <p class="answer">
+
+        A CloudWatch Alarm watches a metric and performs an
+        action when the metric crosses a defined threshold for a
+        specified evaluation period.
+
+    </p>
+
+    <div class="flow">
+
+        Metric
+
+        →
+
+        Threshold
+
+        →
+
+        Alarm
+
+        →
+
+        Action
+
+    </div>
+
+    <div class="example">
+
+        <strong>🔥 Real-Time Example</strong>
+
+        <p>
+
+            Suppose an EC2 instance has CPU utilization above
+            80%.
+
+            We can create an alarm that changes state when the
+            configured condition remains true.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A CloudWatch alarm monitors a metric against a
+            configured threshold and changes state when the
+            condition is met. It can then be used to trigger an
+            action such as an SNS notification or an
+            Auto Scaling-related action."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q5 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 05</div>
+
+    <h3>What are the states of a CloudWatch Alarm?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ COMMON</span>
+
+    <p class="answer">
+
+        A CloudWatch alarm has three main states:
+
+        <br><br>
+
+        🟢 <strong>OK</strong>
+
+        <br>
+
+        The metric is within the configured condition.
+
+        <br><br>
+
+        🔴 <strong>ALARM</strong>
+
+        <br>
+
+        The configured alarm condition has been met.
+
+        <br><br>
+
+        ⚪ <strong>INSUFFICIENT_DATA</strong>
+
+        <br>
+
+        There is not enough data to determine the state.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The three CloudWatch alarm states are OK, ALARM and
+            INSUFFICIENT_DATA."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q6 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 06</div>
+
+    <h3>What is CloudWatch Logs?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        CloudWatch Logs provides centralized collection and
+        monitoring of log data from applications, services and
+        AWS resources.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Application logs from an EC2-hosted application can
+            be sent to CloudWatch Logs and then searched and
+            analyzed.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "CloudWatch Logs allows us to collect, store and
+            analyze log data from applications and AWS
+            resources. It is useful for troubleshooting application
+            and infrastructure issues."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q7 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 07</div>
+
+    <h3>What is a Log Group and Log Stream?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+    <p class="answer">
+
+        A <strong>Log Group</strong> is a collection of log
+        streams that share the same retention, monitoring and
+        access-control settings.
+
+        <br><br>
+
+        A <strong>Log Stream</strong> is a sequence of log events
+        from the same source or related source.
+
+    </p>
+
+    <div class="flow">
+
+        Log Group
+
+        →
+
+        Log Stream 1
+
+        <br>
+
+        →
+
+        Log Stream 2
+
+        <br>
+
+        →
+
+        Log Stream 3
+
+    </div>
+
+    <div class="important">
+
+        Easy memory:
+
+        <br><br>
+
+        <strong>Log Group = container/category</strong>
+
+        <br>
+
+        <strong>Log Stream = individual sequence of logs</strong>
+
+    </div>
+
+</article>
+
+
+<!-- Q8 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 08</div>
+
+    <h3>What is a CloudWatch Dashboard?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        A CloudWatch Dashboard provides a visual representation
+        of metrics and monitoring information in one place.
+
+    </p>
+
+    <div class="example">
+
+        <strong>🔥 DevOps Example</strong>
+
+        <p>
+
+            A dashboard can display:
+
+            <br><br>
+
+            EC2 CPU
+
+            <br>
+
+            Application metrics
+
+            <br>
+
+            ALB metrics
+
+            <br>
+
+            Database metrics
+
+            <br>
+
+            Error-related metrics
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q9 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 09</div>
+
+    <h3>What is the difference between CloudWatch Metrics and Logs?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+    <div class="important">
+
+        <strong>Metrics → numbers used for monitoring.</strong>
+
+        <br><br>
+
+        <strong>Logs → detailed event records.</strong>
+
+    </div>
+
+    <div class="example">
+
+        <strong>Example</strong>
+
+        <p>
+
+            Metric:
+
+            <br>
+
+            CPU = 90%
+
+            <br><br>
+
+            Log:
+
+            <br>
+
+            "Application failed to connect to database."
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Metrics provide numerical time-series data for
+            monitoring performance, while logs contain detailed
+            records of application or system events. Metrics are
+            useful for thresholds and alarms, while logs are
+            useful for troubleshooting."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐ Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q10 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 10</div>
+
+    <h3>How do you monitor an EC2 instance using CloudWatch?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ DEVOPS QUESTION</span>
+
+    <p class="answer">
+
+        EC2 publishes standard monitoring metrics to CloudWatch.
+
+        We can view these metrics, create alarms and build
+        dashboards.
+
+    </p>
+
+    <div class="flow">
+
+        EC2
+
+        →
+
+        CloudWatch Metrics
+
+        →
+
+        Alarm
+
+        →
+
+        SNS / Auto Scaling / Action
+
+    </div>
+
+    <div class="example">
+
+        <strong>🔥 Example</strong>
+
+        <p>
+
+            Create an alarm when average CPU utilization remains
+            above a defined threshold.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I monitor EC2 through CloudWatch metrics such as
+            CPU utilization and network metrics. I can create
+            alarms on those metrics and use dashboards for
+            visualization."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q11 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 11</div>
+
+    <h3>What is the difference between Basic and Detailed Monitoring for EC2?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        EC2 basic monitoring provides metrics at a lower
+        frequency, while detailed monitoring provides more
+        frequent monitoring data.
+
+    </p>
+
+    <div class="important">
+
+        Interview memory:
+
+        <br><br>
+
+        <strong>Basic → 5-minute monitoring</strong>
+
+        <br>
+
+        <strong>Detailed → 1-minute monitoring</strong>
+
+        <br><br>
+
+        Availability and pricing should be considered when
+        choosing monitoring options.
+
+    </div>
+
+</article>
+
+
+<!-- Q12 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 12</div>
+
+    <h3>What is CloudWatch Agent?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+    <p class="answer">
+
+        The CloudWatch Agent is software that can collect
+        additional system-level metrics and logs from servers.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Why do we need it?</strong>
+
+        <p>
+
+            Standard EC2 monitoring does not provide every
+            operating-system-level metric.
+
+            For example, you may want to monitor memory
+            utilization or collect application/system logs.
+
+            The CloudWatch Agent can be configured for this.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The CloudWatch Agent is installed on supported
+            servers when we need additional system metrics or
+            log collection beyond the default metrics provided
+            by the service."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q13 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 13</div>
+
+    <h3>What is CloudWatch Logs Insights?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        CloudWatch Logs Insights is used to interactively query
+        and analyze log data stored in CloudWatch Logs.
+
+    </p>
+
+    <div class="example">
+
+        <strong>🔥 Real-Time Example</strong>
+
+        <p>
+
+            If an application is returning many errors, Logs
+            Insights can help search the logs and identify
+            patterns.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "CloudWatch Logs Insights provides a query-based way
+            to search and analyze CloudWatch log data, which is
+            useful during troubleshooting and incident analysis."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q14 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 14</div>
+
+    <h3>Can CloudWatch send notifications?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        Yes.
+
+        CloudWatch alarms can integrate with services such as
+        Amazon SNS to send notifications.
+
+    </p>
+
+    <div class="flow">
+
+        CloudWatch Metric
+
+        →
+
+        Alarm
+
+        →
+
+        SNS
+
+        →
+
+        Notification
+
+    </div>
+
+    <div class="example">
+
+        <strong>Example</strong>
+
+        <p>
+
+            If an EC2 CPU alarm enters ALARM state, an SNS topic
+            can be used to notify subscribed endpoints.
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q15 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 15</div>
+
+    <h3>What is the difference between CloudWatch and CloudTrail?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+    <div class="important">
+
+        <strong>CloudWatch → Monitoring and observability.</strong>
+
+        <br><br>
+
+        <strong>CloudTrail → API activity and account activity
+        auditing.</strong>
+
+    </div>
+
+    <div class="example">
+
+        <strong>Easy Example</strong>
+
+        <p>
+
+            CloudWatch:
+
+            <br>
+
+            "Why is my EC2 CPU high?"
+
+            <br><br>
+
+            CloudTrail:
+
+            <br>
+
+            "Who performed this AWS API action?"
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "CloudWatch is primarily used for monitoring metrics,
+            logs and application or infrastructure health.
+            CloudTrail records AWS API activity and is mainly
+            used for auditing and tracking actions performed in
+            an AWS account."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q16 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 16</div>
+
+    <h3>What is a custom CloudWatch metric?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        A custom metric is application or system monitoring data
+        that you publish to CloudWatch yourself.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Suppose your application has a metric called:
+
+            <br><br>
+
+            <strong>OrdersProcessed</strong>
+
+            <br><br>
+
+            Your application can publish that metric to
+            CloudWatch for monitoring.
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐ Medium Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q17 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 17</div>
+
+    <h3>What are CloudWatch dimensions?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        Dimensions are name/value pairs that identify and
+        distinguish metrics.
+
+    </p>
+
+    <div class="example">
+
+        <strong>Example</strong>
+
+        <p>
+
+            An EC2 CPU metric can be associated with dimensions
+            such as the instance identifier.
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q18 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 18</div>
+
+    <h3>What is metric namespace?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        A namespace is a container used to organize metrics.
+
+        AWS services publish metrics into service-specific
+        namespaces, and custom applications can use custom
+        namespaces.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Memory Trick</strong>
+
+        <p>
+
+            <strong>Namespace → Category</strong>
+
+            <br>
+
+            <strong>Metric → Measurement</strong>
+
+            <br>
+
+            <strong>Dimension → Identifier</strong>
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q19 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 19</div>
+
+    <h3>What is metric retention in CloudWatch?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        CloudWatch retains metric data for different periods
+        depending on the resolution and age of the data.
+
+        Older high-resolution data is aggregated into lower
+        resolution periods over time.
+
+    </p>
+
+    <div class="important">
+
+        For interviews, understand the main idea:
+
+        <br><br>
+
+        <strong>CloudWatch does not keep every metric data point
+        forever at its original resolution.</strong>
+
+    </div>
+
+</article>
+
+
+<!-- Q20 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 20</div>
+
+    <h3>What is an alarm threshold?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        A threshold is the value or condition against which a
+        monitored metric is evaluated.
+
+    </p>
+
+    <div class="example">
+
+        <strong>Example</strong>
+
+        <pre>CPUUtilization > 80%</pre>
+
+        <p>
+
+            If the configured evaluation criteria are met,
+            the alarm can enter the ALARM state.
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     ⭐⭐
+====================================================== -->
+
+<div class="priority-title">
+    <h2>⭐⭐ Less Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q21 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 21</div>
+
+    <h3>What is high-resolution monitoring in CloudWatch?</h3>
+
+    <span class="label">⭐⭐</span>
+
+    <p class="answer">
+
+        CloudWatch supports high-resolution custom metrics with
+        shorter periods than standard one-minute metrics.
+
+        These are useful when applications need more granular
+        monitoring.
+
+    </p>
+
+</article>
+
+
+<!-- Q22 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 22</div>
+
+    <h3>What is CloudWatch anomaly detection?</h3>
+
+    <span class="label">⭐⭐</span>
+
+    <p class="answer">
+
+        CloudWatch anomaly detection uses statistical modeling
+        to identify expected metric behavior and can help
+        identify values outside the expected pattern.
+
+    </p>
+
+    <div class="example">
+
+        <strong>Example</strong>
+
+        <p>
+
+            Instead of using only a fixed CPU threshold, anomaly
+            detection can help identify unusual behavior based
+            on historical patterns.
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q23 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 23</div>
+
+    <h3>What is CloudWatch Contributor Insights?</h3>
+
+    <span class="label">⭐ BONUS</span>
+
+    <p class="answer">
+
+        Contributor Insights helps identify top contributors to
+        patterns in time-series data, such as the sources
+        generating the most traffic or other activity.
+
+    </p>
+
+</article>
+
+
+<!-- =====================================================
+     🎯 SCENARIOS
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🎯 Real-Time Interview Scenarios</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Scenario 1 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 01</div>
+
+    <h3>
+        Your EC2 server CPU suddenly reaches 95%. What will you do?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+    <p class="answer">
+
+        First, I would verify the CloudWatch CPU metric and
+        understand when the increase started.
+
+        Then I would correlate the metric with application logs
+        and other infrastructure metrics.
+
+    </p>
+
+    <div class="flow">
+
+        CPU Spike
+
+        →
+
+        CloudWatch Metric
+
+        →
+
+        Check Logs
+
+        →
+
+        Identify Cause
+
+        →
+
+        Take Action
+
+    </div>
+
+    <div class="example">
+
+        <strong>Possible causes</strong>
+
+        <p>
+
+            → Traffic increase
+
+            <br>
+
+            → Application process consuming CPU
+
+            <br>
+
+            → Background job
+
+            <br>
+
+            → Resource sizing issue
+
+            <br>
+
+            → Unexpected workload
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Strong Interview Answer</strong>
+
+        <p>
+
+            "I would first verify the CPU metric in CloudWatch
+            and identify the time of the spike. Then I would
+            check application and system logs, traffic metrics
+            and running processes to determine the root cause.
+            Based on the cause, I may optimize the application,
+            scale the workload or increase capacity."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 2 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 02</div>
+
+    <h3>
+        You want an alert whenever EC2 CPU goes above 80%. How will you implement it?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <div class="flow">
+
+        EC2
+
+        →
+
+        CPUUtilization
+
+        →
+
+        CloudWatch Alarm
+
+        →
+
+        SNS
+
+        →
+
+        Notification
+
+    </div>
+
+    <p class="answer">
+
+        I would create a CloudWatch alarm on the
+        CPUUtilization metric with the required threshold and
+        evaluation period, and configure an appropriate action
+        such as SNS notification.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would create a CloudWatch alarm on the EC2
+            CPUUtilization metric. I would configure the
+            threshold and evaluation period and connect the
+            alarm to SNS so the required team or endpoint is
+            notified when the alarm enters ALARM state."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 3 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 03</div>
+
+    <h3>
+        Your application is failing, but CPU and memory look normal. What will you check?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        I would not assume the infrastructure is healthy just
+        because CPU is normal.
+
+        I would check:
+
+        <br><br>
+
+        → Application logs
+
+        <br>
+
+        → CloudWatch Logs
+
+        <br>
+
+        → Logs Insights
+
+        <br>
+
+        → Load Balancer metrics
+
+        <br>
+
+        → Error rates
+
+        <br>
+
+        → Database connectivity
+
+        <br>
+
+        → Recent deployments/configuration changes
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Strong Interview Answer</strong>
+
+        <p>
+
+            "I would correlate infrastructure metrics with
+            application logs. Normal CPU does not necessarily
+            mean the application is healthy. I would use
+            CloudWatch Logs and Logs Insights to identify errors
+            and correlate them with recent deployments,
+            dependencies and traffic."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 4 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 04</div>
+
+    <h3>
+        How would you monitor an application running on multiple EC2 instances?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        I would centralize application logs in CloudWatch Logs,
+        monitor infrastructure metrics, create CloudWatch
+        dashboards and configure alarms for important
+        conditions.
+
+    </p>
+
+    <div class="flow">
+
+        EC2-1 ─┐
+        <br>
+        EC2-2 ─┼→ CloudWatch → Dashboard / Alarms
+        <br>
+        EC2-3 ─┘
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 5 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 05</div>
+
+    <h3>
+        CloudWatch Alarm is showing INSUFFICIENT_DATA. What does it mean?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        It means CloudWatch does not currently have enough
+        information to determine whether the alarm condition is
+        true or false.
+
+        I would investigate whether the metric is being
+        published correctly and whether there is enough recent
+        data.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "INSUFFICIENT_DATA means the alarm does not have
+            enough metric data to determine its state. I would
+            check whether the metric is being published and
+            whether the configured evaluation period and data
+            points are appropriate."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =====================================================
+     🛠️ COMMANDS
+====================================================== -->
+
+<div class="priority-title">
+    <h2>🛠️ Useful CloudWatch CLI Commands</h2>
+    <div class="line"></div>
+</div>
+
+
+<article class="question">
+
+    <h3 class="command-title">List CloudWatch alarms</h3>
+
+    <pre>aws cloudwatch describe-alarms</pre>
+
+
+    <h3 class="command-title">List metric information</h3>
+
+    <pre>aws cloudwatch list-metrics</pre>
+
+
+    <h3 class="command-title">Get metric statistics</h3>
+
+    <pre>aws cloudwatch get-metric-statistics</pre>
+
+
+    <h3 class="command-title">Describe alarm history</h3>
+
+    <pre>aws cloudwatch describe-alarm-history</pre>
+
+
+    <h3 class="command-title">List dashboards</h3>
+
+    <pre>aws cloudwatch list-dashboards</pre>
+
+
+    <h3 class="command-title">Describe dashboard</h3>
+
+    <pre>aws cloudwatch get-dashboard --dashboard-name MyDashboard</pre>
+
+
+    <h3 class="command-title">List log groups</h3>
+
+    <pre>aws logs describe-log-groups</pre>
+
+
+    <h3 class="command-title">List log streams</h3>
+
+    <pre>aws logs describe-log-streams --log-group-name MyLogGroup</pre>
+
+
+    <h3 class="command-title">Start a Logs Insights query</h3>
+
+    <pre>aws logs start-query</pre>
+
+</article>
+
+
+<!-- =====================================================
+     🧠 REVISION
+====================================================== -->
+
+<div class="important">
+
+    <strong>🧠 CloudWatch One-Minute Revision</strong>
+
+    <br><br>
+
+    <strong>CloudWatch</strong>
+    = AWS monitoring and observability service.
+
+    <br><br>
+
+    <strong>Metric</strong>
+    = Numerical/time-series measurement.
+
+    <br>
+
+    <strong>Logs</strong>
+    = Detailed event records.
+
+    <br>
+
+    <strong>Alarm</strong>
+    = Watches a metric and reacts to configured conditions.
+
+    <br>
+
+    <strong>Dashboard</strong>
+    = Visual monitoring view.
+
+    <br>
+
+    <strong>Log Group</strong>
+    = Collection/container of log streams.
+
+    <br>
+
+    <strong>Log Stream</strong>
+    = Sequence of log events.
+
+    <br>
+
+    <strong>CloudWatch Agent</strong>
+    = Collect additional system metrics and logs.
+
+    <br>
+
+    <strong>Logs Insights</strong>
+    = Query and analyze CloudWatch logs.
+
+    <br><br>
+
+    <strong>Remember:</strong>
+
+    <br>
+
+    CloudWatch → Monitor
+
+    <br>
+
+    CloudTrail → Audit AWS API activity
+
+    <br>
+
+    SNS → Notify
+
+    <br>
+
+    Auto Scaling → Scale
+
+</div>
+```
+
+</main>
+
+<footer>
+
+```
+<p>📊 AWS CloudWatch Interview Preparation</p>
+
+<span>
+    Nandu's DevOps Interview Master Guide • 2026
+</span>
+```
+
+</footer>
+
+</body>
+</html>

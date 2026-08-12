@@ -1,0 +1,1267 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jenkins Security and Troubleshooting - DevOps Interview Master Guide">
+
+<title>Jenkins Security & Troubleshooting - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#f87171}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,50px);
+    margin:0;
+}
+
+h1 span{color:#f87171}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#f87171;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#f87171;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔐</div>
+
+<a href="index.html" class="back">← Back to Jenkins</a>
+
+<h1>Jenkins <span>Security & Troubleshooting</span></h1>
+
+<p>
+Interview-focused guide covering Jenkins security, authentication,
+authorization, credentials, secrets, agents, CSRF protection,
+common pipeline failures, logs, troubleshooting methodology and
+real-time DevOps scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Core Concept</h2>
+
+<p>
+Jenkins is part of the CI/CD control plane, so securing Jenkins is
+critical. A compromised Jenkins instance can potentially expose
+source code, credentials, build artifacts and deployment access.
+</p>
+
+<div class="flow">
+
+👤 User
+<br>↓<br>
+🔐 Authentication
+<br>↓<br>
+🛡️ Authorization
+<br>↓<br>
+⚙️ Jenkins Job
+<br>↓<br>
+🔑 Credentials
+<br>↓<br>
+🖥️ Agent
+<br>↓<br>
+🚀 Build / Deploy
+
+</div>
+
+<div class="warning">
+
+<strong>Security principle:</strong>
+
+Give users, jobs and agents only the permissions they actually need.
+Avoid giving broad administrator or cloud privileges unnecessarily.
+
+</div>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Authentication vs Authorization</h2>
+
+<table>
+
+<tr>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+
+<tr>
+<td>Determines who the user is.</td>
+<td>Determines what the user is allowed to do.</td>
+</tr>
+
+<tr>
+<td>Login / identity verification.</td>
+<td>Permissions / access control.</td>
+</tr>
+
+<tr>
+<td>Example: Jenkins login.</td>
+<td>Example: permission to configure a job.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"Authentication verifies the identity of a user, while authorization
+determines what that authenticated user is allowed to access or
+perform."
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Jenkins Credentials</h2>
+
+<div class="answer">
+
+Jenkins Credentials provides a centralized way to store sensitive
+information such as passwords, SSH keys, API tokens and other
+credential material used by jobs.
+
+</div>
+
+<h3>Common credential types</h3>
+
+<ul>
+
+<li>Username and password</li>
+<li>Secret text</li>
+<li>SSH private key</li>
+<li>Certificates</li>
+<li>Cloud/provider credentials depending on installed integrations</li>
+
+</ul>
+
+<div class="warning">
+
+Never put passwords, API keys or private keys directly inside a
+Jenkinsfile or Git repository.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. How do you use Jenkins Credentials?</h2>
+
+<pre><code>withCredentials([
+    usernamePassword(
+        credentialsId: 'docker-registry',
+        usernameVariable: 'REGISTRY_USER',
+        passwordVariable: 'REGISTRY_PASS'
+    )
+]) {
+
+    sh '''
+    echo "$REGISTRY_PASS" | \
+    docker login registry.example.com \
+    --username "$REGISTRY_USER" \
+    --password-stdin
+    '''
+}</code></pre>
+
+<div class="interview">
+
+The Jenkinsfile references a credential ID instead of storing the
+actual secret in source control.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is RBAC in Jenkins?</h2>
+
+<div class="answer">
+
+Role-Based Access Control allows permissions to be assigned according
+to users or groups and their roles.
+
+For example, developers may build applications while a smaller group
+has permission to administer Jenkins.
+
+</div>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+Developer → Build / Read
+
+<br>
+Release Engineer → Build / Deploy
+
+<br>
+Jenkins Administrator → Manage Jenkins
+
+</div>
+
+<div class="warning">
+
+Avoid giving every user full administrator access.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Principle of Least Privilege</h2>
+
+<div class="answer">
+
+Users, Jenkins jobs and agents should receive only the permissions
+required to perform their tasks.
+
+</div>
+
+<div class="scenario">
+
+If a Jenkins job only needs to push an image to ECR, it should not
+automatically receive unrestricted permissions to every AWS service.
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Protecting Secrets in Jenkins</h2>
+
+<ul>
+
+<li>Store secrets in Jenkins Credentials.</li>
+
+<li>Do not commit credentials to Git.</li>
+
+<li>Do not echo secrets into build logs.</li>
+
+<li>Use masking features where applicable.</li>
+
+<li>Rotate credentials periodically.</li>
+
+<li>Limit credential scope and access.</li>
+
+<li>Use short-lived credentials where practical.</li>
+
+<li>Prefer workload identity mechanisms when supported.</li>
+
+</ul>
+
+<div class="warning">
+
+Secret masking is not a guarantee that every possible way of
+exposing a secret is prevented. Pipeline scripts should be designed
+so secrets are never unnecessarily printed or passed into unsafe
+commands.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Jenkins Controller vs Agent Security</h2>
+
+<div class="answer">
+
+The Jenkins controller coordinates jobs, while agents execute build
+work.
+
+Build workloads should generally run on agents rather than
+performing arbitrary build commands directly on the controller.
+
+</div>
+
+<div class="flow">
+
+Jenkins Controller
+<br>↓
+<br>Schedule Job
+<br>↓
+<br>Jenkins Agent
+<br>↓
+<br>Build / Test / Docker
+<br>↓
+<br>Artifact
+
+</div>
+
+<div class="warning">
+
+Agents execute build commands, so an untrusted or compromised build
+can be dangerous. Isolate agents appropriately and avoid giving
+unnecessary access to the controller or production credentials.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 8. Jenkins Agent Troubleshooting</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Pipeline says:
+
+<pre><code>There are no nodes with the label...</code></pre>
+
+<strong>Check:</strong>
+
+<ul>
+
+<li>Is the agent online?</li>
+<li>Does the required label exist?</li>
+<li>Is the agent connected?</li>
+<li>Does the agent have required tools?</li>
+<li>Is there enough CPU/memory/disk?</li>
+<li>Can the agent communicate with Jenkins?</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. CSRF Protection</h2>
+
+<div class="answer">
+
+Jenkins supports protection against Cross-Site Request Forgery
+(CSRF) attacks.
+
+CSRF protection helps prevent unauthorized requests from being
+submitted to Jenkins through a user's authenticated session.
+
+</div>
+
+<div class="warning">
+
+Do not disable security protections simply to make an integration
+work. Investigate the authentication, API and integration setup
+properly.
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 10. Jenkins Security Best Practices</h2>
+
+<ul>
+
+<li>Keep Jenkins and plugins updated.</li>
+
+<li>Remove unused plugins.</li>
+
+<li>Use strong authentication.</li>
+
+<li>Use role-based permissions.</li>
+
+<li>Protect Jenkins from direct public exposure where possible.</li>
+
+<li>Use HTTPS/TLS.</li>
+
+<li>Store credentials in Jenkins Credentials.</li>
+
+<li>Restrict agent permissions.</li>
+
+<li>Use least privilege for cloud access.</li>
+
+<li>Monitor Jenkins logs.</li>
+
+<li>Back up Jenkins configuration appropriately.</li>
+
+<li>Review user and credential access regularly.</li>
+
+</ul>
+
+</div>
+
+
+<!-- TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ 11. Jenkins Troubleshooting Method</h2>
+
+<div class="answer">
+
+When a Jenkins pipeline fails, do not randomly rerun it.
+
+Follow a structured troubleshooting process.
+
+</div>
+
+<div class="flow">
+
+Pipeline Failure
+<br>↓<br>
+Identify Failed Stage
+<br>↓<br>
+Read Exact Error
+<br>↓<br>
+Check Agent
+<br>↓<br>
+Check Credentials
+<br>↓<br>
+Check Dependencies
+<br>↓<br>
+Reproduce Command
+<br>↓<br>
+Fix Root Cause
+<br>↓<br>
+Re-run
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Pipeline fails during Checkout</h2>
+
+<div class="scenario">
+
+<strong>Possible causes:</strong>
+
+<ul>
+
+<li>Wrong repository URL.</li>
+<li>Invalid credentials.</li>
+<li>Branch does not exist.</li>
+<li>Network/DNS problem.</li>
+<li>Git is not installed on the agent.</li>
+<li>Repository access permissions are missing.</li>
+
+</ul>
+
+</div>
+
+<h3>Check</h3>
+
+<pre><code>git --version
+git ls-remote &lt;repository-url&gt;</code></pre>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Pipeline fails during Maven Build</h2>
+
+<div class="scenario">
+
+<strong>Check:</strong>
+
+<ul>
+
+<li>Java version.</li>
+<li>Maven installation.</li>
+<li>pom.xml.</li>
+<li>Dependency download access.</li>
+<li>Disk space.</li>
+<li>Environment variables.</li>
+<li>Build command.</li>
+
+</ul>
+
+</div>
+
+<pre><code>java -version
+mvn -version
+df -h</code></pre>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Docker command not found</h2>
+
+<div class="scenario">
+
+<strong>Error:</strong>
+
+<pre><code>docker: command not found</code></pre>
+
+<strong>Likely cause:</strong>
+
+Docker is not installed or is not available in the Jenkins agent's
+PATH.
+
+<strong>Fix:</strong>
+
+Install/configure Docker on the appropriate agent or use an
+appropriate containerized build environment.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Cannot connect to Docker daemon</h2>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+<pre><code>Cannot connect to the Docker daemon</code></pre>
+
+<strong>Check:</strong>
+
+<pre><code>docker version
+docker info
+docker ps</code></pre>
+
+Also verify:
+
+<ul>
+
+<li>Docker daemon status.</li>
+<li>Jenkins user permissions.</li>
+<li>Docker socket/runtime configuration.</li>
+<li>Agent environment.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Docker Push permission denied</h2>
+
+<div class="scenario">
+
+<strong>Possible causes:</strong>
+
+<ul>
+
+<li>Registry authentication failure.</li>
+<li>Wrong repository.</li>
+<li>Missing push permissions.</li>
+<li>Incorrect image tag.</li>
+<li>Registry policy restrictions.</li>
+
+</ul>
+
+</div>
+
+<pre><code>docker images
+docker login &lt;registry&gt;
+docker push &lt;registry&gt;/app:42</code></pre>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Kubernetes deployment fails from Jenkins</h2>
+
+<div class="scenario">
+
+<strong>Pipeline:</strong>
+
+<pre><code>docker push → SUCCESS
+kubectl apply → FAILURE</code></pre>
+
+<strong>Check:</strong>
+
+<ul>
+
+<li>Is kubectl installed?</li>
+<li>Can Jenkins reach the cluster?</li>
+<li>Is the kubeconfig/identity valid?</li>
+<li>Is the namespace correct?</li>
+<li>Does the deployment manifest contain errors?</li>
+<li>Does the identity have sufficient permissions?</li>
+<li>Is the image available?</li>
+
+</ul>
+
+<h3>Useful commands</h3>
+
+<pre><code>kubectl version
+kubectl get nodes
+kubectl get pods -n &lt;namespace&gt;
+kubectl describe pod &lt;pod&gt; -n &lt;namespace&gt;
+kubectl get events -n &lt;namespace&gt;</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Jenkins Credentials not working</h2>
+
+<div class="scenario">
+
+<strong>Possible causes:</strong>
+
+<ul>
+
+<li>Wrong credential ID.</li>
+<li>Credential type mismatch.</li>
+<li>Credential is not available to the job.</li>
+<li>Incorrect variable usage.</li>
+<li>Permission/scope issue.</li>
+<li>Credential was rotated or revoked.</li>
+
+</ul>
+
+</div>
+
+<div class="warning">
+
+Do not print the credential value while troubleshooting.
+
+Verify the credential configuration and test the authentication
+operation safely.
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Pipeline is stuck in Queue</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+The build remains in:
+
+<pre><code>Waiting for next available executor</code></pre>
+
+<strong>Check:</strong>
+
+<ul>
+
+<li>Are agents online?</li>
+<li>Are executors available?</li>
+<li>Does the job require a specific label?</li>
+<li>Is the required agent disconnected?</li>
+<li>Is another build consuming all executors?</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Pipeline is slow</h2>
+
+<div class="scenario">
+
+Check:
+
+<ul>
+
+<li>Build duration by stage.</li>
+<li>Agent CPU and memory.</li>
+<li>Dependency download time.</li>
+<li>Docker build time.</li>
+<li>Network latency.</li>
+<li>Unnecessary repeated builds.</li>
+<li>Tests that can safely run in parallel.</li>
+</ul>
+
+<strong>Possible improvements:</strong>
+
+<ul>
+
+<li>Parallelize independent stages.</li>
+<li>Use caching appropriately.</li>
+<li>Use optimized Dockerfiles.</li>
+<li>Use suitable agents.</li>
+<li>Avoid unnecessary workspace operations.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Real-Time Scenario: Secret accidentally exposed</h2>
+
+<div class="scenario">
+
+<strong>Situation:</strong>
+
+A developer accidentally printed a cloud credential in Jenkins
+console output.
+
+<strong>Immediate response:</strong>
+
+1. Treat the credential as compromised.
+<br>
+2. Revoke/rotate the credential immediately.
+<br>
+3. Remove unsafe logging.
+<br>
+4. Investigate where the value was exposed.
+<br>
+5. Review access/audit logs.
+<br>
+6. Replace it with secure credential handling.
+<br>
+7. Prevent recurrence with scanning and review.
+
+</div>
+
+<div class="warning">
+
+Do not assume deleting the console output or deleting the Git commit
+makes an already exposed credential safe. Rotate the credential.
+
+</div>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Real-Time Scenario: Jenkins server compromised</h2>
+
+<div class="scenario">
+
+If there is evidence that Jenkins itself has been compromised:
+
+<br><br>
+
+1. Isolate the affected instance where appropriate.
+<br>
+2. Preserve relevant logs and evidence.
+<br>
+3. Rotate credentials accessible from Jenkins.
+<br>
+4. Review users, jobs, plugins and configuration.
+<br>
+5. Inspect connected agents.
+<br>
+6. Check downstream cloud and deployment systems.
+<br>
+7. Rebuild from a trusted configuration when necessary.
+<br>
+8. Restore only verified configuration/data.
+<br>
+9. Review security controls before returning to service.
+
+</div>
+
+<div class="interview">
+
+The key interview point is that Jenkins can hold high-value
+credentials, so a Jenkins compromise can have a much wider blast
+radius than a normal application server compromise.
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Jenkins Logs</h2>
+
+<div class="answer">
+
+Logs are one of the first places to look when diagnosing Jenkins
+problems.
+
+</div>
+
+<h3>Check from Jenkins UI</h3>
+
+<ul>
+
+<li>Build Console Output</li>
+<li>Pipeline Stage Logs</li>
+<li>System Log</li>
+<li>Agent logs</li>
+<li>Plugin-related logs</li>
+
+</ul>
+
+<h3>Useful Pipeline diagnostics</h3>
+
+<pre><code>echo 'Debug message'
+
+sh 'pwd'
+sh 'ls -la'
+sh 'whoami'
+sh 'java -version'
+sh 'docker version'</code></pre>
+
+<div class="warning">
+
+Never use debug commands that intentionally print passwords,
+tokens or private keys.
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 24. Jenkins Disk Full</h2>
+
+<div class="scenario">
+
+<strong>Symptoms:</strong>
+
+<ul>
+
+<li>Builds fail unexpectedly.</li>
+<li>Docker builds fail.</li>
+<li>Artifacts cannot be created.</li>
+<li>Workspace operations fail.</li>
+</ul>
+
+<h3>Check</h3>
+
+<pre><code>df -h
+du -sh *</code></pre>
+
+<strong>Possible solutions:</strong>
+
+<ul>
+
+<li>Clean old workspaces.</li>
+<li>Remove unnecessary Docker images/layers.</li>
+<li>Review artifact retention.</li>
+<li>Increase disk capacity.</li>
+<li>Configure appropriate cleanup policies.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Jenkins Security + Troubleshooting Checklist</h2>
+
+<ul>
+
+<li>Authentication configured?</li>
+<li>Authorization/roles configured?</li>
+<li>Least privilege applied?</li>
+<li>Credentials stored securely?</li>
+<li>Secrets excluded from Git?</li>
+<li>HTTPS/TLS enabled?</li>
+<li>Plugins maintained?</li>
+<li>Agents isolated appropriately?</li>
+<li>Cloud permissions restricted?</li>
+<li>Build logs reviewed?</li>
+<li>Disk space checked?</li>
+<li>Agent availability checked?</li>
+<li>Git connectivity checked?</li>
+<li>Docker availability checked?</li>
+<li>Registry authentication checked?</li>
+<li>Kubernetes access checked?</li>
+
+</ul>
+
+</div>
+
+
+<!-- FAQ -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>Authentication vs authorization?</li>
+
+<li>How do you secure Jenkins?</li>
+
+<li>What are Jenkins Credentials?</li>
+
+<li>How do you store passwords securely?</li>
+
+<li>What is RBAC?</li>
+
+<li>What is least privilege?</li>
+
+<li>How do you protect Jenkins agents?</li>
+
+<li>What is CSRF protection?</li>
+
+<li>How do you troubleshoot a failed Jenkins pipeline?</li>
+
+<li>Why is a Jenkins build stuck in queue?</li>
+
+<li>How do you troubleshoot Docker errors?</li>
+
+<li>How do you troubleshoot Git checkout failure?</li>
+
+<li>How do you troubleshoot Kubernetes deployment failure?</li>
+
+<li>What do you do if a secret is exposed in Jenkins logs?</li>
+
+<li>What would you do if Jenkins itself was compromised?</li>
+
+</ol>
+
+</div>
+
+
+<!-- REVISION -->
+
+<div class="card">
+
+<h2>🧠 60-Second Jenkins Security & Troubleshooting Revision</h2>
+
+<div class="flow">
+
+<strong>Authentication</strong>
+→ Who are you?
+
+<br><br>
+
+<strong>Authorization</strong>
+→ What can you do?
+
+<br><br>
+
+<strong>RBAC</strong>
+→ Role-based permissions
+
+<br><br>
+
+<strong>Credentials</strong>
+→ Secure secret storage
+
+<br><br>
+
+<strong>Least Privilege</strong>
+→ Minimum required access
+
+<br><br>
+
+<strong>Agents</strong>
+→ Execute builds safely
+
+<br><br>
+
+<strong>CSRF</strong>
+→ Protect against forged requests
+
+<br><br>
+
+<strong>Logs</strong>
+→ Find exact failure
+
+<br><br>
+
+<strong>Root Cause</strong>
+→ Fix instead of blindly rerunning
+
+</div>
+
+</div>
+
+
+<!-- FINAL INTERVIEW -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "How do you secure and troubleshoot Jenkins?"</h2>
+
+<div class="interview">
+
+"I secure Jenkins using strong authentication, role-based
+authorization and the principle of least privilege.
+
+Sensitive information such as passwords, tokens and SSH keys is
+stored using Jenkins Credentials instead of hard-coding them in
+Jenkinsfiles or Git.
+
+I also keep Jenkins and its plugins maintained, protect the Jenkins
+endpoint with appropriate network controls and HTTPS, and isolate
+build agents according to the workload and trust level.
+
+For troubleshooting, I first identify the failed pipeline stage and
+read the exact console error. Then I check the agent, credentials,
+dependencies, network connectivity and external services.
+
+For example, if Docker push fails, I verify registry authentication,
+image tags and permissions. If Kubernetes deployment fails, I check
+cluster connectivity, identity permissions, namespace, manifests,
+events and pod status.
+
+If a secret is accidentally exposed, I immediately treat it as
+compromised and rotate or revoke it rather than simply deleting the
+log or source file."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔐 Jenkins Security & Troubleshooting • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

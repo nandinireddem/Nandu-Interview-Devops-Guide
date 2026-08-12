@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloud Storage Fundamentals | Nandu's DevOps Interview Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+body{
+    background:
+    radial-gradient(circle at 8% 8%,rgba(59,130,246,.10),transparent 30%),
+    radial-gradient(circle at 92% 15%,rgba(16,185,129,.08),transparent 30%),
+    #0b1020;
+}
+
+.page-header{
+    padding:50px 20px;
+    text-align:center;
+    background:linear-gradient(135deg,#101d35,#111827,#0b1020);
+    border-bottom:1px solid #29334c;
+}
+
+.back{
+    color:#9da9c4;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+.page-icon{
+    font-size:52px;
+    margin-top:25px;
+}
+
+.page-header h1{
+    font-size:clamp(34px,6vw,58px);
+    margin:10px 0;
+}
+
+.page-header h1 span{
+    color:#93c5fd;
+}
+
+.page-header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8c4;
+    line-height:1.7;
+}
+
+.content{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:50px 0 80px;
+}
+
+.quick-map{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:45px;
+}
+
+.map-item{
+    padding:16px;
+    background:#121a30;
+    border:1px solid #29334c;
+    border-radius:12px;
+    color:#aab5cf;
+    font-size:13px;
+}
+
+.map-item strong{
+    color:#fff;
+}
+
+.priority-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:50px 0 25px;
+}
+
+.priority-title h2{
+    font-size:27px;
+}
+
+.line{
+    flex:1;
+    height:1px;
+    background:#29334c;
+}
+
+.question{
+    margin-bottom:25px;
+    padding:28px;
+    background:linear-gradient(145deg,#141d35,#10172a);
+    border:1px solid #29344e;
+    border-radius:18px;
+}
+
+.question h3{
+    font-size:20px;
+    line-height:1.45;
+    margin-bottom:16px;
+}
+
+.question-number{
+    color:#7582a2;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.label{
+    display:inline-block;
+    margin-bottom:12px;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+}
+
+.answer{
+    color:#c2cbe0;
+    line-height:1.8;
+    margin-bottom:18px;
+}
+
+.example{
+    padding:18px 20px;
+    margin:18px 0;
+    border-left:4px solid #93c5fd;
+    background:rgba(147,197,253,.06);
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{
+    color:#93c5fd;
+}
+
+.example p{
+    color:#b7c2d8;
+    line-height:1.75;
+    margin-top:7px;
+}
+
+.interview-answer{
+    padding:18px 20px;
+    margin-top:18px;
+    background:#111a30;
+    border-radius:12px;
+    border:1px solid #303c59;
+}
+
+.interview-answer strong{
+    color:#93c5fd;
+}
+
+.interview-answer p{
+    color:#c4cee1;
+    line-height:1.75;
+}
+
+.important{
+    padding:22px;
+    margin:30px 0;
+    border-radius:14px;
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    color:#b8c4dc;
+    line-height:1.8;
+}
+
+.flow{
+    padding:20px;
+    margin:20px 0;
+    background:#0d1426;
+    border:1px solid #26314a;
+    border-radius:12px;
+    text-align:center;
+    color:#c6d0e4;
+    line-height:2;
+    overflow-x:auto;
+}
+
+.scenario{
+    border-left:4px solid #93c5fd;
+}
+
+.compare{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+.compare th,
+.compare td{
+    padding:14px;
+    border:1px solid #2b3650;
+    text-align:left;
+    color:#c2cce0;
+}
+
+.compare th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    color:#7582a2;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+<a href="index.html" class="back">← Back to Cloud Fundamentals</a>
+
+<div class="page-icon">💾</div>
+
+<h1>Cloud Storage <span>Fundamentals</span></h1>
+
+<p>
+Understand the major cloud storage concepts, storage types,
+durability, availability, backups, snapshots, replication,
+storage classes and real-world interview scenarios.
+</p>
+
+</header>
+
+<main class="content">
+
+<section class="quick-map">
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐⭐</strong><br>
+Must Know
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐⭐</strong><br>
+High Priority
+</div>
+
+<div class="map-item">
+<strong>⭐⭐⭐</strong><br>
+Medium
+</div>
+
+<div class="map-item">
+<strong>⭐⭐</strong><br>
+Less Asked
+</div>
+
+<div class="map-item">
+<strong>🎯</strong><br>
+Scenarios
+</div>
+
+</section>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐⭐⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐⭐ Very Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 01</div>
+
+<h3>What is Cloud Storage?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+Cloud storage is a service that allows organizations to store
+data on infrastructure managed by a cloud provider.
+
+Instead of purchasing and maintaining physical storage hardware,
+organizations can provision storage according to their
+requirements.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Simple Example</strong>
+
+<p>
+
+Traditional:
+
+<br>
+Buy storage hardware → Install → Maintain → Expand manually
+
+<br><br>
+
+Cloud:
+
+<br>
+Create storage → Upload data → Increase capacity when required
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Cloud storage is the use of provider-managed storage
+infrastructure to store and access data over a network. It
+allows organizations to provision storage on demand without
+managing the underlying physical storage hardware."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 02</div>
+
+<h3>What are the major types of cloud storage?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+The three major storage models are:
+
+<br><br>
+
+→ Object Storage
+
+<br>
+→ Block Storage
+
+<br>
+→ File Storage
+
+</p>
+
+<table class="compare">
+
+<tr>
+<th>Type</th>
+<th>Common Use</th>
+</tr>
+
+<tr>
+<td>Object Storage</td>
+<td>Files, images, videos, backups, logs</td>
+</tr>
+
+<tr>
+<td>Block Storage</td>
+<td>Operating systems, databases, application disks</td>
+</tr>
+
+<tr>
+<td>File Storage</td>
+<td>Shared file systems and directories</td>
+</tr>
+
+</table>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"The three major cloud storage types are object, block and file
+storage. Object storage is commonly used for unstructured data,
+block storage provides disk-like storage for compute workloads,
+and file storage provides shared file-system access."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 03</div>
+
+<h3>What is Object Storage?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+Object storage stores data as objects.
+
+An object generally contains:
+
+<br><br>
+
+→ Data
+
+<br>
+→ Metadata
+
+<br>
+→ Unique identifier / key
+
+<br><br>
+
+Object storage is designed for large amounts of unstructured
+data.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 AWS Example — S3</strong>
+
+<p>
+
+An application receives user profile images.
+
+Instead of storing those images directly on the application
+server, the application can store them in object storage.
+
+<br><br>
+
+Application
+
+↓
+
+Object Storage
+
+↓
+
+Images / Videos / Backups
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Object storage stores data as objects along with metadata and
+an identifier. It is well suited for large-scale unstructured
+data such as images, videos, backups and logs."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 04</div>
+
+<h3>What is Block Storage?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+Block storage provides storage in the form of blocks that can be
+attached to compute resources and used like disks.
+
+It is commonly used when applications require low-latency,
+persistent disk storage.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 AWS Example — EBS</strong>
+
+<p>
+
+An EC2 instance can use an EBS volume as its disk.
+
+<br><br>
+
+EC2
+
+↓
+
+EBS Volume
+
+↓
+
+Operating System / Application / Database
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Block storage provides disk-like storage that can be attached
+to compute resources. It is commonly used for operating systems,
+applications and databases that require persistent block-level
+storage."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 05</div>
+
+<h3>What is File Storage?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+File storage provides data through a hierarchical file-system
+structure containing files and directories.
+
+It is useful when multiple systems need shared access to the
+same file system.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 AWS Example — EFS</strong>
+
+<p>
+
+Multiple application servers can mount the same shared file
+system.
+
+<br><br>
+
+EC2-A ─┐
+
+<br>
+
+EC2-B ─┼→ Shared File Storage
+
+<br>
+
+EC2-C ─┘
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"File storage provides a shared hierarchical file system. It is
+useful when multiple compute resources need to access the same
+files and directories."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 06</div>
+
+<h3>Object vs Block vs File Storage — What is the difference?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table class="compare">
+
+<tr>
+<th>Object</th>
+<th>Block</th>
+<th>File</th>
+</tr>
+
+<tr>
+<td>Stores objects</td>
+<td>Stores blocks</td>
+<td>Stores files/directories</td>
+</tr>
+
+<tr>
+<td>Unstructured data</td>
+<td>Disk-like workloads</td>
+<td>Shared file-system workloads</td>
+</tr>
+
+<tr>
+<td>Images, videos, backups</td>
+<td>OS, database, applications</td>
+<td>Shared files</td>
+</tr>
+
+<tr>
+<td>S3</td>
+<td>EBS</td>
+<td>EFS</td>
+</tr>
+
+</table>
+
+<div class="important">
+
+<strong>🧠 Easy Memory</strong>
+
+<br><br>
+
+Object → "Store files as objects."
+
+<br><br>
+
+Block → "Give me a disk."
+
+<br><br>
+
+File → "Give me a shared file system."
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Object storage is ideal for large-scale unstructured data,
+block storage behaves like a disk for compute workloads, and
+file storage provides shared file-system access."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 07</div>
+
+<h3>What is the difference between durability and availability?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p class="answer">
+
+These two terms are frequently confused.
+
+<strong>Durability</strong> refers to how well a storage service
+protects data against loss or corruption over time.
+
+<strong>Availability</strong> refers to how accessible the service
+or data is when users need it.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Easy Example</strong>
+
+<p>
+
+Durability:
+
+"Will my data remain safe?"
+
+<br><br>
+
+Availability:
+
+"Can I access the data when I need it?"
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Durability describes the likelihood that stored data will be
+preserved without loss, while availability describes how
+consistently the storage service can be accessed."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 08</div>
+
+<h3>What is a backup?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+A backup is a separate copy of data created so that the data can
+be restored after accidental deletion, corruption, operational
+mistakes or other failures.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+Production Database
+
+↓
+
+Scheduled Backup
+
+↓
+
+Backup Storage
+
+<br><br>
+
+If the database is accidentally deleted or corrupted, the backup
+can be used for recovery.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A backup is a separate copy of data maintained for recovery
+purposes. It helps restore data after accidental deletion,
+corruption or other failures."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 09</div>
+
+<h3>What is a snapshot?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ COMMON</span>
+
+<p class="answer">
+
+A snapshot is a point-in-time representation of the state of
+storage.
+
+Snapshots can be used to create recoverable copies of storage
+resources and can also be used as a basis for creating new
+storage resources depending on the service.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Database volume at 10:00 AM
+
+↓
+
+Snapshot
+
+↓
+
+Later data becomes corrupted
+
+↓
+
+Create/restore storage from an appropriate snapshot
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"A snapshot is a point-in-time copy or representation of a
+storage resource that can be used for recovery, cloning or other
+storage-management operations depending on the service."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 10</div>
+
+<h3>Why is backup important in cloud environments?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p class="answer">
+
+Cloud infrastructure reduces the need to manage physical
+hardware, but it does not automatically protect organizations
+from every type of data loss.
+
+Data can still be deleted accidentally, corrupted, overwritten
+or affected by application-level mistakes.
+
+Therefore, backups are an important part of a disaster recovery
+strategy.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Cloud providers provide highly resilient infrastructure, but
+customers still need appropriate backup and recovery strategies
+to protect against accidental deletion, corruption and
+application-level failures."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐⭐ High Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 11</div>
+
+<h3>What is storage replication?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Replication means maintaining copies of data in multiple
+locations or storage systems.
+
+It can improve resilience and availability and may support
+disaster recovery depending on the architecture.
+
+</p>
+
+<div class="flow">
+
+Original Data
+
+↓
+
+Replication
+
+↙     ↓     ↘
+
+Copy A   Copy B   Copy C
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Storage replication maintains copies of data across multiple
+storage locations or systems. It can improve resilience and
+support availability or disaster recovery requirements."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 12</div>
+
+<h3>What is data redundancy?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Redundancy means maintaining additional copies or components so
+that the system can continue operating or recover when one
+component fails.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Instead of relying on a single copy of important data, an
+architecture may maintain additional copies according to its
+recovery requirements.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 13</div>
+
+<h3>What are storage classes?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Storage classes are different storage tiers designed for
+different access patterns, performance requirements and cost
+requirements.
+
+Frequently accessed data can use a storage tier optimized for
+frequent access, while infrequently accessed or archival data
+can use lower-cost tiers with different retrieval characteristics.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 AWS S3 Example</strong>
+
+<p>
+
+Frequently accessed data
+
+→ Standard storage
+
+<br><br>
+
+Infrequently accessed data
+
+→ Infrequent Access class
+
+<br><br>
+
+Long-term archive
+
+→ Glacier storage classes
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Storage classes provide different storage tiers optimized for
+different access patterns and cost requirements. Frequently
+accessed data can use standard storage, while infrequently
+accessed or archival data can use lower-cost tiers."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 14</div>
+
+<h3>How do you choose the right storage type?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ SCENARIO</span>
+
+<p class="answer">
+
+The choice depends on:
+
+<br><br>
+
+→ Type of data
+
+<br>
+→ Access pattern
+
+<br>
+→ Performance requirements
+
+<br>
+→ Sharing requirements
+
+<br>
+→ Durability and availability requirements
+
+<br>
+→ Cost
+
+<br>
+→ Recovery requirements
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Images and videos
+
+→ Object Storage
+
+<br><br>
+
+Database disk
+
+→ Block Storage
+
+<br><br>
+
+Shared application files
+
+→ File Storage
+
+<br><br>
+
+Long-term archive
+
+→ Archive-oriented storage tier
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I choose storage based on the workload rather than choosing
+one storage type for everything. I consider data type, access
+pattern, performance, sharing requirements, durability,
+availability, recovery and cost."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 15</div>
+
+<h3>What is ephemeral storage?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Ephemeral storage is temporary storage whose lifetime is tied to
+the underlying compute resource or its lifecycle, depending on
+the service.
+
+It should not be treated as the primary location for data that
+must survive resource replacement.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Temporary cache
+
+→ Ephemeral storage can be suitable.
+
+<br><br>
+
+Important customer database
+
+→ Use persistent storage and backups.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 16</div>
+
+<h3>What is persistent storage?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Persistent storage is designed to preserve data beyond the
+lifecycle of a particular compute process or instance, depending
+on the service and configuration.
+
+It is used when data must survive compute replacement or restart.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+Application server is replaced.
+
+<br>
+
+Persistent storage keeps important application data available
+according to the storage configuration.
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐⭐ Medium Priority</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 17</div>
+
+<h3>What is data lifecycle management?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Lifecycle management automatically moves data between storage
+classes or deletes data according to predefined policies.
+
+</p>
+
+<div class="example">
+
+<strong>🔥 Example</strong>
+
+<p>
+
+New data
+
+↓
+
+Frequently accessed storage
+
+↓
+
+After 30 days
+
+↓
+
+Infrequent Access
+
+↓
+
+After 180 days
+
+↓
+
+Archive
+
+↓
+
+After retention period
+
+↓
+
+Delete
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Lifecycle management automates storage transitions and
+retention actions based on rules such as object age or access
+patterns. It helps optimize storage cost and manage data
+retention."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 18</div>
+
+<h3>What is data archiving?</h3>
+
+<span class="label">⭐⭐⭐</span>
+
+<p class="answer">
+
+Archiving means moving data that is rarely accessed into
+long-term storage designed to reduce storage cost.
+
+Archived data may have higher retrieval latency or retrieval
+cost depending on the storage tier.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Company logs from five years ago may rarely be accessed.
+
+Instead of keeping them in expensive frequently accessed
+storage, the organization can move them to an archive tier.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 19</div>
+
+<h3>What is encryption at rest?</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ SECURITY FAVORITE</span>
+
+<p class="answer">
+
+Encryption at rest protects stored data by encrypting it while it
+is stored on disks or storage systems.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Database data
+
+↓
+
+Encrypted Storage
+
+↓
+
+Even if someone gains access to the underlying storage medium,
+the stored data is protected by encryption.
+
+</p>
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+
+"Encryption at rest protects stored data by encrypting it on the
+storage system. It is an important security control for
+protecting sensitive information."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 20</div>
+
+<h3>What is encryption in transit?</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Encryption in transit protects data while it is moving between
+systems or across a network.
+
+TLS is commonly used to secure network communication.
+
+</p>
+
+<div class="important">
+
+<strong>🧠 Easy Memory</strong>
+
+<br><br>
+
+At Rest → Data is stored.
+
+<br>
+
+In Transit → Data is moving.
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- ⭐⭐ -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>⭐⭐ Less Frequently Asked</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<div class="question-number">QUESTION 21</div>
+
+<h3>What is storage IOPS?</h3>
+
+<span class="label">⭐⭐</span>
+
+<p class="answer">
+
+IOPS stands for Input/Output Operations Per Second.
+
+It represents the number of input/output operations a storage
+system can perform per second.
+
+</p>
+
+<div class="example">
+
+<strong>💡 Example</strong>
+
+<p>
+
+Database workloads with many small read/write operations may
+require high IOPS.
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question">
+
+<div class="question-number">QUESTION 22</div>
+
+<h3>What is storage throughput?</h3>
+
+<span class="label">⭐⭐</span>
+
+<p class="answer">
+
+Storage throughput is the amount of data that can be transferred
+between storage and a system over a period of time.
+
+</p>
+
+<div class="important">
+
+<strong>🧠 IOPS vs Throughput</strong>
+
+<br><br>
+
+IOPS → Number of operations.
+
+<br>
+
+Throughput → Amount of data transferred.
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- 🎯 SCENARIOS -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>🎯 Real-Time Interview Scenarios</h2>
+<div class="line"></div>
+</div>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 01</div>
+
+<h3>
+Where would you store images uploaded by users?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+I would generally use object storage because images are
+unstructured objects and object storage is designed for
+large-scale storage of files such as images and videos.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I would store user-uploaded images in object storage such as
+Amazon S3 because it is designed for scalable storage of
+unstructured objects. I can also use lifecycle policies,
+versioning and appropriate access controls based on the
+requirements."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 02</div>
+
+<h3>
+Where would you store an EC2 operating system disk?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+Block storage is the appropriate model because an operating
+system requires disk-like block-level storage.
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"I would use block storage such as Amazon EBS for an EC2
+operating system disk because the instance requires persistent
+disk-like storage."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 03</div>
+
+<h3>
+Three application servers need access to the same files. What storage would you choose?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+I would use shared file storage.
+
+</p>
+
+<div class="flow">
+
+Application Server 1 ─┐
+
+Application Server 2 ─┼→ Shared File Storage
+
+Application Server 3 ─┘
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"I would use a shared file-storage service such as Amazon EFS
+when multiple application servers need concurrent access to the
+same file system."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 04</div>
+
+<h3>
+Your storage cost is increasing rapidly. How would you optimize it?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ COST OPTIMIZATION</span>
+
+<p class="answer">
+
+I would first understand the data access pattern and identify
+unused, old and infrequently accessed data.
+
+Then I would:
+
+<br><br>
+
+→ Use appropriate storage classes
+
+<br>
+→ Configure lifecycle policies
+
+<br>
+→ Archive old data
+
+<br>
+→ Delete unnecessary data according to retention requirements
+
+<br>
+→ Review snapshots and backups
+
+<br>
+→ Monitor storage growth
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I would analyze storage usage and access patterns, move
+infrequently accessed data to lower-cost storage tiers, automate
+transitions with lifecycle policies, remove unnecessary data
+according to retention requirements, and review backup and
+snapshot retention."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 05</div>
+
+<h3>
+A production database server is terminated. How will you recover the data?
+</h3>
+
+<span class="label">⭐⭐⭐⭐⭐ DISASTER RECOVERY</span>
+
+<p class="answer">
+
+The recovery method depends on the architecture, but I would
+use persistent storage, backups or snapshots that were configured
+before the failure.
+
+</p>
+
+<div class="flow">
+
+Production Database
+
+↓
+
+Automated Backup / Snapshot
+
+↓
+
+Failure
+
+↓
+
+Restore
+
+↓
+
+New Database Environment
+
+</div>
+
+<div class="interview-answer">
+
+<strong>🎤 Strong Answer</strong>
+
+<p>
+
+"I would restore the database using the available persistent
+storage, snapshots or backups according to the recovery
+procedure. This is why backup schedules, retention policies and
+tested recovery procedures are important for production
+systems."
+
+</p>
+
+</div>
+
+</article>
+
+<article class="question scenario">
+
+<div class="question-number">SCENARIO 06</div>
+
+<h3>
+You need to store five years of rarely accessed logs. What would you consider?
+</h3>
+
+<span class="label">⭐⭐⭐⭐</span>
+
+<p class="answer">
+
+I would consider an archive-oriented storage tier with lifecycle
+management.
+
+The important factors are:
+
+<br><br>
+
+→ Retention requirement
+
+<br>
+→ Access frequency
+
+<br>
+→ Retrieval time
+
+<br>
+→ Retrieval cost
+
+<br>
+→ Compliance requirements
+
+<br>
+→ Storage cost
+
+</p>
+
+<div class="interview-answer">
+
+<strong>🎤 Answer</strong>
+
+<p>
+
+"For long-term, rarely accessed logs, I would consider an
+archive storage tier and use lifecycle policies to automatically
+transition logs after the required retention period while
+considering retrieval requirements."
+
+</p>
+
+</div>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- QUICK FIRE -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>🧠 Quick-Fire Interview Questions</h2>
+<div class="line"></div>
+</div>
+
+<article class="question">
+
+<h3>Rapid Revision</h3>
+
+<p class="answer">
+
+<strong>Q:</strong> What is cloud storage?
+
+<br>
+<strong>A:</strong> Provider-managed storage delivered through cloud
+services.
+
+<br><br>
+
+<strong>Q:</strong> Three major storage types?
+
+<br>
+<strong>A:</strong> Object, Block and File.
+
+<br><br>
+
+<strong>Q:</strong> Object storage?
+
+<br>
+<strong>A:</strong> Stores data as objects; ideal for unstructured data.
+
+<br><br>
+
+<strong>Q:</strong> Block storage?
+
+<br>
+<strong>A:</strong> Disk-like storage for compute workloads.
+
+<br><br>
+
+<strong>Q:</strong> File storage?
+
+<br>
+<strong>A:</strong> Shared hierarchical file system.
+
+<br><br>
+
+<strong>Q:</strong> AWS object storage example?
+
+<br>
+<strong>A:</strong> Amazon S3.
+
+<br><br>
+
+<strong>Q:</strong> AWS block storage example?
+
+<br>
+<strong>A:</strong> Amazon EBS.
+
+<br><br>
+
+<strong>Q:</strong> AWS file storage example?
+
+<br>
+<strong>A:</strong> Amazon EFS.
+
+<br><br>
+
+<strong>Q:</strong> Durability?
+
+<br>
+<strong>A:</strong> Protection of data from loss over time.
+
+<br><br>
+
+<strong>Q:</strong> Availability?
+
+<br>
+<strong>A:</strong> How consistently the service can be accessed.
+
+<br><br>
+
+<strong>Q:</strong> Backup?
+
+<br>
+<strong>A:</strong> Separate copy used for recovery.
+
+<br><br>
+
+<strong>Q:</strong> Snapshot?
+
+<br>
+<strong>A:</strong> Point-in-time representation of storage.
+
+<br><br>
+
+<strong>Q:</strong> Replication?
+
+<br>
+<strong>A:</strong> Maintaining copies of data.
+
+<br><br>
+
+<strong>Q:</strong> Storage class?
+
+<br>
+<strong>A:</strong> Storage tier optimized for an access pattern and cost.
+
+<br><br>
+
+<strong>Q:</strong> Lifecycle management?
+
+<br>
+<strong>A:</strong> Automatically moves or deletes data based on policies.
+
+<br><br>
+
+<strong>Q:</strong> Encryption at rest?
+
+<br>
+<strong>A:</strong> Protecting stored data through encryption.
+
+<br><br>
+
+<strong>Q:</strong> Encryption in transit?
+
+<br>
+<strong>A:</strong> Protecting data while it moves across networks.
+
+<br><br>
+
+<strong>Q:</strong> IOPS?
+
+<br>
+<strong>A:</strong> Input/output operations per second.
+
+<br><br>
+
+<strong>Q:</strong> Throughput?
+
+<br>
+<strong>A:</strong> Amount of data transferred over a period.
+
+</p>
+
+</article>
+
+<!-- ================================================= -->
+
+<!-- FINAL REVISION -->
+
+<!-- ================================================= -->
+
+<div class="priority-title">
+<h2>🧠 FINAL REVISION — CLOUD STORAGE</h2>
+<div class="line"></div>
+</div>
+
+<div class="important">
+
+<strong>Cloud Storage</strong>
+
+→ Store data using provider-managed cloud infrastructure.
+
+<br><br>
+
+<strong>Object Storage</strong>
+
+→ Unstructured data.
+
+→ S3.
+
+<br><br>
+
+<strong>Block Storage</strong>
+
+→ Disk-like storage.
+
+→ EBS.
+
+<br><br>
+
+<strong>File Storage</strong>
+
+→ Shared file system.
+
+→ EFS.
+
+<br><br>
+
+<strong>Durability</strong>
+
+→ Protect data from loss.
+
+<br><br>
+
+<strong>Availability</strong>
+
+→ Keep storage accessible.
+
+<br><br>
+
+<strong>Backup</strong>
+
+→ Separate recovery copy.
+
+<br><br>
+
+<strong>Snapshot</strong>
+
+→ Point-in-time storage copy/representation.
+
+<br><br>
+
+<strong>Replication</strong>
+
+→ Maintain multiple copies.
+
+<br><br>
+
+<strong>Storage Classes</strong>
+
+→ Optimize storage for access pattern and cost.
+
+<br><br>
+
+<strong>Lifecycle Management</strong>
+
+→ Automatically transition or delete data.
+
+<br><br>
+
+<strong>Persistent Storage</strong>
+
+→ Data survives compute lifecycle according to configuration.
+
+<br><br>
+
+<strong>Ephemeral Storage</strong>
+
+→ Temporary storage tied to resource lifecycle.
+
+<br><br>
+
+<strong>Encryption at Rest</strong>
+
+→ Protect stored data.
+
+<br><br>
+
+<strong>Encryption in Transit</strong>
+
+→ Protect moving data.
+
+<br><br>
+
+<strong>IOPS</strong>
+
+→ Number of I/O operations.
+
+<br><br>
+
+<strong>Throughput</strong>
+
+→ Amount of data transferred.
+
+<br><br>
+
+<strong>Easy Memory</strong>
+
+→ Object = Files
+
+<br>
+
+→ Block = Disk
+
+<br>
+
+→ File = Shared Folder
+
+</div>
+
+</main>
+
+<footer>
+
+<p>💾 Cloud Storage Fundamentals</p>
+
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

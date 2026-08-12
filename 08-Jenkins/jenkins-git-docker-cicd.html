@@ -1,0 +1,1263 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jenkins Git Docker CI/CD - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#fbbf24}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,50px);
+    margin:0;
+}
+
+h1 span{color:#fbbf24}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{background:#121a2d}
+
+h2{
+    color:#fbbf24;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #fbbf24;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#fbbf24;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Jenkins</a>
+
+<h1>Jenkins <span>Git + Docker + CI/CD</span></h1>
+
+<p>
+Interview-focused guide covering Git integration, GitHub Webhooks,
+SCM triggers, Docker builds, container registries, image tagging,
+Jenkins credentials and an end-to-end production-style CI/CD flow.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Core Concept</h2>
+
+<p>
+A common Jenkins CI/CD workflow starts with a Git push and ends with
+a tested application artifact or Docker image being deployed.
+</p>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+<strong>GitHub</strong>
+<br>↓<br>
+Webhook
+<br>↓<br>
+<strong>Jenkins</strong>
+<br>↓<br>
+Checkout
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Container Registry
+<br>↓<br>
+Deploy
+<br>↓<br>
+Application
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A developer pushes a Java application to GitHub. Jenkins is triggered
+through a webhook, checks out the code, runs Maven tests, builds a
+Docker image, pushes it to Amazon ECR and deploys the new image to
+Kubernetes.
+
+</div>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. How does Jenkins integrate with Git?</h2>
+
+<div class="answer">
+
+Jenkins can connect to Git repositories and automatically checkout
+source code before executing build and test stages.
+
+The repository can be GitHub, GitLab, Bitbucket or another supported
+SCM system.
+
+</div>
+
+<h3>Typical flow</h3>
+
+<pre><code>git push
+    ↓
+GitHub Repository
+    ↓
+Webhook
+    ↓
+Jenkins
+    ↓
+Checkout Source
+    ↓
+Build / Test</code></pre>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Webhook vs Poll SCM</h2>
+
+<table>
+
+<tr>
+<th>Webhook</th>
+<th>Poll SCM</th>
+</tr>
+
+<tr>
+<td>Git provider notifies Jenkins when an event occurs.</td>
+<td>Jenkins periodically checks the repository.</td>
+</tr>
+
+<tr>
+<td>Event-driven.</td>
+<td>Polling-based.</td>
+</tr>
+
+<tr>
+<td>Usually faster reaction to changes.</td>
+<td>Can generate unnecessary repository checks.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"For modern CI/CD, I generally prefer webhooks because the Git
+provider can notify Jenkins immediately when a relevant event occurs,
+instead of Jenkins repeatedly polling the repository."
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What happens when a developer pushes code?</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+<strong>git push</strong>
+<br>↓<br>
+GitHub
+<br>↓<br>
+Webhook Event
+<br>↓<br>
+Jenkins Trigger
+<br>↓<br>
+Checkout
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Push Image
+
+</div>
+
+<div class="interview">
+
+The important point is that Jenkins does not magically know that
+code changed. A trigger such as a webhook, polling mechanism or
+manual/API trigger starts the job.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Jenkins Git Checkout</h2>
+
+<h3>Simple checkout</h3>
+
+<pre><code>stage('Checkout') {
+
+    steps {
+        checkout scm
+    }
+}</code></pre>
+
+<p>
+For a Pipeline job configured with SCM, <code>checkout scm</code>
+checks out the source configured for that job.
+</p>
+
+<h3>Explicit Git checkout</h3>
+
+<pre><code>stage('Checkout') {
+
+    steps {
+
+        git branch: 'main',
+            url: 'https://github.com/example/app.git'
+    }
+}</code></pre>
+
+<div class="warning">
+
+For private repositories, credentials should be configured securely
+through Jenkins Credentials rather than putting usernames or tokens
+directly into the Jenkinsfile.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Why do we use Docker with Jenkins?</h2>
+
+<div class="answer">
+
+Docker packages an application together with its runtime dependencies
+into a portable container image.
+
+Jenkins can automate building, testing and publishing that image.
+
+</div>
+
+<div class="scenario">
+
+Without containerization, an application may behave differently
+between build and deployment environments.
+
+With Docker:
+
+<strong>Source Code → Docker Image → Same Image → Deployment</strong>
+
+This improves consistency between environments.
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Docker Build in Jenkins</h2>
+
+<pre><code>stage('Docker Build') {
+
+    steps {
+
+        sh '''
+        docker build \
+          -t payment-app:${BUILD_NUMBER} .
+        '''
+    }
+}</code></pre>
+
+<div class="answer">
+
+<code>BUILD_NUMBER</code> is a Jenkins-provided build identifier.
+Using a unique tag helps identify which Jenkins build produced an
+image.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Docker Image Tagging Strategy</h2>
+
+<p>
+Avoid using only <code>latest</code> for production deployments.
+Use identifiable immutable or versioned tags where possible.
+</p>
+
+<pre><code>payment-app:42
+payment-app:1.4.2
+payment-app:git-a8f32c1</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+Jenkins Build #42 creates:
+
+<pre><code>123456789.dkr.ecr.ap-south-1.amazonaws.com/payment-app:42</code></pre>
+
+If deployment fails, you can identify exactly which build/image was
+used.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Push Docker Image to Registry</h2>
+
+<div class="answer">
+
+A container registry stores Docker images so deployment systems can
+pull them later.
+
+Examples include Amazon ECR, Docker Hub, GitHub Container Registry
+and other OCI-compatible registries.
+
+</div>
+
+<h3>Generic example</h3>
+
+<pre><code>docker login &lt;registry&gt;
+
+docker tag payment-app:42 \
+  &lt;registry&gt;/payment-app:42
+
+docker push \
+  &lt;registry&gt;/payment-app:42</code></pre>
+
+<div class="warning">
+
+Registry credentials should not be written directly into the
+Jenkinsfile or shell commands.
+
+Use Jenkins Credentials or an appropriate workload identity mechanism.
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Jenkins + Docker + ECR</h2>
+
+<div class="scenario">
+
+A common AWS workflow:
+
+<div class="flow">
+
+GitHub
+<br>↓<br>
+Jenkins
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Amazon ECR
+<br>↓<br>
+EKS / ECS
+<br>↓<br>
+Application
+
+</div>
+
+Jenkins builds the image and pushes it to ECR. The deployment
+platform then pulls the image from ECR.
+
+</div>
+
+<h3>Conceptual commands</h3>
+
+<pre><code>docker build -t payment-app:${BUILD_NUMBER} .
+
+docker tag payment-app:${BUILD_NUMBER} \
+  ${ECR_REPOSITORY}:${BUILD_NUMBER}
+
+docker push ${ECR_REPOSITORY}:${BUILD_NUMBER}</code></pre>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Complete Jenkins Git + Docker Pipeline</h2>
+
+<pre><code>pipeline {
+
+    agent any
+
+    environment {
+
+        IMAGE_NAME = 'payment-app'
+        REGISTRY = '123456789.dkr.ecr.ap-south-1.amazonaws.com'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Checkout') {
+
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Docker Build') {
+
+            steps {
+
+                sh '''
+                docker build \
+                  -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                '''
+            }
+        }
+
+        stage('Docker Tag') {
+
+            steps {
+
+                sh '''
+                docker tag \
+                  ${IMAGE_NAME}:${IMAGE_TAG} \
+                  ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+                '''
+            }
+        }
+
+        stage('Push Image') {
+
+            steps {
+
+                sh '''
+                docker push \
+                  ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+                '''
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'CI pipeline completed successfully'
+        }
+
+        failure {
+            echo 'CI pipeline failed'
+        }
+    }
+}</code></pre>
+
+<div class="warning">
+
+This demonstrates the pipeline flow. Authentication to ECR and
+other external systems should be implemented through secure Jenkins
+credentials or AWS identity mechanisms rather than hard-coded
+credentials.
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Docker Build vs Docker Push</h2>
+
+<table>
+
+<tr>
+<th>docker build</th>
+<th>docker push</th>
+</tr>
+
+<tr>
+<td>Creates an image locally/on the build agent.</td>
+<td>Uploads an image to a registry.</td>
+</tr>
+
+<tr>
+<td>Uses Dockerfile and build context.</td>
+<td>Requires access to the target registry.</td>
+</tr>
+
+<tr>
+<td>Example: <code>docker build -t app:42 .</code></td>
+<td>Example: <code>docker push registry/app:42</code></td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. How do you securely authenticate to Docker Registry?</h2>
+
+<div class="answer">
+
+Credentials should be stored in Jenkins Credentials or supplied
+through a secure identity mechanism.
+
+The pipeline should reference the credential rather than embedding
+the password or token in source code.
+
+</div>
+
+<h3>Conceptual Jenkins example</h3>
+
+<pre><code>withCredentials([
+    usernamePassword(
+        credentialsId: 'docker-registry',
+        usernameVariable: 'REGISTRY_USER',
+        passwordVariable: 'REGISTRY_PASS'
+    )
+]) {
+
+    sh '''
+    echo "$REGISTRY_PASS" | \
+      docker login \
+      --username "$REGISTRY_USER" \
+      --password-stdin registry.example.com
+    '''
+}</code></pre>
+
+<div class="warning">
+
+Never commit:
+
+<pre><code>docker login -u admin -p MyPassword</code></pre>
+
+into a Jenkinsfile or Git repository.
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What if Docker build fails?</h2>
+
+<div class="scenario">
+
+Check:
+
+<br><br>
+
+1. Dockerfile syntax.
+<br>
+2. Build context.
+<br>
+3. Required files.
+<br>
+4. Base image availability.
+<br>
+5. Network connectivity.
+<br>
+6. Docker daemon access.
+<br>
+7. Disk space.
+<br>
+8. CPU/memory resources.
+
+</div>
+
+<h3>Useful commands</h3>
+
+<pre><code>docker version
+docker info
+docker images
+docker ps
+df -h</code></pre>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. What if Docker Push fails?</h2>
+
+<div class="scenario">
+
+<strong>Common causes:</strong>
+
+<ul>
+
+<li>Registry authentication failure.</li>
+<li>Wrong repository name.</li>
+<li>Wrong image tag.</li>
+<li>Repository does not exist.</li>
+<li>Insufficient registry permissions.</li>
+<li>Network connectivity problems.</li>
+<li>Registry service issue.</li>
+
+</ul>
+
+</div>
+
+<h3>Debugging approach</h3>
+
+<pre><code>docker images
+
+docker login &lt;registry&gt;
+
+docker push &lt;registry&gt;/app:42</code></pre>
+
+<p>
+Then inspect the exact error and verify credentials and repository
+permissions.
+</p>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What if Jenkins cannot access Docker?</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Pipeline reports that the Docker command cannot connect to the
+Docker daemon.
+
+<br><br>
+
+<strong>Check:</strong>
+
+1. Is Docker installed on the Jenkins agent?
+<br>
+2. Is Docker running?
+<br>
+3. Does the Jenkins execution user have permission?
+<br>
+4. Is the correct Docker socket/runtime available?
+<br>
+5. Is the agent containerized?
+<br>
+6. Are security restrictions blocking Docker access?
+
+</div>
+
+<h3>Commands</h3>
+
+<pre><code>docker version
+docker info
+docker ps</code></pre>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Git Branch-based Deployment</h2>
+
+<div class="scenario">
+
+A common strategy is:
+
+<strong>develop</strong> → Dev
+
+<br>
+<strong>release/*</strong> → QA/Staging
+
+<br>
+<strong>main</strong> → Production
+
+</div>
+
+<h3>Jenkins condition</h3>
+
+<pre><code>stage('Production Deploy') {
+
+    when {
+        branch 'main'
+    }
+
+    steps {
+        sh './deploy-production.sh'
+    }
+}</code></pre>
+
+<div class="interview">
+
+The exact branch strategy depends on the organization's Git workflow.
+The important concept is that deployment rules should be explicit
+and controlled.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. End-to-End Production Flow</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓<br>
+📦 GitHub
+<br>↓<br>
+🔔 Webhook
+<br>↓<br>
+🔧 Jenkins
+<br>↓<br>
+📥 Checkout
+<br>↓<br>
+🔨 Maven / Build
+<br>↓<br>
+🧪 Tests
+<br>↓<br>
+🔐 Security Scan
+<br>↓<br>
+🐳 Docker Build
+<br>↓<br>
+📦 ECR / Registry
+<br>↓<br>
+☸️ Kubernetes / EKS
+<br>↓<br>
+🚀 Production Application
+
+</div>
+
+<div class="interview">
+
+<strong>This is the flow you should be able to explain in an interview.</strong>
+
+The important part is not memorizing commands. Explain what happens
+at every stage and why that stage exists.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Real-Time Scenario: Jenkins Build Works but Deployment Fails</h2>
+
+<div class="scenario">
+
+Suppose:
+
+<br><br>
+
+Git checkout → SUCCESS
+
+<br>
+Maven build → SUCCESS
+
+<br>
+Tests → SUCCESS
+
+<br>
+Docker build → SUCCESS
+
+<br>
+Docker push → SUCCESS
+
+<br>
+Deployment → FAILURE
+
+<br><br>
+
+Do not rebuild everything immediately.
+
+First inspect the deployment layer:
+
+<ul>
+
+<li>Image name/tag.</li>
+<li>Registry availability.</li>
+<li>Deployment manifest.</li>
+<li>Kubernetes credentials.</li>
+<li>Cluster connectivity.</li>
+<li>Namespace.</li>
+<li>Pod events and logs.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Real-Time Scenario: Wrong Docker Image Deployed</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+Production is running an unexpected image.
+
+<strong>Likely cause:</strong>
+
+The pipeline uses a mutable tag such as <code>latest</code> or
+deployment configuration was not updated correctly.
+
+<strong>Better approach:</strong>
+
+Use unique version/build/commit-based tags.
+
+</div>
+
+<pre><code>payment-app:105
+payment-app:git-a8f32c1</code></pre>
+
+<div class="interview">
+
+This improves traceability because you can map a deployed image
+back to a specific source revision and Jenkins build.
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. CI vs CD</h2>
+
+<table>
+
+<tr>
+<th>CI</th>
+<th>CD</th>
+</tr>
+
+<tr>
+<td>Continuous Integration</td>
+<td>Continuous Delivery / Deployment</td>
+</tr>
+
+<tr>
+<td>Build and test code changes.</td>
+<td>Release and deploy validated artifacts.</td>
+</tr>
+
+<tr>
+<td>Find integration issues early.</td>
+<td>Automate software delivery.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+CI
+<br>
+Git → Build → Test → Scan → Package
+
+<br><br>
+
+CD
+<br>
+Artifact/Image → Deploy → Verify
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Jenkins + Git + Docker Best Practices</h2>
+
+<ul>
+
+<li>Keep Jenkinsfile in Git.</li>
+
+<li>Use webhooks for event-driven triggering where appropriate.</li>
+
+<li>Use unique image tags.</li>
+
+<li>Avoid relying only on <code>latest</code>.</li>
+
+<li>Never hard-code credentials.</li>
+
+<li>Use Jenkins Credentials or workload identity.</li>
+
+<li>Scan images before deployment.</li>
+
+<li>Keep Docker images small and reproducible.</li>
+
+<li>Use immutable artifacts where possible.</li>
+
+<li>Promote the same tested image across environments rather than
+rebuilding different images unnecessarily.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>How does Jenkins integrate with Git?</li>
+
+<li>What is a GitHub webhook?</li>
+
+<li>Webhook vs Poll SCM?</li>
+
+<li>How does Jenkins checkout source code?</li>
+
+<li>Why do we use Docker with Jenkins?</li>
+
+<li>How do you build a Docker image in Jenkins?</li>
+
+<li>How do you tag Docker images?</li>
+
+<li>How do you push an image to Docker Hub or ECR?</li>
+
+<li>How do you securely authenticate to a registry?</li>
+
+<li>What happens if Docker build fails?</li>
+
+<li>What happens if Docker push fails?</li>
+
+<li>How do you troubleshoot Docker daemon errors?</li>
+
+<li>Why should we avoid using only latest?</li>
+
+<li>How do you connect Jenkins to Kubernetes?</li>
+
+<li>Explain an end-to-end Jenkins CI/CD pipeline.</li>
+
+</ol>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Git + Docker + Jenkins Cheat Sheet</h2>
+
+<pre><code># Git
+git clone &lt;repo&gt;
+git checkout main
+git pull
+git status
+
+# Docker
+docker build -t app:42 .
+docker images
+docker tag app:42 registry/app:42
+docker push registry/app:42
+
+# Jenkins flow
+
+Git Push
+   ↓
+Webhook
+   ↓
+Jenkins
+   ↓
+Checkout
+   ↓
+Build
+   ↓
+Test
+   ↓
+Scan
+   ↓
+Docker Build
+   ↓
+Registry
+   ↓
+Deploy</code></pre>
+
+</div>
+
+
+<!-- FINAL -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Jenkins CI/CD with Git and Docker"</h2>
+
+<div class="interview">
+
+"In a typical CI/CD workflow, a developer pushes code to GitHub.
+A webhook triggers the Jenkins pipeline.
+
+Jenkins checks out the source code and runs the build and automated
+tests. If the tests pass, Jenkins builds a Docker image and tags it
+with a unique build or source revision identifier.
+
+The image is then pushed to a container registry such as Amazon ECR.
+The deployment stage updates the target environment, for example
+Kubernetes or EKS, to use that image.
+
+For security, I don't hard-code Git, registry or cloud credentials
+inside the Jenkinsfile. I use Jenkins Credentials or appropriate
+cloud identity mechanisms.
+
+For production, I also prefer immutable/versioned image tags,
+security scanning and traceability between the Git commit, Jenkins
+build and deployed container image."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🐳 Jenkins Git + Docker CI/CD • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

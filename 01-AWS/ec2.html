@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>EC2 Interview Questions | Nandu's DevOps Guide</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+    /* =====================================================
+       EC2 PAGE
+    ===================================================== */
+
+    body {
+        background:
+            radial-gradient(
+                circle at 90% 5%,
+                rgba(255,153,0,0.09),
+                transparent 28%
+            ),
+            #0b1020;
+    }
+
+    .page-header {
+        padding: 50px 20px;
+        text-align: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                #1c160c,
+                #17120b,
+                #0b1020
+            );
+
+        border-bottom: 1px solid #29334c;
+    }
+
+    .back {
+        display: inline-block;
+
+        margin-bottom: 20px;
+
+        color: #9da9c4;
+        text-decoration: none;
+
+        font-size: 14px;
+    }
+
+    .back:hover {
+        color: #ff9900;
+    }
+
+    .page-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(38px, 6vw, 60px);
+        margin-bottom: 10px;
+    }
+
+    .page-header h1 span {
+        color: #ff9900;
+    }
+
+    .page-header p {
+        max-width: 850px;
+        margin: auto;
+
+        color: #9ca8c4;
+    }
+
+
+    /* =====================================================
+       CONTENT
+    ===================================================== */
+
+    .content {
+        width: min(1000px, 92%);
+        margin: auto;
+        padding: 50px 0 80px;
+    }
+
+
+    /* =====================================================
+       QUICK MAP
+    ===================================================== */
+
+    .quick-map {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(180px, 1fr));
+
+        gap: 12px;
+
+        margin-bottom: 50px;
+    }
+
+    .map-item {
+        padding: 16px;
+
+        background: #121a30;
+
+        border: 1px solid #27324b;
+        border-radius: 12px;
+
+        color: #aab5cf;
+
+        font-size: 13px;
+    }
+
+    .map-item strong {
+        color: #ffffff;
+    }
+
+
+    /* =====================================================
+       PRIORITY SECTION
+    ===================================================== */
+
+    .priority-title {
+        display: flex;
+
+        align-items: center;
+        gap: 10px;
+
+        margin: 50px 0 25px;
+    }
+
+    .priority-title h2 {
+        font-size: 27px;
+    }
+
+    .priority-title .line {
+        flex: 1;
+        height: 1px;
+        background: #29334c;
+    }
+
+
+    /* =====================================================
+       QUESTION CARD
+    ===================================================== */
+
+    .question {
+        margin-bottom: 25px;
+        padding: 28px;
+
+        background:
+            linear-gradient(
+                145deg,
+                #141d35,
+                #10172a
+            );
+
+        border: 1px solid #29344e;
+
+        border-radius: 18px;
+
+        transition: 0.25s;
+    }
+
+    .question:hover {
+        border-color: #465474;
+    }
+
+    .question-number {
+        color: #7582a2;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        margin-bottom: 8px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+
+        line-height: 1.4;
+
+        margin-bottom: 20px;
+    }
+
+
+    /* =====================================================
+       ANSWER
+    ===================================================== */
+
+    .label {
+        display: inline-block;
+
+        margin-bottom: 8px;
+
+        color: #ffb52e;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        letter-spacing: 0.8px;
+    }
+
+    .answer {
+        color: #c2cbe0;
+
+        line-height: 1.8;
+
+        margin-bottom: 20px;
+    }
+
+
+    /* =====================================================
+       EXAMPLE BOX
+    ===================================================== */
+
+    .example {
+        padding: 18px 20px;
+
+        margin: 18px 0;
+
+        border-left: 4px solid #ff9900;
+
+        background: rgba(255,153,0,0.06);
+
+        border-radius: 0 10px 10px 0;
+    }
+
+    .example strong {
+        color: #ffb52e;
+    }
+
+    .example p {
+        color: #b7c2d8;
+        margin-top: 6px;
+    }
+
+
+    /* =====================================================
+       FOLLOW UP
+    ===================================================== */
+
+    .followup {
+        padding: 18px 20px;
+
+        background: #0d1426;
+
+        border-radius: 12px;
+
+        border: 1px solid #222d46;
+    }
+
+    .followup strong {
+        color: #8fa3ff;
+    }
+
+    .followup ul {
+        margin-top: 8px;
+        padding-left: 20px;
+
+        color: #9ba7c0;
+    }
+
+    .followup li {
+        margin: 5px 0;
+    }
+
+
+    /* =====================================================
+       INTERVIEW ANSWER
+    ===================================================== */
+
+    .interview-answer {
+        padding: 18px 20px;
+
+        margin-top: 18px;
+
+        background: #111a30;
+
+        border-radius: 12px;
+
+        border: 1px solid #303c59;
+    }
+
+    .interview-answer strong {
+        color: #60a5fa;
+    }
+
+
+    /* =====================================================
+       CODE
+    ===================================================== */
+
+    pre {
+        overflow-x: auto;
+
+        margin-top: 12px;
+
+        padding: 18px;
+
+        background: #080d19;
+
+        border-radius: 10px;
+
+        border: 1px solid #202b43;
+
+        color: #cbd5e1;
+    }
+
+
+    /* =====================================================
+       IMPORTANT NOTE
+    ===================================================== */
+
+    .important {
+        padding: 20px;
+
+        margin: 25px 0;
+
+        border-radius: 14px;
+
+        background: rgba(96,165,250,0.06);
+
+        border: 1px solid rgba(96,165,250,0.2);
+
+        color: #b8c4dc;
+    }
+
+
+    @media (max-width: 600px) {
+
+        .content {
+            width: 94%;
+        }
+
+        .question {
+            padding: 22px;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="page-header">
+
+```
+<a href="index.html" class="back">
+    ← Back to AWS
+</a>
+
+<div class="page-icon">
+    🖥️
+</div>
+
+<h1>
+    Amazon <span>EC2</span>
+</h1>
+
+<p>
+    Complete EC2 interview preparation —
+    fundamentals, architecture, storage, networking,
+    security, pricing, scaling and troubleshooting.
+</p>
+```
+
+</header>
+
+<!-- =====================================================
+     CONTENT
+===================================================== -->
+
+<main class="content">
+
+```
+<!-- QUICK MAP -->
+
+<section class="quick-map">
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐⭐</strong><br>
+        Must Know
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐</strong><br>
+        High Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐</strong><br>
+        Medium
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐</strong><br>
+        Low Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐</strong><br>
+        Bonus
+    </div>
+
+</section>
+
+
+<!-- =================================================
+     5 STAR QUESTIONS
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>⭐⭐⭐⭐⭐ Must Know</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<!-- Q1 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 01
+    </div>
+
+    <h3>
+        What is Amazon EC2?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        Amazon EC2 (Elastic Compute Cloud) is an AWS service
+        that provides resizable virtual servers called
+        <strong>instances</strong> in the cloud.
+
+        Instead of purchasing and maintaining a physical
+        server, we can launch an EC2 instance with the
+        required CPU, memory, storage and networking
+        configuration.
+
+        We can then install an operating system,
+        applications and other software on that instance.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose we have a web application that needs
+            a Linux server.
+
+            Instead of buying a physical server, we can
+            launch an EC2 instance, install Docker,
+            deploy our application and expose it through
+            a Load Balancer.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Amazon EC2 is a compute service provided by AWS
+            that allows us to launch and manage virtual
+            servers in the cloud. We can choose the instance
+            type, operating system, storage and networking
+            configuration based on our application
+            requirements."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>What is an EC2 instance?</li>
+
+            <li>What is an AMI?</li>
+
+            <li>What are instance types?</li>
+
+            <li>What happens when an instance is stopped?</li>
+
+            <li>What is the difference between stop and terminate?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q2 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 02
+    </div>
+
+    <h3>
+        What is an EC2 instance?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        An EC2 instance is a virtual server running inside
+        AWS.
+
+        When we launch an EC2 instance, AWS allocates
+        computing resources such as CPU, memory, networking
+        and storage according to the configuration we select.
+
+        The instance runs an operating system such as
+        Amazon Linux, Ubuntu or Windows Server.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            If our application requires 4 vCPUs and 16 GB RAM,
+            we can select an EC2 instance type that provides
+            those resources and deploy our application on it.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An EC2 instance is a virtual machine provided by
+            AWS. It gives us configurable compute resources
+            such as CPU, memory, networking and storage,
+            allowing us to run applications without managing
+            physical servers."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>How do you launch an EC2 instance?</li>
+
+            <li>What is an instance type?</li>
+
+            <li>How do you connect to Linux EC2?</li>
+
+            <li>How do you secure an EC2 instance?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q3 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 03
+    </div>
+
+    <h3>
+        What is an AMI in AWS?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        AMI stands for <strong>Amazon Machine Image</strong>.
+
+        It is a template used to create EC2 instances.
+
+        An AMI can contain the operating system,
+        application configuration, installed software
+        and other required settings.
+
+        When we launch an EC2 instance, we select an AMI
+        as the starting template.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose we configured an Ubuntu EC2 server with
+            Docker, Java and our application dependencies.
+
+            We can create a custom AMI from that configured
+            server and use it to launch additional instances
+            with the same base configuration.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "An AMI is a template used to launch EC2
+            instances. It contains the operating system and
+            can also contain software and configuration
+            required by the application."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>What is a custom AMI?</li>
+
+            <li>Can we create an AMI from an existing EC2?</li>
+
+            <li>Can an AMI be copied to another region?</li>
+
+            <li>What is the relationship between AMI and EBS?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q4 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 04
+    </div>
+
+    <h3>
+        What are EC2 instance types?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        EC2 instance types define the compute resources
+        available to an EC2 instance.
+
+        Different instance families are optimized for
+        different workloads.
+
+        For example:
+
+        <br><br>
+
+        <strong>General Purpose</strong> —
+        balanced CPU, memory and networking.
+
+        <br>
+
+        <strong>Compute Optimized</strong> —
+        workloads requiring high CPU performance.
+
+        <br>
+
+        <strong>Memory Optimized</strong> —
+        workloads requiring large amounts of RAM.
+
+        <br>
+
+        <strong>Storage Optimized</strong> —
+        workloads requiring high local storage performance.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            A normal web application may use a
+            general-purpose instance.
+
+            A CPU-intensive application may require a
+            compute-optimized instance.
+
+            A large in-memory database may require a
+            memory-optimized instance.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EC2 instance types determine the compute
+            resources provided to an instance. AWS offers
+            different instance families optimized for
+            general-purpose, compute-intensive,
+            memory-intensive and storage-intensive
+            workloads."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>What is an instance family?</li>
+
+            <li>How do you choose an instance type?</li>
+
+            <li>What are vCPUs?</li>
+
+            <li>What is the difference between CPU and memory optimized instances?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q5 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 05
+    </div>
+
+    <h3>
+        What is the difference between stopping and terminating an EC2 instance?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        <strong>Stop:</strong>
+
+        The instance is shut down, but its EBS-backed
+        storage can remain available.
+
+        The instance can usually be started again.
+
+        <br><br>
+
+        <strong>Terminate:</strong>
+
+        The instance is permanently deleted.
+
+        The instance cannot be started again after
+        termination.
+
+        Therefore, termination should be used carefully.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            Suppose a development server is not required
+            overnight.
+
+            We can stop the instance and start it again
+            the next morning.
+
+            If the server is permanently no longer required,
+            we can terminate it.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "Stopping an EC2 instance shuts it down while
+            allowing it to be started again later.
+            Terminating an instance permanently removes it,
+            so it cannot be restarted."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>What happens to the public IP after stopping?</li>
+
+            <li>What happens to EBS volumes?</li>
+
+            <li>Does stopping an instance stop all charges?</li>
+
+            <li>What happens to instance-store data?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- Q6 -->
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 06
+    </div>
+
+    <h3>
+        How do you connect to a Linux EC2 instance?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        For a Linux EC2 instance, we commonly connect using
+        <strong>SSH</strong>.
+
+        We need the appropriate private key, the instance's
+        reachable IP or hostname, and network access through
+        the Security Group.
+
+        SSH normally uses port 22.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            After launching an Ubuntu EC2 instance, we can
+            connect from a terminal using the instance's
+            public IP and the corresponding private key.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I connect to a Linux EC2 instance using SSH.
+            I make sure the instance is reachable, port 22
+            is allowed from the required source in the
+            Security Group, and I use the correct private
+            key with the appropriate SSH username."
+
+        </p>
+
+    </div>
+
+
+    <div class="example">
+
+        <strong>💻 Example Command</strong>
+
+        <pre>ssh -i my-key.pem ubuntu@&lt;public-ip&gt;</pre>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>Why is port 22 required?</li>
+
+            <li>What if SSH connection times out?</li>
+
+            <li>What if the key permission is incorrect?</li>
+
+            <li>What is the difference between public and private IP?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     IMPORTANT CONCEPTS
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>⭐⭐⭐⭐ High Priority</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 07
+    </div>
+
+    <h3>
+        What is a Security Group in EC2?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        A Security Group is a virtual firewall associated
+        with AWS resources such as EC2 instances.
+
+        It controls network traffic using inbound and
+        outbound rules.
+
+        Security Groups are stateful, meaning response
+        traffic for an allowed connection is automatically
+        allowed.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            For a web server, we may allow HTTP on port 80
+            and HTTPS on port 443 from the internet.
+
+            For SSH, instead of allowing port 22 from
+            everyone, we should restrict access to a
+            trusted IP range.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "A Security Group acts as a stateful virtual
+            firewall for an EC2 instance. It controls
+            inbound and outbound traffic through rules."
+
+        </p>
+
+    </div>
+
+
+    <div class="followup">
+
+        <strong>🔎 Possible Follow-ups</strong>
+
+        <ul>
+
+            <li>Are Security Groups stateful or stateless?</li>
+
+            <li>Can a Security Group deny traffic?</li>
+
+            <li>Security Group vs NACL?</li>
+
+            <li>Can one EC2 have multiple Security Groups?</li>
+
+        </ul>
+
+    </div>
+
+</article>
+
+
+<article class="question">
+
+    <div class="question-number">
+        QUESTION 08
+    </div>
+
+    <h3>
+        What is EBS and how is it related to EC2?
+    </h3>
+
+    <span class="label">
+        CLEAR CONCEPT
+    </span>
+
+    <p class="answer">
+
+        Amazon EBS stands for Elastic Block Store.
+
+        It provides persistent block-level storage that can
+        be attached to EC2 instances.
+
+        The operating system and application data can be
+        stored on EBS volumes.
+
+        Unlike temporary instance-store storage, EBS data
+        is designed to persist independently of the running
+        instance lifecycle in many common scenarios.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>💡 Real-Time Example</strong>
+
+        <p>
+
+            If an EC2 instance is used as an application
+            server, an EBS volume can be used to store
+            application files, logs or database data.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "EBS is persistent block storage for EC2.
+            We can attach EBS volumes to EC2 instances and
+            use them for operating-system, application or
+            data storage."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     SCENARIO QUESTIONS
+================================================= -->
+
+<div class="priority-title">
+
+    <h2>🎯 Real-Time EC2 Scenarios</h2>
+
+    <div class="line"></div>
+
+</div>
+
+
+<article class="question">
+
+    <div class="question-number">
+        SCENARIO 01
+    </div>
+
+    <h3>
+        Your EC2 instance is running, but you cannot connect using SSH. What will you check?
+    </h3>
+
+    <span class="label">
+        TROUBLESHOOTING APPROACH
+    </span>
+
+    <p class="answer">
+
+        I would troubleshoot layer by layer instead of
+        immediately assuming that the EC2 instance itself
+        is down.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>🛠️ Troubleshooting Checklist</strong>
+
+        <p>
+
+            1. Check whether the instance is actually
+            running.
+
+            <br>
+
+            2. Verify the correct public IP or reachable
+            private address.
+
+            <br>
+
+            3. Check the Security Group and confirm that
+            TCP port 22 is allowed from the required source.
+
+            <br>
+
+            4. Check the subnet route table and internet
+            connectivity if using a public IP.
+
+            <br>
+
+            5. Check Network ACL rules.
+
+            <br>
+
+            6. Verify the SSH username.
+
+            <br>
+
+            7. Verify the correct private key.
+
+            <br>
+
+            8. Check whether the operating system's SSH
+            service is running.
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "If SSH is failing, I first check the EC2
+            instance state and connectivity. Then I verify
+            the IP address, Security Group port 22 rule,
+            subnet routing, Network ACLs, SSH credentials
+            and finally the SSH service on the operating
+            system."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<article class="question">
+
+    <div class="question-number">
+        SCENARIO 02
+    </div>
+
+    <h3>
+        Your EC2 application is running but users cannot access the website. How would you troubleshoot it?
+    </h3>
+
+    <span class="label">
+        PRODUCTION SCENARIO
+    </span>
+
+    <p class="answer">
+
+        I would check the complete request path from the
+        client to the application.
+
+    </p>
+
+
+    <div class="example">
+
+        <strong>🛠️ Troubleshooting Flow</strong>
+
+        <p>
+
+            Client
+
+            →
+            DNS
+
+            →
+            Load Balancer / Public IP
+
+            →
+            Security Group
+
+            →
+            Network ACL
+
+            →
+            EC2
+
+            →
+            Application
+
+            →
+            Application Port
+
+        </p>
+
+    </div>
+
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I would first identify whether the problem is
+            DNS, network connectivity, security rules,
+            EC2 availability or the application itself.
+            I would verify the Security Group, routes,
+            listening ports, application process and logs
+            before making changes."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- =================================================
+     FINAL NOTE
+================================================= -->
+
+<div class="important">
+
+    <strong>🧠 Study Tip:</strong>
+
+    <br><br>
+
+    Don't memorize only the interview answer.
+
+    First understand the concept, then understand the
+    real-time example, and finally practice explaining it
+    in your own words.
+
+    The interviewer may change the wording of the question,
+    but if you understand the concept, you can still answer.
+
+</div>
+```
+
+</main>
+
+<footer>
+
+```
+<p>
+    🖥️ EC2 Interview Preparation
+</p>
+
+<span>
+    Nandu's DevOps Interview Master Guide • 2026
+</span>
+```
+
+</footer>
+
+</body>
+
+</html>

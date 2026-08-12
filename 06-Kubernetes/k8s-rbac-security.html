@@ -1,0 +1,1339 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kubernetes RBAC & Security - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.intro,.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔐</div>
+
+<a href="index.html" class="back">← Back to Kubernetes</a>
+
+<h1>Kubernetes <span>RBAC & Security</span></h1>
+
+<p>
+Interview-focused revision covering RBAC, ServiceAccounts, Roles,
+ClusterRoles, bindings, securityContext, least privilege,
+NetworkPolicies and real-time security scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Kubernetes Security Mindset</h2>
+
+<p>
+Kubernetes security is mainly about controlling <strong>who can do what</strong>,
+<strong>where they can do it</strong>, and <strong>what workloads are allowed to do</strong>.
+</p>
+
+<div class="flow">
+
+Identity
+<br>
+↓
+<br>
+<strong>Authentication</strong>
+<br>
+↓
+<br>
+<strong>Authorization / RBAC</strong>
+<br>
+↓
+<br>
+Kubernetes API
+<br>
+↓
+<br>
+Resources
+<br><br>
+
+Workload Security
+<br>
+↓
+<br>
+<strong>securityContext</strong>
++
+<strong>NetworkPolicy</strong>
++
+<strong>Secrets Protection</strong>
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A DevOps team has a production Kubernetes cluster.
+
+Developers should be able to view Pods and logs in the
+<code>dev</code> namespace, but they should not be allowed to
+delete production Deployments.
+
+RBAC can enforce this least-privilege access.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Kubernetes RBAC?</h2>
+
+<div class="answer">
+
+<strong>RBAC</strong> stands for Role-Based Access Control.
+
+It controls which users, groups or ServiceAccounts can perform
+which actions on which Kubernetes resources.
+
+</div>
+
+<div class="flow">
+
+<strong>Subject</strong>
+<br>
+User / Group / ServiceAccount
+<br>
+↓
+<br>
+<strong>Role / ClusterRole</strong>
+<br>
+↓
+<br>
+<strong>RoleBinding / ClusterRoleBinding</strong>
+<br>
+↓
+<br>
+Permission
+
+</div>
+
+<h3>Important verbs</h3>
+
+<pre><code>get
+list
+watch
+create
+update
+patch
+delete</code></pre>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+<br><br>
+
+"RBAC is Kubernetes' authorization mechanism. It defines permissions
+through Roles or ClusterRoles and assigns those permissions to users,
+groups or ServiceAccounts using RoleBindings or ClusterRoleBindings."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Role vs ClusterRole</h2>
+
+<table>
+
+<tr>
+<th>Role</th>
+<th>ClusterRole</th>
+</tr>
+
+<tr>
+<td>Namespace-scoped</td>
+<td>Cluster-scoped</td>
+</tr>
+
+<tr>
+<td>Permissions within a namespace</td>
+<td>Can define permissions for cluster-wide resources</td>
+</tr>
+
+<tr>
+<td>Useful for application teams</td>
+<td>Useful for cluster-level access</td>
+</tr>
+
+</table>
+
+<h3>Role example</h3>
+
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: dev
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]</code></pre>
+
+<p>
+This Role allows reading Pods only inside the <code>dev</code>
+namespace.
+</p>
+
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. RoleBinding vs ClusterRoleBinding</h2>
+
+<div class="answer">
+
+A <strong>RoleBinding</strong> grants permissions within a namespace.
+
+A <strong>ClusterRoleBinding</strong> grants the permissions of a
+ClusterRole across the cluster.
+
+</div>
+
+<h3>RoleBinding example</h3>
+
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: dev
+subjects:
+- kind: User
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
+
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io</code></pre>
+
+<div class="warning">
+
+Avoid giving users <code>cluster-admin</code> unless it is genuinely
+required. Excessive permissions increase the blast radius of mistakes
+or compromised credentials.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. ServiceAccount</h2>
+
+<div class="answer">
+
+A <strong>ServiceAccount</strong> provides an identity for workloads
+running inside Kubernetes.
+
+Pods can use that identity when communicating with the Kubernetes API
+or other systems that integrate with Kubernetes identities.
+
+</div>
+
+<h3>Create ServiceAccount</h3>
+
+<pre><code>apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-sa
+  namespace: dev</code></pre>
+
+<h3>Use it in a Pod</h3>
+
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+  namespace: dev
+spec:
+  serviceAccountName: app-sa
+
+  containers:
+  - name: app
+    image: nginx</code></pre>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A Kubernetes workload needs permission to read specific Kubernetes
+resources.
+
+Instead of giving every Pod broad permissions, create a dedicated
+ServiceAccount and bind only the required Role.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. ServiceAccount + Role + RoleBinding</h2>
+
+<div class="flow">
+
+Pod
+<br>
+↓
+<br>
+ServiceAccount
+<br>
+↓
+<br>
+RoleBinding
+<br>
+↓
+<br>
+Role
+<br>
+↓
+<br>
+Allowed API Actions
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+  namespace: dev
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-read-access
+  namespace: dev
+subjects:
+- kind: ServiceAccount
+  name: app-sa
+  namespace: dev
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io</code></pre>
+
+<p>
+The application can now use the ServiceAccount identity with only
+the permissions granted by the Role.
+</p>
+
+</div>
+
+
+<!-- SECTION 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Authentication vs Authorization</h2>
+
+<table>
+
+<tr>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+
+<tr>
+<td>Who are you?</td>
+<td>What are you allowed to do?</td>
+</tr>
+
+<tr>
+<td>Verifies identity</td>
+<td>Checks permissions</td>
+</tr>
+
+<tr>
+<td>Users / ServiceAccounts / external identity</td>
+<td>RBAC policies</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy interview answer:</strong>
+
+<br><br>
+
+"Authentication verifies the identity, while authorization determines
+what that identity is allowed to access or perform."
+
+</div>
+
+</div>
+
+
+<!-- SECTION 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Least Privilege</h2>
+
+<div class="answer">
+
+<strong>Least privilege</strong> means giving an identity only the
+minimum permissions required to perform its job.
+
+</div>
+
+<h3>Bad approach</h3>
+
+<pre><code>verbs: ["*"]
+resources: ["*"]</code></pre>
+
+<h3>Better approach</h3>
+
+<pre><code>resources:
+- pods
+
+verbs:
+- get
+- list
+- watch</code></pre>
+
+<div class="scenario">
+
+A monitoring application only needs to read Pod information.
+
+Do not give it permission to create, update or delete Deployments,
+Secrets or Nodes.
+
+Give it only the permissions it actually needs.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is securityContext?</h2>
+
+<div class="answer">
+
+A Kubernetes <code>securityContext</code> defines security-related
+settings for a Pod or container, such as the user/group identity,
+Linux capabilities and privilege settings.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: secure-pod
+spec:
+  securityContext:
+    runAsNonRoot: true
+
+  containers:
+  - name: app
+    image: nginx
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL</code></pre>
+
+<h3>Important settings</h3>
+
+<ul>
+<li><code>runAsUser</code></li>
+<li><code>runAsGroup</code></li>
+<li><code>runAsNonRoot</code></li>
+<li><code>allowPrivilegeEscalation</code></li>
+<li><code>privileged</code></li>
+<li><code>capabilities</code></li>
+<li><code>readOnlyRootFilesystem</code></li>
+</ul>
+
+</div>
+
+
+<!-- SECTION 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Why should containers run as non-root?</h2>
+
+<div class="answer">
+
+Running an application as a non-root user reduces the impact of a
+container compromise.
+
+If an attacker gains control of the application process, the attacker
+does not automatically receive root privileges inside the container.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000</code></pre>
+
+<div class="warning">
+
+Non-root execution is one security layer. It does not replace RBAC,
+network controls, image security or host-level security.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 10. Privileged Container</h2>
+
+<div class="answer">
+
+A privileged container receives significantly elevated access to the
+host and should be avoided unless a legitimate infrastructure
+workload requires it.
+
+</div>
+
+<h3>Example to avoid for normal applications</h3>
+
+<pre><code>securityContext:
+  privileged: true</code></pre>
+
+<div class="scenario">
+
+A normal web application should not require privileged access.
+
+If an application can run without it, keep the container
+unprivileged.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Linux Capabilities</h2>
+
+<div class="answer">
+
+Linux capabilities split traditional root privileges into smaller
+permission units. Kubernetes can drop unnecessary capabilities from
+containers.
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>securityContext:
+  capabilities:
+    drop:
+    - ALL</code></pre>
+
+<p>
+This follows the principle of removing privileges that the application
+does not need.
+</p>
+
+</div>
+
+
+<!-- SECTION 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. readOnlyRootFilesystem</h2>
+
+<div class="answer">
+
+<code>readOnlyRootFilesystem: true</code> makes the container's root
+filesystem read-only.
+
+This can reduce the ability of a compromised application to modify
+files inside the image filesystem.
+
+</div>
+
+<pre><code>securityContext:
+  readOnlyRootFilesystem: true</code></pre>
+
+<div class="scenario">
+
+If the application needs temporary writable space, provide a specific
+writable volume such as an <code>emptyDir</code> rather than making
+the entire root filesystem writable.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. NetworkPolicy</h2>
+
+<div class="answer">
+
+A <strong>NetworkPolicy</strong> controls network traffic to and/or
+from Pods when the cluster's networking implementation supports
+NetworkPolicy enforcement.
+
+</div>
+
+<div class="flow">
+
+Pod A
+<br>
+↓
+<br>
+<strong>NetworkPolicy</strong>
+<br>
+↓
+<br>
+Allowed / Denied Traffic
+<br>
+↓
+<br>
+Pod B
+
+</div>
+
+<h3>Example</h3>
+
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: database
+
+  policyTypes:
+  - Ingress
+
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: api
+    ports:
+    - protocol: TCP
+      port: 5432</code></pre>
+
+<p>
+This expresses that traffic to the selected database Pods on port
+5432 should be allowed from Pods matching the API label, subject to
+the cluster's NetworkPolicy behavior.
+</p>
+
+</div>
+
+
+<!-- SECTION 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Why use NetworkPolicy?</h2>
+
+<div class="scenario">
+
+Imagine a production namespace containing:
+
+<br><br>
+
+Frontend → API → Database
+
+<br><br>
+
+The database should not accept traffic from every Pod in the cluster.
+
+A NetworkPolicy can restrict database access so that only the
+required application Pods can communicate with it.
+
+</div>
+
+<h3>Security principle</h3>
+
+<div class="answer">
+
+Do not assume that Pods are automatically isolated from each other.
+Define network access according to application requirements.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. Pod Security Standards</h2>
+
+<div class="answer">
+
+Kubernetes Pod Security Standards provide security profiles that
+help define which Pod security configurations are permitted.
+
+The commonly discussed levels are:
+
+</div>
+
+<table>
+
+<tr>
+<th>Level</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Privileged</td>
+<td>Unrestricted profile intended for trusted workloads.</td>
+</tr>
+
+<tr>
+<td>Baseline</td>
+<td>Prevents known privilege-escalation patterns.</td>
+</tr>
+
+<tr>
+<td>Restricted</td>
+<td>Strong security requirements for hardened workloads.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+For normal production workloads, aim for a restrictive security
+posture while validating that the application's actual requirements
+are compatible with it.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Kubernetes Secret Security</h2>
+
+<ul>
+<li>Never commit Secrets directly to Git repositories.</li>
+<li>Use RBAC to restrict Secret access.</li>
+<li>Enable encryption at rest where appropriate.</li>
+<li>Rotate credentials regularly.</li>
+<li>Avoid exposing secrets in logs.</li>
+<li>Use external secret-management systems when required.</li>
+<li>Use short-lived credentials where possible.</li>
+</ul>
+
+<div class="warning">
+
+Base64 is encoding, not encryption.
+
+A Secret containing base64 data should still be treated as sensitive.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. RBAC Troubleshooting</h2>
+
+<h3>Scenario</h3>
+
+<p>
+A developer receives:
+</p>
+
+<pre><code>Error from server (Forbidden)</code></pre>
+
+<h3>Check current identity</h3>
+
+<pre><code>kubectl auth whoami</code></pre>
+
+<h3>Check permission</h3>
+
+<pre><code>kubectl auth can-i get pods -n dev
+
+kubectl auth can-i delete deployments -n production</code></pre>
+
+<h3>Inspect RBAC objects</h3>
+
+<pre><code>kubectl get role -n dev
+kubectl get rolebinding -n dev
+
+kubectl get clusterrole
+kubectl get clusterrolebinding</code></pre>
+
+<div class="scenario">
+
+<strong>Interview approach:</strong>
+
+First identify the user or ServiceAccount, then check the relevant
+Role/ClusterRole and binding, verify the namespace and requested
+verb/resource, and use <code>kubectl auth can-i</code> to confirm
+the effective permission.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Real-Time Scenario: Developer needs Pod logs</h2>
+
+<div class="scenario">
+
+<strong>Requirement:</strong>
+
+Developer should be able to view Pods and logs in the
+<code>dev</code> namespace.
+
+They should not be able to delete workloads.
+
+<br><br>
+
+<strong>Solution:</strong>
+
+Create a namespace-scoped Role containing only the required
+read permissions and bind it to the developer.
+
+</div>
+
+<pre><code>rules:
+- apiGroups: [""]
+  resources:
+  - pods
+  - pods/log
+  verbs:
+  - get
+  - list
+  - watch</code></pre>
+
+<p>
+Do not add <code>delete</code> unless the job actually requires it.
+</p>
+
+</div>
+
+
+<!-- SECTION 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Real-Time Scenario: Application needs Kubernetes API</h2>
+
+<div class="scenario">
+
+A controller or application running inside Kubernetes needs to
+read ConfigMaps.
+
+Instead of using a highly privileged ServiceAccount, create a
+dedicated ServiceAccount with a minimal Role and RoleBinding.
+
+</div>
+
+<div class="flow">
+
+Application Pod
+<br>
+↓
+<br>
+Dedicated ServiceAccount
+<br>
+↓
+<br>
+RoleBinding
+<br>
+↓
+<br>
+Minimal Role
+<br>
+↓
+<br>
+Read ConfigMaps
+
+</div>
+
+<div class="interview">
+
+This is an example of the least-privilege principle.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Real-Time Scenario: Pod Compromised</h2>
+
+<div class="scenario">
+
+<strong>Situation:</strong>
+
+An attacker compromises a web application Pod.
+
+<br><br>
+
+<strong>Security layers that reduce impact:</strong>
+
+<br><br>
+
+1. Run the container as non-root.<br>
+2. Drop unnecessary Linux capabilities.<br>
+3. Disable privilege escalation.<br>
+4. Use a read-only root filesystem where possible.<br>
+5. Give the ServiceAccount minimal RBAC permissions.<br>
+6. Restrict network access with NetworkPolicies.<br>
+7. Keep Secrets tightly controlled.<br>
+8. Use trusted and scanned container images.
+
+</div>
+
+<div class="interview">
+
+<strong>Key interview point:</strong>
+
+Kubernetes security should be layered. No single control should be
+treated as the complete security solution.
+
+</div>
+
+</div>
+
+
+<!-- SECTION 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>What is RBAC in Kubernetes?</li>
+<li>Role vs ClusterRole?</li>
+<li>RoleBinding vs ClusterRoleBinding?</li>
+<li>What is a ServiceAccount?</li>
+<li>How does a Pod use a ServiceAccount?</li>
+<li>Authentication vs Authorization?</li>
+<li>What is least privilege?</li>
+<li>What is securityContext?</li>
+<li>Why should containers run as non-root?</li>
+<li>What is a privileged container?</li>
+<li>What are Linux capabilities?</li>
+<li>What is NetworkPolicy?</li>
+<li>Why do we use NetworkPolicy?</li>
+<li>What are Pod Security Standards?</li>
+<li>How do you secure Kubernetes Secrets?</li>
+<li>How do you troubleshoot an RBAC Forbidden error?</li>
+<li>What does kubectl auth can-i do?</li>
+<li>How would you secure a production Kubernetes cluster?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>Can a Role be used with a ServiceAccount?</li>
+<li>Can a RoleBinding reference a ClusterRole?</li>
+<li>What is the difference between a Role and ClusterRole?</li>
+<li>What happens if a ServiceAccount has no RoleBinding?</li>
+<li>Why should we avoid cluster-admin?</li>
+<li>How do you check whether a user can delete a Pod?</li>
+<li>How do you restrict access to one namespace?</li>
+<li>How do you prevent containers from running as root?</li>
+<li>How do NetworkPolicies affect application communication?</li>
+<li>Does NetworkPolicy work without an enforcing network plugin?</li>
+<li>Is base64 encryption?</li>
+<li>How would you investigate a Forbidden API error?</li>
+
+</ul>
+
+</div>
+
+
+<!-- COMMAND CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Final Kubernetes Security Command Cheat Sheet</h2>
+
+<pre><code># ServiceAccounts
+kubectl get serviceaccounts
+kubectl describe serviceaccount &lt;name&gt;
+
+# RBAC
+kubectl get roles -n dev
+kubectl get rolebindings -n dev
+kubectl get clusterroles
+kubectl get clusterrolebindings
+
+# Permission testing
+kubectl auth whoami
+kubectl auth can-i get pods -n dev
+kubectl auth can-i delete deployments -n production
+
+# NetworkPolicy
+kubectl get networkpolicies
+kubectl describe networkpolicy &lt;name&gt;
+
+# Pod security investigation
+kubectl get pod &lt;pod-name&gt; -o yaml
+kubectl describe pod &lt;pod-name&gt;
+
+# Troubleshooting
+kubectl get events --sort-by=.lastTimestamp
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+</div>
+
+
+<!-- 60 SECOND REVISION -->
+
+<div class="card">
+
+<h2>🚀 60-Second Kubernetes Security Revision</h2>
+
+<div class="flow">
+
+<strong>Authentication</strong>
+→ Who are you?
+
+<br><br>
+
+<strong>RBAC</strong>
+→ What can you do?
+
+<br><br>
+
+<strong>Role</strong>
+→ Namespace permissions
+
+<br><br>
+
+<strong>ClusterRole</strong>
+→ Cluster-level permissions
+
+<br><br>
+
+<strong>RoleBinding</strong>
+→ Assign permissions in namespace
+
+<br><br>
+
+<strong>ClusterRoleBinding</strong>
+→ Assign cluster-wide permissions
+
+<br><br>
+
+<strong>ServiceAccount</strong>
+→ Workload identity
+
+<br><br>
+
+<strong>Least Privilege</strong>
+→ Minimum permissions
+
+<br><br>
+
+<strong>securityContext</strong>
+→ Secure container execution
+
+<br><br>
+
+<strong>NetworkPolicy</strong>
+→ Restrict network traffic
+
+<br><br>
+
+<strong>Pod Security</strong>
+→ Harden workloads
+
+</div>
+
+</div>
+
+
+<!-- ONE MINUTE ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "How Do You Secure Kubernetes?"</h2>
+
+<div class="interview">
+
+"I follow a layered security approach.
+
+First, I use RBAC and the principle of least privilege so users and
+workloads receive only the permissions they need.
+
+For workloads, I use dedicated ServiceAccounts and avoid excessive
+permissions such as cluster-admin.
+
+At the container level, I prefer non-root execution, disable
+unnecessary privilege escalation, drop unnecessary capabilities and
+use a read-only root filesystem where practical.
+
+I also use NetworkPolicies to restrict unnecessary Pod-to-Pod
+communication and protect Secrets with RBAC and appropriate
+encryption controls.
+
+Finally, I use secure images, vulnerability scanning, Pod security
+controls, monitoring and regular credential rotation.
+
+The main goal is to reduce the attack surface and limit the blast
+radius if a workload or credential is compromised."
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔐 Kubernetes RBAC & Security • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Processes, Services & Logs - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+.back{color:#94a3b8;text-decoration:none}
+.icon{font-size:50px;margin:20px 0 5px}
+h1{font-size:clamp(30px,5vw,48px);margin:0}
+h1 span{color:#93c5fd}
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+h2{margin:5px 0 12px;font-size:25px}
+h3{color:#93c5fd}
+p,li{color:#c2ccde}
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+.example strong{color:#93c5fd}
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+.answer strong{color:#93c5fd}
+.warning{
+    background:rgba(248,113,113,.06);
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:0 10px 10px 0;
+    margin:20px 0;
+}
+pre{
+    background:#080d18;
+    border:1px solid #222e47;
+    padding:18px;
+    border-radius:10px;
+    overflow:auto;
+    color:#cbd5e1;
+}
+code{
+    background:#080d18;
+    color:#bfdbfe;
+    padding:3px 7px;
+    border-radius:5px;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+th,td{
+    padding:13px;
+    border:1px solid #2b3751;
+    text-align:left;
+}
+th{
+    color:#93c5fd;
+    background:#111a2e;
+}
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+.note{
+    background:rgba(147,197,253,.05);
+    border:1px solid rgba(147,197,253,.2);
+    padding:22px;
+    border-radius:14px;
+    margin:25px 0;
+}
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Linux</a>
+
+<div class="icon">⚙️</div>
+
+<h1>Linux <span>Processes, Services & Logs</span></h1>
+
+<p>
+Process management, system services, systemd, logs, background jobs,
+signals, resource monitoring and real-time DevOps troubleshooting.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+
+<!-- PROCESS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 01</div>
+
+<h2>What is a Process?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A process is a running instance of a program.
+When Linux executes a program, the operating system creates a
+process to manage its execution and resources.
+</p>
+
+<div class="example">
+
+<strong>Simple Example</strong>
+
+<pre>./application</pre>
+
+<p>
+When the application starts running, Linux creates a process
+for it.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A process is a running instance of a program. Linux assigns
+resources and a process ID to each running process."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PID -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 02</div>
+
+<h2>What is PID?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+PID stands for <strong>Process ID</strong>.
+Linux assigns a unique process identifier to each running
+process.
+</p>
+
+<pre>ps</pre>
+
+<div class="example">
+
+<strong>Example</strong>
+
+<pre>
+PID     COMMAND
+1245    nginx
+2480    java
+</pre>
+
+<p>
+Here <code>1245</code> and <code>2480</code> are process IDs.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"PID is the unique identifier assigned by Linux to a running
+process. It is commonly used to inspect or manage that process."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 03</div>
+
+<h2>How do you check running processes?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<pre>ps</pre>
+
+<p>
+A commonly used detailed command is:
+</p>
+
+<pre>ps aux</pre>
+
+<p>
+To find a specific process:
+</p>
+
+<pre>ps aux | grep nginx</pre>
+
+<div class="example">
+
+<strong>Useful fields</strong>
+
+<table>
+
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>USER</td>
+<td>User running the process</td>
+</tr>
+
+<tr>
+<td>PID</td>
+<td>Process ID</td>
+</tr>
+
+<tr>
+<td>%CPU</td>
+<td>CPU usage</td>
+</tr>
+
+<tr>
+<td>%MEM</td>
+<td>Memory usage</td>
+</tr>
+
+<tr>
+<td>COMMAND</td>
+<td>Command/process</td>
+</tr>
+
+</table>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TOP -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 04</div>
+
+<h2>top & htop</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+<code>top</code> provides a live view of running processes and
+system resource usage.
+</p>
+
+<pre>top</pre>
+
+<p>
+If installed, <code>htop</code> provides a more interactive
+process-monitoring interface.
+</p>
+
+<pre>htop</pre>
+
+<div class="example">
+
+<strong>Use case</strong>
+
+<p>
+If a server becomes slow, use <code>top</code> to identify
+processes consuming excessive CPU or memory.
+</p>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I use top or htop for real-time process and resource monitoring,
+and ps for a snapshot of running processes."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PROCESS STATES -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 05</div>
+
+<h2>Linux Process States</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<table>
+
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>R</td>
+<td>Running or runnable</td>
+</tr>
+
+<tr>
+<td>S</td>
+<td>Interruptible sleep</td>
+</tr>
+
+<tr>
+<td>D</td>
+<td>Uninterruptible sleep</td>
+</tr>
+
+<tr>
+<td>T</td>
+<td>Stopped</td>
+</tr>
+
+<tr>
+<td>Z</td>
+<td>Zombie</td>
+</tr>
+
+</table>
+
+<div class="example">
+
+<strong>Check process states</strong>
+
+<pre>ps aux</pre>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ZOMBIE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 06</div>
+
+<h2>What is a Zombie Process?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<p>
+A zombie process is a process that has finished execution but
+still has an entry in the process table because its parent has
+not yet collected its exit status.
+</p>
+
+<div class="flow">
+
+Child Process
+
+↓
+
+Finishes Execution
+
+↓
+
+Exit Status Remains
+
+↓
+
+Parent Has Not Collected It
+
+↓
+
+Zombie
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A zombie is a terminated child process whose exit status has
+not yet been collected by its parent process."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- KILL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 07</div>
+
+<h2>How do you terminate a process?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+The <code>kill</code> command sends a signal to a process.
+</p>
+
+<pre>kill PID</pre>
+
+<p>
+For example:
+</p>
+
+<pre>kill 2480</pre>
+
+<div class="example">
+
+<strong>Force termination</strong>
+
+<pre>kill -9 2480</pre>
+
+<p>
+SIGKILL immediately terminates the process and cannot be caught
+or handled by the process.
+</p>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+Do not use <code>kill -9</code> as the first option. Prefer a
+normal termination signal when possible so the application has
+an opportunity to clean up resources.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SIGNALS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 08</div>
+
+<h2>Important Linux Signals</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<table>
+
+<tr>
+<th>Signal</th>
+<th>Number</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>SIGTERM</td>
+<td>15</td>
+<td>Request graceful termination</td>
+</tr>
+
+<tr>
+<td>SIGKILL</td>
+<td>9</td>
+<td>Force termination</td>
+</tr>
+
+<tr>
+<td>SIGHUP</td>
+<td>1</td>
+<td>Hangup; meaning depends on application</td>
+</tr>
+
+<tr>
+<td>SIGSTOP</td>
+<td>19</td>
+<td>Stop process</td>
+</tr>
+
+<tr>
+<td>SIGCONT</td>
+<td>18</td>
+<td>Continue stopped process</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Tip</strong>
+
+<p>
+"SIGTERM is generally preferred for graceful shutdown. SIGKILL
+is used when a process does not terminate normally."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- BACKGROUND -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 09</div>
+
+<h2>Foreground vs Background Process</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A foreground process occupies the current terminal session.
+A background process can continue while the shell is available
+for other commands.
+</p>
+
+<h3>Run in background</h3>
+
+<pre>./application &</pre>
+
+<h3>Show jobs</h3>
+
+<pre>jobs</pre>
+
+<h3>Move process to background</h3>
+
+<pre>bg</pre>
+
+<h3>Bring process to foreground</h3>
+
+<pre>fg</pre>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A foreground process uses the current terminal, while a
+background process runs without blocking the shell from accepting
+other commands."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- NOHUP -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 10</div>
+
+<h2>nohup</h2>
+
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+<code>nohup</code> allows a command to continue running after the
+terminal session is closed, subject to the application's behavior
+and environment.
+</p>
+
+<pre>nohup ./application &amp;</pre>
+
+<p>
+Output is commonly redirected to <code>nohup.out</code> if not
+otherwise redirected.
+</p>
+
+<div class="warning">
+
+<strong>⚠️ Production Note</strong>
+
+<p>
+For production services, systemd, containers or orchestration
+platforms are generally preferable to manually keeping processes
+alive with nohup.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SERVICE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 11</div>
+
+<h2>What is a Service?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A service is a long-running program that provides functionality
+to other applications, users or system components.
+</p>
+
+<div class="example">
+
+<strong>Examples</strong>
+
+<ul>
+<li>SSH service</li>
+<li>Nginx</li>
+<li>Docker daemon</li>
+<li>Database service</li>
+<li>Application service</li>
+</ul>
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A service is a long-running process that provides a specific
+system or application function and can commonly be managed by
+a service manager such as systemd."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SYSTEMCTL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 12</div>
+
+<h2>systemctl</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+<code>systemctl</code> is used to interact with systemd-managed
+services and units on systems using systemd.
+</p>
+
+<h3>Check status</h3>
+
+<pre>systemctl status nginx</pre>
+
+<h3>Start service</h3>
+
+<pre>sudo systemctl start nginx</pre>
+
+<h3>Stop service</h3>
+
+<pre>sudo systemctl stop nginx</pre>
+
+<h3>Restart service</h3>
+
+<pre>sudo systemctl restart nginx</pre>
+
+<h3>Reload configuration</h3>
+
+<pre>sudo systemctl reload nginx</pre>
+
+<h3>Enable at boot</h3>
+
+<pre>sudo systemctl enable nginx</pre>
+
+<h3>Disable at boot</h3>
+
+<pre>sudo systemctl disable nginx</pre>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- ENABLE VS START -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 13</div>
+
+<h2>start vs enable</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>start</td>
+<td>Start service now</td>
+</tr>
+
+<tr>
+<td>enable</td>
+<td>Configure service to start automatically at boot</td>
+</tr>
+
+<tr>
+<td>restart</td>
+<td>Stop and start service</td>
+</tr>
+
+<tr>
+<td>reload</td>
+<td>Reload configuration without a full restart when supported</td>
+</tr>
+
+<tr>
+<td>stop</td>
+<td>Stop service</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"systemctl start starts a service immediately, while systemctl
+enable configures it to start automatically during boot."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SYSTEMD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 14</div>
+
+<h2>What is systemd?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+systemd is a system and service manager used by many modern
+Linux distributions.
+</p>
+
+<p>
+It manages services, startup, dependencies, units and system
+state.
+</p>
+
+<div class="flow">
+
+Boot
+
+↓
+
+systemd
+
+↓
+
+Units / Services
+
+↓
+
+Applications
+
+</div>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"systemd is a system and service manager used by many Linux
+distributions to initialize the system and manage services,
+units and dependencies."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LOGS -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 15</div>
+
+<h2>What are Linux Logs?</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Logs record events generated by the operating system, services
+and applications. They are essential for troubleshooting,
+auditing and monitoring.
+</p>
+
+<div class="example">
+
+<strong>Common log locations</strong>
+
+<pre>/var/log/</pre>
+
+<p>
+Examples may include:
+</p>
+
+<pre>/var/log/syslog
+/var/log/messages
+/var/log/auth.log</pre>
+
+<p>
+Exact files vary by Linux distribution and configuration.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- JOURNALCTL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 16</div>
+
+<h2>journalctl</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+<code>journalctl</code> is used to query logs collected by the
+systemd journal.
+</p>
+
+<h3>View logs</h3>
+
+<pre>journalctl</pre>
+
+<h3>View logs for a service</h3>
+
+<pre>journalctl -u nginx</pre>
+
+<h3>Follow logs live</h3>
+
+<pre>journalctl -u nginx -f</pre>
+
+<h3>Recent logs</h3>
+
+<pre>journalctl -u nginx -n 100</pre>
+
+<h3>Logs since boot</h3>
+
+<pre>journalctl -b</pre>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"I use journalctl to inspect systemd journal logs. For example,
+journalctl -u service-name helps investigate why a service failed
+or restarted."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- TAIL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">COMMAND 17</div>
+
+<h2>tail &amp; grep for Log Troubleshooting</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<h3>Last lines</h3>
+
+<pre>tail -n 50 /var/log/syslog</pre>
+
+<h3>Follow log file</h3>
+
+<pre>tail -f /var/log/syslog</pre>
+
+<h3>Search errors</h3>
+
+<pre>grep "ERROR" application.log</pre>
+
+<h3>Combine commands</h3>
+
+<pre>tail -f application.log | grep ERROR</pre>
+
+<div class="example">
+
+<strong>DevOps Usage</strong>
+
+<p>
+During deployment, you can follow application logs in real time
+and search for errors to identify startup failures.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- SERVICE FAILED -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 18</div>
+
+<h2>Service Failed to Start</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<div class="flow">
+
+Service Failed
+
+↓
+
+systemctl status
+
+↓
+
+journalctl -u service
+
+↓
+
+Check Configuration
+
+↓
+
+Check Port
+
+↓
+
+Check Permissions
+
+↓
+
+Fix
+
+↓
+
+Restart
+
+</div>
+
+<h3>Commands</h3>
+
+<pre>systemctl status nginx
+
+journalctl -u nginx -n 100
+
+ss -tulpn</pre>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"If a service fails to start, I first check systemctl status,
+then inspect journalctl logs for the exact error. I also verify
+configuration, permissions, dependencies and whether the required
+port is already in use."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PORT ALREADY IN USE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 19</div>
+
+<h2>Port Already in Use</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS SCENARIO</span>
+
+<p>
+If an application cannot start because its port is already
+occupied, identify the process using that port.
+</p>
+
+<pre>ss -tulpn | grep 8080</pre>
+
+<p>
+Then inspect the process:
+</p>
+
+<pre>ps aux | grep 8080</pre>
+
+<div class="example">
+
+<strong>Typical situation</strong>
+
+<p>
+Application A is already listening on port 8080.
+Application B tries to bind to the same port and fails.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- HIGH CPU -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 20</div>
+
+<h2>High CPU Usage</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<div class="flow">
+
+High CPU
+
+↓
+
+top / htop
+
+↓
+
+Identify PID
+
+↓
+
+ps
+
+↓
+
+Check Application
+
+↓
+
+Inspect Logs
+
+↓
+
+Take Corrective Action
+
+</div>
+
+<pre>top
+
+ps aux --sort=-%cpu | head</pre>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"For high CPU usage, I first identify the process consuming CPU
+using top or ps. Then I investigate its logs and workload before
+deciding whether the issue requires configuration changes,
+scaling, restart or application-level investigation."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- HIGH MEMORY -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 21</div>
+
+<h2>High Memory Usage</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>free -h</pre>
+
+<pre>ps aux --sort=-%mem | head</pre>
+
+<p>
+Use <code>free -h</code> to inspect memory availability and
+<code>ps</code> to identify processes consuming significant
+memory.
+</p>
+
+<div class="example">
+
+<strong>DevOps Scenario</strong>
+
+<p>
+If a Java application repeatedly consumes memory and gets killed,
+investigate JVM configuration, application behavior, container
+limits and system memory pressure.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- DF DU -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 22</div>
+
+<h2>Disk Usage: df vs du</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<h3>df</h3>
+
+<pre>df -h</pre>
+
+<p>
+Shows filesystem-level disk space usage.
+</p>
+
+<h3>du</h3>
+
+<pre>du -sh /var/log/*</pre>
+
+<p>
+Shows disk usage of files/directories.
+</p>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Use</th>
+</tr>
+
+<tr>
+<td>df -h</td>
+<td>Filesystem free/used space</td>
+</tr>
+
+<tr>
+<td>du -sh</td>
+<td>Directory/file space usage</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- LOG DISK FULL -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 TROUBLESHOOTING 23</div>
+
+<h2>Disk Full Because of Logs</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<div class="flow">
+
+Application Logs
+
+↓
+
+Disk Usage Increases
+
+↓
+
+df -h
+
+↓
+
+Find Large Directories
+
+↓
+
+du -sh
+
+↓
+
+Check Log Rotation
+
+↓
+
+Clean / Rotate Safely
+
+</div>
+
+<pre>df -h
+
+du -sh /var/log/*</pre>
+
+<div class="warning">
+
+<strong>⚠️ Important</strong>
+
+<p>
+Do not blindly delete active application or system logs in
+production. Investigate log rotation, retention and the service
+that is generating excessive logs.
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- PROCESS VS SERVICE -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">QUESTION 24</div>
+
+<h2>Process vs Service</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+
+<tr>
+<th>Process</th>
+<th>Service</th>
+</tr>
+
+<tr>
+<td>Running instance of a program</td>
+<td>Long-running system/application function</td>
+</tr>
+
+<tr>
+<td>Has a PID</td>
+<td>Can be managed by service manager</td>
+</tr>
+
+<tr>
+<td>Can be temporary</td>
+<td>Usually designed to provide ongoing functionality</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>🎤 Interview Answer</strong>
+
+<p>
+"A process is an executing instance of a program, while a service
+is typically a long-running component managed by a service manager
+such as systemd."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- REAL WORLD -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">🔥 REAL-TIME DEVOPS SCENARIO</div>
+
+<h2>Application Deployment Troubleshooting</h2>
+
+<span class="priority">⭐⭐⭐⭐⭐ MUST PRACTICE</span>
+
+<p>
+Suppose you deployed a Java application as a Linux service and
+users report that the application is unavailable.
+</p>
+
+<div class="flow">
+
+Deployment
+
+↓
+
+systemctl status app
+
+↓
+
+Is Service Running?
+
+↓
+
+journalctl -u app
+
+↓
+
+Application Logs
+
+↓
+
+Check Port
+
+↓
+
+ss -tulpn
+
+↓
+
+curl localhost:8080
+
+↓
+
+Network / Firewall
+
+↓
+
+Application Available
+
+</div>
+
+<h3>Commands</h3>
+
+<pre>systemctl status app
+
+journalctl -u app -n 100
+
+ss -tulpn | grep 8080
+
+curl http://localhost:8080
+
+df -h
+
+free -h
+
+top</pre>
+
+<div class="answer">
+
+<strong>🎤 Strong Interview Answer</strong>
+
+<p>
+"I would start with the service status, inspect systemd logs,
+verify that the application is listening on the expected port,
+test the endpoint locally with curl, and then check system
+resources, firewall and network connectivity."
+</p>
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- COMMAND CHEATSHEET -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧰 Linux Process &amp; Service Command Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>ps aux</code></td>
+<td>List running processes</td>
+</tr>
+
+<tr>
+<td><code>top</code></td>
+<td>Live process/resource monitoring</td>
+</tr>
+
+<tr>
+<td><code>htop</code></td>
+<td>Interactive process monitoring</td>
+</tr>
+
+<tr>
+<td><code>kill PID</code></td>
+<td>Send termination signal</td>
+</tr>
+
+<tr>
+<td><code>kill -9 PID</code></td>
+<td>Force termination</td>
+</tr>
+
+<tr>
+<td><code>jobs</code></td>
+<td>Show shell jobs</td>
+</tr>
+
+<tr>
+<td><code>bg</code></td>
+<td>Resume job in background</td>
+</tr>
+
+<tr>
+<td><code>fg</code></td>
+<td>Bring job to foreground</td>
+</tr>
+
+<tr>
+<td><code>systemctl status</code></td>
+<td>Check service status</td>
+</tr>
+
+<tr>
+<td><code>systemctl start</code></td>
+<td>Start service</td>
+</tr>
+
+<tr>
+<td><code>systemctl stop</code></td>
+<td>Stop service</td>
+</tr>
+
+<tr>
+<td><code>systemctl restart</code></td>
+<td>Restart service</td>
+</tr>
+
+<tr>
+<td><code>systemctl enable</code></td>
+<td>Enable service at boot</td>
+</tr>
+
+<tr>
+<td><code>journalctl -u</code></td>
+<td>View service logs</td>
+</tr>
+
+<tr>
+<td><code>journalctl -f</code></td>
+<td>Follow journal logs</td>
+</tr>
+
+<tr>
+<td><code>tail -f</code></td>
+<td>Follow a log file</td>
+</tr>
+
+<tr>
+<td><code>grep</code></td>
+<td>Search text/logs</td>
+</tr>
+
+<tr>
+<td><code>df -h</code></td>
+<td>Filesystem disk usage</td>
+</tr>
+
+<tr>
+<td><code>du -sh</code></td>
+<td>Directory disk usage</td>
+</tr>
+
+<tr>
+<td><code>free -h</code></td>
+<td>Memory usage</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- FINAL REVISION -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — PROCESSES, SERVICES &amp; LOGS</h2>
+
+<div class="note">
+
+<strong>Process</strong>
+→ Running instance of a program.
+
+<br><br>
+
+<strong>PID</strong>
+→ Unique process identifier.
+
+<br><br>
+
+<strong>ps</strong>
+→ Process snapshot.
+
+<br><br>
+
+<strong>top / htop</strong>
+→ Live resource monitoring.
+
+<br><br>
+
+<strong>kill</strong>
+→ Send signal to a process.
+
+<br><br>
+
+<strong>SIGTERM</strong>
+→ Graceful termination request.
+
+<br><br>
+
+<strong>SIGKILL</strong>
+→ Force termination.
+
+<br><br>
+
+<strong>Zombie</strong>
+→ Finished child process awaiting parent collection.
+
+<br><br>
+
+<strong>systemd</strong>
+→ System and service manager.
+
+<br><br>
+
+<strong>systemctl</strong>
+→ Manage systemd services.
+
+<br><br>
+
+<strong>start</strong>
+→ Start now.
+
+<br><br>
+
+<strong>enable</strong>
+→ Start automatically at boot.
+
+<br><br>
+
+<strong>journalctl</strong>
+→ Query systemd journal logs.
+
+<br><br>
+
+<strong>tail -f</strong>
+→ Follow a log file live.
+
+<br><br>
+
+<strong>df -h</strong>
+→ Filesystem disk usage.
+
+<br><br>
+
+<strong>du -sh</strong>
+→ Directory/file disk usage.
+
+<br><br>
+
+<strong>free -h</strong>
+→ Memory usage.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+
+<!-- INTERVIEW -->
+
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🎤 FINAL INTERVIEW QUESTIONS</h2>
+
+<p>
+
+<strong>Q:</strong> What is a process?
+
+<br>
+<strong>A:</strong> A running instance of a program.
+
+<br><br>
+
+<strong>Q:</strong> What is PID?
+
+<br>
+<strong>A:</strong> Process ID assigned to a running process.
+
+<br><br>
+
+<strong>Q:</strong> How do you check running processes?
+
+<br>
+<strong>A:</strong> <code>ps aux</code> or <code>top</code>.
+
+<br><br>
+
+<strong>Q:</strong> How do you terminate a process?
+
+<br>
+<strong>A:</strong> Use <code>kill PID</code>; use SIGKILL only
+when necessary.
+
+<br><br>
+
+<strong>Q:</strong> What is a zombie process?
+
+<br>
+<strong>A:</strong> A terminated child process whose exit status
+has not yet been collected by its parent.
+
+<br><br>
+
+<strong>Q:</strong> What is systemd?
+
+<br>
+<strong>A:</strong> A system and service manager used by many
+modern Linux distributions.
+
+<br><br>
+
+<strong>Q:</strong> What is systemctl?
+
+<br>
+<strong>A:</strong> A command used to manage systemd services and
+units.
+
+<br><br>
+
+<strong>Q:</strong> Difference between start and enable?
+
+<br>
+<strong>A:</strong> Start runs the service now; enable configures
+it to start automatically at boot.
+
+<br><br>
+
+<strong>Q:</strong> How do you check service logs?
+
+<br>
+<strong>A:</strong> <code>journalctl -u service-name</code>.
+
+<br><br>
+
+<strong>Q:</strong> How do you troubleshoot high CPU?
+
+<br>
+<strong>A:</strong> Use <code>top</code> or <code>ps</code> to
+identify the process, then investigate its workload and logs.
+
+<br><br>
+
+<strong>Q:</strong> How do you troubleshoot a service that won't
+start?
+
+<br>
+<strong>A:</strong> Check <code>systemctl status</code>, inspect
+<code>journalctl</code>, verify configuration, dependencies,
+permissions, ports and resources.
+
+</p>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>⚙️ Linux • Processes, Services & Logs</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

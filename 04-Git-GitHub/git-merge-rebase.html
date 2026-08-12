@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Git Merge & Rebase - DevOps Interview Guide</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{
+    color:#93c5fd;
+}
+
+.icon{
+    font-size:52px;
+    margin:20px 0 10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.question{
+    background:#121a2d;
+    border:1px solid #29344d;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+.question h2{
+    margin-top:0;
+    color:#93c5fd;
+    font-size:21px;
+}
+
+.badge{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    color:#93c5fd;
+    margin-bottom:10px;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin-top:15px;
+}
+
+.example{
+    background:#080d18;
+    border:1px solid #29344d;
+    border-radius:10px;
+    padding:18px;
+    margin-top:15px;
+}
+
+pre{
+    margin:0;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{
+    color:#bfdbfe;
+}
+
+.tip{
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:18px;
+    margin-top:15px;
+}
+
+.warning{
+    background:#211b18;
+    border:1px solid #57483d;
+    border-radius:12px;
+    padding:18px;
+    margin-top:15px;
+}
+
+.diagram{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:25px;
+    margin-top:20px;
+}
+
+.box{
+    display:inline-block;
+    padding:14px 20px;
+    margin:7px;
+    border:1px solid #475569;
+    border-radius:10px;
+    background:#111827;
+}
+
+.arrow{
+    color:#93c5fd;
+    font-weight:bold;
+    font-size:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    color:#93c5fd;
+    background:#111827;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="back">← Back to Git & GitHub Guide</a>
+
+<div class="icon">🔀</div>
+
+<h1>Git <span>Merge & Rebase</span></h1>
+
+<p>
+Understand merge, fast-forward merge, three-way merge,
+rebase, conflicts, interactive rebase and real-time DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<!-- Q1 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>1. What is Git Merge?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Git merge is used to combine the changes from one branch into
+another branch.
+</p>
+
+<p>
+For example, after completing a feature, we can merge the
+feature branch into the main branch.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git switch main
+
+git merge feature-login
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>Remember:</strong>
+
+<p>
+The branch you are currently on is the branch that receives
+the changes.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q2 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>2. How does Git Merge work?</h2>
+
+<div class="answer">
+
+<p>
+Git examines the commit history of both branches and determines
+how the histories can be combined.
+</p>
+
+<p>
+Depending on the commit structure, Git may perform a
+<strong>fast-forward merge</strong> or a
+<strong>three-way merge</strong>.
+</p>
+
+</div>
+
+<div class="diagram">
+
+<div class="box">main</div>
+
+<div class="arrow">↓</div>
+
+<div class="box">Common Ancestor</div>
+
+<div class="arrow">↙ ↘</div>
+
+<div class="box">Feature</div>
+
+<div class="box">Main</div>
+
+</div>
+
+</div>
+
+
+<!-- Q3 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>3. What is a Fast-Forward Merge?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A fast-forward merge happens when the target branch has not
+diverged from the branch being merged.
+</p>
+
+<p>
+Git simply moves the target branch pointer forward.
+No additional merge commit is required.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+Before:
+
+A --- B --- C
+      \
+       feature
+
+
+After:
+
+A --- B --- C
+           ↑
+          main
+          feature
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>Example:</strong>
+
+<p>
+If main has no new commits after the feature branch was created,
+Git can simply move main forward to the latest feature commit.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q4 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>4. What is a Three-Way Merge?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A three-way merge is used when both branches have new commits
+after their common ancestor.
+</p>
+
+<p>
+Git uses three points:
+</p>
+
+<ul>
+<li>Common ancestor</li>
+<li>Current branch tip</li>
+<li>Incoming branch tip</li>
+</ul>
+
+</div>
+
+<div class="example">
+
+<pre>
+        C --- D
+       /
+A --- B
+       \
+        E --- F
+
+B = Common Ancestor
+
+C,D = Feature branch
+
+E,F = Main branch
+</pre>
+
+</div>
+
+<div class="tip">
+
+<p>
+Because both branches changed independently, Git may create a
+new merge commit.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q5 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</div>
+
+<h2>5. What is a Merge Commit?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A merge commit is a special commit created when Git combines
+two diverged branch histories.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+        C
+       / \
+A --- B   M
+       \ /
+        D
+
+M = Merge Commit
+</pre>
+
+</div>
+
+<p>
+A merge commit normally has two parent commits.
+</p>
+
+</div>
+
+
+<!-- Q6 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>6. What is Git Rebase?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Git rebase moves or replays commits from one branch on top of
+another base commit.
+</p>
+
+<p>
+It is commonly used to create a cleaner, more linear commit
+history.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+Before:
+
+A --- B --- C
+       \
+        D --- E
+             feature
+
+
+After rebase:
+
+A --- B --- C --- D' --- E'
+                       feature
+</pre>
+
+</div>
+
+<div class="tip">
+
+<strong>Important:</strong>
+
+<p>
+The rebased commits are recreated, so their commit IDs change.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q7 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>7. How do you rebase a feature branch onto main?</h2>
+
+<div class="answer">
+
+<pre>
+git switch feature-login
+
+git rebase main
+</pre>
+
+<p>
+Git takes the feature commits and replays them on top of the
+latest main branch.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+Before:
+
+A --- B --- C       main
+       \
+        D --- E     feature
+
+
+After:
+
+A --- B --- C --- D' --- E'
+                          feature
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q8 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>8. What is the difference between Merge and Rebase?</h2>
+
+<table>
+
+<tr>
+<th>Merge</th>
+<th>Rebase</th>
+</tr>
+
+<tr>
+<td>Combines histories</td>
+<td>Replays commits</td>
+</tr>
+
+<tr>
+<td>Can create a merge commit</td>
+<td>Usually creates a linear history</td>
+</tr>
+
+<tr>
+<td>Preserves existing commit history</td>
+<td>Rewrites commit history</td>
+</tr>
+
+<tr>
+<td>Does not normally change existing commit IDs</td>
+<td>Rebased commits receive new IDs</td>
+</tr>
+
+<tr>
+<td>Safer for shared branches</td>
+<td>Needs caution on shared branches</td>
+</tr>
+
+</table>
+
+<div class="tip">
+
+<strong>Interview Shortcut:</strong>
+
+<p>
+<strong>Merge = preserve and combine histories.</strong>
+</p>
+
+<p>
+<strong>Rebase = replay commits onto a new base.</strong>
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q9 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</div>
+
+<h2>9. Why does rebase create a cleaner history?</h2>
+
+<div class="answer">
+
+<p>
+Rebase removes unnecessary merge commits from the feature
+development history and creates a more linear sequence of commits.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+Merge:
+
+A --- B -------- M
+       \        /
+        C --- D
+
+
+Rebase:
+
+A --- B --- C' --- D'
+</pre>
+
+</div>
+
+<div class="tip">
+
+<p>
+A linear history can make it easier to understand when changes
+were introduced and troubleshoot commit history.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q10 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</div>
+
+<h2>10. Why should you be careful when rebasing a shared branch?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Rebase rewrites commit history.
+Because commit IDs can change, rebasing a branch that other
+developers are already using can cause synchronization problems.
+</p>
+
+</div>
+
+<div class="warning">
+
+<strong>⚠️ Important Interview Point:</strong>
+
+<p>
+Avoid rebasing shared/public branches unless the team has
+specifically agreed on that workflow.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q11 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>11. What is a Merge Conflict?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+A merge conflict occurs when Git cannot automatically determine
+which changes should be kept.
+</p>
+
+<p>
+This commonly happens when two branches modify the same lines
+of the same file differently.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+<<<<<<< HEAD
+version from main
+=======
+version from feature
+>>>>>>> feature-login
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q12 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>12. How do you resolve a merge conflict?</h2>
+
+<div class="answer">
+
+<ol>
+<li>Run <code>git status</code>.</li>
+<li>Identify the conflicted files.</li>
+<li>Open the files.</li>
+<li>Understand both versions.</li>
+<li>Choose or combine the correct changes.</li>
+<li>Remove conflict markers.</li>
+<li>Stage the resolved files.</li>
+<li>Complete the merge.</li>
+</ol>
+
+</div>
+
+<div class="example">
+
+<pre>
+git status
+
+# Fix the file manually
+
+git add app.py
+
+git commit -m "Resolve merge conflict"
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q13 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ REBASE CONFLICT</div>
+
+<h2>13. How do you resolve a conflict during rebase?</h2>
+
+<div class="answer">
+
+<p>
+When a conflict occurs during rebase, Git pauses the rebase.
+We resolve the file manually and then continue the rebase.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git status
+
+# Fix the conflicted file
+
+git add app.py
+
+git rebase --continue
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q14 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>14. How do you abort a rebase?</h2>
+
+<div class="answer">
+
+<pre>
+git rebase --abort
+</pre>
+
+<p>
+This cancels the current rebase operation and returns the branch
+to the state it was in before the rebase started.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q15 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ IMPORTANT</div>
+
+<h2>15. How do you skip a problematic commit during rebase?</h2>
+
+<div class="answer">
+
+<pre>
+git rebase --skip
+</pre>
+
+<p>
+This tells Git to skip the current commit being replayed.
+</p>
+
+<div class="warning">
+
+<strong>Use carefully:</strong>
+
+<p>
+Only skip a commit when you understand why that commit is no
+longer required.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Q16 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ MUST KNOW</div>
+
+<h2>16. What is Interactive Rebase?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Interactive rebase allows us to modify, reorder, combine or
+remove commits before sharing the history.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git rebase -i HEAD~3
+</pre>
+
+<p>
+This opens the last three commits for interactive editing.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q17 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐ INTERVIEW FOLLOW-UP</div>
+
+<h2>17. What can you do with interactive rebase?</h2>
+
+<div class="answer">
+
+<ul>
+<li>Reorder commits</li>
+<li>Squash commits</li>
+<li>Change commit messages</li>
+<li>Edit commits</li>
+<li>Drop commits</li>
+<li>Combine multiple commits</li>
+</ul>
+
+</div>
+
+<div class="example">
+
+<pre>
+pick   abc123 Add login page
+squash def456 Fix login page
+pick   ghi789 Add validation
+</pre>
+
+<p>
+The <code>squash</code> operation combines commits.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q18 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>18. What is git merge --no-ff?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+The <code>--no-ff</code> option forces Git to create a merge commit
+even when a fast-forward merge is possible.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git merge --no-ff feature-login
+</pre>
+
+</div>
+
+<div class="tip">
+
+<p>
+Teams may use this when they want the history to clearly show
+that a feature branch was merged.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q19 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ DEVOPS SCENARIO</div>
+
+<h2>19. Your feature branch is behind main. What would you do?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+I would first update my local main branch and then bring the
+latest main changes into my feature branch.
+</p>
+
+<p>
+Depending on the team's workflow, I can use merge or rebase.
+</p>
+
+</div>
+
+<div class="example">
+
+<pre>
+git switch main
+
+git pull origin main
+
+git switch feature-login
+
+git rebase main
+</pre>
+
+</div>
+
+<div class="tip">
+
+<p>
+If the team does not allow rebasing shared branches, I would
+use merge instead.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q20 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ REAL-TIME DEVOPS SCENARIO</div>
+
+<h2>20. You have local commits and main has new commits. How do you update your feature branch?</h2>
+
+<div class="answer">
+
+<p>
+One approach is to rebase the feature branch onto the latest main:
+</p>
+
+<pre>
+git switch main
+git pull origin main
+
+git switch feature-login
+git rebase main
+</pre>
+
+<p>
+This keeps the feature commits on top of the latest main history.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q21 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ PRODUCTION SCENARIO</div>
+
+<h2>21. Would you rebase main in production?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+Normally, I would avoid rewriting history on a shared production
+or main branch.
+</p>
+
+<p>
+For shared branches, merge is generally safer because it preserves
+the existing history.
+</p>
+
+</div>
+
+<div class="warning">
+
+<strong>Key Point:</strong>
+
+<p>
+Do not treat rebase as simply a "better merge". They solve
+different workflow needs.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q22 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ CI/CD SCENARIO</div>
+
+<h2>22. How does merge/rebase affect CI/CD?</h2>
+
+<div class="answer">
+
+<p>
+CI pipelines commonly run when branches are pushed or when Pull
+Requests are created or updated.
+</p>
+
+<p>
+If a branch is rebased, the commit IDs change, so the CI system
+may see the rebased commits as new commits.
+</p>
+
+<p>
+After resolving conflicts or rebasing, the branch should be
+tested again before merging.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Q23 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ INTERVIEW TRAP</div>
+
+<h2>23. Is rebase safer than merge?</h2>
+
+<div class="answer">
+
+<strong>No. It depends on the situation.</strong>
+
+<p>
+Rebase provides a cleaner history but rewrites commits.
+Merge preserves the existing history and is generally safer
+for shared branches.
+</p>
+
+<div class="tip">
+
+<strong>Good interview answer:</strong>
+
+<p>
+"I would use rebase for keeping my private feature branch
+up to date and maintaining a linear history, but I would avoid
+rewriting history on shared branches."
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Q24 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ SCENARIO</div>
+
+<h2>24. You started a rebase and got many conflicts. What would you do?</h2>
+
+<div class="answer">
+
+<ol>
+<li>Check the current rebase state.</li>
+<li>Review the conflicted files.</li>
+<li>Resolve each conflict carefully.</li>
+<li>Stage the resolved files.</li>
+<li>Run <code>git rebase --continue</code>.</li>
+<li>Repeat until the rebase completes.</li>
+<li>If the rebase is no longer appropriate, use <code>git rebase --abort</code>.</li>
+</ol>
+
+</div>
+
+<div class="example">
+
+<pre>
+git status
+
+# Resolve conflict
+
+git add .
+
+git rebase --continue
+
+# If necessary:
+git rebase --abort
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- Q25 -->
+
+<div class="question">
+
+<div class="badge">⭐⭐⭐⭐⭐ REAL-TIME DEVOPS</div>
+
+<h2>25. A developer force-pushed after rebasing. What should the team be careful about?</h2>
+
+<div class="answer">
+
+<p>
+Because rebase rewrites history, a force push can replace the
+remote branch history.
+</p>
+
+<p>
+Other developers who already based work on the old history may
+need to reconcile their local branches.
+</p>
+
+</div>
+
+<div class="warning">
+
+<strong>Important:</strong>
+
+<p>
+Force-pushing shared branches can disrupt other developers.
+It should be done only when the team workflow permits it.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- COMMANDS -->
+
+<div class="question">
+
+<div class="badge">🧠 QUICK COMMAND REVISION</div>
+
+<h2>Git Merge & Rebase Commands</h2>
+
+<div class="example">
+
+<pre>
+# Merge
+git switch main
+git merge feature
+
+# Force merge commit
+git merge --no-ff feature
+
+# Rebase
+git switch feature
+git rebase main
+
+# Continue rebase
+git rebase --continue
+
+# Abort rebase
+git rebase --abort
+
+# Skip current commit
+git rebase --skip
+
+# Interactive rebase
+git rebase -i HEAD~3
+
+# Check status
+git status
+
+# View history
+git log --oneline --graph --all
+</pre>
+
+</div>
+
+</div>
+
+
+<!-- FINAL REVISION -->
+
+<div class="question">
+
+<div class="badge">🎯 FINAL INTERVIEW REVISION</div>
+
+<h2>Merge vs Rebase — Remember This</h2>
+
+<div class="diagram">
+
+<div class="box">
+<strong>MERGE</strong>
+<br>
+Combine histories
+<br>
+Preserves history
+<br>
+May create merge commit
+<br>
+Safer for shared branches
+</div>
+
+<div class="box">
+<strong>REBASE</strong>
+<br>
+Replay commits
+<br>
+Linear history
+<br>
+Rewrites commit IDs
+<br>
+Use carefully on shared branches
+</div>
+
+</div>
+
+<div class="tip">
+
+<strong>🔥 One-Line Interview Answer:</strong>
+
+<p>
+"Git merge combines two branch histories while preserving their
+existing commits, whereas Git rebase replays commits onto a new
+base to create a cleaner linear history, but it rewrites commit
+history."
+</p>
+
+</div>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="question">
+
+<div class="badge">🎤 FOLLOW-UP QUESTIONS</div>
+
+<h2>Questions Interviewer May Ask Next</h2>
+
+<ul>
+
+<li>What is fast-forward merge?</li>
+
+<li>What is three-way merge?</li>
+
+<li>What is a merge commit?</li>
+
+<li>Merge vs rebase?</li>
+
+<li>Why does rebase rewrite history?</li>
+
+<li>Why should you avoid rebasing shared branches?</li>
+
+<li>What is interactive rebase?</li>
+
+<li>What is git rebase -i HEAD~3?</li>
+
+<li>How do you resolve a rebase conflict?</li>
+
+<li>What does git rebase --continue do?</li>
+
+<li>What does git rebase --abort do?</li>
+
+<li>What does git rebase --skip do?</li>
+
+<li>What is git merge --no-ff?</li>
+
+<li>How do you update a feature branch with the latest main?</li>
+
+<li>When would you choose merge over rebase?</li>
+
+<li>When would you choose rebase over merge?</li>
+
+<li>What happens to commit IDs after rebase?</li>
+
+<li>Why can force push be dangerous after rebase?</li>
+
+</ul>
+
+</div>
+
+
+</main>
+
+<footer>
+
+🔀 Git & GitHub • DevOps Interview Master Guide<br>
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>

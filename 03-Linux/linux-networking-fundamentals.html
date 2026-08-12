@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux Networking Fundamentals</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0b1020;color:#e5e7eb;line-height:1.7}
+header{text-align:center;padding:48px 20px;background:#111827;border-bottom:1px solid #29354d}
+.back{color:#94a3b8;text-decoration:none}
+.icon{font-size:48px}
+h1{font-size:clamp(30px,5vw,46px);margin:5px 0}
+h1 span{color:#93c5fd}
+header p{max-width:820px;margin:auto;color:#9ca8c0}
+.container{width:min(1000px,92%);margin:auto;padding:35px 0 70px}
+.card{background:#141d34;border:1px solid #2b3751;border-radius:18px;padding:27px;margin:23px 0}
+.number{font-size:12px;color:#64748b;font-weight:800}
+.priority{display:inline-block;color:#93c5fd;font-size:12px;font-weight:800;letter-spacing:.6px;margin:5px 0 10px}
+h2{margin:4px 0 12px;font-size:25px}
+h3{color:#93c5fd}
+p,li{color:#c5cede}
+pre{background:#080d18;border:1px solid #222e47;padding:17px;border-radius:10px;overflow:auto;color:#cbd5e1}
+code{background:#080d18;color:#bfdbfe;padding:3px 7px;border-radius:5px}
+.example{background:#0d1629;border-left:4px solid #93c5fd;padding:17px 20px;border-radius:0 10px 10px 0;margin:18px 0}
+.answer{background:#101a2e;border:1px solid #303c58;border-radius:12px;padding:17px 20px;margin-top:18px}
+.answer strong{color:#93c5fd}
+.flow{text-align:center;background:#0d1425;border:1px solid #29354e;border-radius:12px;padding:20px;margin:20px 0}
+table{width:100%;border-collapse:collapse;margin:18px 0}
+th,td{padding:12px;border:1px solid #2b3751;text-align:left}
+th{color:#93c5fd;background:#111a2e}
+.note{background:#0d1629;border:1px solid #2d3b59;padding:20px;border-radius:13px;margin:20px 0}
+.warning{background:#21191d;border-left:4px solid #f87171;padding:16px 20px;border-radius:0 10px 10px 0}
+footer{text-align:center;padding:30px;color:#64748b;border-top:1px solid #222d46}
+</style>
+</head>
+
+<body>
+
+<header>
+<a href="index.html" class="back">← Back to Linux</a>
+<div class="icon">🌐</div>
+<h1>Linux <span>Networking Fundamentals</span></h1>
+<p>
+IP addresses, interfaces, ports, DNS, routing, connectivity testing,
+network troubleshooting and practical DevOps scenarios.
+</p>
+</header>
+
+<main class="container">
+
+<article class="card">
+<div class="number">QUESTION 01</div>
+<h2>What is Linux Networking?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+Linux networking allows a server to communicate with other systems
+through network interfaces, IP addresses, routing, DNS and ports.
+</p>
+
+<div class="flow">
+Application
+<br>↓
+<br>Port
+<br>↓
+<br>IP Address
+<br>↓
+<br>Network Interface
+<br>↓
+<br>Network
+</div>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"Linux networking involves configuring and troubleshooting network
+interfaces, IP addressing, routing, DNS, ports and connectivity
+between systems."
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 02</div>
+<h2>What is an IP Address?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+An IP address identifies a network interface or endpoint on an IP
+network.
+</p>
+
+<h3>IPv4 Example</h3>
+<pre>192.168.1.10</pre>
+
+<h3>IPv6 Example</h3>
+<pre>2001:db8::10</pre>
+
+<table>
+<tr><th>Type</th><th>Example</th></tr>
+<tr><td>IPv4</td><td>192.168.1.10</td></tr>
+<tr><td>IPv6</td><td>2001:db8::10</td></tr>
+</table>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 03</div>
+<h2>How do you check the IP address?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<pre>ip addr</pre>
+
+<p>
+A commonly used shorter form is:
+</p>
+
+<pre>ip a</pre>
+
+<p>
+This displays network interfaces and their assigned addresses.
+</p>
+
+<div class="note">
+<strong>Modern command:</strong>
+<p>
+Prefer the <code>ip</code> command for current Linux administration.
+Older systems may also contain commands such as <code>ifconfig</code>.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 04</div>
+<h2>What is a Network Interface?</h2>
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A network interface is the software-visible connection through which
+a Linux system communicates over a network.
+</p>
+
+<p>
+Examples commonly include:
+</p>
+
+<pre>
+eth0
+ens5
+enp0s3
+lo
+</pre>
+
+<p>
+The exact interface name depends on the system.
+</p>
+
+<h3>Loopback</h3>
+<pre>lo</pre>
+
+<p>
+The loopback interface is used for communication within the local
+system. Its commonly used IPv4 address is <code>127.0.0.1</code>.
+</p>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 05</div>
+<h2>How do you check network interfaces?</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>ip link</pre>
+
+<p>
+For addresses and interfaces together:
+</p>
+
+<pre>ip addr</pre>
+
+<p>
+To inspect a specific interface:
+</p>
+
+<pre>ip addr show eth0</pre>
+
+</article>
+
+<article class="card">
+<div class="number">QUESTION 06</div>
+<h2>What is a MAC Address?</h2>
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+A MAC address is a hardware/link-layer address associated with a
+network interface.
+</p>
+
+<pre>ip link</pre>
+
+<p>
+The output contains a value such as:
+</p>
+
+<pre>link/ether 02:42:ac:11:00:02</pre>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"A MAC address identifies a network interface at the data-link
+layer, while an IP address is used for communication at the network
+layer."
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 07</div>
+<h2>What is the Default Gateway?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A default gateway is the router used when traffic does not have a
+more specific route in the routing table.
+</p>
+
+<pre>ip route</pre>
+
+<div class="flow">
+Linux Server
+<br>↓
+<br>Default Gateway
+<br>↓
+<br>Other Network
+<br>↓
+<br>Internet
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 08</div>
+<h2>What is a Routing Table?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+A routing table tells Linux where network traffic should be sent.
+</p>
+
+<pre>ip route</pre>
+
+<p>
+Typical information includes:
+</p>
+
+<ul>
+<li>Destination network</li>
+<li>Gateway</li>
+<li>Network interface</li>
+<li>Route metric</li>
+</ul>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"The routing table determines where packets should be forwarded
+based on their destination."
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 09</div>
+<h2>What is DNS?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+DNS stands for <strong>Domain Name System</strong>. It translates
+domain names into IP addresses and can provide other DNS records.
+</p>
+
+<div class="flow">
+google.com
+<br>↓
+<br>DNS Lookup
+<br>↓
+<br>IP Address
+<br>↓
+<br>Server
+</div>
+
+<p>
+Without DNS, users and applications would often need to use IP
+addresses directly instead of domain names.
+</p>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 10</div>
+<h2>How do you test DNS resolution?</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>
+nslookup example.com
+</pre>
+
+<p>
+Another commonly used command:
+</p>
+
+<pre>
+dig example.com
+</pre>
+
+<p>
+On systems using systemd-resolved, you may also encounter:
+</p>
+
+<pre>
+resolvectl status
+</pre>
+
+</article>
+
+<article class="card">
+<div class="number">QUESTION 11</div>
+<h2>What is /etc/hosts?</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+<code>/etc/hosts</code> provides local hostname-to-IP mappings.
+</p>
+
+<pre>
+127.0.0.1 localhost
+192.168.1.20 app-server
+</pre>
+
+<p>
+The local hosts file can be useful for testing or simple local
+name resolution.
+</p>
+
+<div class="warning">
+<strong>⚠️ Important</strong>
+<p>
+Changes to <code>/etc/hosts</code> affect the local system and do not
+create a global DNS record.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 12</div>
+<h2>What is a Port?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A port identifies a network service endpoint on a host.
+</p>
+
+<table>
+<tr><th>Service</th><th>Common Port</th></tr>
+<tr><td>SSH</td><td>22</td></tr>
+<tr><td>HTTP</td><td>80</td></tr>
+<tr><td>HTTPS</td><td>443</td></tr>
+<tr><td>DNS</td><td>53</td></tr>
+<tr><td>FTP</td><td>21</td></tr>
+<tr><td>MySQL</td><td>3306</td></tr>
+<tr><td>PostgreSQL</td><td>5432</td></tr>
+</table>
+
+<div class="note">
+<strong>Remember:</strong>
+<p>
+The port numbers above are common defaults, not guarantees that a
+service must always use those ports.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 13</div>
+<h2>How do you check listening ports?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<pre>ss -tulnp</pre>
+
+<p>
+Common flags:
+</p>
+
+<ul>
+<li><strong>-t</strong> → TCP</li>
+<li><strong>-u</strong> → UDP</li>
+<li><strong>-l</strong> → Listening</li>
+<li><strong>-n</strong> → Numeric output</li>
+<li><strong>-p</strong> → Process information where permitted</li>
+</ul>
+
+<div class="example">
+<strong>Example:</strong>
+<pre>ss -lntp</pre>
+<p>
+Useful when checking whether an application is actually listening
+on the expected TCP port.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 14</div>
+<h2>What is ping?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<p>
+<code>ping</code> tests basic IP connectivity by sending ICMP
+Echo Requests and waiting for replies.
+</p>
+
+<pre>ping 8.8.8.8</pre>
+
+<p>
+To stop continuous output:
+</p>
+
+<pre>Ctrl + C</pre>
+
+<div class="warning">
+<strong>Important:</strong>
+<p>
+A failed ping does not automatically mean the host is down.
+ICMP may be blocked by a firewall or security policy.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 15</div>
+<h2>What is curl?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+<code>curl</code> is commonly used to transfer data and test HTTP/HTTPS
+endpoints.
+</p>
+
+<pre>curl https://example.com</pre>
+
+<p>
+To inspect response headers:
+</p>
+
+<pre>curl -I https://example.com</pre>
+
+<div class="answer">
+<strong>DevOps Use:</strong>
+<p>
+Use curl to verify whether an application endpoint is responding
+and to inspect HTTP responses during troubleshooting.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 16</div>
+<h2>What is traceroute?</h2>
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+Traceroute helps identify the network path taken toward a
+destination by showing intermediate hops.
+</p>
+
+<pre>traceroute example.com</pre>
+
+<p>
+On some Linux distributions you may need to install the command
+first.
+</p>
+
+<div class="note">
+<strong>Use case:</strong>
+<p>
+Useful when investigating where packets may be experiencing
+routing or connectivity problems.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 17</div>
+<h2>TCP vs UDP</h2>
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+<tr>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+<tr>
+<td>Connection-oriented</td>
+<td>Connectionless</td>
+</tr>
+<tr>
+<td>Reliable ordered delivery</td>
+<td>No built-in delivery guarantee</td>
+</tr>
+<tr>
+<td>More protocol overhead</td>
+<td>Lower overhead</td>
+</tr>
+<tr>
+<td>Common for HTTP/HTTPS and SSH</td>
+<td>Common for DNS and streaming/real-time use cases</td>
+</tr>
+</table>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"TCP provides connection-oriented and reliable ordered delivery,
+while UDP is connectionless and has lower protocol overhead but
+does not provide TCP's delivery guarantees."
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 18</div>
+<h2>What is localhost?</h2>
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+<code>localhost</code> refers to the local machine.
+</p>
+
+<pre>127.0.0.1</pre>
+
+<p>
+IPv6 loopback:
+</p>
+
+<pre>::1</pre>
+
+<div class="example">
+<strong>Example:</strong>
+<pre>curl http://localhost:8080</pre>
+<p>
+This tests a service listening on port 8080 on the same machine.
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">🔥 REAL-TIME SCENARIO</div>
+<h2>Application is not reachable on its port</h2>
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+Suppose an application should be running on port 8080.
+Start troubleshooting from the server itself.
+</p>
+
+<pre>
+ss -lntp | grep 8080
+curl http://localhost:8080
+</pre>
+
+<p>
+If it is not listening:
+</p>
+
+<ul>
+<li>Check application/service status</li>
+<li>Check application logs</li>
+<li>Verify configuration</li>
+</ul>
+
+<p>
+If it works locally but not remotely, investigate:
+</p>
+
+<ul>
+<li>Firewall</li>
+<li>Cloud security group</li>
+<li>Network ACL</li>
+<li>Routing</li>
+<li>Listening address</li>
+</ul>
+
+<div class="flow">
+Application
+<br>↓
+<br>Listening Port?
+<br>↓
+<br>Local curl?
+<br>↓
+<br>Firewall / Security Rules
+<br>↓
+<br>Remote Client
+</div>
+</article>
+
+<article class="card">
+<div class="number">🔥 REAL-TIME SCENARIO</div>
+<h2>DNS works differently than IP connectivity</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+If this works:
+</p>
+
+<pre>ping 8.8.8.8</pre>
+
+<p>
+but this fails:
+</p>
+
+<pre>ping example.com</pre>
+
+<p>
+the problem may involve DNS resolution rather than basic IP
+connectivity.
+</p>
+
+<pre>
+nslookup example.com
+dig example.com
+</pre>
+
+<div class="answer">
+<strong>🎤 Interview Approach</strong>
+<p>
+"I separate the problem into layers. First I test IP connectivity,
+then DNS resolution, then the destination port and finally the
+application itself."
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">🔥 REAL-TIME SCENARIO</div>
+<h2>Server has no Internet connectivity</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Use a layered approach:
+</p>
+
+<pre>
+ip addr
+ip route
+ping &lt;gateway&gt;
+ping 8.8.8.8
+nslookup example.com
+</pre>
+
+<div class="flow">
+Interface
+<br>↓
+<br>IP Address
+<br>↓
+<br>Default Route
+<br>↓
+<br>Gateway
+<br>↓
+<br>Internet IP
+<br>↓
+<br>DNS
+</div>
+</article>
+
+<article class="card">
+<div class="number">🔥 DEVOPS SCENARIO</div>
+<h2>Container Networking — Basic Concept</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<p>
+Containers have their own networking model and may communicate
+through container networks, host networking or published ports,
+depending on configuration.
+</p>
+
+<div class="flow">
+Client
+<br>↓
+<br>Host Port
+<br>↓
+<br>Container Port
+<br>↓
+<br>Application
+</div>
+
+<p>
+For example, a web application listening on container port 8080
+might be published to a host port such as 80.
+</p>
+
+<pre>docker run -p 80:8080 image-name</pre>
+
+<p>
+This means host port 80 is published to container port 8080.
+</p>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 22</div>
+<h2>What is a Firewall?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+A firewall controls network traffic according to configured
+rules.
+</p>
+
+<p>
+Linux environments may use tools such as:
+</p>
+
+<pre>
+ufw
+firewalld
+nftables
+</pre>
+
+<p>
+Cloud environments may additionally use provider-level network
+controls such as security groups and network ACLs.
+</p>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"A firewall filters network traffic according to rules and helps
+control which connections are allowed or denied."
+</p>
+</div>
+</article>
+
+<article class="card">
+<div class="number">QUESTION 23</div>
+<h2>Useful Linux Networking Commands</h2>
+<span class="priority">⭐⭐⭐⭐⭐ FINAL REVISION</span>
+
+<table>
+<tr><th>Command</th><th>Purpose</th></tr>
+<tr><td>ip addr</td><td>Show IP addresses/interfaces</td></tr>
+<tr><td>ip link</td><td>Show network interfaces</td></tr>
+<tr><td>ip route</td><td>Show routing table</td></tr>
+<tr><td>ss</td><td>Inspect sockets/listening ports</td></tr>
+<tr><td>ping</td><td>Test basic IP connectivity</td></tr>
+<tr><td>curl</td><td>Test HTTP/API endpoints</td></tr>
+<tr><td>dig</td><td>DNS queries</td></tr>
+<tr><td>nslookup</td><td>DNS lookup</td></tr>
+<tr><td>traceroute</td><td>Inspect network path</td></tr>
+<tr><td>hostname</td><td>Show or configure hostname depending on usage</td></tr>
+</table>
+</article>
+
+<article class="card">
+<div class="number">🧠 FINAL REVISION</div>
+<h2>Linux Networking Cheat Sheet</h2>
+
+<div class="note">
+
+<strong>IP Address</strong>
+→ Identifies an endpoint/interface on an IP network.
+
+<br><br>
+
+<strong>Network Interface</strong>
+→ Connection used for network communication.
+
+<br><br>
+
+<strong>MAC Address</strong>
+→ Link-layer address of a network interface.
+
+<br><br>
+
+<strong>Default Gateway</strong>
+→ Next-hop router for traffic without a more specific route.
+
+<br><br>
+
+<strong>Routing Table</strong>
+→ Determines where packets should be sent.
+
+<br><br>
+
+<strong>DNS</strong>
+→ Resolves domain names to IP addresses and other records.
+
+<br><br>
+
+<strong>Port</strong>
+→ Identifies a service endpoint.
+
+<br><br>
+
+<strong>ping</strong>
+→ Basic ICMP connectivity test.
+
+<br><br>
+
+<strong>curl</strong>
+→ HTTP/API testing and data transfer.
+
+<br><br>
+
+<strong>ss</strong>
+→ Inspect sockets and listening ports.
+
+<br><br>
+
+<strong>TCP</strong>
+→ Reliable, connection-oriented transport.
+
+<br><br>
+
+<strong>UDP</strong>
+→ Connectionless, lower-overhead transport.
+
+<br><br>
+
+<strong>localhost</strong>
+→ Local machine.
+
+<br><br>
+
+<strong>Least-layer troubleshooting</strong>
+→ Interface → Route → Connectivity → DNS → Port → Application.
+
+</div>
+</article>
+
+<article class="card">
+<h2>🎤 FINAL INTERVIEW QUESTIONS</h2>
+
+<p>
+
+<strong>Q:</strong> How do you check an IP address?<br> <strong>A:</strong> <code>ip addr</code>.
+
+<br><br>
+
+<strong>Q:</strong> How do you check the routing table?<br> <strong>A:</strong> <code>ip route</code>.
+
+<br><br>
+
+<strong>Q:</strong> How do you check listening ports?<br> <strong>A:</strong> <code>ss -lntp</code>.
+
+<br><br>
+
+<strong>Q:</strong> What is DNS?<br> <strong>A:</strong> A system that resolves domain names and provides
+other DNS records.
+
+<br><br>
+
+<strong>Q:</strong> What is the difference between TCP and UDP?<br> <strong>A:</strong> TCP is connection-oriented and provides reliable
+ordered delivery; UDP is connectionless with lower overhead.
+
+<br><br>
+
+<strong>Q:</strong> What does ping test?<br> <strong>A:</strong> Basic IP connectivity using ICMP, where permitted.
+
+<br><br>
+
+<strong>Q:</strong> How do you troubleshoot an application that is
+not reachable?<br> <strong>A:</strong> Check the application, listening port, local
+connectivity, firewall/security rules, routing and DNS.
+
+<br><br>
+
+<strong>Q:</strong> If IP works but domain name does not, what do
+you check?<br> <strong>A:</strong> DNS configuration and name resolution.
+
+<br><br>
+
+<strong>Q:</strong> If an application works on localhost but not
+from another machine?<br> <strong>A:</strong> Check the listening address, firewall, cloud
+security rules, routing and published/exposed port.
+
+</p>
+</article>
+
+</main>
+
+<footer>
+<p>🌐 Linux • Networking • Troubleshooting</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+</footer>
+
+</body>
+</html>
+

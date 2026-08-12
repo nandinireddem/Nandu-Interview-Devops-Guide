@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux SSH & Remote Access</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0b1020;color:#e5e7eb;line-height:1.7}
+header{text-align:center;padding:48px 20px;background:#111827;border-bottom:1px solid #29354d}
+.back{color:#94a3b8;text-decoration:none}
+.icon{font-size:48px}
+h1{font-size:clamp(30px,5vw,46px);margin:5px 0}
+h1 span{color:#93c5fd}
+header p{max-width:800px;margin:auto;color:#9ca8c0}
+.container{width:min(1000px,92%);margin:auto;padding:35px 0 70px}
+.card{background:#141d34;border:1px solid #2b3751;border-radius:18px;padding:27px;margin:23px 0}
+.number{font-size:12px;color:#64748b;font-weight:800}
+.priority{display:inline-block;color:#93c5fd;font-size:12px;font-weight:800;letter-spacing:.6px;margin:5px 0 10px}
+h2{margin:4px 0 12px;font-size:25px}
+h3{color:#93c5fd}
+p,li{color:#c5cede}
+pre{background:#080d18;border:1px solid #222e47;padding:17px;border-radius:10px;overflow:auto;color:#cbd5e1}
+code{background:#080d18;color:#bfdbfe;padding:3px 7px;border-radius:5px}
+.example{background:#0d1629;border-left:4px solid #93c5fd;padding:17px 20px;border-radius:0 10px 10px 0;margin:18px 0}
+.answer{background:#101a2e;border:1px solid #303c58;border-radius:12px;padding:17px 20px;margin-top:18px}
+.answer strong{color:#93c5fd}
+.flow{text-align:center;background:#0d1425;border:1px solid #29354e;border-radius:12px;padding:20px;margin:20px 0}
+table{width:100%;border-collapse:collapse;margin:18px 0}
+th,td{padding:12px;border:1px solid #2b3751;text-align:left}
+th{color:#93c5fd;background:#111a2e}
+.note{background:#0d1629;border:1px solid #2d3b59;padding:20px;border-radius:13px;margin:20px 0}
+.warning{background:#21191d;border-left:4px solid #f87171;padding:16px 20px;border-radius:0 10px 10px 0}
+footer{text-align:center;padding:30px;color:#64748b;border-top:1px solid #222d46}
+</style>
+</head>
+
+<body>
+
+<header>
+<a href="index.html" class="back">← Back to Linux</a>
+<div class="icon">🔐</div>
+<h1>Linux <span>SSH & Remote Access</span></h1>
+<p>
+SSH, authentication, SSH keys, SCP, rsync and practical remote-server troubleshooting.
+</p>
+</header>
+
+<main class="container">
+
+<!-- 01 -->
+
+<article class="card">
+<div class="number">QUESTION 01</div>
+<h2>What is SSH?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+SSH stands for <strong>Secure Shell</strong>. It is a network protocol
+used to securely connect to and manage remote systems.
+</p>
+
+<pre>ssh username@server-ip</pre>
+
+<div class="example">
+<strong>Example:</strong>
+<pre>ssh ec2-user@13.233.10.20</pre>
+<p>
+This establishes a secure remote shell session with the server.
+</p>
+</div>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"SSH is a secure remote-access protocol used to connect to and
+manage Linux servers over an encrypted connection."
+</p>
+</div>
+</article>
+
+<!-- 02 -->
+
+<article class="card">
+<div class="number">QUESTION 02</div>
+<h2>Why is SSH important in DevOps?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<ul>
+<li>Access Linux servers remotely</li>
+<li>Perform troubleshooting</li>
+<li>Manage cloud instances</li>
+<li>Transfer files</li>
+<li>Run administrative commands</li>
+<li>Debug application and infrastructure issues</li>
+</ul>
+
+<div class="flow">
+Developer / DevOps Engineer
+<br>↓
+<br>SSH
+<br>↓
+<br>Cloud / Linux Server
+<br>↓
+<br>Application / Infrastructure
+</div>
+</article>
+
+<!-- 03 -->
+
+<article class="card">
+<div class="number">QUESTION 03</div>
+<h2>Basic SSH Command</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>ssh username@hostname</pre>
+
+<p>
+You can also specify a custom SSH port using <code>-p</code>.
+</p>
+
+<pre>ssh -p 2222 username@server-ip</pre>
+
+<div class="answer">
+<strong>Remember:</strong>
+<p>
+Default SSH port is <strong>22</strong>.
+</p>
+</div>
+</article>
+
+<!-- 04 -->
+
+<article class="card">
+<div class="number">QUESTION 04</div>
+<h2>Password Authentication vs SSH Key Authentication</h2>
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<table>
+<tr>
+<th>Password</th>
+<th>SSH Key</th>
+</tr>
+<tr>
+<td>User enters password</td>
+<td>Uses cryptographic key pair</td>
+</tr>
+<tr>
+<td>Can be harder to manage at scale</td>
+<td>Common for server automation</td>
+</tr>
+<tr>
+<td>More dependent on password security</td>
+<td>Can provide stronger authentication</td>
+</tr>
+</table>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"SSH key authentication uses a public and private key pair instead
+of relying on a password. It is widely used for secure and automated
+server access."
+</p>
+</div>
+</article>
+
+<!-- 05 -->
+
+<article class="card">
+<div class="number">QUESTION 05</div>
+<h2>What is an SSH Key Pair?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+An SSH key pair consists of:
+</p>
+
+<ul>
+<li><strong>Private key</strong> — kept secret on the client.</li>
+<li><strong>Public key</strong> — placed on the remote server.</li>
+</ul>
+
+<div class="flow">
+Private Key
+<br>🔐
+<br>Client
+<br>↓
+<br>Authentication
+<br>↓
+<br>Server
+<br>🔓
+<br>Public Key
+</div>
+
+<div class="warning">
+<strong>⚠️ IMPORTANT</strong>
+<p>
+Never share your private key. Protect it like a password.
+</p>
+</div>
+</article>
+
+<!-- 06 -->
+
+<article class="card">
+<div class="number">QUESTION 06</div>
+<h2>How do you generate an SSH key?</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>ssh-keygen -t ed25519</pre>
+
+<p>
+This generates an Ed25519 key pair on systems that support it.
+RSA is also commonly encountered:
+</p>
+
+<pre>ssh-keygen -t rsa -b 4096</pre>
+
+<p>
+The generated files commonly include a private key and a public key
+ending in <code>.pub</code>.
+</p>
+</article>
+
+<!-- 07 -->
+
+<article class="card">
+<div class="number">QUESTION 07</div>
+<h2>What is authorized_keys?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS MUST KNOW</span>
+
+<p>
+On Linux servers, the user's SSH public keys are commonly stored in:
+</p>
+
+<pre>~/.ssh/authorized_keys</pre>
+
+<p>
+When a matching private key is used by the client, SSH can
+authenticate the user without requiring the normal password flow.
+</p>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"The authorized_keys file contains public keys that are allowed to
+authenticate for a particular Linux user."
+</p>
+</div>
+</article>
+
+<!-- 08 -->
+
+<article class="card">
+<div class="number">QUESTION 08</div>
+<h2>What are SSH file permissions?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+<p>
+SSH is sensitive to permissions on key files.
+A private key should not be broadly readable by other users.
+</p>
+
+<pre>chmod 600 ~/.ssh/id_ed25519</pre>
+
+<p>
+The SSH directory itself is commonly restricted as well:
+</p>
+
+<pre>chmod 700 ~/.ssh</pre>
+
+<div class="warning">
+<strong>Common problem:</strong>
+<p>
+If a private key is too permissive, SSH may refuse to use it.
+</p>
+</div>
+</article>
+
+<!-- 09 -->
+
+<article class="card">
+<div class="number">QUESTION 09</div>
+<h2>How do you specify an SSH private key?</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>ssh -i my-key.pem ec2-user@server-ip</pre>
+
+<p>
+The <code>-i</code> option specifies the identity/private-key file.
+</p>
+
+<div class="example">
+<strong>AWS example:</strong>
+<pre>ssh -i nandu-key.pem ec2-user@&lt;EC2-PUBLIC-IP&gt;</pre>
+</div>
+</article>
+
+<!-- 10 -->
+
+<article class="card">
+<div class="number">QUESTION 10</div>
+<h2>What is SCP?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+SCP stands for <strong>Secure Copy Protocol</strong>. It is used to
+securely copy files between systems over SSH.
+</p>
+
+<h3>Local → Remote</h3>
+<pre>scp file.txt user@server:/home/user/</pre>
+
+<h3>Remote → Local</h3>
+<pre>scp user@server:/home/user/file.txt .</pre>
+
+<h3>Directory</h3>
+<pre>scp -r project/ user@server:/home/user/</pre>
+</article>
+
+<!-- 11 -->
+
+<article class="card">
+<div class="number">QUESTION 11</div>
+<h2>SCP vs SSH</h2>
+
+<table>
+<tr>
+<th>SSH</th>
+<th>SCP</th>
+</tr>
+<tr>
+<td>Remote shell/access</td>
+<td>File transfer</td>
+</tr>
+<tr>
+<td>Run commands remotely</td>
+<td>Copy files/directories</td>
+</tr>
+<tr>
+<td><code>ssh user@server</code></td>
+<td><code>scp file user@server:path</code></td>
+</tr>
+</table>
+</article>
+
+<!-- 12 -->
+
+<article class="card">
+<div class="number">QUESTION 12</div>
+<h2>What is rsync?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ DEVOPS FAVORITE</span>
+
+<p>
+<code>rsync</code> is commonly used to synchronize files and
+directories efficiently between locations.
+</p>
+
+<pre>rsync -av project/ user@server:/home/user/project/</pre>
+
+<p>
+It can transfer only changed portions/files depending on the
+synchronization scenario, making it useful for repeated transfers.
+</p>
+</article>
+
+<!-- 13 -->
+
+<article class="card">
+<div class="number">QUESTION 13</div>
+<h2>SCP vs rsync</h2>
+<span class="priority">⭐⭐⭐⭐⭐ INTERVIEW FAVORITE</span>
+
+<table>
+<tr>
+<th>SCP</th>
+<th>rsync</th>
+</tr>
+<tr>
+<td>Simple file copying</td>
+<td>Synchronization</td>
+</tr>
+<tr>
+<td>Easy for one-time transfers</td>
+<td>Useful for repeated transfers</td>
+</tr>
+<tr>
+<td>Less synchronization-focused</td>
+<td>Efficient for changed data</td>
+</tr>
+</table>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"I use SCP for straightforward file transfers and rsync when I
+need efficient synchronization between source and destination,
+especially for repeated transfers."
+</p>
+</div>
+</article>
+
+<!-- 14 -->
+
+<article class="card">
+<div class="number">🔥 REAL-TIME SCENARIO</div>
+<h2>SSH Connection Refused</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST PRACTICE</span>
+
+<pre>ssh user@server-ip</pre>
+
+<p>
+If you receive:</p>
+
+<pre>Connection refused</pre>
+
+<p>
+the target host may be reachable, but the connection is being
+actively refused. Investigate whether the SSH service is running
+and whether the expected port is listening.
+</p>
+
+<pre>
+systemctl status ssh
+systemctl status sshd
+ss -lntp
+</pre>
+
+<div class="note">
+<strong>Also check:</strong>
+<ul>
+<li>Correct IP address</li>
+<li>Correct SSH port</li>
+<li>Firewall rules</li>
+<li>Cloud security-group rules</li>
+<li>SSH service configuration</li>
+</ul>
+</div>
+</article>
+
+<!-- 15 -->
+
+<article class="card">
+<div class="number">🔥 REAL-TIME SCENARIO</div>
+<h2>SSH Connection Timed Out</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>ssh: connect to host server port 22: Connection timed out</pre>
+
+<p>
+A timeout commonly points toward a network path or filtering
+problem rather than simply an SSH authentication failure.
+</p>
+
+<div class="flow">
+Client
+<br>↓
+<br>Network
+<br>↓
+<br>Firewall / Security Group
+<br>↓
+<br>Server
+<br>↓
+<br>Port 22
+</div>
+
+<p>
+Check routing, security groups, firewalls, network ACLs and whether
+the server is reachable.
+</p>
+</article>
+
+<!-- 16 -->
+
+<article class="card">
+<div class="number">🔥 REAL-TIME SCENARIO</div>
+<h2>Permission Denied (publickey)</h2>
+<span class="priority">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+<pre>Permission denied (publickey)</pre>
+
+<p>
+This usually means SSH key authentication did not succeed.
+</p>
+
+<h3>Check</h3>
+<ul>
+<li>Correct username</li>
+<li>Correct private key</li>
+<li>Correct server public key</li>
+<li>Private-key permissions</li>
+<li><code>authorized_keys</code></li>
+<li>SSH configuration</li>
+</ul>
+
+<pre>chmod 600 my-key.pem</pre>
+
+<div class="answer">
+<strong>🎤 Interview Answer</strong>
+<p>
+"For public-key authentication failures, I verify the username,
+private key, corresponding public key, authorized_keys and SSH
+permissions before checking the SSH daemon configuration."
+</p>
+</div>
+</article>
+
+<!-- 17 -->
+
+<article class="card">
+<div class="number">QUESTION 17</div>
+<h2>How do you debug SSH in detail?</h2>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+
+<pre>ssh -v user@server-ip</pre>
+
+<p>
+For more detailed debugging:
+</p>
+
+<pre>ssh -vvv user@server-ip</pre>
+
+<p>
+Verbose output can help identify where authentication or connection
+setup is failing.
+</p>
+</article>
+
+<!-- 18 -->
+
+<article class="card">
+<div class="number">QUESTION 18</div>
+<h2>What is SSH Agent?</h2>
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+<code>ssh-agent</code> can hold private keys in memory so that SSH
+operations can use them without repeatedly supplying the key
+passphrase.
+</p>
+
+<pre>
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+</pre>
+
+<p>
+This is especially useful when working with multiple SSH operations
+during a session.
+</p>
+</article>
+
+<!-- 19 -->
+
+<article class="card">
+<div class="number">QUESTION 19</div>
+<h2>What is known_hosts?</h2>
+<span class="priority">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<p>
+SSH commonly stores information about previously contacted servers
+in:
+</p>
+
+<pre>~/.ssh/known_hosts</pre>
+
+<p>
+This helps SSH detect unexpected changes to a server's host key.
+</p>
+
+<div class="warning">
+<strong>⚠️ Security Concept</strong>
+<p>
+Do not blindly ignore host-key warnings. They can indicate a
+legitimate server change, but they can also indicate a
+man-in-the-middle attack.
+</p>
+</div>
+</article>
+
+<!-- 20 -->
+
+<article class="card">
+<div class="number">QUESTION 20</div>
+<h2>What is the SSH configuration file?</h2>
+<span class="priority">⭐⭐⭐⭐</span>
+
+<p>
+The client-side configuration is commonly:
+</p>
+
+<pre>~/.ssh/config</pre>
+
+<p>
+It allows convenient host-specific settings.
+</p>
+
+<pre>
+Host myserver
+    HostName 192.168.1.20
+    User ubuntu
+    IdentityFile ~/.ssh/id_ed25519
+</pre>
+
+<p>
+Then connect simply with:</p>
+
+<pre>ssh myserver</pre>
+
+</article>
+
+<!-- 21 -->
+
+<article class="card">
+<div class="number">🔥 DEVOPS SCENARIO</div>
+<h2>Deploy a File to a Remote Server</h2>
+<span class="priority">⭐⭐⭐⭐⭐ PRACTICAL</span>
+
+<div class="flow">
+Build Artifact
+<br>↓
+<br>SCP / rsync
+<br>↓
+<br>Remote Server
+<br>↓
+<br>Deployment
+</div>
+
+<pre>
+scp app.jar user@server:/opt/app/
+
+ssh user@server
+
+ls -lh /opt/app/app.jar
+</pre>
+
+<p>
+In modern CI/CD pipelines, dedicated deployment mechanisms and
+automation tools are often preferred, but understanding SSH-based
+transfer remains important for troubleshooting and legacy workflows.
+</p>
+</article>
+
+<!-- 22 -->
+
+<article class="card">
+<div class="number">🧠 FINAL REVISION</div>
+<h2>SSH & Remote Access Cheat Sheet</h2>
+
+<div class="note">
+
+<strong>SSH</strong>
+→ Secure remote access.
+
+<br><br>
+
+<strong>Port 22</strong>
+→ Default SSH port.
+
+<br><br>
+
+<strong>ssh user@server</strong>
+→ Connect to remote server.
+
+<br><br>
+
+<strong>ssh -i key.pem user@server</strong>
+→ Use specific private key.
+
+<br><br>
+
+<strong>ssh -v</strong>
+→ Verbose debugging.
+
+<br><br>
+
+<strong>authorized_keys</strong>
+→ Stores allowed public keys.
+
+<br><br>
+
+<strong>known_hosts</strong>
+→ Stores known server host-key information.
+
+<br><br>
+
+<strong>SCP</strong>
+→ Secure file copy.
+
+<br><br>
+
+<strong>rsync</strong>
+→ Efficient file synchronization.
+
+<br><br>
+
+<strong>chmod 600 private-key</strong>
+→ Restrict private-key permissions.
+
+<br><br>
+
+<strong>Connection refused</strong>
+→ Check service/port/listener/firewall.
+
+<br><br>
+
+<strong>Connection timed out</strong>
+→ Check network path/firewall/security controls.
+
+<br><br>
+
+<strong>Permission denied (publickey)</strong>
+→ Check user/key/authorized_keys/permissions.
+
+</div>
+</article>
+
+<!-- 23 -->
+
+<article class="card">
+<h2>🎤 FINAL INTERVIEW QUESTIONS</h2>
+
+<p>
+<strong>Q:</strong> What is SSH?<br>
+<strong>A:</strong> A secure protocol for remote access to systems.
+
+<br><br>
+
+<strong>Q:</strong> What is the default SSH port?<br> <strong>A:</strong> 22.
+
+<br><br>
+
+<strong>Q:</strong> What is the difference between public and private keys?<br> <strong>A:</strong> The public key is placed on the server; the private
+key remains secret with the client.
+
+<br><br>
+
+<strong>Q:</strong> What is SCP?<br> <strong>A:</strong> A command used to securely copy files over SSH.
+
+<br><br>
+
+<strong>Q:</strong> SCP vs rsync?<br> <strong>A:</strong> SCP is simple file copying; rsync is designed for
+efficient synchronization.
+
+<br><br>
+
+<strong>Q:</strong> What does Permission denied (publickey) mean?<br> <strong>A:</strong> SSH public-key authentication failed.
+
+<br><br>
+
+<strong>Q:</strong> How do you debug SSH?<br> <strong>A:</strong> Use <code>ssh -v</code> or <code>ssh -vvv</code>
+and check keys, usernames, permissions and server configuration.
+
+<br><br>
+
+<strong>Q:</strong> Connection timed out vs refused?<br> <strong>A:</strong> Timeout commonly indicates a network/filtering
+issue; refused means the destination actively rejected the connection,
+often because the service is not listening or access is being rejected.
+
+</p>
+</article>
+
+</main>
+
+<footer>
+<p>🔐 Linux • SSH • Remote Access • File Transfer</p>
+<p>Nandu's DevOps Interview Master Guide • 2026</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1646 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terraform Advanced Concepts - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:10px 0;
+}
+
+h1 span{color:#60a5fa}
+
+header p{
+    max-width:920px;
+    margin:15px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{color:#60a5fa}
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#60a5fa;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">⚙️</div>
+
+<a href="index.html" class="back">← Back to Terraform</a>
+
+<h1>Terraform <span>Advanced Concepts</span></h1>
+
+<p>
+Interview-focused guide covering Data Sources, Locals, Functions,
+Expressions, count, for_each, depends_on, Dynamic Blocks,
+Provisioners and real-time Terraform scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Why These Concepts Matter</h2>
+
+<p>
+These features help Terraform work with existing infrastructure,
+reuse values, dynamically create resources and express complex
+infrastructure logic without unnecessary duplication.
+</p>
+
+<div class="flow">
+
+Data Sources
+→ Read Existing Infrastructure
+
+<br><br>
+
+Locals
+→ Reuse Calculated Values
+
+<br><br>
+
+Functions / Expressions
+→ Transform Values
+
+<br><br>
+
+count / for_each
+→ Create Multiple Resources
+
+<br><br>
+
+depends_on
+→ Explicit Dependency
+
+<br><br>
+
+Dynamic Blocks
+→ Generate Nested Blocks
+
+<br><br>
+
+Provisioners
+→ Last-resort Configuration Actions
+
+</div>
+
+</div>
+
+
+<!-- DATA SOURCES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a Terraform Data Source?</h2>
+
+<div class="answer">
+
+A data source allows Terraform to read information about existing
+infrastructure or external data without creating that object.
+
+The keyword used is:
+
+<pre><code>data</code></pre>
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+An AWS VPC already exists.
+
+Terraform should use that VPC instead of creating another one.
+
+Terraform can retrieve the existing VPC using a data source.
+
+</div>
+
+</div>
+
+
+<!-- DATA SOURCE EXAMPLE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. AWS VPC Data Source</h2>
+
+<pre><code>data "aws_vpc" "existing" {
+
+  filter {
+    name   = "tag:Name"
+    values = ["production-vpc"]
+  }
+}</code></pre>
+
+<h3>Use the VPC ID</h3>
+
+<pre><code>resource "aws_subnet" "app" {
+
+  vpc_id = data.aws_vpc.existing.id
+
+  cidr_block = "10.0.10.0/24"
+
+}</code></pre>
+
+<div class="answer">
+
+Here Terraform reads the existing VPC and uses its ID when creating
+the subnet.
+
+</div>
+
+</div>
+
+
+<!-- DATA SOURCE VS RESOURCE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Resource vs Data Source</h2>
+
+<table>
+
+<tr>
+<th>Resource</th>
+<th>Data Source</th>
+</tr>
+
+<tr>
+<td>Creates or manages infrastructure.</td>
+<td>Reads existing information.</td>
+</tr>
+
+<tr>
+<td><code>resource</code></td>
+<td><code>data</code></td>
+</tr>
+
+<tr>
+<td>Terraform manages its lifecycle.</td>
+<td>Terraform does not create the object.</td>
+</tr>
+
+<tr>
+<td>Example: create VPC.</td>
+<td>Example: find existing VPC.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Easy interview answer:</strong>
+
+"Resource is used to create or manage infrastructure. Data source is
+used to retrieve information about existing infrastructure."
+
+</div>
+
+</div>
+
+
+<!-- AMI -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Real-Time AWS AMI Data Source</h2>
+
+<pre><code>data "aws_ami" "amazon_linux" {
+
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+}</code></pre>
+
+<h3>Use it</h3>
+
+<pre><code>resource "aws_instance" "app" {
+
+  ami           = data.aws_ami.amazon_linux.id
+  instance_type = "t3.micro"
+
+}</code></pre>
+
+<div class="scenario">
+
+Instead of hard-coding an AMI ID that can change between regions,
+Terraform can dynamically look up a suitable AMI.
+
+</div>
+
+</div>
+
+
+<!-- LOCALS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What are Terraform Locals?</h2>
+
+<div class="answer">
+
+Locals allow you to assign reusable names to expressions or computed
+values inside a module.
+
+They help avoid repeating the same expression multiple times.
+
+</div>
+
+<pre><code>locals {
+
+  environment = "production"
+
+  common_tags = {
+    Environment = local.environment
+    Project     = "payment-app"
+    ManagedBy   = "Terraform"
+  }
+
+}</code></pre>
+
+<h3>Use local value</h3>
+
+<pre><code>resource "aws_s3_bucket" "app" {
+
+  bucket = "payment-${local.environment}"
+
+  tags = local.common_tags
+
+}</code></pre>
+
+</div>
+
+
+<!-- LOCALS VS VARIABLES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Variables vs Locals</h2>
+
+<table>
+
+<tr>
+<th>Variables</th>
+<th>Locals</th>
+</tr>
+
+<tr>
+<td>Input supplied to a module.</td>
+<td>Value calculated or reused inside a module.</td>
+</tr>
+
+<tr>
+<td>Can change between environments.</td>
+<td>Usually derived from configuration.</td>
+</tr>
+
+<tr>
+<td><code>var.environment</code></td>
+<td><code>local.environment</code></td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Remember:</strong>
+
+Variable = external input.
+
+Local = internal reusable value.
+
+</div>
+
+</div>
+
+
+<!-- FUNCTIONS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Terraform Functions</h2>
+
+<div class="answer">
+
+Terraform functions transform or manipulate values.
+
+Common functions include:
+
+</div>
+
+<ul>
+<li>length()</li>
+<li>join()</li>
+<li>split()</li>
+<li>lookup()</li>
+<li>merge()</li>
+<li>concat()</li>
+<li>contains()</li>
+<li>toset()</li>
+<li>tolist()</li>
+<li>tomap()</li>
+<li>upper()</li>
+<li>lower()</li>
+<li>replace()</li>
+<li>file()</li>
+<li>templatefile()</li>
+</ul>
+
+</div>
+
+
+<!-- FUNCTION EXAMPLES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Important Function Examples</h2>
+
+<h3>length()</h3>
+
+<pre><code>locals {
+  subnet_count = length(var.subnets)
+}</code></pre>
+
+<h3>join()</h3>
+
+<pre><code>locals {
+  name = join("-", ["prod", "web", "01"])
+}</code></pre>
+
+<h3>merge()</h3>
+
+<pre><code>locals {
+
+  tags = merge(
+    var.common_tags,
+    {
+      Environment = "production"
+    }
+  )
+
+}</code></pre>
+
+<h3>contains()</h3>
+
+<pre><code>contains(["dev", "qa", "prod"], var.environment)</code></pre>
+
+</div>
+
+
+<!-- EXPRESSIONS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Terraform Expressions</h2>
+
+<div class="answer">
+
+Expressions allow Terraform configuration to calculate values,
+reference resources and make decisions.
+
+</div>
+
+<pre><code>name = "app-${var.environment}"
+
+instance_type = var.environment == "prod"
+  ? "t3.medium"
+  : "t3.micro"</code></pre>
+
+<div class="scenario">
+
+For Production:
+
+<pre><code>instance_type = "t3.medium"</code></pre>
+
+For Dev:
+
+<pre><code>instance_type = "t3.micro"</code></pre>
+
+The conditional expression avoids duplicating the resource.
+
+</div>
+
+</div>
+
+
+<!-- CONDITIONAL -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Conditional Expression</h2>
+
+<pre><code>instance_type = var.environment == "production"
+  ? "t3.large"
+  : "t3.micro"</code></pre>
+
+<div class="answer">
+
+Syntax:
+
+<pre><code>condition ? true_value : false_value</code></pre>
+
+</div>
+
+<div class="interview">
+
+A common real-time use case is selecting different infrastructure
+sizes or settings based on the environment.
+
+</div>
+
+</div>
+
+
+<!-- COUNT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is count?</h2>
+
+<div class="answer">
+
+<code>count</code> creates multiple instances of a resource based on
+a numeric value.
+
+</div>
+
+<pre><code>resource "aws_instance" "app" {
+
+  count = 3
+
+  ami           = "ami-xxxxxxxx"
+  instance_type = "t3.micro"
+
+}</code></pre>
+
+<p>
+Terraform creates three instances:
+</p>
+
+<pre><code>aws_instance.app[0]
+aws_instance.app[1]
+aws_instance.app[2]</code></pre>
+
+</div>
+
+
+<!-- COUNT WITH LIST -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. count.index</h2>
+
+<pre><code>variable "instance_names" {
+
+  default = [
+    "web",
+    "api",
+    "worker"
+  ]
+
+}
+
+resource "aws_instance" "app" {
+
+  count = length(var.instance_names)
+
+  tags = {
+    Name = var.instance_names[count.index]
+  }
+
+}</code></pre>
+
+<div class="answer">
+
+<code>count.index</code> gives the numeric index of the current
+resource instance.
+
+</div>
+
+</div>
+
+
+<!-- FOR EACH -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What is for_each?</h2>
+
+<div class="answer">
+
+<code>for_each</code> creates multiple resource instances from a map
+or set.
+
+It is useful when each instance has a meaningful key.
+
+</div>
+
+<pre><code>variable "instances" {
+
+  default = {
+    web    = "t3.micro"
+    api    = "t3.small"
+    worker = "t3.medium"
+  }
+
+}
+
+resource "aws_instance" "app" {
+
+  for_each = var.instances
+
+  ami           = "ami-xxxxxxxx"
+  instance_type = each.value
+
+  tags = {
+    Name = each.key
+  }
+
+}</code></pre>
+
+</div>
+
+
+<!-- COUNT VS FOREACH -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. count vs for_each</h2>
+
+<table>
+
+<tr>
+<th>count</th>
+<th>for_each</th>
+</tr>
+
+<tr>
+<td>Uses a number.</td>
+<td>Uses map or set.</td>
+</tr>
+
+<tr>
+<td>Uses numeric index.</td>
+<td>Uses meaningful keys.</td>
+</tr>
+
+<tr>
+<td><code>count.index</code></td>
+<td><code>each.key</code> / <code>each.value</code></td>
+</tr>
+
+<tr>
+<td>Good for identical or index-based instances.</td>
+<td>Good when instances have distinct identities.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Interview answer:</strong>
+
+"I prefer for_each when resources have meaningful identities because
+the keys make resource addressing clearer and can reduce unwanted
+index-related changes."
+
+</div>
+
+</div>
+
+
+<!-- FOREACH SET -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. for_each with a Set</h2>
+
+<pre><code>variable "users" {
+
+  type = set(string)
+
+  default = [
+    "dev",
+    "qa",
+    "admin"
+  ]
+
+}
+
+resource "aws_iam_user" "users" {
+
+  for_each = var.users
+
+  name = each.value
+
+}</code></pre>
+
+</div>
+
+
+<!-- DEPENDS ON -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. What is depends_on?</h2>
+
+<div class="answer">
+
+<code>depends_on</code> explicitly tells Terraform that one resource
+depends on another resource or module.
+
+Terraform normally builds dependencies automatically from references,
+so <code>depends_on</code> should be used only when the dependency
+cannot be inferred automatically.
+
+</div>
+
+<pre><code>resource "aws_instance" "app" {
+
+  ami           = "ami-xxxxxxxx"
+  instance_type = "t3.micro"
+
+  depends_on = [
+    aws_iam_role_policy.app
+  ]
+
+}</code></pre>
+
+</div>
+
+
+<!-- IMPLICIT VS EXPLICIT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Implicit vs Explicit Dependency</h2>
+
+<h3>Implicit dependency</h3>
+
+<pre><code>resource "aws_instance" "app" {
+
+  subnet_id = aws_subnet.app.id
+
+}</code></pre>
+
+<p>
+Terraform automatically knows that the instance depends on the
+subnet because the instance references its ID.
+</p>
+
+<h3>Explicit dependency</h3>
+
+<pre><code>depends_on = [
+  aws_iam_role_policy.app
+]</code></pre>
+
+<div class="answer">
+
+Use explicit dependencies only when Terraform cannot determine the
+relationship from resource references.
+
+</div>
+
+</div>
+
+
+<!-- DYNAMIC -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. What is a Dynamic Block?</h2>
+
+<div class="answer">
+
+A dynamic block generates repeated nested configuration blocks from
+a collection.
+
+It is useful when a resource contains nested blocks that need to be
+created dynamically.
+
+</div>
+
+<pre><code>dynamic "ingress" {
+
+  for_each = var.ingress_rules
+
+  content {
+
+    from_port   = ingress.value.from_port
+    to_port     = ingress.value.to_port
+    protocol    = ingress.value.protocol
+    cidr_blocks = ingress.value.cidr_blocks
+
+  }
+}</code></pre>
+
+</div>
+
+
+<!-- DYNAMIC REAL TIME -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 19. Dynamic Block Real-Time Example</h2>
+
+<div class="scenario">
+
+Suppose a security group has different inbound rules for:
+
+<br><br>
+
+HTTP → 80
+
+<br>
+
+HTTPS → 443
+
+<br>
+
+SSH → 22
+
+<br><br>
+
+Instead of writing many repeated nested blocks manually, a dynamic
+block can generate them from a variable.
+
+</div>
+
+<pre><code>variable "ingress_rules" {
+
+  default = {
+    http = {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    https = {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+
+}</code></pre>
+
+</div>
+
+
+<!-- PROVISIONERS -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 20. What are Terraform Provisioners?</h2>
+
+<div class="answer">
+
+Provisioners allow Terraform to perform actions on or after resource
+creation.
+
+Examples include:
+
+<ul>
+<li>local-exec</li>
+<li>remote-exec</li>
+<li>file</li>
+</ul>
+
+</div>
+
+<div class="warning">
+
+Provisioners are generally considered a last resort.
+
+Terraform is designed to manage infrastructure declaratively.
+Configuration-management tools, cloud-init, images and other
+mechanisms are often preferable for application setup.
+
+</div>
+
+</div>
+
+
+<!-- LOCAL EXEC -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 21. local-exec Example</h2>
+
+<pre><code>resource "aws_instance" "app" {
+
+  ami           = "ami-xxxxxxxx"
+  instance_type = "t3.micro"
+
+  provisioner "local-exec" {
+
+    command = "echo Instance created"
+
+  }
+
+}</code></pre>
+
+<div class="answer">
+
+<code>local-exec</code> runs the command on the machine where
+Terraform is executing.
+
+It does not run the command inside the EC2 instance.
+
+</div>
+
+</div>
+
+
+<!-- REMOTE EXEC -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 22. remote-exec Example</h2>
+
+<pre><code>provisioner "remote-exec" {
+
+  inline = [
+    "sudo apt-get update",
+    "sudo apt-get install -y nginx"
+  ]
+
+  connection {
+
+    type        = "ssh"
+    host        = self.public_ip
+    user        = "ubuntu"
+    private_key = file("key.pem")
+
+  }
+
+}</code></pre>
+
+<div class="warning">
+
+For production systems, prefer immutable images, cloud-init,
+configuration management or other appropriate automation instead of
+relying heavily on remote-exec.
+
+</div>
+
+</div>
+
+
+<!-- PROVISIONER FAILURE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐ 23. What happens if a Provisioner fails?</h2>
+
+<div class="answer">
+
+Provisioner behavior depends on the resource lifecycle and
+provisioner configuration.
+
+By default, a creation-time provisioner failure can cause the
+resource to be marked as tainted in older Terraform terminology and
+lead to recreation behavior.
+
+Modern Terraform workflows should be designed carefully rather than
+depending on provisioners for critical configuration.
+
+</div>
+
+<div class="interview">
+
+The important interview point:
+
+<strong>Provisioners are not the preferred way to configure
+applications.</strong>
+
+</div>
+
+</div>
+
+
+<!-- DATA SOURCE MULTIPLE -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 24. Data Source with Filters</h2>
+
+<pre><code>data "aws_subnet" "private" {
+
+  filter {
+    name   = "tag:Tier"
+    values = ["private"]
+  }
+
+  filter {
+    name   = "tag:Environment"
+    values = ["production"]
+  }
+
+}</code></pre>
+
+<p>
+Filters allow Terraform to identify the required existing object.
+</p>
+
+</div>
+
+
+<!-- LOCALS COMPLEX -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 25. Locals for Common Tags</h2>
+
+<pre><code>variable "environment" {
+  type = string
+}
+
+variable "project" {
+  type = string
+}
+
+locals {
+
+  common_tags = {
+    Environment = var.environment
+    Project     = var.project
+    ManagedBy   = "Terraform"
+    Owner       = "DevOps"
+  }
+
+}
+
+resource "aws_s3_bucket" "app" {
+
+  bucket = "${var.project}-${var.environment}"
+
+  tags = local.common_tags
+
+}</code></pre>
+
+<div class="scenario">
+
+This pattern is commonly useful when many AWS resources need the same
+standard tags.
+
+</div>
+
+</div>
+
+
+<!-- CONDITIONAL COUNT -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 26. Conditional Resource Creation</h2>
+
+<pre><code>variable "create_monitoring" {
+  type    = bool
+  default = true
+}
+
+resource "aws_cloudwatch_log_group" "app" {
+
+  count = var.create_monitoring ? 1 : 0
+
+  name = "/app/logs"
+
+}</code></pre>
+
+<div class="answer">
+
+If <code>create_monitoring = true</code>, Terraform creates one
+resource.
+
+If false, Terraform creates zero instances.
+
+</div>
+
+</div>
+
+
+<!-- FOR EXPRESSION -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 27. For Expressions</h2>
+
+<div class="answer">
+
+For expressions transform one collection into another collection.
+
+</div>
+
+<pre><code>variable "names" {
+
+  default = [
+    "web",
+    "api",
+    "database"
+  ]
+
+}
+
+output "upper_names" {
+
+  value = [
+    for name in var.names : upper(name)
+  ]
+
+}</code></pre>
+
+<p>
+Result:
+</p>
+
+<pre><code>[
+  "WEB",
+  "API",
+  "DATABASE"
+]</code></pre>
+
+</div>
+
+
+<!-- REAL WORLD -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Real-Time Architecture Example</h2>
+
+<div class="flow">
+
+Existing AWS VPC
+<br>
+↓
+<br>
+<strong>Data Source</strong>
+<br>
+↓
+<br>
+VPC ID
+<br>
+↓
+<br>
+EC2 Module
+<br>
+↓
+<br>
+<strong>for_each</strong>
+<br>
+↓
+<br>
+Web / API / Worker
+<br>
+↓
+<br>
+<strong>Locals</strong>
+<br>
+↓
+<br>
+Common Tags
+<br>
+↓
+<br>
+AWS Infrastructure
+
+</div>
+
+<div class="scenario">
+
+This demonstrates how advanced Terraform features work together
+instead of existing as isolated concepts.
+
+</div>
+
+</div>
+
+
+<!-- TROUBLESHOOTING -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 29. Troubleshooting count / for_each</h2>
+
+<div class="scenario">
+
+<strong>Problem:</strong>
+
+A resource unexpectedly wants to be destroyed and recreated after
+changing from <code>count</code> to <code>for_each</code>.
+
+<br><br>
+
+<strong>Why?</strong>
+
+The resource addressing model changed.
+
+For example:
+
+<pre><code>aws_instance.app[0]</code></pre>
+
+may become:
+
+<pre><code>aws_instance.app["web"]</code></pre>
+
+</div>
+
+<div class="answer">
+
+When changing resource addressing, carefully plan state migrations
+using appropriate Terraform state commands or configuration
+techniques.
+
+</div>
+
+</div>
+
+
+<!-- TROUBLESHOOTING DATA -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 30. Data Source Troubleshooting</h2>
+
+<div class="scenario">
+
+<strong>Error:</strong>
+
+Terraform cannot find the requested AMI, VPC or subnet.
+
+<br><br>
+
+Check:
+
+<ul>
+<li>AWS region</li>
+<li>Account</li>
+<li>Filters</li>
+<li>Tags</li>
+<li>Resource state</li>
+<li>Permissions</li>
+</ul>
+
+</div>
+
+<pre><code>terraform plan
+
+terraform providers
+
+aws sts get-caller-identity
+
+aws configure list</code></pre>
+
+</div>
+
+
+<!-- BEST PRACTICES -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Advanced Terraform Best Practices</h2>
+
+<ul>
+<li>Use data sources for existing infrastructure.</li>
+<li>Use locals for reusable calculated values.</li>
+<li>Use variables for external inputs.</li>
+<li>Prefer for_each when resources have meaningful identities.</li>
+<li>Use count when numeric repetition is appropriate.</li>
+<li>Prefer implicit dependencies through references.</li>
+<li>Use depends_on only when necessary.</li>
+<li>Use dynamic blocks only when they improve maintainability.</li>
+<li>Treat provisioners as a last resort.</li>
+<li>Keep expressions readable.</li>
+<li>Validate inputs where appropriate.</li>
+<li>Review terraform plan before production apply.</li>
+</ul>
+
+</div>
+
+
+<!-- PRIORITY -->
+
+<div class="card">
+
+<h2>🔥 Interview Priority</h2>
+
+<table>
+
+<tr>
+<th>Topic</th>
+<th>Priority</th>
+<th>What to Know</th>
+</tr>
+
+<tr>
+<td>Data Sources</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>Purpose, syntax, AWS examples</td>
+</tr>
+
+<tr>
+<td>count</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>count.index, resource instances</td>
+</tr>
+
+<tr>
+<td>for_each</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>keys, values, resource addressing</td>
+</tr>
+
+<tr>
+<td>Locals</td>
+<td>⭐⭐⭐⭐</td>
+<td>Reusable calculated values</td>
+</tr>
+
+<tr>
+<td>Functions</td>
+<td>⭐⭐⭐⭐</td>
+<td>Common functions and use cases</td>
+</tr>
+
+<tr>
+<td>Expressions</td>
+<td>⭐⭐⭐⭐</td>
+<td>References and conditionals</td>
+</tr>
+
+<tr>
+<td>depends_on</td>
+<td>⭐⭐⭐⭐</td>
+<td>Explicit dependency</td>
+</tr>
+
+<tr>
+<td>Dynamic Blocks</td>
+<td>⭐⭐⭐</td>
+<td>Concept and basic example</td>
+</tr>
+
+<tr>
+<td>Provisioners</td>
+<td>⭐⭐⭐</td>
+<td>Basics + why last resort</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- QUESTIONS -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+<li>What is a Data Source in Terraform?</li>
+<li>Resource vs Data Source?</li>
+<li>Give a real-time AWS Data Source example.</li>
+<li>What are Terraform locals?</li>
+<li>Variables vs locals?</li>
+<li>What is count?</li>
+<li>What is for_each?</li>
+<li>count vs for_each?</li>
+<li>What is count.index?</li>
+<li>What are each.key and each.value?</li>
+<li>What is depends_on?</li>
+<li>Implicit vs explicit dependency?</li>
+<li>What are Terraform functions?</li>
+<li>What is a conditional expression?</li>
+<li>What is a dynamic block?</li>
+<li>What are Terraform provisioners?</li>
+<li>Why are provisioners considered a last resort?</li>
+<li>How do you dynamically select an AWS AMI?</li>
+<li>How do you create resources conditionally?</li>
+<li>How do you troubleshoot a data source?</li>
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up & Scenario Questions</h2>
+
+<ul>
+<li>You already have a VPC. How will Terraform use it?</li>
+<li>How would you dynamically find the latest Amazon Linux AMI?</li>
+<li>When would you use count instead of for_each?</li>
+<li>Why can for_each be safer for named resources?</li>
+<li>When should depends_on be used?</li>
+<li>Why should you avoid unnecessary depends_on?</li>
+<li>How would you create a resource only in Production?</li>
+<li>How would you create three EC2 instances with different sizes?</li>
+<li>How would you apply common tags to every resource?</li>
+<li>When would you use a dynamic block?</li>
+<li>Why should provisioners generally be avoided?</li>
+<li>What happens if a data source returns no matching resource?</li>
+</ul>
+
+</div>
+
+
+<!-- COMMANDS -->
+
+<div class="card">
+
+<h2>🧠 Terraform Advanced Command Cheat Sheet</h2>
+
+<pre><code># Format
+terraform fmt
+
+# Validate
+terraform validate
+
+# Initialize
+terraform init
+
+# Plan
+terraform plan
+
+# Apply
+terraform apply
+
+# Inspect providers
+terraform providers
+
+# Inspect state
+terraform state list
+
+# Show output
+terraform output
+
+# Show Terraform version
+terraform version</code></pre>
+
+</div>
+
+
+<!-- REVISION -->
+
+<div class="card">
+
+<h2>🚀 60-Second Advanced Terraform Revision</h2>
+
+<div class="flow">
+
+<strong>Data Source</strong>
+→ Read existing infrastructure
+
+<br><br>
+
+<strong>Local</strong>
+→ Reusable internal value
+
+<br><br>
+
+<strong>Function</strong>
+→ Transform data
+
+<br><br>
+
+<strong>Expression</strong>
+→ Calculate / reference values
+
+<br><br>
+
+<strong>count</strong>
+→ Numeric repetition
+
+<br><br>
+
+<strong>for_each</strong>
+→ Key-based repetition
+
+<br><br>
+
+<strong>depends_on</strong>
+→ Explicit dependency
+
+<br><br>
+
+<strong>Dynamic Block</strong>
+→ Generate nested blocks
+
+<br><br>
+
+<strong>Provisioner</strong>
+→ Last-resort external action
+
+</div>
+
+</div>
+
+
+<!-- FINAL ANSWER -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Advanced Terraform Concepts"</h2>
+
+<div class="interview">
+
+"Terraform provides several features that help us build reusable and
+dynamic infrastructure.
+
+I use Data Sources when I need to retrieve existing infrastructure,
+such as an existing VPC or the latest suitable AMI, instead of
+creating it again.
+
+I use locals for reusable calculated values such as common tags, and
+functions and expressions to transform values or implement
+conditional logic.
+
+For creating multiple resources, I use count when numeric repetition
+is sufficient and for_each when resources have meaningful keys.
+
+Terraform automatically creates dependencies when resources reference
+each other. I use depends_on only when an explicit dependency cannot
+be inferred.
+
+Dynamic blocks can generate repeated nested configuration, while
+provisioners are treated as a last resort because Terraform is
+primarily designed for declarative infrastructure management.
+
+These features help make Terraform configurations reusable,
+maintainable and suitable for real-world DevOps environments."
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+
+⚙️ Terraform Advanced Concepts • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

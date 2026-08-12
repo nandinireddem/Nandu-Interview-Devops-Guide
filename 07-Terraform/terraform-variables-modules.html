@@ -1,0 +1,1659 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Terraform Variables and Modules - DevOps Interview Guide">
+<title>Terraform Variables & Modules - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.icon{
+    font-size:52px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(32px,5vw,52px);
+    margin:0;
+}
+
+h1 span{color:#a78bfa}
+
+header p{
+    max-width:900px;
+    margin:15px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card,.intro{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{color:#a78bfa}
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#a78bfa;
+}
+
+ul,ol{
+    padding-left:25px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🧩</div>
+
+<a href="index.html" class="back">← Back to Terraform</a>
+
+<h1>Terraform <span>Variables & Modules</span></h1>
+
+<p>
+Interview-focused guide covering input variables, tfvars, locals,
+outputs, data sources, types, validation, sensitive values,
+modules, module inputs and outputs, reusable infrastructure and
+real-time DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="intro">
+
+<h2>⭐⭐⭐⭐⭐ Core Concept</h2>
+
+<p>
+Terraform variables and modules are the foundation of reusable
+Infrastructure as Code. Variables make configuration flexible,
+while modules allow infrastructure patterns to be packaged and
+reused.
+</p>
+
+<div class="flow">
+
+Reusable Terraform Code
+<br>
+↓
+<br>
+<strong>Variables</strong>
+→ Environment-specific values
+<br>
+↓
+<br>
+<strong>Modules</strong>
+→ Reusable infrastructure
+<br>
+↓
+<br>
+Dev / QA / Production
+
+</div>
+
+<div class="scenario">
+
+<strong>Real-time example:</strong>
+
+A company creates the same VPC architecture for Dev, QA and
+Production.
+
+Instead of maintaining three completely different Terraform files,
+the team creates a reusable VPC module and passes different CIDRs,
+availability zones and environment values through variables.
+
+</div>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a Terraform Variable?</h2>
+
+<div class="answer">
+
+A Terraform input variable allows a configuration to accept values
+from outside the resource definition.
+
+Variables make Terraform configurations reusable and avoid hard-coding
+environment-specific values.
+
+</div>
+
+<h3>variables.tf</h3>
+
+<pre><code>variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t3.micro"
+}</code></pre>
+
+<h3>Usage</h3>
+
+<pre><code>resource "aws_instance" "app" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+}</code></pre>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why use Variables?</h2>
+
+<ul>
+<li>Avoid hard-coded values.</li>
+<li>Reuse the same configuration.</li>
+<li>Support multiple environments.</li>
+<li>Improve maintainability.</li>
+<li>Make modules configurable.</li>
+<li>Allow CI/CD pipelines to supply values.</li>
+</ul>
+
+<div class="scenario">
+
+<strong>Example:</strong>
+
+Instead of changing the resource code:
+
+<pre><code>instance_type = "t3.micro"</code></pre>
+
+for every environment, define:
+
+<pre><code>instance_type = var.instance_type</code></pre>
+
+and provide different values for Dev and Production.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Variable Types</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>string</td>
+<td><code>"ap-south-1"</code></td>
+</tr>
+
+<tr>
+<td>number</td>
+<td><code>2</code></td>
+</tr>
+
+<tr>
+<td>bool</td>
+<td><code>true</code></td>
+</tr>
+
+<tr>
+<td>list</td>
+<td><code>["a","b","c"]</code></td>
+</tr>
+
+<tr>
+<td>set</td>
+<td><code>toset(["a","b"])</code></td>
+</tr>
+
+<tr>
+<td>map</td>
+<td><code>{env="dev", team="cloud"}</code></td>
+</tr>
+
+<tr>
+<td>object</td>
+<td>Structured collection of named attributes</td>
+</tr>
+
+<tr>
+<td>tuple</td>
+<td>Ordered collection with defined element types</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. String, Number and Boolean Variables</h2>
+
+<pre><code>variable "project_name" {
+  type    = string
+  default = "nandu-project"
+}
+
+variable "replica_count" {
+  type    = number
+  default = 2
+}
+
+variable "enable_monitoring" {
+  type    = bool
+  default = true
+}</code></pre>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. List and Map Variables</h2>
+
+<h3>List</h3>
+
+<pre><code>variable "availability_zones" {
+  type = list(string)
+
+  default = [
+    "ap-south-1a",
+    "ap-south-1b"
+  ]
+}</code></pre>
+
+<h3>Map</h3>
+
+<pre><code>variable "tags" {
+  type = map(string)
+
+  default = {
+    Environment = "Dev"
+    Project     = "Cloud"
+  }
+}</code></pre>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is terraform.tfvars?</h2>
+
+<div class="answer">
+
+A <code>.tfvars</code> file provides values for Terraform input
+variables.
+
+</div>
+
+<pre><code>aws_region    = "ap-south-1"
+instance_type = "t3.micro"
+environment   = "dev"</code></pre>
+
+<div class="scenario">
+
+The same Terraform configuration can be used with different
+<code>.tfvars</code> files for different environments.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Variable Precedence</h2>
+
+<div class="answer">
+
+Terraform supports multiple ways to provide variable values.
+
+Common sources include:
+
+</div>
+
+<ol>
+<li>Variable defaults</li>
+<li>Environment variables such as <code>TF_VAR_name</code></li>
+<li>Automatically loaded <code>terraform.tfvars</code> and
+<code>*.auto.tfvars</code></li>
+<li>Explicit <code>-var</code> and <code>-var-file</code> arguments</li>
+</ol>
+
+<div class="interview">
+
+When multiple sources provide the same variable, Terraform follows
+its documented precedence rules. Explicit command-line variable
+arguments have higher precedence than automatic variable files.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Using -var and -var-file</h2>
+
+<pre><code>terraform plan \
+  -var="environment=dev"</code></pre>
+
+<h3>Using variable file</h3>
+
+<pre><code>terraform plan \
+  -var-file="dev.tfvars"</code></pre>
+
+<div class="scenario">
+
+This is useful in CI/CD when the pipeline needs to select the
+appropriate environment configuration.
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What are Locals?</h2>
+
+<div class="answer">
+
+Local values allow you to assign reusable expressions or computed
+values within a Terraform module.
+
+They are useful when the same derived value is used in multiple
+places.
+
+</div>
+
+<pre><code>locals {
+  common_tags = {
+    Project     = "Nandu"
+    Environment = "Dev"
+    ManagedBy   = "Terraform"
+  }
+}</code></pre>
+
+<h3>Usage</h3>
+
+<pre><code>resource "aws_s3_bucket" "app" {
+
+  bucket = "nandu-demo-bucket"
+
+  tags = local.common_tags
+}</code></pre>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Variable vs Local</h2>
+
+<table>
+
+<tr>
+<th>Variable</th>
+<th>Local</th>
+</tr>
+
+<tr>
+<td>Input supplied to the module.</td>
+<td>Value calculated or defined inside the module.</td>
+</tr>
+
+<tr>
+<td>Can be changed by the caller.</td>
+<td>Not directly supplied as module input.</td>
+</tr>
+
+<tr>
+<td>Used for configurable values.</td>
+<td>Used for reusable internal expressions.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+<strong>Simple answer:</strong>
+
+Variable = external input.
+
+<br>
+
+Local = internal reusable value.
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Variable Validation</h2>
+
+<div class="answer">
+
+Variable validation allows Terraform to reject invalid input before
+infrastructure is created.
+
+</div>
+
+<pre><code>variable "environment" {
+
+  type = string
+
+  validation {
+    condition = contains(
+      ["dev", "qa", "prod"],
+      var.environment
+    )
+
+    error_message = "Environment must be dev, qa or prod."
+  }
+}</code></pre>
+
+<div class="scenario">
+
+This prevents someone from accidentally supplying:
+
+<pre><code>environment = "productionn"</code></pre>
+
+when the module expects only approved values.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Sensitive Variables</h2>
+
+<div class="answer">
+
+Sensitive variables prevent Terraform CLI output from displaying the
+value in normal situations.
+
+</div>
+
+<pre><code>variable "db_password" {
+  type      = string
+  sensitive = true
+}</code></pre>
+
+<div class="warning">
+
+<strong>Important:</strong>
+
+Marking a variable as sensitive does not mean the value is magically
+encrypted everywhere.
+
+Sensitive values can still exist in Terraform state depending on
+how they are used.
+
+Protect the state backend appropriately.
+
+</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What are Outputs?</h2>
+
+<div class="answer">
+
+Outputs expose useful values from a Terraform module.
+
+</div>
+
+<pre><code>output "vpc_id" {
+  description = "VPC ID"
+  value       = aws_vpc.main.id
+}</code></pre>
+
+<div class="scenario">
+
+A networking module can output a VPC ID.
+
+The application module can consume that output.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Sensitive Outputs</h2>
+
+<pre><code>output "admin_password" {
+  value     = var.admin_password
+  sensitive = true
+}</code></pre>
+
+<div class="warning">
+
+Sensitive output values should still be treated as sensitive data.
+The <code>sensitive</code> flag mainly controls how Terraform
+displays the value.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What is a Data Source?</h2>
+
+<div class="answer">
+
+A data source allows Terraform to read information from an existing
+resource or external system without managing that object as a new
+resource.
+
+</div>
+
+<h3>AWS AMI Example</h3>
+
+<pre><code>data "aws_ami" "amazon_linux" {
+
+  most_recent = true
+
+  owners = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+}</code></pre>
+
+<h3>Use it</h3>
+
+<pre><code>resource "aws_instance" "app" {
+
+  ami           = data.aws_ami.amazon_linux.id
+  instance_type = "t3.micro"
+
+}</code></pre>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Resource vs Data Source</h2>
+
+<table>
+
+<tr>
+<th>Resource</th>
+<th>Data Source</th>
+</tr>
+
+<tr>
+<td>Creates or manages infrastructure.</td>
+<td>Reads existing information.</td>
+</tr>
+
+<tr>
+<td>Example: aws_instance</td>
+<td>Example: aws_ami</td>
+</tr>
+
+<tr>
+<td>Terraform manages lifecycle.</td>
+<td>Terraform queries existing information.</td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+Resource = "Create/manage this."
+
+<br><br>
+
+Data source = "Find/read this."
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. What is a Terraform Module?</h2>
+
+<div class="answer">
+
+A Terraform module is a collection of Terraform configuration files
+that can be reused as a logical unit.
+
+The directory containing Terraform configuration is itself a module;
+the root configuration is called the root module, and reusable
+child modules can be called from it.
+
+</div>
+
+<div class="scenario">
+
+Instead of writing VPC resources repeatedly for every project, create
+a reusable VPC module and call it with different inputs.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Root Module vs Child Module</h2>
+
+<table>
+
+<tr>
+<th>Root Module</th>
+<th>Child Module</th>
+</tr>
+
+<tr>
+<td>Configuration where Terraform commands are executed.</td>
+<td>Module called by another module.</td>
+</tr>
+
+<tr>
+<td>Contains the main environment configuration.</td>
+<td>Contains reusable infrastructure logic.</td>
+</tr>
+
+<tr>
+<td>Calls child modules.</td>
+<td>Accepts inputs and exposes outputs.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Basic Module Structure</h2>
+
+<pre><code>terraform-project/
+│
+├── main.tf
+├── variables.tf
+├── outputs.tf
+│
+└── modules/
+    └── vpc/
+        ├── main.tf
+        ├── variables.tf
+        └── outputs.tf</code></pre>
+
+<div class="answer">
+
+The module directory contains reusable Terraform configuration.
+
+The root module supplies values to it and consumes its outputs.
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Calling a Module</h2>
+
+<h3>Root module</h3>
+
+<pre><code>module "vpc" {
+
+  source = "./modules/vpc"
+
+  vpc_cidr = "10.0.0.0/16"
+
+  environment = "dev"
+
+}</code></pre>
+
+<div class="answer">
+
+<code>source</code> tells Terraform where the module comes from.
+
+The other arguments are values passed to module input variables.
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Module Input Variables</h2>
+
+<h3>modules/vpc/variables.tf</h3>
+
+<pre><code>variable "vpc_cidr" {
+  type = string
+}
+
+variable "environment" {
+  type = string
+}</code></pre>
+
+<h3>modules/vpc/main.tf</h3>
+
+<pre><code>resource "aws_vpc" "main" {
+
+  cidr_block = var.vpc_cidr
+
+  tags = {
+    Name        = "${var.environment}-vpc"
+    Environment = var.environment
+  }
+
+}</code></pre>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Module Outputs</h2>
+
+<h3>modules/vpc/outputs.tf</h3>
+
+<pre><code>output "vpc_id" {
+  value = aws_vpc.main.id
+}</code></pre>
+
+<h3>Root module</h3>
+
+<pre><code>module "vpc" {
+  source   = "./modules/vpc"
+  vpc_cidr = "10.0.0.0/16"
+}
+
+output "application_vpc_id" {
+  value = module.vpc.vpc_id
+}</code></pre>
+
+<div class="flow">
+
+Root Module
+<br>
+↓
+<br>
+Module Input
+<br>
+↓
+<br>
+VPC Module
+<br>
+↓
+<br>
+Module Output
+<br>
+↓
+<br>
+Root Module
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Why use Modules?</h2>
+
+<ul>
+<li>Code reusability.</li>
+<li>Consistency across environments.</li>
+<li>Reduced duplication.</li>
+<li>Standardized infrastructure patterns.</li>
+<li>Easier maintenance.</li>
+<li>Clear separation of infrastructure components.</li>
+<li>Useful for large Terraform codebases.</li>
+</ul>
+
+<div class="scenario">
+
+A company can create standard modules for:
+
+<br><br>
+
+VPC → EKS → RDS → ALB → IAM
+
+<br><br>
+
+Teams consume the approved modules instead of rebuilding the same
+infrastructure pattern differently.
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Local Module vs Registry Module</h2>
+
+<table>
+
+<tr>
+<th>Local Module</th>
+<th>Registry/Remote Module</th>
+</tr>
+
+<tr>
+<td><code>source = "./modules/vpc"</code></td>
+<td>Module downloaded from a registry or remote source.</td>
+</tr>
+
+<tr>
+<td>Maintained inside the project/repository.</td>
+<td>Can be shared across projects.</td>
+</tr>
+
+<tr>
+<td>Useful for organization-specific modules.</td>
+<td>Useful for reusable published modules.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Module Versioning</h2>
+
+<div class="answer">
+
+Remote modules can be versioned so teams can control which module
+release they use.
+
+</div>
+
+<pre><code>module "vpc" {
+
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "x.y.z"
+
+}</code></pre>
+
+<div class="warning">
+
+In production, pin module versions intentionally and upgrade them
+through a controlled review process.
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Module Composition</h2>
+
+<div class="flow">
+
+Root Module
+<br>
+↓
+<br>
+VPC Module
+<br>
++
+<br>
+Security Module
+<br>
++
+<br>
+EKS Module
+<br>
++
+<br>
+Monitoring Module
+
+</div>
+
+<div class="answer">
+
+Large Terraform projects are often divided into logical modules
+instead of putting every resource into one enormous file.
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Passing Module Output to Another Module</h2>
+
+<pre><code>module "vpc" {
+  source = "./modules/vpc"
+}
+
+module "app" {
+
+  source = "./modules/app"
+
+  vpc_id = module.vpc.vpc_id
+
+}</code></pre>
+
+<div class="answer">
+
+The application module consumes the VPC module's output.
+
+Terraform can infer the dependency through this reference.
+
+</div>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 28. for_each with Modules</h2>
+
+<div class="answer">
+
+Modules can be created multiple times using <code>for_each</code>.
+
+</div>
+
+<pre><code>module "environment" {
+
+  for_each = {
+    dev  = "10.10.0.0/16"
+    prod = "10.20.0.0/16"
+  }
+
+  source   = "./modules/vpc"
+  vpc_cidr = each.value
+
+}</code></pre>
+
+<div class="scenario">
+
+This can be useful when the same module needs to create multiple
+similar infrastructure instances.
+
+</div>
+
+</div>
+
+
+<!-- 29 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 29. count vs for_each with Modules</h2>
+
+<table>
+
+<tr>
+<th>count</th>
+<th>for_each</th>
+</tr>
+
+<tr>
+<td>Uses numeric indexes.</td>
+<td>Uses keys.</td>
+</tr>
+
+<tr>
+<td>Useful for simple repeated instances.</td>
+<td>Better when instances have meaningful identities.</td>
+</tr>
+
+<tr>
+<td><code>module.app[0]</code></td>
+<td><code>module.app["dev"]</code></td>
+</tr>
+
+</table>
+
+<div class="interview">
+
+When individual instances have meaningful names such as
+<code>dev</code>, <code>qa</code> and <code>prod</code>, I generally
+prefer <code>for_each</code> because the keys describe the instances.
+
+</div>
+
+</div>
+
+
+<!-- 30 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Real-Time Multi-Environment Design</h2>
+
+<div class="scenario">
+
+Suppose a company has:
+
+<br><br>
+
+<strong>Dev</strong> → smaller instances
+
+<br>
+
+<strong>QA</strong> → medium instances
+
+<br>
+
+<strong>Production</strong> → larger instances
+
+</div>
+
+<h3>Reusable module</h3>
+
+<pre><code>module "app" {
+
+  source = "./modules/application"
+
+  instance_type = var.instance_type
+
+  environment   = var.environment
+
+}</code></pre>
+
+<h3>dev.tfvars</h3>
+
+<pre><code>environment   = "dev"
+instance_type = "t3.micro"</code></pre>
+
+<h3>prod.tfvars</h3>
+
+<pre><code>environment   = "prod"
+instance_type = "m7i.large"</code></pre>
+
+<div class="answer">
+
+Same module.
+
+Different input values.
+
+Different environment infrastructure.
+
+</div>
+
+</div>
+
+
+<!-- 31 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 31. Real-Time VPC Module Example</h2>
+
+<div class="flow">
+
+Root Terraform
+<br>
+↓
+<br>
+VPC Module
+<br>
+↓
+<br>
+VPC
+<br>
+↓
+<br>
+Public Subnets
+<br>
+↓
+<br>
+Private Subnets
+<br>
+↓
+<br>
+Route Tables
+<br>
+↓
+<br>
+Outputs
+<br>
+↓
+<br>
+EKS / EC2 / ALB Modules
+
+</div>
+
+<div class="interview">
+
+This modular approach keeps infrastructure organized and allows
+different teams or environments to reuse standardized components.
+
+</div>
+
+</div>
+
+
+<!-- 32 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 32. Common Module Mistakes</h2>
+
+<ul>
+<li>Creating extremely large modules.</li>
+<li>Hard-coding environment-specific values.</li>
+<li>Passing too many unnecessary variables.</li>
+<li>Not documenting module inputs and outputs.</li>
+<li>Not validating inputs.</li>
+<li>Using unpinned remote module versions in production.</li>
+<li>Exposing sensitive values unnecessarily.</li>
+<li>Duplicating the same module logic across repositories.</li>
+</ul>
+
+</div>
+
+
+<!-- 33 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 33. Variables + Modules + State Relationship</h2>
+
+<div class="flow">
+
+Variables
+<br>
+↓
+<br>
+Module Inputs
+<br>
+↓
+<br>
+Resources
+<br>
+↓
+<br>
+Module Outputs
+<br>
+↓
+<br>
+Terraform State
+
+</div>
+
+<div class="answer">
+
+Variables control what values enter the configuration.
+
+Modules organize reusable infrastructure.
+
+Outputs expose useful results.
+
+State records the infrastructure Terraform manages.
+
+</div>
+
+</div>
+
+
+<!-- 34 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 34. Interview: How do you design reusable Terraform code?</h2>
+
+<div class="interview">
+
+"I separate reusable infrastructure into modules and expose only the
+configuration values that consumers actually need through input
+variables.
+
+I use validation for important inputs, locals for repeated internal
+expressions, and outputs for values that other modules need.
+
+For different environments, I keep the infrastructure logic reusable
+and supply environment-specific values through variables or approved
+environment configuration.
+
+For production, I also version reusable modules and review module
+upgrades before adoption."
+
+</div>
+
+</div>
+
+
+<!-- 35 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Questions</h2>
+
+<ol>
+
+<li>What are Terraform variables?</li>
+
+<li>Why do we use variables?</li>
+
+<li>What are Terraform variable types?</li>
+
+<li>What is terraform.tfvars?</li>
+
+<li>What is variable precedence?</li>
+
+<li>What are locals?</li>
+
+<li>Variable vs local?</li>
+
+<li>What are outputs?</li>
+
+<li>What is a data source?</li>
+
+<li>Resource vs data source?</li>
+
+<li>What is a Terraform module?</li>
+
+<li>Root module vs child module?</li>
+
+<li>Why use modules?</li>
+
+<li>How do you pass variables to a module?</li>
+
+<li>How do module outputs work?</li>
+
+<li>How do you pass one module's output to another module?</li>
+
+<li>What is module versioning?</li>
+
+<li>count vs for_each?</li>
+
+<li>How do you design Terraform for Dev, QA and Production?</li>
+
+<li>How do you make Terraform code reusable?</li>
+
+</ol>
+
+</div>
+
+
+<!-- FOLLOW UPS -->
+
+<div class="card">
+
+<h2>🔥 Interview Follow-up Questions</h2>
+
+<ul>
+
+<li>What happens if a variable has no default value?</li>
+
+<li>How do you validate Terraform variables?</li>
+
+<li>How do you hide sensitive variable values?</li>
+
+<li>Does sensitive=true encrypt a value?</li>
+
+<li>Can sensitive values still appear in state?</li>
+
+<li>When would you use a local instead of a variable?</li>
+
+<li>When would you use a data source?</li>
+
+<li>Can a module create another module?</li>
+
+<li>How do you version modules?</li>
+
+<li>How do you share modules across teams?</li>
+
+<li>How do you handle breaking changes in modules?</li>
+
+<li>How do you pass outputs between modules?</li>
+
+<li>When would you use count versus for_each?</li>
+
+<li>How do you structure Terraform for multiple environments?</li>
+
+</ul>
+
+</div>
+
+
+<!-- CHEAT SHEET -->
+
+<div class="card">
+
+<h2>🧠 Variables & Modules Cheat Sheet</h2>
+
+<pre><code># Variable
+variable "region" {
+  type    = string
+  default = "ap-south-1"
+}
+
+# Variable usage
+var.region
+
+# Local
+local.common_tags
+
+# Variable file
+terraform.tfvars
+
+# Plan with variable file
+terraform plan -var-file="dev.tfvars"
+
+# Data source
+data.aws_ami.amazon_linux.id
+
+# Module
+module "vpc" {
+  source = "./modules/vpc"
+}
+
+# Module input
+vpc_cidr = "10.0.0.0/16"
+
+# Module output
+module.vpc.vpc_id
+
+# Module repetition
+for_each = var.environments</code></pre>
+
+</div>
+
+
+<!-- FINAL -->
+
+<div class="card">
+
+<h2>🧠 60-Second Variables & Modules Revision</h2>
+
+<div class="flow">
+
+<strong>Variable</strong>
+→ External input
+
+<br><br>
+
+<strong>tfvars</strong>
+→ Variable values
+
+<br><br>
+
+<strong>Local</strong>
+→ Internal reusable value
+
+<br><br>
+
+<strong>Output</strong>
+→ Exposes useful result
+
+<br><br>
+
+<strong>Data Source</strong>
+→ Reads existing information
+
+<br><br>
+
+<strong>Module</strong>
+→ Reusable Terraform configuration
+
+<br><br>
+
+<strong>Module Input</strong>
+→ Configures module
+
+<br><br>
+
+<strong>Module Output</strong>
+→ Sends result back
+
+<br><br>
+
+<strong>for_each</strong>
+→ Creates multiple module instances
+
+</div>
+
+</div>
+
+
+<!-- FINAL INTERVIEW -->
+
+<div class="card">
+
+<h2>🎯 If Interviewer Says: "Explain Terraform Modules"</h2>
+
+<div class="interview">
+
+"Terraform modules are reusable collections of Terraform
+configuration.
+
+I use modules to avoid duplicating infrastructure code and to
+standardize common components such as VPCs, IAM roles, EKS clusters
+or application infrastructure.
+
+The root module calls a child module and passes values through input
+variables. The child module creates the required resources and
+exposes important values through outputs.
+
+For example, I can create one reusable VPC module and use it for Dev,
+QA and Production by passing different CIDRs and environment values.
+
+I also use variable validation, locals and versioned modules to make
+the Terraform code easier to maintain and safer to reuse."
+
+</div>
+
+</div>
+
+
+</main>
+
+<footer>
+
+🧩 Terraform Variables & Modules • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

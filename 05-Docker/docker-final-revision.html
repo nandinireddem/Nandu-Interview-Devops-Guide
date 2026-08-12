@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker Final Revision - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Inter,Segoe UI,Arial,sans-serif;
+background:#0b1020;
+color:#e5e7eb;
+line-height:1.7
+}
+header{
+text-align:center;
+padding:55px 20px;
+background:linear-gradient(135deg,#111827,#0b1020);
+border-bottom:1px solid #29344d
+}
+.back{color:#94a3b8;text-decoration:none}
+.back:hover{color:#93c5fd}
+.icon{font-size:50px;margin-bottom:10px}
+h1{font-size:clamp(32px,5vw,52px);margin:0}
+h1 span{color:#93c5fd}
+header p{max-width:850px;margin:15px auto 0;color:#9ca8c0}
+.container{width:min(1050px,92%);margin:auto;padding:45px 0 80px}
+.intro,.card{
+background:linear-gradient(145deg,#141d34,#10172a);
+border:1px solid #2b3751;
+border-radius:16px;
+padding:28px;
+margin-bottom:24px
+}
+.intro{background:#121a2d}
+.intro strong{color:#93c5fd}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+.answer{
+background:#0d1425;
+border-left:4px solid #64748b;
+padding:18px 20px;
+border-radius:8px;
+margin:15px 0
+}
+.interview{
+background:#111827;
+border:1px solid #374151;
+border-radius:10px;
+padding:18px;
+margin-top:18px
+}
+.scenario{
+background:#10231c;
+border-left:4px solid #4ade80;
+padding:18px 20px;
+border-radius:8px;
+margin:15px 0
+}
+.warning{
+background:#25151a;
+border-left:4px solid #f87171;
+padding:18px 20px;
+border-radius:8px;
+margin:15px 0
+}
+.flow{
+text-align:center;
+background:#0d1425;
+border:1px solid #29354e;
+border-radius:14px;
+padding:24px;
+margin:20px 0
+}
+code{
+background:#020617;
+color:#c4b5fd;
+padding:3px 7px;
+border-radius:5px
+}
+pre{
+background:#020617;
+padding:18px;
+border-radius:10px;
+overflow-x:auto;
+border:1px solid #1e293b
+}
+pre code{padding:0;color:#e5e7eb}
+table{width:100%;border-collapse:collapse;margin:20px 0}
+th,td{
+border:1px solid #334155;
+padding:12px;
+text-align:left;
+vertical-align:top
+}
+th{background:#172033;color:#93c5fd}
+footer{
+text-align:center;
+padding:35px;
+color:#64748b;
+border-top:1px solid #222d46
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="icon">🐳</div>
+
+<a href="index.html" class="back">← Back to Docker</a>
+
+<h1>Docker <span>Final Revision</span></h1>
+
+<p>
+Last-minute Docker interview revision — only the most important
+questions, commands, concepts, scenarios, troubleshooting and
+DevOps-focused answers.
+</p>
+</header>
+
+<main class="container">
+
+<div class="intro">
+
+<strong>⭐⭐⭐⭐⭐ FINAL DOCKER INTERVIEW REVISION</strong>
+
+<p>
+Use this page immediately before a DevOps interview. The detailed
+Docker topics are covered in the other Docker files. This page
+connects those concepts into interview-ready answers and real-time
+scenarios.
+</p>
+
+<div class="flow">
+Dockerfile
+↓
+<br>
+Image
+↓
+<br>
+Container
+↓
+<br>
+Network + Volume
+↓
+<br>
+Docker Compose
+↓
+<br>
+CI/CD
+↓
+<br>
+Registry
+↓
+<br>
+Deployment
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Docker?</h2>
+
+<div class="answer">
+Docker is a containerization platform used to package an application
+together with its dependencies into a portable container image.
+</div>
+
+<h3>Why Docker?</h3>
+
+<ul>
+<li>Consistent application environments</li>
+<li>Lightweight compared with traditional VMs</li>
+<li>Fast application startup</li>
+<li>Isolation between applications</li>
+<li>Portable deployment</li>
+<li>Useful for CI/CD and microservices</li>
+</ul>
+
+<div class="interview">
+<strong>Interview answer:</strong><br><br>
+"Docker packages an application and its dependencies into a
+container image so that the application can run consistently across
+different environments."
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Docker vs Virtual Machine</h2>
+
+<table>
+<tr>
+<th>Docker Container</th>
+<th>Virtual Machine</th>
+</tr>
+<tr>
+<td>Shares host OS kernel</td>
+<td>Includes a guest OS</td>
+</tr>
+<tr>
+<td>Lightweight</td>
+<td>Heavier</td>
+</tr>
+<tr>
+<td>Starts quickly</td>
+<td>Usually slower to start</td>
+</tr>
+<tr>
+<td>Uses fewer resources</td>
+<td>Uses more resources</td>
+</tr>
+<tr>
+<td>Application-level isolation</td>
+<td>Full OS-level virtualization</td>
+</tr>
+</table>
+
+<div class="flow">
+Hardware
+→ Host OS
+→ Docker Engine
+→ Containers
+</div>
+
+<div class="flow">
+Hardware
+→ Hypervisor
+→ Virtual Machines
+→ Guest OS
+→ Application
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Docker Architecture</h2>
+
+<div class="flow">
+Docker CLI
+<br>
+↓
+<br>
+Docker Daemon
+<br>
+↓
+<br>
+Images / Containers / Networks / Volumes
+<br>
+↓
+<br>
+Docker Registry
+</div>
+
+<h3>Main components</h3>
+
+<ul>
+<li><strong>Docker Client:</strong> Sends commands to Docker.</li>
+<li><strong>Docker Daemon:</strong> Manages Docker objects and container lifecycle.</li>
+<li><strong>Docker Engine:</strong> Provides the Docker runtime environment.</li>
+<li><strong>Docker Image:</strong> Read-only template used to create containers.</li>
+<li><strong>Container:</strong> Running instance of an image.</li>
+<li><strong>Registry:</strong> Stores and distributes images.</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Image vs Container</h2>
+
+<table>
+<tr>
+<th>Image</th>
+<th>Container</th>
+</tr>
+<tr>
+<td>Immutable template</td>
+<td>Running instance of an image</td>
+</tr>
+<tr>
+<td>Used to create containers</td>
+<td>Runs the application</td>
+</tr>
+<tr>
+<td>Stored locally or in registry</td>
+<td>Runs on Docker host</td>
+</tr>
+</table>
+
+<div class="answer">
+<strong>Simple memory trick:</strong><br><br>
+Image = blueprint<br>
+Container = running object created from the blueprint
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Dockerfile → Image → Container</h2>
+
+<pre><code>Dockerfile
+    ↓
+docker build
+    ↓
+Docker Image
+    ↓
+docker run
+    ↓
+Container</code></pre>
+
+<h3>Most important commands</h3>
+
+<pre><code>docker build -t myapp:1.0 .
+
+docker run -d -p 8080:80 myapp:1.0
+
+docker ps
+
+docker stop &lt;container&gt;
+
+docker rm &lt;container&gt;</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Dockerfile — Must Know Instructions</h2>
+
+<table>
+<tr>
+<th>Instruction</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td><code>FROM</code></td>
+<td>Defines base image</td>
+</tr>
+<tr>
+<td><code>WORKDIR</code></td>
+<td>Sets working directory</td>
+</tr>
+<tr>
+<td><code>COPY</code></td>
+<td>Copies files into image</td>
+</tr>
+<tr>
+<td><code>RUN</code></td>
+<td>Executes commands while building image</td>
+</tr>
+<tr>
+<td><code>ENV</code></td>
+<td>Defines environment variables</td>
+</tr>
+<tr>
+<td><code>EXPOSE</code></td>
+<td>Documents intended container port</td>
+</tr>
+<tr>
+<td><code>CMD</code></td>
+<td>Provides default runtime command</td>
+</tr>
+<tr>
+<td><code>ENTRYPOINT</code></td>
+<td>Defines the main executable</td>
+</tr>
+</table>
+
+<h3>Example</h3>
+
+<pre><code>FROM nginx:alpine
+
+WORKDIR /app
+
+COPY . .
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. CMD vs ENTRYPOINT</h2>
+
+<table>
+<tr>
+<th>CMD</th>
+<th>ENTRYPOINT</th>
+</tr>
+<tr>
+<td>Default command/arguments</td>
+<td>Main executable</td>
+</tr>
+<tr>
+<td>Can be easily overridden</td>
+<td>More strongly defines container purpose</td>
+</tr>
+<tr>
+<td>Often used for defaults</td>
+<td>Often used for executable behavior</td>
+</tr>
+</table>
+
+<div class="interview">
+A common pattern is using <code>ENTRYPOINT</code> for the main
+application and <code>CMD</code> for default arguments.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Docker Image Layers & Caching</h2>
+
+<div class="answer">
+Docker images are built from layers. Docker can reuse unchanged
+layers from previous builds, which can make builds faster.
+</div>
+
+<h3>Best practices</h3>
+
+<ul>
+<li>Use a suitable small base image</li>
+<li>Order Dockerfile instructions carefully</li>
+<li>Copy dependency files before application source when appropriate</li>
+<li>Use <code>.dockerignore</code></li>
+<li>Avoid unnecessary packages</li>
+<li>Use multi-stage builds</li>
+</ul>
+
+<div class="scenario">
+If application source changes frequently but dependencies rarely
+change, placing dependency installation before copying the frequently
+changing source can improve build-cache reuse.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Multi-Stage Docker Build</h2>
+
+<div class="answer">
+A multi-stage build uses multiple stages in one Dockerfile so that
+build dependencies can be separated from the final runtime image.
+</div>
+
+<pre><code>FROM node:20 AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]</code></pre>
+
+<div class="interview">
+<strong>Why?</strong> Smaller final images, fewer unnecessary build
+dependencies and a cleaner production runtime.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Container Lifecycle</h2>
+
+<div class="flow">
+Created
+↓
+Running
+↓
+Paused
+↓
+Stopped
+↓
+Removed
+</div>
+
+<pre><code>docker create
+docker start
+docker stop
+docker restart
+docker pause
+docker unpause
+docker rm</code></pre>
+
+<h3>Important distinction</h3>
+
+<div class="answer">
+<code>docker stop</code> stops a container while preserving it.
+<code>docker rm</code> removes the container.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Important Docker Commands</h2>
+
+<pre><code># Images
+docker images
+docker pull nginx
+docker build -t myapp:1.0 .
+docker rmi &lt;image&gt;
+
+# Containers
+docker ps
+docker ps -a
+docker run -d nginx
+docker stop &lt;container&gt;
+docker start &lt;container&gt;
+docker restart &lt;container&gt;
+docker rm &lt;container&gt;
+
+# Logs
+docker logs &lt;container&gt;
+docker logs -f &lt;container&gt;
+
+# Inspect
+docker inspect &lt;container&gt;
+
+# Execute
+docker exec -it &lt;container&gt; sh
+
+# Resources
+docker stats
+
+# Networks
+docker network ls
+
+# Volumes
+docker volume ls</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Port Mapping</h2>
+
+<div class="answer">
+Containers have their own network namespace. Port publishing maps a
+host port to a container port.
+</div>
+
+<pre><code>docker run -d -p 8080:80 nginx</code></pre>
+
+<div class="flow">
+Host Port 8080
+↓
+Docker Port Mapping
+↓
+Container Port 80
+</div>
+
+<div class="warning">
+<code>EXPOSE</code> in a Dockerfile does not itself publish the port.
+Use <code>-p</code> or an appropriate Compose configuration to
+publish a port.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Docker Networking</h2>
+
+<table>
+<tr>
+<th>Network</th>
+<th>Typical Use</th>
+</tr>
+<tr>
+<td>bridge</td>
+<td>Common default network for containers</td>
+</tr>
+<tr>
+<td>host</td>
+<td>Container shares host networking</td>
+</tr>
+<tr>
+<td>none</td>
+<td>No normal network connectivity</td>
+</tr>
+</table>
+
+<h3>Container-to-container communication</h3>
+
+<div class="answer">
+On a user-defined Docker network, containers can communicate using
+container/service names rather than relying on hard-coded IP addresses.
+</div>
+
+<pre><code>docker network create app-net
+
+docker run -d --name db --network app-net postgres
+
+docker run -d --name app --network app-net myapp</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Volumes vs Bind Mounts</h2>
+
+<table>
+<tr>
+<th>Docker Volume</th>
+<th>Bind Mount</th>
+</tr>
+<tr>
+<td>Managed by Docker</td>
+<td>Uses a host filesystem path</td>
+</tr>
+<tr>
+<td>Good for persistent application data</td>
+<td>Useful when host path control is needed</td>
+</tr>
+<tr>
+<td>Portable Docker-managed storage</td>
+<td>Tightly connected to host filesystem</td>
+</tr>
+</table>
+
+<pre><code>docker volume create app-data
+
+docker run -d \
+  -v app-data:/var/lib/data \
+  myapp</code></pre>
+
+<div class="interview">
+Containers are generally ephemeral, so persistent application data
+should not depend only on the container's writable layer.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Docker Compose</h2>
+
+<div class="answer">
+Docker Compose is used to define and run multi-container
+applications using a declarative YAML configuration.
+</div>
+
+<pre><code>services:
+
+  app:
+    image: myapp:1.0
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: example</code></pre>
+
+<pre><code>docker compose up -d
+
+docker compose ps
+
+docker compose logs
+
+docker compose down</code></pre>
+
+<div class="scenario">
+Typical example: application container + database + cache + reverse
+proxy running together as one development/test environment.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Docker Registry</h2>
+
+<div class="answer">
+A Docker registry stores and distributes container images.
+Docker Hub is one example; organizations can also use private
+registries such as Amazon ECR or other enterprise registries.
+</div>
+
+<div class="flow">
+Developer
+↓
+docker build
+↓
+Image
+↓
+docker tag
+↓
+docker push
+↓
+Registry
+↓
+docker pull
+↓
+Deployment Environment
+</div>
+
+<pre><code>docker login
+
+docker tag myapp:1.0 username/myapp:1.0
+
+docker push username/myapp:1.0
+
+docker pull username/myapp:1.0</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Docker Security</h2>
+
+<ul>
+<li>Use trusted/minimal base images</li>
+<li>Scan images for vulnerabilities</li>
+<li>Do not store secrets in Dockerfiles</li>
+<li>Do not bake credentials into images</li>
+<li>Run containers as non-root where practical</li>
+<li>Keep images and dependencies updated</li>
+<li>Use read-only filesystems where appropriate</li>
+<li>Limit Linux capabilities</li>
+<li>Use private registries for sensitive workloads</li>
+</ul>
+
+<div class="warning">
+Never put passwords, API keys, AWS credentials or private keys directly
+inside a Dockerfile or image.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Dockerfile Secrets — Common Trap</h2>
+
+<div class="warning">
+Do NOT do this:
+<br><br>
+<code>ENV AWS_SECRET_ACCESS_KEY=secret</code>
+<br><br>
+The secret can become part of the image configuration/history.
+</div>
+
+<h3>Better approach</h3>
+
+<ul>
+<li>Inject secrets at runtime</li>
+<li>Use CI/CD secret management</li>
+<li>Use cloud secret managers</li>
+<li>Use Docker/BuildKit secret mechanisms when build-time secrets are required</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. HEALTHCHECK</h2>
+
+<div class="answer">
+A Docker health check allows Docker to determine whether a container's
+application is responding as expected.
+</div>
+
+<pre><code>HEALTHCHECK --interval=30s --timeout=5s \
+  CMD curl -f http://localhost:8080/health || exit 1</code></pre>
+
+<div class="interview">
+A container can be running while the application inside it is unhealthy.
+That is why process status and application health are not always the
+same thing.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 20. Resource Limits</h2>
+
+<div class="answer">
+Containers can be constrained so one workload does not consume
+unbounded host resources.
+</div>
+
+<pre><code>docker run -d \
+  --memory="512m" \
+  --cpus="1.0" \
+  myapp</code></pre>
+
+<div class="scenario">
+In production, resource requests/limits should be designed according
+to workload behavior and the orchestration platform being used.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Docker Troubleshooting — Container Exits Immediately</h2>
+
+<div class="scenario">
+<strong>Problem:</strong> Container starts and immediately stops.
+</div>
+
+<h3>Investigation</h3>
+
+<pre><code>docker ps -a
+
+docker logs &lt;container&gt;
+
+docker inspect &lt;container&gt;
+
+docker image inspect &lt;image&gt;</code></pre>
+
+<h3>Common causes</h3>
+
+<ul>
+<li>Main process exited</li>
+<li>Incorrect CMD/ENTRYPOINT</li>
+<li>Application crashed</li>
+<li>Missing environment variable</li>
+<li>Incorrect configuration</li>
+<li>Port/configuration issue</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Troubleshooting: Container Cannot Reach Another Container</h2>
+
+<div class="scenario">
+Check whether both containers are attached to the same user-defined
+network and whether the application is listening on the expected port.
+</div>
+
+<pre><code>docker network ls
+
+docker network inspect app-net
+
+docker inspect &lt;container&gt;</code></pre>
+
+<div class="interview">
+Use service/container names on a user-defined network rather than
+hard-coding dynamic container IP addresses.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Troubleshooting: Image Build Is Too Large</h2>
+
+<ul>
+<li>Check the Dockerfile layers</li>
+<li>Use a smaller runtime base image</li>
+<li>Use multi-stage builds</li>
+<li>Add a proper <code>.dockerignore</code></li>
+<li>Remove unnecessary build artifacts</li>
+<li>Avoid installing unnecessary packages</li>
+</ul>
+
+<pre><code>docker images
+
+docker history myapp:1.0</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Real-Time Scenario: Application Works Locally but Not in Docker</h2>
+
+<div class="scenario">
+<strong>Approach:</strong>
+<br><br>
+I would compare the local and container environments, inspect logs,
+verify environment variables, check exposed/listening ports, inspect
+the container filesystem and verify dependencies.
+</div>
+
+<pre><code>docker logs &lt;container&gt;
+
+docker exec -it &lt;container&gt; sh
+
+docker inspect &lt;container&gt;</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Real-Time Scenario: Container Is Using Too Much CPU</h2>
+
+<pre><code>docker stats</code></pre>
+
+<p>
+Then investigate the application process, workload pattern, memory
+usage and logs. Resource limits can be configured where appropriate.
+</p>
+
+<pre><code>docker update --cpus="1.0" &lt;container&gt;</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Real-Time Scenario: Image Has a Vulnerability</h2>
+
+<div class="scenario">
+Do not simply ignore the finding. Identify the vulnerable package or
+base image, update the dependency/base image, rebuild the image and
+scan again before deployment.
+</div>
+
+<div class="flow">
+Image
+↓
+Security Scan
+↓
+Vulnerability
+↓
+Update Dependency/Base Image
+↓
+Rebuild
+↓
+Rescan
+↓
+Deploy
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Docker + CI/CD</h2>
+
+<div class="flow">
+Git Push
+↓
+CI Pipeline
+↓
+Build
+↓
+Unit Tests
+↓
+Docker Build
+↓
+Security Scan
+↓
+Tag Image
+↓
+Push Registry
+↓
+Deploy
+↓
+Health Check
+</div>
+
+<div class="interview">
+<strong>Interview answer:</strong><br><br>
+"In a DevOps pipeline, Docker provides a consistent packaging format.
+After code is pushed, CI can build the image, run tests and security
+scans, tag the image, push it to a registry and deploy the immutable
+image to the target environment."
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 28. Image Tagging Strategy</h2>
+
+<div class="answer">
+Avoid relying only on mutable tags such as <code>latest</code> for
+production deployments. Prefer immutable or traceable version tags.
+</div>
+
+<pre><code>myapp:1.4.2
+myapp:2026-08-12
+myapp:&lt;commit-sha&gt;</code></pre>
+
+<div class="scenario">
+A CI pipeline can build an image tagged with the Git commit SHA.
+That makes it easier to identify exactly which source revision was
+deployed.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 29. Docker vs Kubernetes</h2>
+
+<table>
+<tr>
+<th>Docker</th>
+<th>Kubernetes</th>
+</tr>
+<tr>
+<td>Containerization platform</td>
+<td>Container orchestration platform</td>
+</tr>
+<tr>
+<td>Builds and runs containers</td>
+<td>Manages containers/workloads across clusters</td>
+</tr>
+<tr>
+<td>Useful for local development and container runtime workflows</td>
+<td>Provides scheduling, scaling, service discovery and orchestration</td>
+</tr>
+</table>
+
+<div class="interview">
+Docker and Kubernetes are not simply replacements for each other.
+Docker focuses on container workflows, while Kubernetes orchestrates
+containerized workloads across a cluster.
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 30. Docker in a Real DevOps Project</h2>
+
+<div class="flow">
+Developer
+↓
+GitHub
+↓
+CI Pipeline
+↓
+Docker Build
+↓
+Trivy / Security Scan
+↓
+Docker Image
+↓
+Amazon ECR / Registry
+↓
+Kubernetes / ECS
+↓
+Load Balancer
+↓
+Application
+↓
+Monitoring
+</div>
+
+<p>
+This is the type of end-to-end flow a DevOps interviewer may expect
+you to explain when discussing hands-on Docker experience.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Most Frequently Asked Docker Questions</h2>
+
+<ol>
+<li>What is Docker?</li>
+<li>Why do we use Docker?</li>
+<li>Docker vs VM?</li>
+<li>What is a Docker image?</li>
+<li>What is a Docker container?</li>
+<li>Image vs container?</li>
+<li>Explain Docker architecture.</li>
+<li>What is Dockerfile?</li>
+<li>Explain important Dockerfile instructions.</li>
+<li>RUN vs CMD vs ENTRYPOINT?</li>
+<li>What is a Docker image layer?</li>
+<li>What is Docker build cache?</li>
+<li>What is a multi-stage Docker build?</li>
+<li>What is Docker networking?</li>
+<li>How do containers communicate?</li>
+<li>What is port mapping?</li>
+<li>EXPOSE vs publishing a port?</li>
+<li>What are Docker volumes?</li>
+<li>Volume vs bind mount?</li>
+<li>What is Docker Compose?</li>
+<li>What is a Docker registry?</li>
+<li>Docker Hub vs private registry?</li>
+<li>How do you push an image?</li>
+<li>How do you reduce Docker image size?</li>
+<li>How do you secure Docker images?</li>
+<li>How do you handle secrets in Docker?</li>
+<li>What is HEALTHCHECK?</li>
+<li>How do you troubleshoot a stopped container?</li>
+<li>How does Docker integrate with CI/CD?</li>
+<li>Docker vs Kubernetes?</li>
+</ol>
+
+</div>
+
+<div class="card">
+
+<h2>🔥 Important Follow-Up Questions</h2>
+
+<ul>
+<li>Why is a container lightweight?</li>
+<li>What happens when you run <code>docker run</code>?</li>
+<li>What happens during <code>docker build</code>?</li>
+<li>What is the Docker daemon?</li>
+<li>What is the difference between image and container filesystem?</li>
+<li>What happens when the main container process exits?</li>
+<li>Why shouldn't you use container IP addresses for service discovery?</li>
+<li>Why should production images avoid <code>latest</code>?</li>
+<li>Why use multi-stage builds?</li>
+<li>How do you reduce Docker build time?</li>
+<li>How do you investigate a container that keeps restarting?</li>
+<li>How do you debug an application inside a running container?</li>
+<li>How do you persist database data?</li>
+<li>How do you secure a Dockerfile?</li>
+<li>How do you scan Docker images?</li>
+<li>How do you roll back a Docker deployment?</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>🧠 Final Docker Command Cheat Sheet</h2>
+
+<pre><code># Images
+docker images
+docker pull &lt;image&gt;
+docker build -t app:1.0 .
+docker rmi &lt;image&gt;
+docker image inspect &lt;image&gt;
+docker history &lt;image&gt;
+
+# Containers
+docker run -d --name app app:1.0
+docker ps
+docker ps -a
+docker stop app
+docker start app
+docker restart app
+docker rm app
+
+# Debugging
+docker logs app
+docker logs -f app
+docker exec -it app sh
+docker inspect app
+docker stats
+
+# Ports
+docker run -d -p 8080:80 nginx
+
+# Network
+docker network ls
+docker network create app-net
+docker network inspect app-net
+
+# Volume
+docker volume ls
+docker volume create app-data
+
+# Registry
+docker login
+docker tag app:1.0 username/app:1.0
+docker push username/app:1.0
+docker pull username/app:1.0
+
+# Compose
+docker compose up -d
+docker compose ps
+docker compose logs
+docker compose down</code></pre>
+
+</div>
+
+<div class="card">
+
+<h2>🚀 60-Second Docker Revision</h2>
+
+<div class="flow">
+
+<strong>Docker</strong> <br>
+Containerization <br><br>
+
+<strong>Dockerfile</strong>
+→ Build Instructions <br><br>
+
+<strong>Image</strong>
+→ Immutable Package <br><br>
+
+<strong>Container</strong>
+→ Running Instance <br><br>
+
+<strong>Network</strong>
+→ Container Communication <br><br>
+
+<strong>Volume</strong>
+→ Persistent Data <br><br>
+
+<strong>Compose</strong>
+→ Multi-Container Application <br><br>
+
+<strong>Registry</strong>
+→ Store / Distribute Images <br><br>
+
+<strong>CI/CD</strong>
+→ Build → Test → Scan → Push → Deploy <br><br>
+
+<strong>Security</strong>
+→ Minimal Image → Scan → No Secrets → Non-Root <br><br>
+
+<strong>Production</strong>
+→ Versioned Image → Health Check → Controlled Deployment
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>🎯 If the Interviewer Says: "Explain Docker in 1 Minute"</h2>
+
+<div class="interview">
+
+" Docker is a containerization platform used to package applications
+and their dependencies into portable images.
+
+A Dockerfile defines how the image is built, and a container is a
+running instance of that image.
+
+Docker provides networking for container communication and volumes
+for persistent data. Docker Compose can be used to define
+multi-container applications.
+
+In a DevOps pipeline, I can build a Docker image from source code,
+run tests and security scans, tag the image with a traceable version
+such as a Git commit SHA, push it to a container registry and deploy
+that image to a platform such as Kubernetes or ECS.
+
+For production, I would focus on small and secure images, multi-stage
+builds, vulnerability scanning, secret management, resource limits,
+health checks and immutable image versions."
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>🏆 Final Interview Rule</h2>
+
+<div class="scenario">
+
+<strong>Don't just explain Docker commands.</strong>
+
+<br><br>
+
+Always connect Docker to:
+
+<br><br>
+
+<strong>
+Application → Image → Container → Network → Storage →
+Security → Registry → CI/CD → Deployment → Monitoring
+</strong>
+
+<br><br>
+
+That is what turns a basic Docker answer into a DevOps-level answer.
+
+</div>
+
+</div>
+
+</main>
+
+<footer>
+🐳 Docker • DevOps Interview Master Guide
+<br><br>
+Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1587 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI/CD Real-Time Scenarios - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,50px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:900px;
+    margin:15px auto 0;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:45px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+.intro{
+    background:#121a2d;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #64748b;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.scenario{
+    background:#10231c;
+    border-left:4px solid #4ade80;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.warning{
+    background:#25151a;
+    border-left:4px solid #f87171;
+    padding:18px 20px;
+    border-radius:8px;
+    margin:15px 0;
+}
+
+.interview{
+    background:#111827;
+    border:1px solid #374151;
+    border-radius:10px;
+    padding:18px;
+    margin-top:18px;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:14px;
+    padding:24px;
+    margin:20px 0;
+}
+
+pre{
+    background:#020617;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #1e293b;
+}
+
+code{
+    background:#020617;
+    color:#c4b5fd;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+pre code{
+    padding:0;
+    color:#e5e7eb;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.badge{
+    display:inline-block;
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:20px;
+    padding:4px 10px;
+    margin:4px;
+    color:#fbbf24;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">🔥</div>
+
+<a href="index.html" class="back">← Back to CI/CD</a>
+
+<h1>CI/CD <span>Real-Time Scenarios</span></h1>
+
+<p>
+Production-focused DevOps interview scenarios covering Jenkins,
+Git, Docker, registries, Kubernetes, GitOps, deployments,
+rollback, security and troubleshooting.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="card intro">
+
+<h2>⭐⭐⭐⭐⭐ How to Approach Any CI/CD Scenario</h2>
+
+<div class="flow">
+
+<strong>1. Identify the failure</strong>
+<br>↓<br>
+<strong>2. Find the affected layer</strong>
+<br>↓<br>
+<strong>3. Check logs / status / metrics</strong>
+<br>↓<br>
+<strong>4. Fix or mitigate</strong>
+<br>↓<br>
+<strong>5. Verify</strong>
+<br>↓<br>
+<strong>6. Prevent recurrence</strong>
+
+</div>
+
+<div class="answer">
+
+In interviews, don't immediately jump to random commands.
+First identify where the failure is occurring, then troubleshoot
+layer by layer.
+
+</div>
+
+</div>
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Jenkins Pipeline Suddenly Fails</h2>
+
+<div class="scenario">
+
+<strong>Question:</strong>
+
+"Your Jenkins pipeline was working yesterday but suddenly started
+failing. What will you do?"
+
+</div>
+
+<h3>Approach</h3>
+
+<ol>
+<li>Check which stage failed.</li>
+<li>Read Jenkins console output.</li>
+<li>Identify whether the failure is code, dependency, credential,
+agent, network or infrastructure related.</li>
+<li>Compare with the last successful build.</li>
+<li>Check recent changes.</li>
+<li>Fix the root cause and rerun safely.</li>
+</ol>
+
+<pre><code>Jenkins
+→ Build History
+→ Failed Build
+→ Console Output
+→ Failed Stage
+→ Root Cause</code></pre>
+
+<div class="interview">
+
+<strong>Interview-ready:</strong>
+
+"I would first identify the exact failed stage rather than assuming
+Jenkins itself is broken. Then I would inspect console logs, compare
+the failed build with the last successful build, check recent code or
+environment changes, validate credentials and dependencies, fix the
+root cause and rerun the pipeline."
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Jenkins Agent Is Offline</h2>
+
+<div class="scenario">
+
+A pipeline cannot start because the Jenkins agent is offline.
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Agent status in Jenkins.</li>
+<li>Machine availability.</li>
+<li>Network connectivity.</li>
+<li>Jenkins agent process/service.</li>
+<li>Disk space.</li>
+<li>CPU and memory.</li>
+<li>Java/runtime compatibility.</li>
+</ul>
+
+<div class="answer">
+
+The key is to distinguish between a Jenkins controller problem and
+an agent execution problem.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Git Webhook Is Not Triggering Jenkins</h2>
+
+<div class="scenario">
+
+Developer pushes code to Git, but Jenkins does not start.
+
+</div>
+
+<div class="flow">
+
+Git Push
+<br>↓
+<br>
+Webhook
+<br>❌
+<br>
+Jenkins
+
+</div>
+
+<h3>Troubleshooting</h3>
+
+<ol>
+<li>Check whether the webhook exists.</li>
+<li>Check webhook delivery history.</li>
+<li>Verify Jenkins URL.</li>
+<li>Check webhook secret if configured.</li>
+<li>Check Jenkins job trigger configuration.</li>
+<li>Check network/firewall accessibility.</li>
+<li>Check branch/filter configuration.</li>
+</ol>
+
+<div class="warning">
+
+A successful Git push does not guarantee that the webhook reached
+Jenkins successfully.
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Docker Build Fails in Jenkins</h2>
+
+<div class="scenario">
+
+The pipeline reaches the Docker build stage and fails.
+
+</div>
+
+<pre><code>docker build -t myapp:1.0.0 .</code></pre>
+
+<h3>Check</h3>
+
+<ul>
+<li>Dockerfile syntax.</li>
+<li>Build context.</li>
+<li>Missing files.</li>
+<li>Base image availability.</li>
+<li>Network access.</li>
+<li>Docker daemon availability.</li>
+<li>Agent permissions.</li>
+<li>Disk space.</li>
+</ul>
+
+<div class="interview">
+
+I would inspect the exact Docker build error first. Common causes
+include an invalid Dockerfile, missing files in the build context,
+base-image pull failures or Docker daemon/permission problems.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Docker Image Push Fails</h2>
+
+<div class="scenario">
+
+Image builds successfully but the push to the registry fails.
+
+</div>
+
+<div class="flow">
+
+Docker Build
+<br>✅
+<br>↓
+<br>
+Docker Image
+<br>✅
+<br>↓
+<br>
+Registry Push
+<br>❌
+
+</div>
+
+<h3>Check</h3>
+
+<ol>
+<li>Registry URL.</li>
+<li>Authentication.</li>
+<li>Repository name.</li>
+<li>Image tag.</li>
+<li>Network connectivity.</li>
+<li>Registry permissions.</li>
+<li>Credential configuration.</li>
+</ol>
+
+<pre><code>docker images
+
+docker login &lt;registry&gt;
+
+docker push &lt;registry&gt;/myapp:1.0.0</code></pre>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Kubernetes Cannot Pull the Image</h2>
+
+<div class="scenario">
+
+Pod status:
+
+<pre><code>ImagePullBackOff
+ErrImagePull</code></pre>
+
+</div>
+
+<h3>Check</h3>
+
+<ol>
+<li>Image name.</li>
+<li>Image tag.</li>
+<li>Registry availability.</li>
+<li>Image existence.</li>
+<li>Registry authentication.</li>
+<li>Image pull secret if required.</li>
+<li>Node network access.</li>
+</ol>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl get events</code></pre>
+
+<div class="interview">
+
+The most useful first command is often
+<code>kubectl describe pod</code> because Kubernetes events can reveal
+why the image pull failed.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Pod Goes Into CrashLoopBackOff</h2>
+
+<div class="scenario">
+
+The image is pulled successfully, but the container repeatedly exits.
+
+</div>
+
+<h3>Check</h3>
+
+<pre><code>kubectl get pods
+
+kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl describe pod &lt;pod-name&gt;</code></pre>
+
+<h3>Common causes</h3>
+
+<ul>
+<li>Application startup error.</li>
+<li>Wrong environment variables.</li>
+<li>Missing configuration.</li>
+<li>Database connection failure.</li>
+<li>Incorrect command or arguments.</li>
+<li>Application exits immediately.</li>
+<li>Resource problems.</li>
+</ul>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Kubernetes Deployment Is Stuck</h2>
+
+<div class="scenario">
+
+The pipeline succeeds, but the new deployment never becomes healthy.
+
+</div>
+
+<div class="flow">
+
+Deployment
+<br>↓
+<br>
+ReplicaSet
+<br>↓
+<br>
+Pods
+<br>↓
+<br>
+❌ Not Ready
+
+</div>
+
+<h3>Commands</h3>
+
+<pre><code>kubectl get deployment
+
+kubectl rollout status deployment/myapp
+
+kubectl get pods
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl get events</code></pre>
+
+<div class="answer">
+
+Check whether the issue is image pulling, scheduling, startup,
+readiness probes, configuration, resources or networking.
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Readiness Probe Is Failing</h2>
+
+<div class="scenario">
+
+The application is running, but Kubernetes keeps the Pod out of
+service because the readiness probe fails.
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Probe path.</li>
+<li>Probe port.</li>
+<li>Application startup time.</li>
+<li>Service binding address.</li>
+<li>Application health endpoint.</li>
+<li>Network policy if applicable.</li>
+</ul>
+
+<pre><code>kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+<div class="interview">
+
+Readiness means "can this Pod receive traffic?"
+
+Liveness means "is this container still healthy enough to keep
+running?"
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Production Deployment Causes Errors</h2>
+
+<div class="scenario">
+
+After deploying version 2.0, HTTP 5xx errors increase.
+
+</div>
+
+<div class="flow">
+
+Deploy v2
+<br>↓
+<br>
+5xx ↑
+<br>↓
+<br>
+Stop Rollout
+<br>↓
+<br>
+Assess Impact
+<br>↓
+<br>
+Rollback / Shift Traffic
+<br>↓
+<br>
+Restore Service
+<br>↓
+<br>
+Root Cause Analysis
+
+</div>
+
+<div class="interview">
+
+My first priority would be restoring service. I would stop further
+rollout, verify the impact through monitoring, roll back or shift
+traffic to the known-good version, and then investigate the root
+cause.
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. How Do You Roll Back Kubernetes?</h2>
+
+<div class="answer">
+
+Kubernetes Deployments maintain rollout history that can be used to
+return to a previous revision.
+
+</div>
+
+<pre><code>kubectl rollout history deployment/myapp
+
+kubectl rollout undo deployment/myapp
+
+kubectl rollout status deployment/myapp</code></pre>
+
+<div class="warning">
+
+Rollback of the application version does not automatically solve an
+incompatible database migration. Application and database changes
+must be designed for safe compatibility.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Terraform Stage Fails in CI/CD</h2>
+
+<div class="scenario">
+
+Pipeline reaches Terraform and <code>terraform plan</code> fails.
+
+</div>
+
+<h3>Check</h3>
+
+<ol>
+<li>Terraform syntax.</li>
+<li>Provider configuration.</li>
+<li>Credentials/identity.</li>
+<li>Backend configuration.</li>
+<li>State locking.</li>
+<li>Variable values.</li>
+<li>Cloud permissions.</li>
+<li>Provider/resource changes.</li>
+</ol>
+
+<pre><code>terraform fmt -check
+
+terraform init
+
+terraform validate
+
+terraform plan</code></pre>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Terraform State Lock Error</h2>
+
+<div class="scenario">
+
+Two CI jobs attempt to modify the same Terraform state.
+
+</div>
+
+<div class="answer">
+
+Terraform state locking prevents concurrent operations from modifying
+the same state simultaneously when the backend supports locking.
+
+</div>
+
+<div class="warning">
+
+Do not blindly force-unlock a state. First confirm whether another
+Terraform operation is actually running.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. ArgoCD Shows OutOfSync</h2>
+
+<div class="scenario">
+
+ArgoCD reports:
+
+<pre><code>OutOfSync</code></pre>
+
+</div>
+
+<h3>Possible causes</h3>
+
+<ul>
+<li>Git desired state differs from cluster state.</li>
+<li>Manual kubectl changes.</li>
+<li>Application configuration drift.</li>
+<li>Manifest generation differences.</li>
+<li>Synchronization is disabled or pending.</li>
+</ul>
+
+<div class="flow">
+
+Git Desired State
+<br>≠
+<br>
+Cluster Actual State
+<br>↓
+<br>
+ArgoCD Detects Drift
+<br>↓
+<br>
+Sync
+<br>↓
+<br>
+Desired State Restored
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. ArgoCD Application Is Degraded</h2>
+
+<div class="scenario">
+
+ArgoCD successfully synchronizes the manifests, but the application
+is marked degraded.
+
+</div>
+
+<div class="answer">
+
+This means Git synchronization itself may have succeeded, but the
+resulting Kubernetes resources are not healthy.
+
+</div>
+
+<h3>Check</h3>
+
+<pre><code>kubectl get pods
+
+kubectl get deployment
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+<div class="interview">
+
+ArgoCD can report the Kubernetes application health, but the actual
+root cause may be inside Kubernetes resources or the application.
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Pipeline Is Slow</h2>
+
+<div class="scenario">
+
+A pipeline that previously took 8 minutes now takes 25 minutes.
+
+</div>
+
+<h3>Approach</h3>
+
+<ol>
+<li>Identify the slowest stage.</li>
+<li>Compare current and previous build durations.</li>
+<li>Check dependency downloads.</li>
+<li>Check Docker build caching.</li>
+<li>Check test execution.</li>
+<li>Check Jenkins agent resources.</li>
+<li>Check external service latency.</li>
+</ol>
+
+<div class="answer">
+
+Optimize the bottleneck instead of blindly adding more parallel
+stages.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. Pipeline Works Manually but Fails Automatically</h2>
+
+<div class="scenario">
+
+The developer runs the same command manually and it works, but the
+Jenkins pipeline fails.
+
+</div>
+
+<h3>Common reasons</h3>
+
+<ul>
+<li>Different environment variables.</li>
+<li>Different working directory.</li>
+<li>Different user permissions.</li>
+<li>Different PATH.</li>
+<li>Missing credentials.</li>
+<li>Different runtime version.</li>
+<li>Different agent environment.</li>
+</ul>
+
+<div class="interview">
+
+I would compare the runtime environment between the successful manual
+execution and the Jenkins agent rather than assuming the command is
+wrong.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. Secret Accidentally Appears in Jenkins Logs</h2>
+
+<div class="scenario">
+
+A cloud credential appears in build output.
+
+</div>
+
+<h3>Immediate response</h3>
+
+<ol>
+<li>Stop exposing the secret.</li>
+<li>Rotate/revoke the compromised credential.</li>
+<li>Check whether logs were accessible externally.</li>
+<li>Remove insecure logging.</li>
+<li>Move credentials into secure secret storage.</li>
+<li>Review pipeline permissions.</li>
+</ol>
+
+<div class="warning">
+
+Treat an exposed credential as compromised even if the log was
+generated accidentally.
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Zero-Downtime Deployment Scenario</h2>
+
+<div class="scenario">
+
+<strong>Question:</strong>
+
+"How would you deploy a new version without downtime?"
+
+<br><br>
+
+<strong>Answer:</strong>
+
+"I would run multiple application instances behind a load balancer.
+I would deploy the new version gradually, use readiness and health
+checks, wait until the new instances are healthy, and then remove
+the old instances. Depending on the application, I could use Rolling,
+Blue-Green or Canary deployment."
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Canary Deployment Failure</h2>
+
+<div class="scenario">
+
+10% of users receive version 2.0.
+
+Monitoring shows:
+
+<pre><code>Error Rate: 0.4% → 7%
+Latency:    180ms → 850ms</code></pre>
+
+<strong>Action:</strong>
+
+Pause the rollout, reduce or stop traffic to version 2.0, restore the
+stable version if necessary, investigate the issue and only continue
+after validation.
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Database Migration Breaks Deployment</h2>
+
+<div class="scenario">
+
+A new application version requires a database schema change. After
+deployment, the old application version can no longer work with the
+new schema.
+
+</div>
+
+<div class="answer">
+
+This is a compatibility problem.
+
+A safer strategy is often to use backward-compatible database changes
+first, deploy application changes that work with both schema versions,
+migrate data if needed, and remove old compatibility later.
+
+</div>
+
+<div class="warning">
+
+Never assume application rollback automatically makes a destructive
+database migration safe to reverse.
+
+</div>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 22. Build Passed but Production Failed</h2>
+
+<div class="scenario">
+
+"All CI tests passed. Why can production still fail?"
+
+</div>
+
+<div class="answer">
+
+CI tests may not cover every production condition.
+
+Possible causes include:
+
+<ul>
+<li>Environment-specific configuration.</li>
+<li>Missing production secrets.</li>
+<li>Different infrastructure.</li>
+<li>External dependency failure.</li>
+<li>Production traffic patterns.</li>
+<li>Database differences.</li>
+<li>Resource limits.</li>
+<li>Networking or DNS issues.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. How Do You Prevent Failed Releases?</h2>
+
+<div class="flow">
+
+Automated Tests
+<br>↓
+<br>
+Code Quality
+<br>↓
+<br>
+Security Scans
+<br>↓
+<br>
+Staging
+<br>↓
+<br>
+Smoke Tests
+<br>↓
+<br>
+Approval / Automated Gate
+<br>↓
+<br>
+Canary / Rolling
+<br>↓
+<br>
+Monitoring
+<br>↓
+<br>
+Rollback
+
+</div>
+
+<div class="answer">
+
+The goal is not to guarantee that failures never happen. The goal
+is to reduce release risk, detect problems quickly and recover safely.
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Production Is Down After Deployment</h2>
+
+<div class="scenario">
+
+<strong>Situation:</strong>
+
+Users report that the application is unavailable immediately after
+a release.
+
+<strong>Response:</strong>
+
+1. Confirm the incident through monitoring.
+<br>
+2. Identify whether the release caused the problem.
+<br>
+3. Stop further deployment.
+<br>
+4. Check application, Pod, Service and Ingress health.
+<br>
+5. Roll back if required.
+<br>
+6. Verify recovery.
+<br>
+7. Preserve logs and evidence.
+<br>
+8. Perform root-cause analysis after stabilization.
+
+</div>
+
+<div class="interview">
+
+<strong>Priority:</strong>
+
+Restore service → stabilize → investigate → prevent recurrence.
+
+</div>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 25. Complete End-to-End Failure Scenario</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong>
+
+Developer pushes code. Jenkins succeeds. Docker image is pushed to
+ECR. ArgoCD syncs successfully. But users receive HTTP 503.
+
+<br><br>
+
+<strong>Layer-by-layer investigation:</strong>
+
+<br><br>
+
+Git
+→ Code exists
+
+<br>
+Jenkins
+→ Build succeeded
+
+<br>
+Docker
+→ Image exists
+
+<br>
+Registry
+→ Image available
+
+<br>
+ArgoCD
+→ Desired state synchronized
+
+<br>
+Kubernetes
+→ Check Pods
+
+<br>
+Service
+→ Check endpoints
+
+<br>
+Ingress
+→ Check routing
+
+<br>
+Application
+→ Check logs and health
+
+</div>
+
+<pre><code>kubectl get pods
+
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl get ingress
+
+kubectl describe ingress &lt;name&gt;
+
+kubectl logs &lt;pod-name&gt;</code></pre>
+
+<div class="interview">
+
+This is a strong troubleshooting approach because each layer is
+validated independently instead of blaming the last tool in the
+pipeline.
+
+</div>
+
+</div>
+
+
+<!-- 26 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 26. Real-Time Troubleshooting Decision Tree</h2>
+
+<div class="flow">
+
+Pipeline Failed?
+<br>↓
+<br>
+<strong>Which Stage?</strong>
+
+<br><br>
+
+Git
+→ Check checkout / webhook
+
+<br><br>
+
+Build
+→ Check dependencies / compiler / runtime
+
+<br><br>
+
+Test
+→ Check failing test
+
+<br><br>
+
+Security
+→ Check scan findings
+
+<br><br>
+
+Docker
+→ Check Dockerfile / daemon / build context
+
+<br><br>
+
+Registry
+→ Check authentication / repository / permissions
+
+<br><br>
+
+Kubernetes
+→ Check Pods / events / manifests
+
+<br><br>
+
+ArgoCD
+→ Check sync / health / drift
+
+<br><br>
+
+Production
+→ Check logs / metrics / traffic
+
+</div>
+
+</div>
+
+
+<!-- 27 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 27. Most Important Commands</h2>
+
+<table>
+
+<tr>
+<th>Area</th>
+<th>Useful Commands</th>
+</tr>
+
+<tr>
+<td>Git</td>
+<td><code>git status</code>, <code>git log</code>, <code>git diff</code></td>
+</tr>
+
+<tr>
+<td>Docker</td>
+<td><code>docker ps</code>, <code>docker images</code>, <code>docker logs</code></td>
+</tr>
+
+<tr>
+<td>Kubernetes</td>
+<td><code>kubectl get</code>, <code>describe</code>, <code>logs</code>, <code>get events</code></td>
+</tr>
+
+<tr>
+<td>Deployment</td>
+<td><code>kubectl rollout status</code>, <code>rollout history</code>, <code>rollout undo</code></td>
+</tr>
+
+<tr>
+<td>Terraform</td>
+<td><code>terraform validate</code>, <code>plan</code>, <code>apply</code></td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 28 -->
+
+<div class="card">
+
+<h2>🔥 ⭐⭐⭐⭐⭐ Top Scenario Questions</h2>
+
+<ol>
+
+<li>Jenkins pipeline suddenly fails. How do you troubleshoot?</li>
+
+<li>Git webhook is not triggering Jenkins. What do you check?</li>
+
+<li>Jenkins agent is offline. What will you do?</li>
+
+<li>Docker build fails. How do you troubleshoot?</li>
+
+<li>Docker image push fails. What are the possible causes?</li>
+
+<li>Kubernetes shows ImagePullBackOff. How do you troubleshoot?</li>
+
+<li>Pod is in CrashLoopBackOff. What do you check?</li>
+
+<li>Deployment is stuck. What commands do you use?</li>
+
+<li>Readiness probe is failing. What does it mean?</li>
+
+<li>Production deployment increases 5xx errors. What will you do?</li>
+
+<li>How do you rollback a Kubernetes deployment?</li>
+
+<li>Terraform plan fails in Jenkins. How do you troubleshoot?</li>
+
+<li>Terraform state is locked. What will you do?</li>
+
+<li>ArgoCD shows OutOfSync. What does it mean?</li>
+
+<li>ArgoCD shows Degraded. How do you investigate?</li>
+
+<li>Pipeline is too slow. How do you identify the bottleneck?</li>
+
+<li>Pipeline works manually but fails in Jenkins. Why?</li>
+
+<li>A secret appears in Jenkins logs. What is your response?</li>
+
+<li>How would you perform zero-downtime deployment?</li>
+
+<li>How would you handle a failed Canary release?</li>
+
+<li>Why can CI pass while production still fails?</li>
+
+<li>How do you troubleshoot an HTTP 503 after a successful deployment?</li>
+
+</ol>
+
+</div>
+
+
+<!-- MASTER ANSWER -->
+
+<div class="card">
+
+<h2>🎯 Master Interview Answer: CI/CD Troubleshooting</h2>
+
+<div class="interview">
+
+"When troubleshooting a CI/CD issue, I first identify the exact
+stage where the failure occurred. I don't assume that the last tool
+used is necessarily the root cause.
+
+I check the logs and status of the affected component and compare
+the failed execution with the last successful execution.
+
+For example, if the pipeline fails during Docker push, I check the
+registry URL, authentication, repository, image tag and permissions.
+
+If Kubernetes deployment fails, I check Pod status, events, image
+pulling, application logs, readiness probes and resource issues.
+
+For a production failure after deployment, my first priority is to
+restore service. I would stop the rollout, assess the impact and
+rollback or shift traffic to a known-good version if appropriate.
+
+After recovery, I investigate the root cause and add preventive
+controls such as better testing, monitoring, validation or automated
+deployment gates."
+
+</div>
+
+</div>
+
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+
+<h2>🧠 60-Second CI/CD Troubleshooting Revision</h2>
+
+<div class="flow">
+
+<strong>Pipeline Failed</strong>
+<br>↓
+<br>
+Find Failed Stage
+<br>↓
+<br>
+Read Logs
+<br>↓
+<br>
+Compare Last Successful Build
+<br>↓
+<br>
+Identify Root Cause
+<br>↓
+<br>
+Fix
+<br>↓
+<br>
+Verify
+<br>↓
+<br>
+Prevent Recurrence
+
+<br><br>
+
+<strong>Production Failure</strong>
+<br>↓
+<br>
+Stop Rollout
+<br>↓
+<br>
+Restore Service
+<br>↓
+<br>
+Rollback if Needed
+<br>↓
+<br>
+Root Cause Analysis
+<br>↓
+<br>
+Prevent
+
+</div>
+
+</div>
+
+
+<!-- FINAL -->
+
+<div class="card">
+
+<h2>🚀 CI/CD Section Final Revision</h2>
+
+<div class="answer">
+
+You should now connect the whole CI/CD picture:
+
+<br><br>
+
+<strong>Git</strong>
+→ Source Control
+
+<br>
+
+<strong>Jenkins</strong>
+→ Automation
+
+<br>
+
+<strong>Docker</strong>
+→ Application Packaging
+
+<br>
+
+<strong>Registry</strong>
+→ Artifact Storage
+
+<br>
+
+<strong>Terraform</strong>
+→ Infrastructure
+
+<br>
+
+<strong>Kubernetes</strong>
+→ Container Orchestration
+
+<br>
+
+<strong>ArgoCD</strong>
+→ GitOps Delivery
+
+<br>
+
+<strong>Prometheus/Grafana</strong>
+→ Observability
+
+<br><br>
+
+And most importantly:
+
+<strong>Detect → Troubleshoot → Recover → Prevent</strong>
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="ci-cd-tools-integration.html"
+style="color:#c4b5fd;text-decoration:none;">
+← Previous: CI/CD Tools Integration
+</a>
+
+<br><br>
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+🏠 Back to CI/CD Index
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔥 CI/CD Real-Time Scenarios • DevOps Interview Master Guide
+
+<br><br>
+
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

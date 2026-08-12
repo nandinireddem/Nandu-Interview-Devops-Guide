@@ -1,0 +1,942 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Actions Core Concepts - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#0b1020;color:#e5e7eb;line-height:1.7}
+header{text-align:center;padding:50px 20px;background:#111827;border-bottom:1px solid #29344d}
+.icon{font-size:48px}
+h1{font-size:clamp(30px,5vw,48px);margin:5px 0}
+h1 span{color:#93c5fd}
+header p{color:#9ca8b8;max-width:850px;margin:auto}
+.back{color:#94a3b8;text-decoration:none}
+.container{width:min(1100px,92%);margin:auto;padding:40px 0}
+.card{background:#141d34;border:1px solid #2b3751;border-radius:15px;padding:27px;margin-bottom:22px}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+.answer{background:#0d1425;border-left:4px solid #64748b;padding:17px;border-radius:8px}
+.flow{text-align:center;background:#0d1425;border:1px solid #29354e;border-radius:12px;padding:22px;margin:18px 0}
+.interview{background:#111827;border:1px solid #374151;padding:18px;border-radius:10px}
+.warning{background:#25151a;border-left:4px solid #f87171;padding:17px;border-radius:8px}
+pre{background:#020617;padding:18px;border-radius:9px;overflow-x:auto;border:1px solid #1e293b}
+code{color:#c4b5fd;background:#020617;padding:2px 5px;border-radius:4px}
+pre code{color:#e5e7eb;padding:0}
+table{width:100%;border-collapse:collapse;margin:18px 0}
+th,td{border:1px solid #334155;padding:11px;text-align:left;vertical-align:top}
+th{background:#172033;color:#93c5fd}
+.badge{display:inline-block;padding:4px 10px;margin:3px;border:1px solid #334155;border-radius:20px;background:#172033;color:#fbbf24}
+footer{text-align:center;padding:30px;color:#64748b;border-top:1px solid #222d46}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="icon">⚙️</div>
+<a class="back" href="index.html">← Back to GitHub Actions</a>
+<h1>GitHub <span>Actions Core Concepts</span></h1>
+<p>Important concepts, YAML structure, workflows, events, jobs, steps, actions, runners, variables, artifacts and interview questions.</p>
+</header>
+
+<main class="container">
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 1. What is GitHub Actions?</h2>
+
+<div class="answer">
+GitHub Actions is a CI/CD and automation platform integrated with GitHub.
+It allows us to automatically build, test, scan and deploy applications
+based on repository events.
+</div>
+
+<div class="flow">
+Developer
+<br>↓<br>
+Git Push
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build → Test → Scan
+<br>↓<br>
+Deploy
+</div>
+
+<div class="interview">
+<strong>Interview answer:</strong><br>
+"GitHub Actions is GitHub's automation and CI/CD platform. We define
+workflows using YAML files inside the repository, and those workflows
+execute jobs on runners when specified events occur."
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 2. Where are GitHub Actions workflows stored?</h2>
+
+<div class="answer">
+Workflow YAML files are stored inside the repository under:
+</div>
+
+<pre><code>.github/workflows/</code></pre>
+
+<p>Example:</p>
+
+<pre><code>project/
+├── src/
+├── Dockerfile
+└── .github/
+    └── workflows/
+        └── ci.yml</code></pre>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 3. What is a Workflow?</h2>
+
+<div class="answer">
+A workflow is an automated process defined in a YAML file. It specifies
+when automation should run and what jobs should be executed.
+</div>
+
+<pre><code>name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Build application"</code></pre>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 4. What is an Event?</h2>
+
+<div class="answer">
+An event is something that triggers a workflow.
+</div>
+
+<table>
+<tr><th>Event</th><th>Use</th></tr>
+<tr><td>push</td><td>Run when code is pushed.</td></tr>
+<tr><td>pull_request</td><td>Run when a pull request changes.</td></tr>
+<tr><td>workflow_dispatch</td><td>Run manually.</td></tr>
+<tr><td>schedule</td><td>Run on a schedule.</td></tr>
+<tr><td>workflow_call</td><td>Call a reusable workflow.</td></tr>
+</table>
+
+<pre><code>on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main</code></pre>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 5. What is a Job?</h2>
+
+<div class="answer">
+A job is a collection of steps that runs on a runner.
+A workflow can contain one or multiple jobs.
+</div>
+
+<pre><code>jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Build"
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Test"</code></pre>
+
+<p>
+Jobs can run independently or can be connected using
+<code>needs</code>.
+</p>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 6. What is a Step?</h2>
+
+<div class="answer">
+A step is an individual operation inside a job.
+A step can execute a shell command or use an action.
+</div>
+
+<pre><code>steps:
+
+  - name: Checkout
+    uses: actions/checkout@v4
+
+  - name: Install
+    run: npm install
+
+  - name: Test
+    run: npm test</code></pre>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 7. What is an Action?</h2>
+
+<div class="answer">
+An Action is a reusable component that performs a specific task.
+Actions prevent us from repeatedly writing common automation logic.
+</div>
+
+<pre><code>- name: Checkout repository
+  uses: actions/checkout@v4</code></pre>
+
+<p>
+Here <code>actions/checkout@v4</code> is a reusable action used to
+checkout repository code.
+</p>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 8. What is a Runner?</h2>
+
+<div class="answer">
+A runner is the machine that executes a GitHub Actions job.
+</div>
+
+<table>
+<tr>
+<th>Runner</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>GitHub-hosted</td>
+<td>Machine managed by GitHub.</td>
+</tr>
+
+<tr>
+<td>Self-hosted</td>
+<td>Machine managed by the organization.</td>
+</tr>
+</table>
+
+<pre><code>runs-on: ubuntu-latest</code></pre>
+
+<div class="interview">
+<strong>Interview point:</strong><br>
+GitHub-hosted runners are convenient because GitHub manages the
+execution environment. Self-hosted runners provide greater control
+over the environment and infrastructure.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 9. GitHub-Hosted vs Self-Hosted Runner</h2>
+
+<table>
+<tr>
+<th>GitHub-Hosted</th>
+<th>Self-Hosted</th>
+</tr>
+
+<tr>
+<td>Managed by GitHub</td>
+<td>Managed by organization</td>
+</tr>
+
+<tr>
+<td>Easy to configure</td>
+<td>Requires infrastructure management</td>
+</tr>
+
+<tr>
+<td>Fresh environment generally provided for each job</td>
+<td>Organization controls environment</td>
+</tr>
+
+<tr>
+<td>Less maintenance</td>
+<td>More control/customization</td>
+</tr>
+</table>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 10. Complete Basic Workflow</h2>
+
+<pre><code>name: Basic CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Build
+        run: npm run build</code></pre>
+
+<div class="flow">
+Event
+<br>↓<br>
+Job
+<br>↓<br>
+Runner
+<br>↓<br>
+Checkout
+<br>↓<br>
+Install
+<br>↓<br>
+Test
+<br>↓<br>
+Build
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 11. What is <code>runs-on</code>?</h2>
+
+<div class="answer">
+<code>runs-on</code> specifies the runner environment where the job
+will execute.
+</div>
+
+<pre><code>runs-on: ubuntu-latest</code></pre>
+
+<p>Other examples can include Windows or macOS runners:</p>
+
+<pre><code>runs-on: windows-latest
+
+runs-on: macos-latest</code></pre>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 12. What is <code>run</code> vs <code>uses</code>?</h2>
+
+<table>
+<tr>
+<th>run</th>
+<th>uses</th>
+</tr>
+
+<tr>
+<td>Executes shell commands.</td>
+<td>Uses a reusable Action.</td>
+</tr>
+
+<tr>
+<td><code>run: npm test</code></td>
+<td><code>uses: actions/checkout@v4</code></td>
+</tr>
+</table>
+
+<pre><code>- name: Test
+  run: npm test
+
+- name: Checkout
+  uses: actions/checkout@v4</code></pre>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 13. Job Dependencies using <code>needs</code></h2>
+
+<div class="answer">
+The <code>needs</code> keyword makes one job wait for another job to
+complete successfully.
+</div>
+
+<pre><code>jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Build"
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Test"
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploy"</code></pre>
+
+<div class="flow">
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Deploy
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 14. Parallel Jobs</h2>
+
+<div class="answer">
+If jobs do not depend on each other, they can execute independently
+and potentially in parallel.
+</div>
+
+<pre><code>jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Build"
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Security Scan"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Tests"</code></pre>
+
+<div class="flow">
+Build ↘
+<br>
+Security → Independent Jobs
+<br>
+Test ↗
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 15. Environment Variables</h2>
+
+<div class="answer">
+Environment variables store configuration values used during workflow
+execution.
+</div>
+
+<pre><code>env:
+  APP_ENV: production
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "$APP_ENV"</code></pre>
+
+<p>
+Variables can be defined at workflow, job or step level.
+</p>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 16. GitHub Secrets</h2>
+
+<div class="answer">
+Secrets are encrypted values used to store sensitive information such
+as tokens, passwords and credentials.
+</div>
+
+<pre><code>steps:
+
+  - name: Deploy
+    env:
+      API_TOKEN: ${{ secrets.API_TOKEN }}
+
+    run: ./deploy.sh</code></pre>
+
+<div class="warning">
+Never hard-code passwords, private keys or cloud credentials inside
+workflow YAML files.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 17. Artifacts</h2>
+
+<div class="answer">
+Artifacts allow files produced during a workflow to be stored and
+downloaded after the workflow or job completes.
+</div>
+
+<pre><code>- name: Upload Build
+  uses: actions/upload-artifact@v4
+  with:
+    name: build-output
+    path: dist/</code></pre>
+
+<p>
+Examples: test reports, compiled packages, logs and build outputs.
+</p>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 18. Matrix Strategy</h2>
+
+<div class="answer">
+A matrix allows the same job to run against multiple combinations,
+such as different language versions or operating systems.
+</div>
+
+<pre><code>strategy:
+  matrix:
+    node: [18, 20, 22]
+
+steps:
+  - run: echo "Node ${{ matrix.node }}"</code></pre>
+
+<div class="flow">
+Node 18
+&nbsp;&nbsp; Node 20
+&nbsp;&nbsp; Node 22
+<br>↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓
+<br>
+Tests
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 19. Manual Workflow</h2>
+
+<div class="answer">
+<code>workflow_dispatch</code> allows users to manually start a workflow.
+</div>
+
+<pre><code>on:
+  workflow_dispatch:</code></pre>
+
+<p>
+Useful for controlled deployments and operational tasks.
+</p>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 20. Scheduled Workflow</h2>
+
+<pre><code>on:
+  schedule:
+    - cron: "0 2 * * *"</code></pre>
+
+<div class="answer">
+Scheduled workflows run according to cron expressions.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 21. Permissions</h2>
+
+<div class="answer">
+The <code>permissions</code> section controls what the workflow's
+<code>GITHUB_TOKEN</code> can access.
+</div>
+
+<pre><code>permissions:
+  contents: read</code></pre>
+
+<div class="warning">
+Use least privilege. Give the workflow only the permissions it
+actually requires.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 22. Workflow Execution Flow</h2>
+
+<div class="flow">
+
+<strong>Event</strong>
+<br>↓<br>
+<strong>Workflow</strong>
+<br>↓<br>
+<strong>Job</strong>
+<br>↓<br>
+<strong>Runner</strong>
+<br>↓<br>
+<strong>Steps</strong>
+<br>↓<br>
+<strong>Commands / Actions</strong>
+<br>↓<br>
+<strong>Result</strong>
+
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 23. Real-Time Scenario: Workflow Failed</h2>
+
+<div class="answer">
+
+<strong>Question:</strong><br>
+"Your GitHub Actions pipeline failed. How will you troubleshoot it?"
+
+<br><br>
+
+<strong>Answer:</strong>
+
+1. Open the failed workflow run.
+<br>
+2. Identify the failed job.
+<br>
+3. Identify the failed step.
+<br>
+4. Read the logs.
+<br>
+5. Compare with the last successful run.
+<br>
+6. Check recent code/configuration changes.
+<br>
+7. Check dependencies, secrets and permissions.
+<br>
+8. Fix the root cause.
+<br>
+9. Rerun and verify.
+
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 24. Real-Time Scenario: Secret Error</h2>
+
+<div class="answer">
+
+If a secret is not working, check:
+
+<br><br>
+
+• Secret name<br>
+• Repository/environment scope<br>
+• Workflow permissions<br>
+• Event restrictions<br>
+• Cloud-side permissions<br>
+• Target account or role
+
+</div>
+
+<div class="warning">
+Never print the secret value into workflow logs while troubleshooting.
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 25. GitHub Actions + Docker</h2>
+
+<pre><code>name: Docker CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t myapp:${{ github.sha }} .
+
+      - name: List Images
+        run: docker images</code></pre>
+
+<div class="answer">
+Using the commit SHA as an image identifier helps connect the image
+to the exact source revision.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 26. GitHub Actions + Kubernetes</h2>
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Registry
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Application
+
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 27. GitHub Actions vs Jenkins</h2>
+
+<table>
+
+<tr>
+<th>GitHub Actions</th>
+<th>Jenkins</th>
+</tr>
+
+<tr>
+<td>Built into GitHub ecosystem</td>
+<td>Independent automation server</td>
+</tr>
+
+<tr>
+<td>YAML workflows</td>
+<td>Jenkinsfile / pipeline configuration</td>
+</tr>
+
+<tr>
+<td>GitHub-hosted runners available</td>
+<td>Jenkins agents required</td>
+</tr>
+
+<tr>
+<td>Easy GitHub integration</td>
+<td>Large plugin ecosystem</td>
+</tr>
+
+<tr>
+<td>Managed platform experience</td>
+<td>More infrastructure control</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 28. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is GitHub Actions?</li>
+
+<li>What is a workflow?</li>
+
+<li>Where are workflow files stored?</li>
+
+<li>What are events?</li>
+
+<li>What is a job?</li>
+
+<li>What is a step?</li>
+
+<li>What is an Action?</li>
+
+<li>What is a runner?</li>
+
+<li>GitHub-hosted vs self-hosted runner?</li>
+
+<li>What is <code>runs-on</code>?</li>
+
+<li>Difference between <code>run</code> and <code>uses</code>?</li>
+
+<li>What is <code>needs</code>?</li>
+
+<li>How do you run jobs in parallel?</li>
+
+<li>How do you manage secrets?</li>
+
+<li>What are artifacts?</li>
+
+<li>What is a matrix strategy?</li>
+
+<li>What is <code>workflow_dispatch</code>?</li>
+
+<li>How do you secure GitHub Actions?</li>
+
+<li>How do you troubleshoot failed workflows?</li>
+
+<li>GitHub Actions vs Jenkins?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+<h2>🧠 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Workflow</strong>
+→ Automation definition
+
+<br><br>
+
+<strong>Event</strong>
+→ Trigger
+
+<br><br>
+
+<strong>Job</strong>
+→ Group of steps
+
+<br><br>
+
+<strong>Step</strong>
+→ Individual operation
+
+<br><br>
+
+<strong>Action</strong>
+→ Reusable component
+
+<br><br>
+
+<strong>Runner</strong>
+→ Execution machine
+
+<br><br>
+
+<strong>Secret</strong>
+→ Sensitive value
+
+<br><br>
+
+<strong>Artifact</strong>
+→ Saved output
+
+<br><br>
+
+<strong>needs</strong>
+→ Job dependency
+
+<br><br>
+
+<strong>Matrix</strong>
+→ Multiple configurations
+
+</div>
+</div>
+
+
+<div class="card">
+
+<h2>🎯 Interview-Ready Answer</h2>
+
+<div class="interview">
+
+"GitHub Actions is a CI/CD automation platform integrated with
+GitHub. Workflows are written in YAML and stored under the
+.github/workflows directory.
+
+A workflow is triggered by events such as push or pull request.
+It contains jobs, jobs contain steps, and steps can execute shell
+commands or reusable Actions.
+
+Each job runs on a runner. We can use GitHub-hosted or self-hosted
+runners depending on the requirement.
+
+For a production pipeline, I would use GitHub Actions to checkout
+code, build and test the application, perform security checks,
+build a Docker image, push it to a registry and deploy it to the
+target environment.
+
+For security, I would use Secrets or short-lived federated
+credentials where supported, apply least-privilege permissions and
+avoid exposing sensitive values in logs."
+
+</div>
+</div>
+
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<div class="flow">
+
+<a href="index.html"
+style="color:#c4b5fd;text-decoration:none;">
+🏠 GitHub Actions Index
+</a>
+
+<br><br>
+
+<a href="github-actions-ci-cd.html"
+style="color:#c4b5fd;text-decoration:none;">
+Next → GitHub Actions CI/CD
+</a>
+
+</div>
+
+</div>
+
+
+</main>
+
+<footer>
+⚙️ GitHub Actions Core Concepts • DevOps Interview Master Guide
+<br><br>
+Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS CLI Interview Questions | Nandu's DevOps Guide</title>
+
+```
+<link rel="stylesheet" href="../style.css">
+
+<style>
+    body {
+        background:
+            radial-gradient(circle at 90% 5%, rgba(245,158,11,.08), transparent 30%),
+            #0b1020;
+    }
+
+    .page-header {
+        padding: 50px 20px;
+        text-align: center;
+        background: linear-gradient(135deg,#17120a,#111827,#0b1020);
+        border-bottom: 1px solid #29334c;
+    }
+
+    .back {
+        color: #9da9c4;
+        text-decoration: none;
+    }
+
+    .back:hover {
+        color: #fbbf24;
+    }
+
+    .page-icon {
+        font-size: 52px;
+        margin-top: 25px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(36px,6vw,58px);
+        margin: 10px 0;
+    }
+
+    .page-header h1 span {
+        color: #fbbf24;
+    }
+
+    .page-header p {
+        max-width: 900px;
+        margin: auto;
+        color: #9ca8c4;
+        line-height: 1.7;
+    }
+
+    .content {
+        width: min(1000px,92%);
+        margin: auto;
+        padding: 50px 0 80px;
+    }
+
+    .quick-map {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+        gap: 12px;
+        margin-bottom: 45px;
+    }
+
+    .map-item {
+        padding: 16px;
+        background: #121a30;
+        border: 1px solid #27324b;
+        border-radius: 12px;
+        color: #aab5cf;
+        font-size: 13px;
+    }
+
+    .map-item strong {
+        color: #fff;
+    }
+
+    .priority-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 50px 0 25px;
+    }
+
+    .priority-title h2 {
+        font-size: 27px;
+    }
+
+    .line {
+        flex: 1;
+        height: 1px;
+        background: #29334c;
+    }
+
+    .question {
+        margin-bottom: 25px;
+        padding: 28px;
+        background: linear-gradient(145deg,#141d35,#10172a);
+        border: 1px solid #29344e;
+        border-radius: 18px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+        line-height: 1.45;
+        margin-bottom: 16px;
+    }
+
+    .question-number {
+        color: #7582a2;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .label {
+        display: inline-block;
+        margin-bottom: 12px;
+        color: #fcd34d;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .7px;
+    }
+
+    .answer {
+        color: #c2cbe0;
+        line-height: 1.8;
+        margin-bottom: 18px;
+    }
+
+    .example {
+        padding: 18px 20px;
+        margin: 18px 0;
+        border-left: 4px solid #f59e0b;
+        background: rgba(245,158,11,.06);
+        border-radius: 0 10px 10px 0;
+    }
+
+    .example strong {
+        color: #fcd34d;
+    }
+
+    .example p {
+        color: #b7c2d8;
+        line-height: 1.75;
+        margin-top: 7px;
+    }
+
+    .interview-answer {
+        padding: 18px 20px;
+        margin-top: 18px;
+        background: #111a30;
+        border-radius: 12px;
+        border: 1px solid #303c59;
+    }
+
+    .interview-answer strong {
+        color: #fbbf24;
+    }
+
+    .interview-answer p {
+        color: #c4cee1;
+        line-height: 1.75;
+    }
+
+    .important {
+        padding: 22px;
+        margin: 30px 0;
+        border-radius: 14px;
+        background: rgba(245,158,11,.05);
+        border: 1px solid rgba(245,158,11,.2);
+        color: #b8c4dc;
+        line-height: 1.8;
+    }
+
+    pre {
+        overflow-x: auto;
+        margin: 12px 0 20px;
+        padding: 18px;
+        background: #080d19;
+        border-radius: 10px;
+        border: 1px solid #202b43;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    code {
+        color: #fcd34d;
+    }
+
+    .flow {
+        padding: 20px;
+        margin: 20px 0;
+        background: #0d1426;
+        border: 1px solid #26314a;
+        border-radius: 12px;
+        text-align: center;
+        color: #c6d0e4;
+        line-height: 2;
+        overflow-x: auto;
+    }
+
+    .scenario {
+        border-left: 4px solid #fbbf24;
+    }
+
+    .command-title {
+        color: #fbbf24;
+        margin-top: 22px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: #7582a2;
+        border-top: 1px solid #222d46;
+    }
+
+    footer span {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<header class="page-header">
+
+```
+<a href="index.html" class="back">← Back to AWS</a>
+
+<div class="page-icon">⌨️</div>
+
+<h1>AWS <span>CLI</span></h1>
+
+<p>
+    Interview preparation for AWS Command Line Interface —
+    concepts, commands, authentication, profiles, output,
+    troubleshooting and real-time DevOps scenarios.
+</p>
+```
+
+</header>
+
+<main class="content">
+
+```
+<!-- PRIORITY MAP -->
+
+<section class="quick-map">
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐⭐</strong><br>
+        Must Know
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐⭐</strong><br>
+        High Priority
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐⭐</strong><br>
+        Medium
+    </div>
+
+    <div class="map-item">
+        <strong>⭐⭐</strong><br>
+        Less Asked
+    </div>
+
+    <div class="map-item">
+        <strong>⭐</strong><br>
+        Bonus
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     ⭐⭐⭐⭐⭐
+======================================================= -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐⭐ Very Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q1 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 01</div>
+
+    <h3>What is AWS CLI?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        AWS CLI stands for <strong>AWS Command Line Interface</strong>.
+
+        It is a command-line tool that allows us to interact
+        with AWS services using commands instead of manually
+        using the AWS Management Console.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            Instead of opening the S3 console and checking
+            buckets manually, we can run:
+
+        </p>
+
+        <pre>aws s3 ls</pre>
+
+        <p>
+
+            This lists the S3 buckets accessible using the
+            configured AWS credentials.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "AWS CLI is a command-line interface provided by AWS
+            that allows us to manage and automate AWS resources
+            using commands. It is useful for administration,
+            scripting and DevOps automation."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q2 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 02</div>
+
+    <h3>Why do we use AWS CLI in DevOps?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY COMMON</span>
+
+    <p class="answer">
+
+        AWS CLI is useful because DevOps work involves
+        automation.
+
+        Instead of performing repetitive tasks manually through
+        the console, commands can be executed through scripts,
+        CI/CD pipelines and automation tools.
+
+    </p>
+
+    <div class="flow">
+
+        Developer
+
+        →
+
+        GitHub / Jenkins
+
+        →
+
+        AWS CLI Commands
+
+        →
+
+        AWS Resources
+
+    </div>
+
+    <div class="example">
+
+        <strong>🔥 Real-Time DevOps Example</strong>
+
+        <p>
+
+            A CI/CD pipeline can use AWS CLI to upload build
+            artifacts to S3 or interact with ECR, ECS, EC2 and
+            other AWS services.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "In DevOps, AWS CLI helps automate AWS operations.
+            We can use it inside shell scripts and CI/CD
+            pipelines instead of performing repetitive tasks
+            manually through the AWS Console."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q3 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 03</div>
+
+    <h3>How do you configure AWS CLI?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+    <p class="answer">
+
+        The commonly used command is:
+
+    </p>
+
+    <pre>aws configure</pre>
+
+    <p class="answer">
+
+        It asks for:
+
+        <br><br>
+
+        → AWS Access Key ID
+
+        <br>
+
+        → AWS Secret Access Key
+
+        <br>
+
+        → Default AWS Region
+
+        <br>
+
+        → Default output format
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <pre>aws configure</pre>
+
+        <p>
+
+            Then configure the required values.
+
+        </p>
+
+    </div>
+
+    <div class="important">
+
+        ⚠️ Never hard-code or expose AWS access keys in GitHub
+        repositories, source code or public files.
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I can configure AWS CLI using the aws configure
+            command, which stores the CLI configuration for the
+            selected profile. In production automation, I prefer
+            temporary credentials or IAM roles rather than
+            hard-coded long-lived access keys."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q4 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 04</div>
+
+    <h3>How do you check whether AWS CLI is installed?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <pre>aws --version</pre>
+
+    <p class="answer">
+
+        This displays the installed AWS CLI version.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <pre>aws --version</pre>
+
+    </div>
+
+</article>
+
+
+<!-- Q5 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 05</div>
+
+    <h3>How do you check which AWS identity is being used?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+    <p class="answer">
+
+        Use:
+
+    </p>
+
+    <pre>aws sts get-caller-identity</pre>
+
+    <p class="answer">
+
+        This is one of the most useful troubleshooting commands.
+
+        It tells us the AWS account and identity associated with
+        the credentials currently being used.
+
+    </p>
+
+    <div class="example">
+
+        <strong>🔥 Real-Time Example</strong>
+
+        <p>
+
+            Suppose Terraform or AWS CLI gives an
+            <strong>AccessDenied</strong> error.
+
+            Before changing permissions, I can verify which
+            identity is actually being used.
+
+        </p>
+
+        <pre>aws sts get-caller-identity</pre>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I use aws sts get-caller-identity to verify which
+            AWS identity and account my CLI session is using.
+            It is very useful when troubleshooting credentials
+            or permissions."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q6 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 06</div>
+
+    <h3>What is an AWS CLI profile?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        A profile is a named set of AWS CLI configuration and
+        credential settings.
+
+        Profiles are useful when working with multiple AWS
+        accounts or environments.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <pre>aws configure --profile dev</pre>
+
+        <pre>aws configure --profile prod</pre>
+
+        <p>
+
+            Then select a profile while running a command:
+
+        </p>
+
+        <pre>aws s3 ls --profile dev</pre>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "AWS CLI profiles allow me to maintain separate
+            configurations for different AWS accounts or
+            environments. I can select a specific profile using
+            the --profile option."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q7 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 07</div>
+
+    <h3>What is the difference between AWS CLI and AWS Management Console?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ COMMON</span>
+
+    <p class="answer">
+
+        Both can manage AWS resources, but the method is
+        different.
+
+    </p>
+
+    <div class="flow">
+
+        AWS Console
+
+        →
+
+        GUI / Browser
+
+        <br><br>
+
+        AWS CLI
+
+        →
+
+        Commands / Scripts / Automation
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "The AWS Management Console is a graphical interface,
+            while AWS CLI provides command-line access. CLI is
+            particularly useful for automation, scripting and
+            CI/CD pipelines."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q8 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 08</div>
+
+    <h3>How do you specify an AWS region using CLI?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        A region can be specified directly using:
+
+    </p>
+
+    <pre>aws ec2 describe-instances --region ap-south-1</pre>
+
+    <p class="answer">
+
+        Or a default region can be configured using:
+
+    </p>
+
+    <pre>aws configure</pre>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <p>
+
+            If your resources are in Mumbai:
+
+        </p>
+
+        <pre>aws ec2 describe-instances --region ap-south-1</pre>
+
+    </div>
+
+</article>
+
+
+<!-- Q9 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 09</div>
+
+    <h3>What are common AWS CLI output formats?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        Common output formats include:
+
+        <br><br>
+
+        → json
+
+        <br>
+
+        → text
+
+        <br>
+
+        → table
+
+        <br>
+
+        → yaml / yaml-stream in supported AWS CLI versions
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <pre>aws ec2 describe-instances --output table</pre>
+
+        <pre>aws ec2 describe-instances --output json</pre>
+
+    </div>
+
+</article>
+
+
+<!-- ======================================================
+     ⭐⭐⭐⭐
+======================================================= -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐⭐ Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q10 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 10</div>
+
+    <h3>How do you list EC2 instances using AWS CLI?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <pre>aws ec2 describe-instances</pre>
+
+    <p class="answer">
+
+        This returns information about EC2 instances accessible
+        to the configured identity.
+
+    </p>
+
+</article>
+
+
+<!-- Q11 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 11</div>
+
+    <h3>How do you list S3 buckets?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <pre>aws s3 ls</pre>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Tip</strong>
+
+        <p>
+
+            Remember the difference:
+
+            <br><br>
+
+            <code>aws s3 ls</code>
+            → high-level S3 command
+
+            <br><br>
+
+            <code>aws s3api ...</code>
+            → lower-level S3 API operations
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q12 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 12</div>
+
+    <h3>What is the difference between aws s3 and aws s3api?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        <strong>aws s3</strong> provides high-level,
+        easier-to-use commands for common S3 operations.
+
+        <br><br>
+
+        <strong>aws s3api</strong> provides direct access to
+        individual S3 API operations.
+
+    </p>
+
+    <div class="example">
+
+        <strong>Examples</strong>
+
+        <pre>aws s3 ls</pre>
+
+        <pre>aws s3 cp file.txt s3://my-bucket/</pre>
+
+        <pre>aws s3api list-buckets</pre>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "aws s3 provides high-level S3 commands for common
+            tasks, while aws s3api exposes individual S3 API
+            operations and gives more direct control."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q13 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 13</div>
+
+    <h3>How do you upload a file to S3 using AWS CLI?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <pre>aws s3 cp file.txt s3://my-bucket/</pre>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <pre>aws s3 cp app.zip s3://my-bucket/releases/</pre>
+
+    </div>
+
+</article>
+
+
+<!-- Q14 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 14</div>
+
+    <h3>How do you download a file from S3?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <pre>aws s3 cp s3://my-bucket/app.zip .</pre>
+
+    <p class="answer">
+
+        The dot means the current directory.
+
+    </p>
+
+</article>
+
+
+<!-- Q15 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 15</div>
+
+    <h3>What is AWS STS?</h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ IMPORTANT</span>
+
+    <p class="answer">
+
+        AWS STS stands for
+        <strong>Security Token Service</strong>.
+
+        It provides temporary security credentials for AWS
+        access.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Common DevOps Use</strong>
+
+        <p>
+
+            IAM roles and temporary credentials can be used by
+            workloads or automation systems without storing
+            long-lived access keys directly in code.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "AWS STS provides temporary security credentials.
+            It is commonly used with IAM roles and temporary
+            access instead of relying on long-lived credentials."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q16 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 16</div>
+
+    <h3>How do you get help for an AWS CLI command?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <pre>aws help</pre>
+
+    <pre>aws ec2 help</pre>
+
+    <pre>aws ec2 describe-instances help</pre>
+
+    <p class="answer">
+
+        The CLI documentation built into the command can help
+        identify syntax, options and parameters.
+
+    </p>
+
+</article>
+
+
+<!-- Q17 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 17</div>
+
+    <h3>How can AWS CLI output be filtered?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        AWS CLI supports options such as
+        <strong>--query</strong> for JMESPath expressions.
+
+    </p>
+
+    <div class="example">
+
+        <strong>💡 Example</strong>
+
+        <pre>aws ec2 describe-instances \
+```
+
+--query "Reservations[].Instances[].InstanceId"</pre>
+
+```
+        <p>
+
+            This extracts instance IDs instead of displaying the
+            entire response.
+
+        </p>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "I use the --query option with JMESPath expressions
+            to extract only the required fields from AWS CLI
+            output."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q18 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 18</div>
+
+    <h3>What is the difference between --query and --filter?</h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        They work at different levels.
+
+        <br><br>
+
+        <strong>--filters</strong>
+        are service-specific request filters that can limit
+        resources returned by the AWS API.
+
+        <br><br>
+
+        <strong>--query</strong>
+        processes the returned response using JMESPath and
+        extracts the information you need.
+
+    </p>
+
+    <div class="important">
+
+        Easy memory:
+
+        <br><br>
+
+        <strong>Filter → Ask AWS for fewer resources.</strong>
+
+        <br>
+
+        <strong>Query → Select fields from the response.</strong>
+
+    </div>
+
+</article>
+
+
+<!-- ======================================================
+     ⭐⭐⭐
+======================================================= -->
+
+<div class="priority-title">
+    <h2>⭐⭐⭐ Medium Priority</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q19 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 19</div>
+
+    <h3>Where does AWS CLI store configuration?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        AWS CLI commonly uses configuration files under the
+        user's AWS directory.
+
+        On Linux/macOS:
+
+    </p>
+
+    <pre>~/.aws/</pre>
+
+    <p class="answer">
+
+        Common files include:
+
+    </p>
+
+    <pre>~/.aws/config
+```
+
+~/.aws/credentials</pre>
+
+```
+    <p class="answer">
+
+        On Windows, the AWS directory is typically under the
+        user's profile directory.
+
+    </p>
+
+</article>
+
+
+<!-- Q20 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 20</div>
+
+    <h3>What is the AWS_DEFAULT_REGION environment variable?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        It can be used to provide a default AWS region to AWS
+        SDKs and CLI behavior where applicable.
+
+    </p>
+
+    <div class="example">
+
+        <strong>Linux/macOS</strong>
+
+        <pre>export AWS_DEFAULT_REGION=ap-south-1</pre>
+
+        <strong>PowerShell</strong>
+
+        <pre>$env:AWS_DEFAULT_REGION="ap-south-1"</pre>
+
+    </div>
+
+</article>
+
+
+<!-- Q21 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 21</div>
+
+    <h3>What is the difference between AWS CLI and SDK?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <p class="answer">
+
+        AWS CLI is a command-line tool used by users and
+        scripts.
+
+        AWS SDKs are software libraries that developers use
+        inside applications written in supported programming
+        languages.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Interview Answer</strong>
+
+        <p>
+
+            "AWS CLI is mainly used from the command line and
+            automation scripts, while AWS SDKs allow application
+            code to interact programmatically with AWS services."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q22 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 22</div>
+
+    <h3>How do you delete an S3 object using CLI?</h3>
+
+    <span class="label">⭐⭐⭐</span>
+
+    <pre>aws s3 rm s3://my-bucket/file.txt</pre>
+
+    <p class="answer">
+
+        To remove objects recursively from a prefix:
+
+    </p>
+
+    <pre>aws s3 rm s3://my-bucket/folder/ --recursive</pre>
+
+    <div class="important">
+
+        ⚠️ Always verify the bucket and path before using
+        recursive delete commands.
+
+    </div>
+
+</article>
+
+
+<!-- ======================================================
+     ⭐⭐
+======================================================= -->
+
+<div class="priority-title">
+    <h2>⭐⭐ Less Frequently Asked</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Q23 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 23</div>
+
+    <h3>What is the AWS CLI --dry-run option?</h3>
+
+    <span class="label">⭐⭐</span>
+
+    <p class="answer">
+
+        Some AWS CLI operations support <strong>--dry-run</strong>
+        to test whether the command would succeed without
+        actually performing the requested operation.
+
+    </p>
+
+    <div class="example">
+
+        <pre>aws ec2 run-instances --dry-run ...</pre>
+
+        <p>
+
+            The exact behavior depends on the API operation.
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Q24 -->
+
+<article class="question">
+
+    <div class="question-number">QUESTION 24</div>
+
+    <h3>What is pagination in AWS CLI?</h3>
+
+    <span class="label">⭐⭐</span>
+
+    <p class="answer">
+
+        Some AWS APIs return large result sets in multiple
+        pages.
+
+        AWS CLI generally handles pagination automatically, but
+        pagination behavior can be controlled with CLI options
+        such as:
+
+    </p>
+
+    <pre>--no-paginate</pre>
+
+    <div class="example">
+
+        <strong>💡 Why useful?</strong>
+
+        <p>
+
+            When troubleshooting or scripting, controlling
+            pagination can make output easier to process.
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- ======================================================
+     🎯 SCENARIOS
+======================================================= -->
+
+<div class="priority-title">
+    <h2>🎯 Real-Time Interview Scenarios</h2>
+    <div class="line"></div>
+</div>
+
+
+<!-- Scenario 1 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 01</div>
+
+    <h3>
+        AWS CLI says AccessDenied. How will you troubleshoot?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+    <p class="answer">
+
+        I would troubleshoot systematically.
+
+        <br><br>
+
+        <strong>Step 1:</strong>
+        Check the current identity.
+
+    </p>
+
+    <pre>aws sts get-caller-identity</pre>
+
+    <p class="answer">
+
+        <strong>Step 2:</strong>
+        Check which profile/credentials are being used.
+
+        <br><br>
+
+        <strong>Step 3:</strong>
+        Verify the IAM policy permissions.
+
+        <br><br>
+
+        <strong>Step 4:</strong>
+        Check resource policies such as S3 bucket policies
+        where applicable.
+
+        <br><br>
+
+        <strong>Step 5:</strong>
+        Check region and resource ARN.
+
+    </p>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Strong Interview Answer</strong>
+
+        <p>
+
+            "First I would run aws sts get-caller-identity to
+            confirm which identity is being used. Then I would
+            check the IAM permissions, resource policy, resource
+            ARN and region. I would also verify that the CLI is
+            using the expected profile or role."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 2 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 02</div>
+
+    <h3>
+        You have Dev and Production AWS accounts. How would you manage them using CLI?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        I would use separate AWS CLI profiles or, preferably in
+        production environments, role-based access with
+        appropriate identity management.
+
+    </p>
+
+    <div class="example">
+
+        <pre>aws configure --profile dev</pre>
+
+        <pre>aws configure --profile prod</pre>
+
+        <p>
+
+            Then:
+
+        </p>
+
+        <pre>aws ec2 describe-instances --profile dev</pre>
+
+        <pre>aws ec2 describe-instances --profile prod</pre>
+
+    </div>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Strong Interview Answer</strong>
+
+        <p>
+
+            "For separate environments I can use named CLI
+            profiles, but for production I prefer role-based
+            access and temporary credentials rather than
+            storing long-lived access keys."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 3 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 03</div>
+
+    <h3>
+        Your command is working in one region but not another. What will you check?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐</span>
+
+    <p class="answer">
+
+        I would check:
+
+        <br><br>
+
+        → Current/default region
+
+        <br>
+
+        → Explicit <code>--region</code>
+
+        <br>
+
+        → Whether the resource exists in that region
+
+        <br>
+
+        → IAM permissions
+
+        <br>
+
+        → Resource-specific regional behavior
+
+    </p>
+
+    <div class="example">
+
+        <pre>aws ec2 describe-instances --region ap-south-1</pre>
+
+    </div>
+
+</article>
+
+
+<!-- Scenario 4 -->
+
+<article class="question scenario">
+
+    <div class="question-number">SCENARIO 04</div>
+
+    <h3>
+        Your Jenkins pipeline needs to upload a build artifact to S3. How would you do it securely?
+    </h3>
+
+    <span class="label">⭐⭐⭐⭐⭐ DEVOPS SCENARIO</span>
+
+    <div class="flow">
+
+        Git Push
+
+        →
+
+        Jenkins
+
+        →
+
+        Build
+
+        →
+
+        AWS Authentication
+
+        →
+
+        AWS CLI
+
+        →
+
+        S3
+
+    </div>
+
+    <p class="answer">
+
+        I would avoid storing AWS access keys directly inside
+        the Jenkinsfile.
+
+        Instead, I would use an appropriate IAM role or secure
+        credential mechanism with least-privilege permissions.
+
+    </p>
+
+    <pre>aws s3 cp build.zip s3://my-bucket/releases/</pre>
+
+    <div class="interview-answer">
+
+        <strong>🎤 Strong Interview Answer</strong>
+
+        <p>
+
+            "I would integrate Jenkins with AWS using a secure
+            IAM-based authentication mechanism and least
+            privilege. The pipeline can then use AWS CLI to
+            upload the artifact to the required S3 bucket without
+            hard-coding credentials in the Jenkinsfile."
+
+        </p>
+
+    </div>
+
+</article>
+
+
+<!-- ======================================================
+     🛠️ COMMAND CHEAT SHEET
+======================================================= -->
+
+<div class="priority-title">
+    <h2>🛠️ AWS CLI Quick Command Sheet</h2>
+    <div class="line"></div>
+</div>
+
+
+<article class="question">
+
+    <h3 class="command-title">Check AWS CLI version</h3>
+
+    <pre>aws --version</pre>
+
+
+    <h3 class="command-title">Check current identity</h3>
+
+    <pre>aws sts get-caller-identity</pre>
+
+
+    <h3 class="command-title">Configure CLI</h3>
+
+    <pre>aws configure</pre>
+
+
+    <h3 class="command-title">Configure a profile</h3>
+
+    <pre>aws configure --profile dev</pre>
+
+
+    <h3 class="command-title">List S3 buckets</h3>
+
+    <pre>aws s3 ls</pre>
+
+
+    <h3 class="command-title">Upload to S3</h3>
+
+    <pre>aws s3 cp file.txt s3://bucket-name/</pre>
+
+
+    <h3 class="command-title">Download from S3</h3>
+
+    <pre>aws s3 cp s3://bucket-name/file.txt .</pre>
+
+
+    <h3 class="command-title">List EC2 instances</h3>
+
+    <pre>aws ec2 describe-instances</pre>
+
+
+    <h3 class="command-title">Specify region</h3>
+
+    <pre>aws ec2 describe-instances --region ap-south-1</pre>
+
+
+    <h3 class="command-title">Use a profile</h3>
+
+    <pre>aws s3 ls --profile dev</pre>
+
+
+    <h3 class="command-title">Get command help</h3>
+
+    <pre>aws ec2 help</pre>
+
+
+    <h3 class="command-title">Filter response with query</h3>
+
+    <pre>aws ec2 describe-instances \
+```
+
+--query "Reservations[].Instances[].InstanceId"</pre>
+
+```
+</article>
+
+
+<!-- ======================================================
+     🧠 REVISION
+======================================================= -->
+
+<div class="important">
+
+    <strong>🧠 AWS CLI One-Minute Revision</strong>
+
+    <br><br>
+
+    <strong>AWS CLI</strong>
+    = Command-line tool to interact with AWS.
+
+    <br><br>
+
+    <strong>aws configure</strong>
+    = Configure CLI credentials/settings.
+
+    <br>
+
+    <strong>aws sts get-caller-identity</strong>
+    = Check current AWS identity.
+
+    <br>
+
+    <strong>--profile</strong>
+    = Select a named CLI profile.
+
+    <br>
+
+    <strong>--region</strong>
+    = Specify AWS region.
+
+    <br>
+
+    <strong>--query</strong>
+    = Extract required fields using JMESPath.
+
+    <br>
+
+    <strong>aws s3</strong>
+    = High-level S3 commands.
+
+    <br>
+
+    <strong>aws s3api</strong>
+    = Direct S3 API operations.
+
+    <br><br>
+
+    <strong>DevOps Flow:</strong>
+
+    <br><br>
+
+    Git → CI/CD → AWS CLI → AWS Service
+
+    <br><br>
+
+    <strong>Security Rule:</strong>
+
+    <br>
+
+    Never hard-code AWS access keys in source code or
+    repositories. Prefer IAM roles and temporary credentials
+    wherever possible.
+
+</div>
+```
+
+</main>
+
+<footer>
+
+```
+<p>⌨️ AWS CLI Interview Preparation</p>
+
+<span>
+    Nandu's DevOps Interview Master Guide • 2026
+</span>
+```
+
+</footer>
+
+</body>
+</html>
