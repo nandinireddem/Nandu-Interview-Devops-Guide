@@ -1,0 +1,872 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AWS Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{
+    margin:7px 0
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">☁️</div>
+
+<h1>AWS Real-Time Scenarios</h1>
+
+<p>
+Production-style AWS troubleshooting scenarios for DevOps interviews,
+covering EC2, VPC, IAM, S3, Load Balancer, Auto Scaling and CloudWatch.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>🎯 Scenario Approach</h2>
+
+<div class="flow">
+
+Identify Problem
+<br>↓<br>
+Check Current State
+<br>↓<br>
+Collect Evidence
+<br>↓<br>
+Find Root Cause
+<br>↓<br>
+Fix
+<br>↓<br>
+Verify
+<br>↓<br>
+Prevent Recurrence
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. EC2 Instance Is Not Reachable</h2>
+
+<h3>Question</h3>
+
+<p>
+An EC2 instance was working earlier, but now you cannot connect
+to it. How would you troubleshoot?
+</p>
+
+<div class="answer">
+
+<strong>Answer:</strong>
+
+<br><br>
+
+First I would check whether the instance is in the
+<strong>running</strong> state.
+
+Then I would check:
+
+<ul>
+<li>Security Group inbound rules</li>
+<li>Network ACLs</li>
+<li>Route table</li>
+<li>Internet Gateway or NAT configuration</li>
+<li>Public IP / Elastic IP</li>
+<li>Subnet configuration</li>
+<li>Instance status checks</li>
+<li>SSH service and OS-level firewall</li>
+</ul>
+
+I would then use logs and connectivity tests to identify whether
+the problem is at the AWS networking layer or inside the operating
+system.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>2. SSH to EC2 Is Failing</h2>
+
+<pre>
+ssh -i key.pem ec2-user@PUBLIC_IP
+</pre>
+
+<h3>Check</h3>
+
+<ul>
+<li>Correct public IP</li>
+<li>Correct username</li>
+<li>Private key permissions</li>
+<li>Security Group port 22</li>
+<li>Route to Internet Gateway</li>
+<li>Instance is running</li>
+<li>SSH daemon is running</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+"I would troubleshoot from outside to inside: public connectivity,
+Security Group, routing, instance status and finally the operating
+system's SSH service."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>3. EC2 Has High CPU</h2>
+
+<h3>Question</h3>
+
+<p>
+An application server suddenly reaches 95% CPU. What will you do?
+</p>
+
+<div class="answer">
+
+I would first confirm the metric using CloudWatch and then check
+the processes consuming CPU inside the instance.
+
+<pre>
+top
+ps aux --sort=-%cpu | head
+uptime
+</pre>
+
+Then I would determine whether the cause is:
+
+<ul>
+<li>Traffic spike</li>
+<li>Application process</li>
+<li>Infinite loop</li>
+<li>Background job</li>
+<li>Insufficient instance capacity</li>
+</ul>
+
+Depending on the architecture, I could scale vertically,
+scale horizontally using Auto Scaling, or fix the application
+causing the CPU spike.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>4. EC2 Disk Is Full</h2>
+
+<pre>
+df -h
+
+du -sh /* 2&gt;/dev/null
+
+du -sh /var/* 2&gt;/dev/null
+</pre>
+
+<div class="answer">
+
+I would identify which filesystem and directory are consuming
+the space. Then I would inspect logs, temporary files and
+application data.
+
+I would clean only safe files, rotate logs if required, and
+increase the EBS volume if the workload genuinely requires
+more storage.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>5. Application Cannot Access S3</h2>
+
+<h3>Question</h3>
+
+<p>
+An application running on EC2 suddenly receives AccessDenied
+when accessing S3. What would you check?
+</p>
+
+<div class="flow">
+
+EC2
+<br>↓<br>
+IAM Role
+<br>↓<br>
+IAM Policy
+<br>↓<br>
+S3 Bucket Policy
+<br>↓<br>
+S3 Object
+
+</div>
+
+<div class="answer">
+
+I would check the IAM role attached to the EC2 instance,
+its permissions, the bucket policy, explicit denies, object
+ownership/access controls and the requested S3 action.
+
+I would also verify that the application is actually using
+the expected IAM role.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>6. IAM User Gets AccessDenied</h2>
+
+<h3>Question</h3>
+
+<p>
+A developer says they have an IAM policy but still receive
+AccessDenied. What do you check?
+</p>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Attached identity policies</li>
+<li>Resource-based policies</li>
+<li>Explicit Deny statements</li>
+<li>Permission boundaries</li>
+<li>Session policies</li>
+<li>SCPs if AWS Organizations is being used</li>
+<li>Correct AWS account and region</li>
+<li>Exact resource ARN and requested action</li>
+</ul>
+
+<strong>Key Rule:</strong> An explicit Deny overrides an Allow.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>7. Application Behind Load Balancer Is Unhealthy</h2>
+
+<div class="flow">
+
+User
+<br>↓<br>
+Load Balancer
+<br>↓<br>
+Target Group
+<br>↓<br>
+EC2
+<br>↓<br>
+Application
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Target health</li>
+<li>Health-check path</li>
+<li>Health-check port</li>
+<li>Security Groups</li>
+<li>Application listening port</li>
+<li>Application logs</li>
+<li>Network connectivity</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would start from the target group's health status, verify the
+health-check configuration and then move toward the instance and
+application layer."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>8. Load Balancer Returns 502</h2>
+
+<p>
+A 502 generally indicates that the load balancer could not get a
+valid response from the target.
+</p>
+
+<h3>Check</h3>
+
+<ul>
+<li>Backend application is running</li>
+<li>Target port</li>
+<li>Target health</li>
+<li>Security Groups</li>
+<li>Application response</li>
+<li>Listener and target-group configuration</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>9. Auto Scaling Is Not Adding Instances</h2>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>CloudWatch alarm</li>
+<li>Auto Scaling policy</li>
+<li>Desired, minimum and maximum capacity</li>
+<li>Launch template</li>
+<li>Subnet availability</li>
+<li>Instance launch failures</li>
+<li>IAM permissions</li>
+<li>Auto Scaling activity history</li>
+</ul>
+
+The first objective is to determine whether the scaling policy
+did not trigger or whether the new instance launch itself failed.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>10. VPC Instance Has No Internet Access</h2>
+
+<div class="flow">
+
+EC2
+<br>↓<br>
+Subnet Route Table
+<br>↓<br>
+Internet Gateway
+<br>↓<br>
+Internet
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Public IP or Elastic IP</li>
+<li>Route table</li>
+<li>Internet Gateway</li>
+<li>Security Group</li>
+<li>Network ACL</li>
+<li>Subnet configuration</li>
+</ul>
+
+<div class="answer">
+
+For a private subnet, I would instead verify the NAT Gateway
+and its routing path.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>11. Private Subnet Cannot Reach Internet</h2>
+
+<div class="flow">
+
+Private EC2
+<br>↓<br>
+Private Route Table
+<br>↓<br>
+NAT Gateway
+<br>↓<br>
+Public Subnet
+<br>↓<br>
+Internet Gateway
+<br>↓<br>
+Internet
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Private route table has a route to NAT Gateway</li>
+<li>NAT Gateway is available</li>
+<li>NAT Gateway is in a suitable public subnet</li>
+<li>Public subnet route points to Internet Gateway</li>
+<li>Security Groups and NACLs allow required traffic</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>12. DNS Resolution Is Failing Inside VPC</h2>
+
+<h3>Check</h3>
+
+<pre>
+nslookup example.com
+
+dig example.com
+</pre>
+
+<div class="answer">
+
+I would check VPC DNS support/hostnames, the configured resolver,
+route and network connectivity, security controls, and whether
+the problem affects one instance or the entire subnet/VPC.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>13. S3 Upload Is Failing</h2>
+
+<h3>Check</h3>
+
+<ul>
+<li>IAM permissions</li>
+<li>Bucket policy</li>
+<li>Bucket name</li>
+<li>Region</li>
+<li>Object key</li>
+<li>Encryption requirements</li>
+<li>Explicit Deny</li>
+</ul>
+
+<pre>
+aws s3 cp test.txt s3://my-bucket/
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>14. CloudWatch Alarm Is Not Triggering</h2>
+
+<div class="answer">
+
+I would verify the metric, namespace, dimensions, statistic,
+period, evaluation periods, threshold and alarm state.
+
+I would also verify that the resource is publishing the expected
+metric and that the alarm action is configured correctly.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>15. Application Is Slow but EC2 Is Healthy</h2>
+
+<div class="answer">
+
+I would not assume the EC2 instance is the problem.
+
+I would investigate the complete request path:
+
+<div class="flow">
+
+User
+<br>↓<br>
+Load Balancer
+<br>↓<br>
+Application
+<br>↓<br>
+Database
+<br>↓<br>
+External Services
+
+</div>
+
+Then I would compare latency, CPU, memory, network and application
+metrics to identify the bottleneck.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>16. Production EC2 Instance Suddenly Stops</h2>
+
+<h3>Approach</h3>
+
+<ol>
+
+<li>Check instance state.</li>
+
+<li>Check system and instance status checks.</li>
+
+<li>Review CloudWatch metrics.</li>
+
+<li>Check CloudTrail for API activity.</li>
+
+<li>Check application and OS logs.</li>
+
+<li>Check Auto Scaling activity if applicable.</li>
+
+<li>Determine whether it was infrastructure, application or human action.</li>
+
+</ol>
+
+<div class="answer">
+
+<strong>Interview Tip:</strong><br>
+
+Always mention evidence collection before making a production
+change.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>17. How Would You Secure an AWS Production Environment?</h2>
+
+<div class="answer">
+
+I would use:
+
+<ul>
+<li>Least-privilege IAM</li>
+<li>IAM roles instead of long-lived credentials</li>
+<li>Private subnets for internal workloads</li>
+<li>Security Groups with restricted access</li>
+<li>Encryption at rest and in transit</li>
+<li>CloudTrail for auditing</li>
+<li>CloudWatch for monitoring</li>
+<li>Secrets Manager or Parameter Store for secrets</li>
+<li>Regular patching and vulnerability scanning</li>
+<li>Backups and disaster-recovery planning</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 TOP INTERVIEW QUESTIONS</span>
+
+<h2>18. Quick AWS Scenario Revision</h2>
+
+<table>
+
+<tr>
+<th>Scenario</th>
+<th>First Things to Check</th>
+</tr>
+
+<tr>
+<td>EC2 unreachable</td>
+<td>State → SG → Route → IP → OS</td>
+</tr>
+
+<tr>
+<td>SSH failure</td>
+<td>Port 22 → IP → Key → SSH service</td>
+</tr>
+
+<tr>
+<td>High CPU</td>
+<td>CloudWatch → top → process → scaling</td>
+</tr>
+
+<tr>
+<td>Disk full</td>
+<td>df -h → du → logs → storage</td>
+</tr>
+
+<tr>
+<td>S3 AccessDenied</td>
+<td>IAM → Bucket Policy → Explicit Deny</td>
+</tr>
+
+<tr>
+<td>ALB unhealthy</td>
+<td>Target Health → Health Check → SG → App</td>
+</tr>
+
+<tr>
+<td>ALB 502</td>
+<td>Target → Port → Application Response</td>
+</tr>
+
+<tr>
+<td>Auto Scaling failure</td>
+<td>Alarm → Policy → Activity → Launch Template</td>
+</tr>
+
+<tr>
+<td>No Internet</td>
+<td>Route → IGW/NAT → SG → NACL</td>
+</tr>
+
+<tr>
+<td>DNS failure</td>
+<td>Resolver → VPC DNS → Network</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Golden AWS Interview Formula</h2>
+
+<div class="flow">
+
+<strong>IAM</strong>
+→ Who can access?
+
+<br><br>
+
+<strong>VPC</strong>
+→ Where does traffic flow?
+
+<br><br>
+
+<strong>Security Group</strong>
+→ Is traffic allowed?
+
+<br><br>
+
+<strong>Route Table</strong>
+→ Where does traffic go?
+
+<br><br>
+
+<strong>CloudWatch</strong>
+→ What is happening?
+
+<br><br>
+
+<strong>CloudTrail</strong>
+→ Who changed it?
+
+<br><br>
+
+<strong>Logs</strong>
+→ What failed?
+
+<br><br>
+
+<strong>Scaling</strong>
+→ How do we handle increased demand?
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Real-Time Scenarios
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • AWS Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

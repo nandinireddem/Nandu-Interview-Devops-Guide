@@ -1,0 +1,1032 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ArgoCD Final Revision</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    font-size:44px;
+    color:#93c5fd;
+    margin:10px 0;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:8px;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+code{
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#fbbf24;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#93c5fd;
+    margin:4px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:52px">☸️</div>
+
+<h1>ArgoCD Final Revision</h1>
+
+<p>
+Complete interview-focused revision covering GitOps, ArgoCD architecture,
+Applications, Projects, RBAC, synchronization, troubleshooting and
+real-time production scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is ArgoCD?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+ArgoCD is a declarative GitOps continuous delivery tool for Kubernetes.
+It continuously compares the desired state stored in Git with the live
+state in Kubernetes and reconciles differences.
+
+</div>
+
+<div class="flow">
+
+Git Repository
+<br>↓<br>
+Desired State
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Kubernetes Cluster
+<br>↓<br>
+Actual State
+<br>↓<br>
+Reconciliation
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is GitOps?</h2>
+
+<p>
+GitOps is an operational model where Git acts as the source of truth
+for infrastructure and application configuration.
+</p>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git Commit
+<br>↓<br>
+Pull Request
+<br>↓<br>
+Git Repository
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Application
+
+</div>
+
+<div class="answer">
+
+<strong>Key Point:</strong><br>
+
+Instead of manually changing Kubernetes resources, desired changes are
+committed to Git and the GitOps controller reconciles the cluster.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. ArgoCD Architecture</h2>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>API Server</td>
+<td>Handles API requests, CLI and UI communication.</td>
+</tr>
+
+<tr>
+<td>Application Controller</td>
+<td>Monitors applications and reconciles desired state with live state.</td>
+</tr>
+
+<tr>
+<td>Repo Server</td>
+<td>Connects to repositories and generates Kubernetes manifests.</td>
+</tr>
+
+<tr>
+<td>Redis</td>
+<td>Provides caching used by ArgoCD components.</td>
+</tr>
+
+<tr>
+<td>Dex Server</td>
+<td>Can support identity integration for authentication.</td>
+</tr>
+
+<tr>
+<td>ApplicationSet Controller</td>
+<td>Generates and manages applications from templates and generators.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 4 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Important ArgoCD Components</h2>
+
+<div>
+
+<span class="badge">API Server</span>
+<span class="badge">Application Controller</span>
+<span class="badge">Repo Server</span>
+<span class="badge">Redis</span>
+<span class="badge">Dex</span>
+<span class="badge">ApplicationSet</span>
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is an ArgoCD Application?</h2>
+
+<p>
+An ArgoCD Application is a Kubernetes custom resource that connects
+a source repository containing desired configuration with a destination
+Kubernetes cluster and namespace.
+</p>
+
+<div class="flow">
+
+Git Repository
+<br>↓<br>
+Path / Revision
+<br>↓<br>
+ArgoCD Application
+<br>↓<br>
+Destination Cluster
+<br>↓<br>
+Namespace
+<br>↓<br>
+Kubernetes Resources
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Sync Status vs Health Status</h2>
+
+<table>
+
+<tr>
+<th>Sync Status</th>
+<th>Health Status</th>
+</tr>
+
+<tr>
+<td>Shows whether desired and live configuration match.</td>
+<td>Shows whether resources are functioning correctly.</td>
+</tr>
+
+<tr>
+<td>Synced / OutOfSync</td>
+<td>Healthy / Degraded / Progressing</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Important Interview Point:</strong><br>
+
+An application can be <strong>Synced but Degraded</strong>.
+ArgoCD may have successfully applied the desired configuration while
+the Kubernetes workload itself is unhealthy.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Automated Sync</h2>
+
+<p>
+Automated synchronization allows ArgoCD to automatically apply changes
+detected in the Git repository.
+</p>
+
+<div class="flow">
+
+Git Change
+<br>↓<br>
+ArgoCD Detects Change
+<br>↓<br>
+OutOfSync
+<br>↓<br>
+Automated Sync
+<br>↓<br>
+Kubernetes Updated
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Self-Healing</h2>
+
+<p>
+Self-healing allows ArgoCD to automatically correct configuration drift
+caused by manual changes to Kubernetes resources.
+</p>
+
+<div class="flow">
+
+Git
+<br>
+replicas = 3
+<br>↓<br>
+
+Manual kubectl Change
+<br>
+replicas = 1
+<br>↓<br>
+
+Drift Detected
+<br>↓<br>
+
+ArgoCD Self-Heal
+<br>↓<br>
+
+replicas = 3
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is an AppProject?</h2>
+
+<p>
+An AppProject provides a logical and security boundary for ArgoCD
+applications.
+</p>
+
+<h3>It Can Restrict:</h3>
+
+<ul>
+<li>Git repositories.</li>
+<li>Destination clusters.</li>
+<li>Namespaces.</li>
+<li>Resource types.</li>
+<li>Project roles.</li>
+</ul>
+
+</div>
+
+
+<!-- 10 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. ArgoCD RBAC</h2>
+
+<p>
+ArgoCD RBAC controls what users and groups are allowed to do inside
+ArgoCD.
+</p>
+
+<table>
+
+<tr>
+<th>Action</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>get</td>
+<td>View an application.</td>
+</tr>
+
+<tr>
+<td>create</td>
+<td>Create an application.</td>
+</tr>
+
+<tr>
+<td>update</td>
+<td>Modify an application.</td>
+</tr>
+
+<tr>
+<td>delete</td>
+<td>Delete an application.</td>
+</tr>
+
+<tr>
+<td>sync</td>
+<td>Synchronize an application.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 11 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Authentication vs Authorization</h2>
+
+<div class="flow">
+
+Authentication
+<br>
+<strong>Who are you?</strong>
+<br>↓<br>
+
+Authorization
+<br>
+<strong>What are you allowed to do?</strong>
+<br>↓<br>
+
+RBAC
+<br>↓<br>
+
+Allowed / Denied
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. ArgoCD RBAC vs Kubernetes RBAC</h2>
+
+<table>
+
+<tr>
+<th>ArgoCD RBAC</th>
+<th>Kubernetes RBAC</th>
+</tr>
+
+<tr>
+<td>Controls access to ArgoCD actions.</td>
+<td>Controls access to Kubernetes API resources.</td>
+</tr>
+
+<tr>
+<td>Controls Application operations.</td>
+<td>Controls Pods, Deployments, Services, etc.</td>
+</tr>
+
+<tr>
+<td>Configured through ArgoCD authorization.</td>
+<td>Uses Role, ClusterRole and bindings.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 13 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Sync Waves</h2>
+
+<p>
+Sync waves allow resources to be deployed in a specific order.
+</p>
+
+<div class="flow">
+
+Wave 0
+<br>
+Namespace / Configuration
+<br>↓<br>
+
+Wave 1
+<br>
+Database / Dependencies
+<br>↓<br>
+
+Wave 2
+<br>
+Application
+<br>↓<br>
+
+Wave 3
+<br>
+Ingress / Supporting Resources
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+Sync waves are useful when certain Kubernetes resources need to be
+created before other resources.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. Hooks</h2>
+
+<p>
+ArgoCD hooks allow Kubernetes resources such as Jobs to run at specific
+stages of the synchronization lifecycle.
+</p>
+
+<p>
+Common lifecycle stages include:
+
+</p>
+
+<ul>
+<li>PreSync</li>
+<li>Sync</li>
+<li>PostSync</li>
+<li>SyncFail</li>
+</ul>
+
+</div>
+
+
+<!-- 15 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. Helm with ArgoCD</h2>
+
+<p>
+ArgoCD can use Helm charts as an application source and render the
+templates into Kubernetes manifests.
+</p>
+
+<div class="flow">
+
+Helm Chart
+<br>↓<br>
+Values
+<br>↓<br>
+ArgoCD Repo Server
+<br>↓<br>
+Rendered Manifests
+<br>↓<br>
+Kubernetes
+
+</div>
+
+<div class="answer">
+
+<strong>Important:</strong><br>
+
+ArgoCD uses Helm primarily for manifest generation in this GitOps
+workflow; ArgoCD itself manages the resulting desired state.
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 16. Kustomize with ArgoCD</h2>
+
+<p>
+ArgoCD can also use Kustomize overlays to manage environment-specific
+Kubernetes configuration.
+</p>
+
+<div class="flow">
+
+Base
+<br>↓<br>
+Development Overlay
+<br>↓<br>
+Production Overlay
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Kubernetes
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. OutOfSync Troubleshooting</h2>
+
+<pre>
+argocd app get my-app
+argocd app diff my-app
+</pre>
+
+<p>
+Compare the desired state with the live state and determine what
+resource changed.
+</p>
+
+<div class="answer">
+
+<strong>Typical Causes:</strong><br>
+
+Manual kubectl changes, Git changes, generated manifest differences,
+missing resources or incorrect configuration.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. SyncFailed Troubleshooting</h2>
+
+<ol>
+<li>Read the ArgoCD error.</li>
+<li>Identify the failing resource.</li>
+<li>Check Kubernetes events.</li>
+<li>Check permissions.</li>
+<li>Validate the manifest.</li>
+<li>Fix the source configuration.</li>
+<li>Retry synchronization.</li>
+</ol>
+
+<pre>
+kubectl get events -A
+kubectl describe &lt;resource&gt;
+</pre>
+
+</div>
+
+
+<!-- 19 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Degraded Application</h2>
+
+<p>
+If an application is Degraded, investigate the underlying Kubernetes
+resources.
+</p>
+
+<pre>
+kubectl get pods -A
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+<div class="answer">
+
+<strong>Remember:</strong><br>
+
+<strong>Synced ≠ Healthy</strong>
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Production Deployment Failure</h2>
+
+<div class="flow">
+
+Git Commit
+<br>↓<br>
+ArgoCD Sync
+<br>↓<br>
+Production Deployment
+<br>↓<br>
+Application Failure
+<br>↓<br>
+Check Logs + Events
+<br>↓<br>
+Identify Bad Change
+<br>↓<br>
+Revert Git Commit
+<br>↓<br>
+ArgoCD Reconciles
+<br>↓<br>
+Recovery
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+In a production failure, I first identify the failing resource and
+restore service safely. If the incident was caused by a recent Git
+change, I can revert that change so Git returns to a known-good state,
+then verify that ArgoCD reconciles the cluster successfully.
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Most Important ArgoCD Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>argocd app list</code></td>
+<td>List applications.</td>
+</tr>
+
+<tr>
+<td><code>argocd app get APP</code></td>
+<td>View application details.</td>
+</tr>
+
+<tr>
+<td><code>argocd app diff APP</code></td>
+<td>Compare desired and live state.</td>
+</tr>
+
+<tr>
+<td><code>argocd app sync APP</code></td>
+<td>Synchronize an application.</td>
+</tr>
+
+<tr>
+<td><code>argocd app history APP</code></td>
+<td>View deployment history.</td>
+</tr>
+
+<tr>
+<td><code>argocd repo list</code></td>
+<td>List repositories.</td>
+</tr>
+
+<tr>
+<td><code>argocd cluster list</code></td>
+<td>List registered clusters.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 22 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. ArgoCD End-to-End Flow</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓<br>
+
+Git Commit
+<br>↓<br>
+
+GitHub Repository
+<br>↓<br>
+
+ArgoCD Repo Server
+<br>↓<br>
+
+Manifest Generation
+<br>↓<br>
+
+Application Controller
+<br>↓<br>
+
+Desired State vs Live State
+<br>↓<br>
+
+Synchronization
+<br>↓<br>
+
+Kubernetes Cluster
+<br>↓<br>
+
+Pods / Services / Ingress
+<br>↓<br>
+
+Application Health
+<br>↓<br>
+
+Continuous Reconciliation
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Top Interview Questions</h2>
+
+<ol>
+
+<li>What is ArgoCD?</li>
+
+<li>What is GitOps?</li>
+
+<li>Explain ArgoCD architecture.</li>
+
+<li>What is an ArgoCD Application?</li>
+
+<li>What is an AppProject?</li>
+
+<li>What is automated sync?</li>
+
+<li>What is self-healing?</li>
+
+<li>What is OutOfSync?</li>
+
+<li>What is SyncFailed?</li>
+
+<li>What is Degraded?</li>
+
+<li>Synced vs Healthy?</li>
+
+<li>How does ArgoCD detect drift?</li>
+
+<li>How does ArgoCD work with Helm?</li>
+
+<li>How does ArgoCD work with Kustomize?</li>
+
+<li>What is ArgoCD RBAC?</li>
+
+<li>ArgoCD RBAC vs Kubernetes RBAC?</li>
+
+<li>How do you secure production ArgoCD?</li>
+
+<li>How do you troubleshoot a failed sync?</li>
+
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+
+<li>How would you rollback a bad production deployment?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 24 -->
+<div class="card">
+
+<h2>🧠 24. 30-Second Interview Answer</h2>
+
+<div class="answer">
+
+<strong>
+"ArgoCD is a declarative GitOps continuous delivery tool for Kubernetes.
+It uses Git as the source of truth and continuously compares the desired
+state in Git with the live state in Kubernetes. Its Application
+Controller performs reconciliation, while the Repo Server generates
+manifests from sources such as YAML, Helm and Kustomize. ArgoCD supports
+automated synchronization, self-healing, RBAC and Projects, which help
+implement secure and reliable Kubernetes deployments."
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- 25 -->
+<div class="card">
+
+<h2>🔥 ArgoCD Section Completed</h2>
+
+<div class="flow">
+
+✅ Basics
+<br>
+✅ Architecture
+<br>
+✅ Applications
+<br>
+✅ RBAC & Security
+<br>
+✅ Troubleshooting
+<br>
+✅ Real-Time Scenarios
+<br>
+✅ Final Revision
+
+<br><br>
+
+<strong>☸️ ARGOCD COMPLETE</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next Section</h2>
+
+<p>
+<strong>12-Monitoring</strong>
+</p>
+
+<p>
+Next major DevOps topic:
+<strong>Prometheus + Grafana + Monitoring</strong>
+</p>
+
+<a href="../12-Monitoring/index.html">
+Go to Monitoring Index →
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+ArgoCD Final Revision • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

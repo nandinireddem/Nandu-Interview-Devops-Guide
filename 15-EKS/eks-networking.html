@@ -1,0 +1,834 @@
+```html id="n7x2kp"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EKS Networking | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🌐</div>
+
+<h1>EKS Networking</h1>
+
+<p>
+High-priority EKS networking concepts including VPC CNI,
+Pods, Services, Load Balancers, DNS, Security Groups and
+real-time troubleshooting.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. EKS Networking Overview</h2>
+
+<div class="flow">
+
+AWS VPC
+<br>↓<br>
+Subnets
+<br>↓<br>
+EKS Nodes
+<br>↓<br>
+Pods
+<br>↓<br>
+Services
+<br>↓<br>
+Load Balancer / Ingress
+<br>↓<br>
+Users
+
+</div>
+
+<p>
+EKS networking connects Kubernetes workloads with AWS VPC
+networking and external clients.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is AWS VPC CNI?</h2>
+
+<div class="answer">
+
+The Amazon VPC CNI plugin is the networking plugin used by EKS
+to provide Kubernetes Pods with networking integrated with the
+AWS VPC.
+
+</div>
+
+<h3>High-Level Flow</h3>
+
+<div class="flow">
+
+Pod
+<br>↓<br>
+AWS VPC CNI
+<br>↓<br>
+VPC IP Address
+<br>↓<br>
+AWS VPC Network
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. How Does a Pod Get an IP?</h2>
+
+<p>
+With the AWS VPC CNI, Pods can receive IP addresses from the VPC
+networking space using the networking resources available to the
+node.
+</p>
+
+<div class="flow">
+
+Worker Node
+<br>↓<br>
+VPC CNI
+<br>↓<br>
+VPC Networking Resources
+<br>↓<br>
+Pod IP
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+Pod IP capacity is therefore influenced by the networking resources
+available to the worker node and subnet.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. EKS Subnets</h2>
+
+<p>
+EKS clusters commonly use multiple subnets across Availability
+Zones for high availability.
+</p>
+
+<div class="flow">
+
+VPC
+<br>↓<br>
+
+AZ-A
+<br>
+├── Public Subnet
+<br>
+└── Private Subnet
+<br><br>
+
+AZ-B
+<br>
+├── Public Subnet
+<br>
+└── Private Subnet
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Public vs Private Subnets in EKS</h2>
+
+<table>
+
+<tr>
+<th>Public Subnet</th>
+<th>Private Subnet</th>
+</tr>
+
+<tr>
+<td>Has a route toward an Internet Gateway.</td>
+<td>No direct route to an Internet Gateway.</td>
+</tr>
+
+<tr>
+<td>Commonly used for internet-facing load balancers.</td>
+<td>Commonly used for worker nodes and internal workloads.</td>
+</tr>
+
+<tr>
+<td>Can support public-facing infrastructure.</td>
+<td>Can use NAT or private endpoints for required outbound access.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Kubernetes Service</h2>
+
+<p>
+A Kubernetes Service provides a stable network abstraction for
+accessing a group of Pods.
+</p>
+
+<div class="flow">
+
+Client
+<br>↓<br>
+Service
+<br>↓<br>
+Selector
+<br>↓<br>
+Pod 1
+&nbsp;&nbsp; Pod 2
+&nbsp;&nbsp; Pod 3
+
+</div>
+
+<h3>Common Service Types</h3>
+
+<ul>
+<li>ClusterIP</li>
+<li>NodePort</li>
+<li>LoadBalancer</li>
+<li>ExternalName</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. ClusterIP</h2>
+
+<p>
+ClusterIP is the default Kubernetes Service type and provides
+internal cluster connectivity.
+</p>
+
+<div class="flow">
+
+Pod A
+<br>↓<br>
+ClusterIP Service
+<br>↓<br>
+Pod B / Pod C
+
+</div>
+
+<div class="answer">
+
+<strong>Use Case:</strong><br>
+
+Internal communication between microservices.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. NodePort</h2>
+
+<p>
+NodePort exposes a Service through a port on each node.
+</p>
+
+<div class="flow">
+
+Client
+<br>↓<br>
+Node IP : NodePort
+<br>↓<br>
+Service
+<br>↓<br>
+Pods
+
+</div>
+
+<p>
+NodePort is less commonly preferred as the primary production
+internet-facing exposure mechanism when AWS load-balancing
+integrations are available.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. LoadBalancer Service</h2>
+
+<p>
+In EKS, a Kubernetes Service of type LoadBalancer can integrate
+with AWS load-balancing infrastructure depending on the controller
+and configuration used.
+</p>
+
+<div class="flow">
+
+Internet
+<br>↓<br>
+AWS Load Balancer
+<br>↓<br>
+Kubernetes Service
+<br>↓<br>
+Pods
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Ingress</h2>
+
+<p>
+Ingress defines HTTP/HTTPS routing rules for external traffic.
+In AWS EKS, the AWS Load Balancer Controller can use Ingress
+resources to provision and configure AWS Application Load Balancers.
+</p>
+
+<div class="flow">
+
+User
+<br>↓<br>
+DNS
+<br>↓<br>
+ALB
+<br>↓<br>
+Ingress Rules
+<br>↓<br>
+Service
+<br>↓<br>
+Pods
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. EKS DNS</h2>
+
+<p>
+Kubernetes commonly uses CoreDNS for service discovery inside the
+cluster.
+</p>
+
+<div class="flow">
+
+Application Pod
+<br>↓<br>
+Service DNS Name
+<br>↓<br>
+CoreDNS
+<br>↓<br>
+Service IP
+<br>↓<br>
+Backend Pods
+
+</div>
+
+<h3>Example</h3>
+
+<pre>
+my-service.my-namespace.svc.cluster.local
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Security Groups in EKS</h2>
+
+<p>
+AWS Security Groups control network traffic for AWS network
+interfaces and resources associated with them.
+</p>
+
+<div class="answer">
+
+<strong>Example:</strong><br>
+
+An application load balancer should be allowed to communicate
+with the application targets on the required port, while unrelated
+sources should not be granted unnecessary access.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. NetworkPolicy</h2>
+
+<p>
+Kubernetes NetworkPolicy can restrict network communication
+between Pods and other network endpoints, depending on the
+network plugin and policy implementation.
+</p>
+
+<div class="flow">
+
+Pod A
+<br>↓
+<br>
+NetworkPolicy
+<br>↓
+<br>
+Allowed → Pod B
+<br>
+Denied → Pod C
+
+</div>
+
+<div class="answer">
+
+<strong>Important:</strong><br>
+
+NetworkPolicy and AWS Security Groups operate at different layers
+and should not be treated as replacements for one another.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. EKS Network Architecture</h2>
+
+<div class="flow">
+
+🌍 Internet
+<br>↓<br>
+Route 53 / DNS
+<br>↓<br>
+AWS Load Balancer
+<br>↓<br>
+EKS
+<br>↓<br>
+Kubernetes Service
+<br>↓<br>
+Pod
+<br>↓<br>
+Application
+
+<br><br>
+
+Pod
+<br>↓<br>
+AWS VPC CNI
+<br>↓<br>
+VPC Network
+<br>↓<br>
+AWS Services
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. How Do Pods Communicate?</h2>
+
+<div class="answer">
+
+Pods can communicate through Kubernetes networking. In an AWS VPC
+CNI setup, Pod networking integrates with the AWS VPC network.
+Kubernetes Services provide stable endpoints for groups of Pods.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Pod-to-Service Communication</h2>
+
+<div class="flow">
+
+Frontend Pod
+<br>↓<br>
+backend-service
+<br>↓<br>
+Service Discovery
+<br>↓<br>
+Backend Pods
+
+</div>
+
+<p>
+Applications normally communicate with a Service rather than
+depending directly on changing Pod IP addresses.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Pod-to-Internet Communication</h2>
+
+<div class="flow">
+
+Pod
+<br>↓<br>
+VPC CNI
+<br>↓<br>
+Node / VPC Network
+<br>↓<br>
+Route Table
+<br>↓<br>
+NAT Gateway
+<br>↓<br>
+Internet Gateway
+<br>↓<br>
+Internet
+
+</div>
+
+<p>
+The exact path depends on subnet routing and the networking
+configuration of the cluster.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. EKS Networking Troubleshooting</h2>
+
+<div class="answer">
+
+<strong>Scenario:</strong> Pod cannot reach another service.
+
+<br><br>
+
+<strong>Check in order:</strong>
+
+<ol>
+
+<li>Is the Pod Running?</li>
+
+<li>Does the target Service exist?</li>
+
+<li>Does the Service selector match the Pods?</li>
+
+<li>Are endpoints / EndpointSlices populated?</li>
+
+<li>Is DNS resolution working?</li>
+
+<li>Are NetworkPolicies blocking traffic?</li>
+
+<li>Are AWS Security Groups or routing involved?</li>
+
+<li>Check CNI health and node networking.</li>
+
+<li>Check application listening port.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Pod Cannot Access Internet</h2>
+
+<div class="answer">
+
+<strong>Check:</strong>
+
+<ol>
+
+<li>Pod IP / node networking.</li>
+
+<li>Subnet configuration.</li>
+
+<li>Route table.</li>
+
+<li>NAT Gateway for private subnets.</li>
+
+<li>Internet Gateway path.</li>
+
+<li>Security Group rules.</li>
+
+<li>NACL rules where applicable.</li>
+
+<li>DNS resolution.</li>
+
+<li>VPC CNI health and IP availability.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Pod IP Exhaustion</h2>
+
+<p>
+In VPC CNI networking, available IP capacity can become a scaling
+constraint.
+</p>
+
+<div class="answer">
+
+<strong>Possible causes:</strong>
+
+<ul>
+<li>Subnet has insufficient free IP addresses.</li>
+<li>Node has reached its available Pod networking capacity.</li>
+<li>High Pod density.</li>
+<li>VPC CNI configuration or instance networking limits.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Most Important EKS Networking Questions</h2>
+
+<ol>
+
+<li>What is AWS VPC CNI?</li>
+
+<li>How does a Pod get an IP in EKS?</li>
+
+<li>Explain EKS networking architecture.</li>
+
+<li>What is a Kubernetes Service?</li>
+
+<li>ClusterIP vs NodePort vs LoadBalancer?</li>
+
+<li>What is Ingress?</li>
+
+<li>How does an ALB work with EKS?</li>
+
+<li>What is CoreDNS?</li>
+
+<li>How do Pods communicate with each other?</li>
+
+<li>How does a Pod access the Internet?</li>
+
+<li>What is NetworkPolicy?</li>
+
+<li>Security Group vs NetworkPolicy?</li>
+
+<li>How do you troubleshoot a Pod networking issue?</li>
+
+<li>What happens when Pod IP addresses are exhausted?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+🌐 <strong>VPC CNI</strong>
+→ Pod networking with AWS VPC
+
+<br><br>
+
+📦 <strong>Pod</strong>
+→ Workload network endpoint
+
+<br><br>
+
+⚙️ <strong>Service</strong>
+→ Stable access to Pods
+
+<br><br>
+
+⚖️ <strong>LoadBalancer</strong>
+→ External AWS load balancing
+
+<br><br>
+
+🚦 <strong>Ingress</strong>
+→ HTTP/HTTPS routing
+
+<br><br>
+
+🔎 <strong>CoreDNS</strong>
+→ Kubernetes service discovery
+
+<br><br>
+
+🛡️ <strong>NetworkPolicy</strong>
+→ Pod traffic control
+
+<br><br>
+
+🔧 <strong>Troubleshooting</strong>
+→ Pod → Service → Endpoints → DNS → CNI → AWS Network
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to EKS
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • EKS Networking • 2026
+</footer>
+
+</body>
+</html>
+```

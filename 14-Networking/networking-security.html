@@ -1,0 +1,816 @@
+```html id="9q2mva"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Networking Security | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔐</div>
+
+<h1>Networking Security</h1>
+
+<p>
+High-priority networking security concepts for Cloud and DevOps
+interviews, with practical AWS and Kubernetes examples.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Network Security?</h2>
+
+<div class="answer">
+
+Network security is the practice of protecting network resources,
+systems and data from unauthorized access, attacks and unwanted
+traffic.
+
+</div>
+
+<p>
+In Cloud and DevOps, network security commonly involves:
+
+</p>
+
+<ul>
+<li>Firewalls</li>
+<li>Security Groups</li>
+<li>Network ACLs</li>
+<li>VPNs</li>
+<li>Private Subnets</li>
+<li>Encryption</li>
+<li>Network segmentation</li>
+<li>Least privilege</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Firewall</h2>
+
+<p>
+A firewall controls network traffic based on configured rules.
+</p>
+
+<div class="flow">
+
+Incoming Traffic
+<br>↓<br>
+🔥 Firewall
+<br>↓<br>
+Allowed → Application
+<br><br>
+Denied → ❌ Blocked
+
+</div>
+
+<p>
+Rules can consider source, destination, protocol, port and direction.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. AWS Security Group</h2>
+
+<p>
+An AWS Security Group acts as a virtual firewall for supported
+resources such as EC2 network interfaces.
+</p>
+
+<div class="answer">
+
+<strong>Important properties:</strong>
+
+<ul>
+<li>Stateful.</li>
+<li>Controls inbound and outbound traffic.</li>
+<li>Rules are allow-based.</li>
+<li>Can reference another Security Group as a source or destination
+where supported.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Network ACL</h2>
+
+<p>
+A Network ACL is a subnet-level network traffic control mechanism.
+</p>
+
+<div class="answer">
+
+<strong>Important properties:</strong>
+
+<ul>
+<li>Stateless.</li>
+<li>Supports allow and deny rules.</li>
+<li>Associated with subnets.</li>
+<li>Rules are evaluated in rule-number order.</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Security Group vs NACL</h2>
+
+<table>
+
+<tr>
+<th>Security Group</th>
+<th>Network ACL</th>
+</tr>
+
+<tr>
+<td>Resource / network-interface level</td>
+<td>Subnet level</td>
+</tr>
+
+<tr>
+<td>Stateful</td>
+<td>Stateless</td>
+</tr>
+
+<tr>
+<td>Allow rules</td>
+<td>Allow and deny rules</td>
+</tr>
+
+<tr>
+<td>No explicit deny rules</td>
+<td>Explicit deny possible</td>
+</tr>
+
+<tr>
+<td>Commonly used for resource-level protection</td>
+<td>Commonly used for subnet-level filtering</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Interview Shortcut:</strong><br><br>
+
+Security Group → Stateful → Resource level<br>
+NACL → Stateless → Subnet level
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is Least Privilege?</h2>
+
+<p>
+Least privilege means providing only the minimum permissions and
+network access required to perform a task.
+</p>
+
+<pre>
+❌ Bad:
+
+Internet
+   ↓
+Application Server
+Port 22, 80, 443, 8080
+Source: 0.0.0.0/0
+
+
+✅ Better:
+
+Load Balancer
+   ↓
+Application Server
+Port 8080
+Source: Load Balancer Security Group
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Network Segmentation</h2>
+
+<p>
+Network segmentation divides a network into separate zones to
+reduce unnecessary communication and limit the impact of security
+incidents.
+</p>
+
+<div class="flow">
+
+Public Zone
+<br>
+Load Balancer
+<br>↓<br>
+Private Application Zone
+<br>
+Application Servers
+<br>↓<br>
+Private Database Zone
+<br>
+Database
+
+</div>
+
+<p>
+The database should not normally be directly accessible from the
+public Internet.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Why Keep Databases in Private Subnets?</h2>
+
+<div class="answer">
+
+Databases are usually placed in private subnets so they are not
+directly exposed to the public Internet.
+
+Application traffic can reach the database through controlled
+network paths and security rules.
+
+</div>
+
+<div class="flow">
+
+🌍 Internet
+<br>↓<br>
+Load Balancer
+<br>↓<br>
+Application
+<br>↓<br>
+Database
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is VPN?</h2>
+
+<p>
+VPN stands for Virtual Private Network. It creates an encrypted
+connection between network endpoints over an underlying network.
+</p>
+
+<div class="flow">
+
+Corporate Network
+<br>⇅<br>
+🔒 Encrypted VPN Tunnel
+<br>⇅<br>
+Cloud VPC
+
+</div>
+
+<p>
+A common enterprise use case is securely connecting an on-premises
+network with a cloud network.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. VPN vs Public Internet Access</h2>
+
+<table>
+
+<tr>
+<th>VPN</th>
+<th>Public Internet Access</th>
+</tr>
+
+<tr>
+<td>Encrypted tunnel between endpoints.</td>
+<td>Traffic uses public network paths.</td>
+</tr>
+
+<tr>
+<td>Used for private connectivity.</td>
+<td>Used for public services.</td>
+</tr>
+
+<tr>
+<td>Common for office-to-cloud connectivity.</td>
+<td>Common for public websites and APIs.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Encryption in Networking</h2>
+
+<p>
+Encryption protects data by transforming readable information into
+a form that unauthorized parties cannot easily understand.
+</p>
+
+<h3>Two Important States</h3>
+
+<table>
+
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Data in Transit</td>
+<td>Data moving across a network.</td>
+</tr>
+
+<tr>
+<td>Data at Rest</td>
+<td>Data stored on disks, databases or storage systems.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+HTTPS/TLS is commonly used to protect application traffic in transit.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is HTTPS?</h2>
+
+<p>
+HTTPS is HTTP transmitted over a TLS-protected connection.
+</p>
+
+<div class="flow">
+
+Client
+<br>↓<br>
+HTTPS : 443
+<br>↓<br>
+TLS
+<br>↓<br>
+Web Server
+
+</div>
+
+<h3>What does TLS provide?</h3>
+
+<ul>
+<li>Encryption</li>
+<li>Integrity protection</li>
+<li>Server authentication through certificates</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 13. What is a DDoS Attack?</h2>
+
+<p>
+A Distributed Denial-of-Service attack attempts to overwhelm a
+service with a large amount of traffic or requests.
+</p>
+
+<div class="flow">
+
+Many Sources
+<br>↓<br>
+🌊🌊🌊🌊🌊
+<br>↓<br>
+Target Application
+<br>↓<br>
+Service Degradation / Unavailability
+
+</div>
+
+<h3>Common Defensive Measures</h3>
+
+<ul>
+<li>Traffic filtering</li>
+<li>Rate limiting</li>
+<li>Load balancing</li>
+<li>CDN / edge protection</li>
+<li>Managed DDoS protection services</li>
+<li>Monitoring and alerting</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. Kubernetes Network Security</h2>
+
+<p>
+Kubernetes networking can be protected using several controls.
+</p>
+
+<ul>
+<li>NetworkPolicies</li>
+<li>RBAC</li>
+<li>Pod security controls</li>
+<li>Restricted container privileges</li>
+<li>Secure ingress configuration</li>
+<li>Private cluster networking where appropriate</li>
+</ul>
+
+<div class="answer">
+
+<strong>NetworkPolicy:</strong><br>
+
+Can restrict which pods or namespaces are allowed to communicate
+with other workloads, depending on the network plugin and policy
+support.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Secure CI/CD Networking</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+CI/CD System
+<br>↓<br>
+Private Cloud Resources
+<br>↓<br>
+Application
+<br>↓<br>
+Database
+
+</div>
+
+<h3>Good Practices</h3>
+
+<ul>
+<li>Restrict CI/CD network access.</li>
+<li>Use private endpoints where appropriate.</li>
+<li>Avoid exposing management ports publicly.</li>
+<li>Use temporary credentials or roles.</li>
+<li>Apply least privilege.</li>
+<li>Monitor network activity.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. SSH Security</h2>
+
+<p>
+SSH is commonly used for secure remote administration.
+</p>
+
+<h3>Port</h3>
+
+<pre>
+TCP 22
+</pre>
+
+<h3>Security Practices</h3>
+
+<ul>
+<li>Prefer key-based authentication.</li>
+<li>Restrict SSH source networks.</li>
+<li>Avoid exposing SSH to the entire Internet unnecessarily.</li>
+<li>Use bastion hosts or managed access mechanisms where appropriate.</li>
+<li>Keep systems updated.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Real-Time Scenario: EC2 Port 22 Is Open to Everyone</h2>
+
+<div class="answer">
+
+<strong>Question:</strong><br><br>
+
+"An EC2 Security Group allows SSH from 0.0.0.0/0. Is that a good
+security practice?"
+
+<br><br>
+
+<strong>Answer:</strong><br>
+
+"No. It exposes the SSH service to the entire Internet. I would
+restrict the source to a trusted IP range or use a more secure
+management approach such as a bastion host or AWS Systems Manager
+where appropriate."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Real-Time Scenario: Database Is Publicly Accessible</h2>
+
+<div class="answer">
+
+<strong>Approach:</strong>
+
+<ol>
+
+<li>Identify why public access is required.</li>
+
+<li>Remove unnecessary public exposure.</li>
+
+<li>Place the database in private subnets where appropriate.</li>
+
+<li>Restrict inbound access to only required application sources.</li>
+
+<li>Review route tables and network controls.</li>
+
+<li>Monitor and verify the new configuration.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Security Incident: Unexpected Open Port</h2>
+
+<div class="answer">
+
+<strong>Steps:</strong>
+
+<ol>
+
+<li>Identify the service using the port.</li>
+
+<li>Determine whether the port is required.</li>
+
+<li>Check the source of the traffic.</li>
+
+<li>Review Security Group / firewall rules.</li>
+
+<li>Restrict or remove unnecessary access.</li>
+
+<li>Check logs for suspicious activity.</li>
+
+<li>Document the remediation.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 20. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is network security?</li>
+
+<li>What is a firewall?</li>
+
+<li>What is a Security Group?</li>
+
+<li>What is a Network ACL?</li>
+
+<li>Security Group vs NACL?</li>
+
+<li>What is least privilege?</li>
+
+<li>Why are databases placed in private subnets?</li>
+
+<li>What is network segmentation?</li>
+
+<li>What is VPN?</li>
+
+<li>How does HTTPS secure traffic?</li>
+
+<li>What is a DDoS attack?</li>
+
+<li>How do you secure Kubernetes networking?</li>
+
+<li>How do you secure SSH?</li>
+
+<li>How would you respond to an unexpectedly open port?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+<strong>Firewall</strong> → Controls Traffic
+
+<br><br>
+
+<strong>Security Group</strong> → Stateful Resource-Level Control
+
+<br><br>
+
+<strong>NACL</strong> → Stateless Subnet-Level Control
+
+<br><br>
+
+<strong>VPN</strong> → Encrypted Private Connectivity
+
+<br><br>
+
+<strong>HTTPS/TLS</strong> → Protects Data in Transit
+
+<br><br>
+
+<strong>Segmentation</strong> → Separates Network Zones
+
+<br><br>
+
+<strong>Least Privilege</strong> → Minimum Required Access
+
+<br><br>
+
+<strong>NetworkPolicy</strong> → Controls Kubernetes Pod Traffic
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to Networking
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Networking Security • 2026
+</footer>
+
+</body>
+</html>
+```

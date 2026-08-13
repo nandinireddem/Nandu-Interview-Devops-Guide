@@ -1,0 +1,1000 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Prometheus Architecture | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:42px;
+    margin:10px 0;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    margin:22px 0;
+    font-size:17px;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:8px;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{
+    color:#fbbf24;
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.badge{
+    display:inline-block;
+    background:#1e293b;
+    color:#93c5fd;
+    padding:6px 12px;
+    border-radius:20px;
+    margin:4px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🏗️</div>
+
+<h1>Prometheus Architecture</h1>
+
+<p>
+Complete interview-focused explanation of Prometheus components,
+data flow, service discovery, exporters, TSDB, alerting and
+Kubernetes monitoring.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Prometheus Architecture Overview</h2>
+
+<div class="flow">
+
+Applications / Servers
+<br>↓<br>
+
+Metrics Endpoints / Exporters
+<br>↓<br>
+
+<strong>Prometheus Server</strong>
+<br>↓<br>
+
+Service Discovery
+<br>↓<br>
+
+Scraping
+<br>↓<br>
+
+TSDB
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana / API / Alerts
+<br>↓<br>
+
+<strong>Alertmanager</strong>
+<br>↓<br>
+
+Notifications
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Main Components</h2>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Prometheus Server</td>
+<td>Scrapes targets, evaluates rules and stores metrics.</td>
+</tr>
+
+<tr>
+<td>TSDB</td>
+<td>Stores time-series metric data.</td>
+</tr>
+
+<tr>
+<td>Service Discovery</td>
+<td>Discovers monitoring targets dynamically.</td>
+</tr>
+
+<tr>
+<td>Exporters</td>
+<td>Expose metrics from systems that do not natively expose Prometheus metrics.</td>
+</tr>
+
+<tr>
+<td>PromQL</td>
+<td>Queries and analyzes stored metrics.</td>
+</tr>
+
+<tr>
+<td>Alerting Rules</td>
+<td>Evaluate conditions and generate alerts.</td>
+</tr>
+
+<tr>
+<td>Alertmanager</td>
+<td>Groups, routes and manages alerts.</td>
+</tr>
+
+<tr>
+<td>Grafana</td>
+<td>Provides dashboards and visualizations.</td>
+</tr>
+
+<tr>
+<td>Pushgateway</td>
+<td>Provides a way for certain short-lived jobs to expose metrics to Prometheus.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 3 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Prometheus Server</h2>
+
+<div class="answer">
+
+The Prometheus Server is the central component responsible for
+discovering targets, scraping metrics, storing time-series data,
+evaluating recording/alerting rules and serving PromQL queries.
+
+</div>
+
+<div class="flow">
+
+Target Discovery
+<br>↓<br>
+Scrape
+<br>↓<br>
+Parse Metrics
+<br>↓<br>
+Store in TSDB
+<br>↓<br>
+Query with PromQL
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is TSDB?</h2>
+
+<p>
+TSDB stands for <strong>Time Series Database</strong>.
+Prometheus stores collected metric samples as time-series data.
+</p>
+
+<p>
+A time series is identified by a metric name and its set of labels,
+with values recorded over time.
+</p>
+
+<pre>
+node_cpu_seconds_total{
+    mode="idle",
+    instance="server-01"
+}
+</pre>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+Prometheus's local storage is optimized for time-series metrics.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. How does Prometheus collect metrics?</h2>
+
+<div class="flow">
+
+1️⃣ Discover Target
+<br>↓<br>
+
+2️⃣ Connect to Target
+<br>↓<br>
+
+3️⃣ Request Metrics
+<br>↓<br>
+
+4️⃣ Parse Response
+<br>↓<br>
+
+5️⃣ Attach Labels
+<br>↓<br>
+
+6️⃣ Store Samples
+<br>↓<br>
+
+7️⃣ Query / Alert
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Pull-Based Architecture</h2>
+
+<p>
+Prometheus normally pulls metrics from monitored endpoints instead of
+waiting for applications to push every metric.
+</p>
+
+<div class="flow">
+
+Prometheus
+<br>↓
+<br>
+HTTP GET
+<br>↓
+<br>
+<code>http://target:port/metrics</code>
+<br>↓
+<br>
+Metric Response
+<br>↓
+<br>
+Prometheus
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is Service Discovery?</h2>
+
+<div class="answer">
+
+Service discovery allows Prometheus to dynamically discover targets
+that should be monitored.
+
+</div>
+
+<p>
+This is particularly important in cloud-native environments because
+instances, containers and Pods can be created and removed dynamically.
+</p>
+
+<div class="flow">
+
+Kubernetes API
+<br>↓<br>
+
+Target Discovery
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+Scrape Targets
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Static vs Dynamic Target Discovery</h2>
+
+<table>
+
+<tr>
+<th>Static Configuration</th>
+<th>Service Discovery</th>
+</tr>
+
+<tr>
+<td>Targets are manually specified.</td>
+<td>Targets are discovered automatically.</td>
+</tr>
+
+<tr>
+<td>Simple environments.</td>
+<td>Dynamic environments.</td>
+</tr>
+
+<tr>
+<td>Less flexible.</td>
+<td>Better for Kubernetes and cloud environments.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 9 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Exporters</h2>
+
+<p>
+Exporters translate or expose metrics from systems into a format
+Prometheus can scrape.
+</p>
+
+<table>
+
+<tr>
+<th>Exporter</th>
+<th>Monitoring</th>
+</tr>
+
+<tr>
+<td>Node Exporter</td>
+<td>Linux system metrics.</td>
+</tr>
+
+<tr>
+<td>Blackbox Exporter</td>
+<td>HTTP, HTTPS, DNS, TCP and ICMP probing.</td>
+</tr>
+
+<tr>
+<td>MySQL Exporter</td>
+<td>MySQL metrics.</td>
+</tr>
+
+<tr>
+<td>Redis Exporter</td>
+<td>Redis metrics.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 10 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Node Exporter Architecture</h2>
+
+<div class="flow">
+
+Linux Server
+<br>↓<br>
+
+Node Exporter
+<br>↓<br>
+
+<code>/metrics</code>
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+TSDB
+<br>↓<br>
+
+Grafana
+
+</div>
+
+<p>
+Node Exporter exposes operating-system and hardware-related metrics.
+</p>
+
+</div>
+
+
+<!-- 11 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Prometheus Configuration</h2>
+
+<p>
+Prometheus commonly uses <code>prometheus.yml</code> to define global
+settings and scrape configurations.
+</p>
+
+<pre>
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+
+  - job_name: "node-exporter"
+
+    static_configs:
+      - targets:
+          - "localhost:9100"
+</pre>
+
+</div>
+
+
+<!-- 12 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is a Job?</h2>
+
+<p>
+A Prometheus scrape configuration uses a <code>job_name</code> to
+logically group targets that perform the same monitoring role.
+</p>
+
+<pre>
+scrape_configs:
+
+  - job_name: "web-servers"
+
+    static_configs:
+      - targets:
+          - "server1:9100"
+          - "server2:9100"
+</pre>
+
+</div>
+
+
+<!-- 13 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Labels in Architecture</h2>
+
+<p>
+Labels identify and differentiate time series.
+</p>
+
+<pre>
+http_requests_total{
+    job="frontend",
+    instance="10.0.1.10:8080",
+    status="200"
+}
+</pre>
+
+<div class="answer">
+
+<strong>Why labels matter:</strong><br>
+
+They allow engineers to filter, group and aggregate metrics using
+PromQL.
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. PromQL</h2>
+
+<p>
+PromQL is the query language used to retrieve and analyze metrics
+stored by Prometheus.
+</p>
+
+<pre>
+up
+
+up{job="node-exporter"}
+
+rate(http_requests_total[5m])
+
+sum(rate(http_requests_total[5m]))
+</pre>
+
+</div>
+
+
+<!-- 15 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Alerting Architecture</h2>
+
+<div class="flow">
+
+Prometheus
+<br>↓<br>
+
+Alerting Rule
+<br>↓<br>
+
+Condition Met
+<br>↓<br>
+
+Alert
+<br>↓<br>
+
+Alertmanager
+<br>↓<br>
+
+Grouping / Routing / Silencing
+<br>↓<br>
+
+Email / Slack / PagerDuty / Other Receiver
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Prometheus vs Alertmanager</h2>
+
+<table>
+
+<tr>
+<th>Prometheus</th>
+<th>Alertmanager</th>
+</tr>
+
+<tr>
+<td>Evaluates alerting rules.</td>
+<td>Receives alerts.</td>
+</tr>
+
+<tr>
+<td>Determines when an alert condition is true.</td>
+<td>Groups and routes alerts.</td>
+</tr>
+
+<tr>
+<td>Generates alert events.</td>
+<td>Handles notifications, silences and inhibition.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 17 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. What is Alertmanager?</h2>
+
+<div class="answer">
+
+Alertmanager handles alerts sent by Prometheus. It can group related
+alerts, route them to receivers, silence alerts and apply inhibition
+rules to reduce unnecessary notifications.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. What is Pushgateway?</h2>
+
+<p>
+Pushgateway is useful when certain short-lived or batch jobs cannot
+be reliably scraped directly.
+</p>
+
+<div class="flow">
+
+Short-Lived Job
+<br>↓<br>
+
+Pushgateway
+<br>↓<br>
+
+Prometheus Scrapes Pushgateway
+<br>↓<br>
+
+Metrics Stored
+
+</div>
+
+<div class="answer">
+
+<strong>Important:</strong><br>
+
+Pushgateway should not be treated as a general replacement for
+Prometheus's normal pull model.
+
+</div>
+
+</div>
+
+
+<!-- 19 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Grafana Integration</h2>
+
+<div class="flow">
+
+Prometheus
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana Data Source
+<br>↓<br>
+
+Dashboard
+<br>↓<br>
+
+Panel
+<br>↓<br>
+
+Visualization
+
+</div>
+
+<p>
+Grafana queries Prometheus and visualizes the returned metrics.
+</p>
+
+</div>
+
+
+<!-- 20 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Kubernetes Monitoring Architecture</h2>
+
+<div class="flow">
+
+Kubernetes Cluster
+<br>↓<br>
+
+Nodes + Pods + Services
+<br>↓<br>
+
+Metrics Endpoints / Exporters
+<br>↓<br>
+
+Kubernetes Service Discovery
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+TSDB
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Alertmanager
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. What if Prometheus cannot scrape a target?</h2>
+
+<ol>
+
+<li>Check target status in Prometheus.</li>
+
+<li>Check whether the target endpoint is reachable.</li>
+
+<li>Verify the metrics port.</li>
+
+<li>Verify the <code>/metrics</code> endpoint.</li>
+
+<li>Check firewall and network rules.</li>
+
+<li>Check exporter status.</li>
+
+<li>Check Prometheus configuration.</li>
+
+<li>Check service discovery labels.</li>
+
+</ol>
+
+<pre>
+up{job="node-exporter"}
+</pre>
+
+</div>
+
+
+<!-- 22 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. High CPU Monitoring Scenario</h2>
+
+<div class="flow">
+
+CPU Spike
+<br>↓<br>
+
+Prometheus Metric
+<br>↓<br>
+
+PromQL Query
+<br>↓<br>
+
+Grafana Dashboard
+<br>↓<br>
+
+Alert Rule
+<br>↓<br>
+
+Alertmanager
+<br>↓<br>
+
+DevOps Notification
+<br>↓<br>
+
+Troubleshooting
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Production Monitoring Example</h2>
+
+<div class="answer">
+
+<strong>Scenario:</strong><br><br>
+
+A production Kubernetes application is experiencing increased
+latency.
+
+<br><br>
+
+<strong>Approach:</strong>
+
+<ol>
+<li>Check Grafana latency dashboard.</li>
+<li>Use PromQL to identify affected Pods.</li>
+<li>Check request rate and error rate.</li>
+<li>Check CPU and memory usage.</li>
+<li>Check recent deployments.</li>
+<li>Check application logs.</li>
+<li>Check Kubernetes events.</li>
+<li>Identify and resolve the root cause.</li>
+</ol>
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 24. Prometheus Data Flow — Interview Answer</h2>
+
+<div class="answer">
+
+<strong>
+"Prometheus discovers monitoring targets through static configuration
+or service discovery. It periodically scrapes metrics from those
+targets, parses the metric data and stores the samples in its
+time-series database. Engineers query the data using PromQL.
+Alerting rules can generate alerts, which are handled by Alertmanager.
+Grafana can use Prometheus as a data source to visualize the metrics."
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- 25 -->
+<div class="card">
+
+<h2>🔥 25. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>Explain Prometheus architecture.</li>
+
+<li>How does Prometheus collect metrics?</li>
+
+<li>Why does Prometheus use a pull model?</li>
+
+<li>What is service discovery?</li>
+
+<li>What are exporters?</li>
+
+<li>What is Node Exporter?</li>
+
+<li>What is PromQL?</li>
+
+<li>What is TSDB?</li>
+
+<li>What is Alertmanager?</li>
+
+<li>Prometheus vs Alertmanager?</li>
+
+<li>Prometheus vs Grafana?</li>
+
+<li>What is Pushgateway?</li>
+
+<li>How does Prometheus monitor Kubernetes?</li>
+
+<li>How do you troubleshoot a target showing down?</li>
+
+<li>How would you monitor a production application?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p>
+<strong>grafana-basics.html</strong>
+</p>
+
+<p>
+Next we will cover Grafana dashboards, data sources, panels,
+Prometheus integration and interview scenarios.
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Prometheus Architecture • 2026
+</footer>
+
+</body>
+</html>
+```

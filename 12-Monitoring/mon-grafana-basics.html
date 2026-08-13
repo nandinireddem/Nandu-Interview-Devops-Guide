@@ -1,0 +1,975 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Grafana Basics | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:42px;
+    margin:10px 0;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    margin:22px 0;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:8px;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{
+    color:#fbbf24;
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.badge{
+    display:inline-block;
+    background:#1e293b;
+    color:#93c5fd;
+    padding:6px 12px;
+    border-radius:20px;
+    margin:4px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">📊</div>
+
+<h1>Grafana Basics</h1>
+
+<p>
+Interview-focused guide to Grafana, dashboards, data sources,
+panels, Prometheus integration, variables and monitoring scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Grafana?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+Grafana is an open-source observability and visualization platform
+used to query, visualize and monitor data from different data sources
+through dashboards.
+
+</div>
+
+<p>
+Grafana itself is commonly used as the visualization layer while
+Prometheus provides the metrics.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why do we use Grafana?</h2>
+
+<ul>
+<li>Create monitoring dashboards.</li>
+<li>Visualize metrics and trends.</li>
+<li>Connect to multiple data sources.</li>
+<li>Create panels for CPU, memory and application metrics.</li>
+<li>Use variables for dynamic dashboards.</li>
+<li>Support alerting workflows depending on configuration.</li>
+<li>Help DevOps teams troubleshoot production systems.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Grafana + Prometheus Architecture</h2>
+
+<div class="flow">
+
+Application / Infrastructure
+<br>↓<br>
+
+Exporters / Metrics Endpoints
+<br>↓<br>
+
+<strong>Prometheus</strong>
+<br>↓<br>
+
+Metrics + TSDB
+<br>↓<br>
+
+<strong>Grafana</strong>
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Panels
+<br>↓<br>
+
+Dashboard
+
+</div>
+
+<div class="answer">
+
+<strong>Key Point:</strong><br>
+
+Grafana does not replace Prometheus. Grafana can use Prometheus as
+a data source and visualize the metrics returned by PromQL queries.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is a Data Source?</h2>
+
+<p>
+A data source is a backend system from which Grafana retrieves data
+for queries and visualizations.
+</p>
+
+<table>
+
+<tr>
+<th>Data Source</th>
+<th>Example Use</th>
+</tr>
+
+<tr>
+<td>Prometheus</td>
+<td>Metrics monitoring.</td>
+</tr>
+
+<tr>
+<td>Loki</td>
+<td>Log aggregation.</td>
+</tr>
+
+<tr>
+<td>Elasticsearch</td>
+<td>Search and analytics.</td>
+</tr>
+
+<tr>
+<td>InfluxDB</td>
+<td>Time-series data.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. How do you connect Prometheus to Grafana?</h2>
+
+<div class="flow">
+
+Grafana
+<br>↓<br>
+
+Connections / Data Sources
+<br>↓<br>
+
+Add Prometheus
+<br>↓<br>
+
+Prometheus Server URL
+<br>↓<br>
+
+Save & Test
+<br>↓<br>
+
+Create Dashboard
+
+</div>
+
+<p>
+Grafana uses the Prometheus HTTP API to execute queries and retrieve
+metrics.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is a Dashboard?</h2>
+
+<div class="answer">
+
+A Grafana dashboard is a collection of visualizations that presents
+monitoring information in one place.
+
+</div>
+
+<p>
+A production dashboard can contain CPU usage, memory usage,
+request rate, error rate, latency and infrastructure health.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is a Panel?</h2>
+
+<p>
+A panel is an individual visualization inside a Grafana dashboard.
+</p>
+
+<table>
+
+<tr>
+<th>Panel</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>Time Series</td>
+<td>CPU usage over time.</td>
+</tr>
+
+<tr>
+<td>Stat</td>
+<td>Current memory usage.</td>
+</tr>
+
+<tr>
+<td>Gauge</td>
+<td>CPU utilization percentage.</td>
+</tr>
+
+<tr>
+<td>Table</td>
+<td>Application status by service.</td>
+</tr>
+
+<tr>
+<td>Bar Chart</td>
+<td>Requests by service.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is a Time Series Panel?</h2>
+
+<p>
+A Time Series panel displays metric values across time.
+</p>
+
+<div class="flow">
+
+Time
+<br>→
+<br>
+Metric Values
+<br>→
+<br>
+Trend / Graph
+</div>
+
+<p>
+For example, CPU utilization can be plotted over the last hour.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is PromQL in Grafana?</h2>
+
+<p>
+When Prometheus is configured as the data source, Grafana panels can
+use PromQL queries to retrieve metrics.
+</p>
+
+<pre>
+up
+</pre>
+
+<pre>
+up{job="node-exporter"}
+</pre>
+
+<pre>
+rate(http_requests_total[5m])
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Example CPU Dashboard</h2>
+
+<div class="flow">
+
+CPU Usage
+<br>↓<br>
+
+Prometheus Metric
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana Panel
+<br>↓<br>
+
+CPU Dashboard
+
+</div>
+
+<p>
+A typical production dashboard might display CPU usage by instance,
+Pod or service.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What are Variables?</h2>
+
+<div class="answer">
+
+Grafana variables allow users to dynamically change dashboard
+filters without creating separate dashboards for every environment,
+service or instance.
+
+</div>
+
+<p>Examples:</p>
+
+<ul>
+<li>Environment → dev / staging / production</li>
+<li>Service → frontend / backend / payment</li>
+<li>Instance → server-01 / server-02</li>
+<li>Namespace → dev / production</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Why are Variables useful?</h2>
+
+<p>
+Instead of creating multiple dashboards, one dashboard can be reused
+with different variable values.
+</p>
+
+<div class="flow">
+
+One Dashboard
+<br>↓<br>
+
+Environment Variable
+<br>↓<br>
+
+Production
+<br>↓<br>
+
+Same Dashboard
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What is a Query?</h2>
+
+<p>
+A query retrieves data from the configured data source.
+</p>
+
+<p>
+For Prometheus, Grafana sends a PromQL query to Prometheus.
+</p>
+
+<pre>
+rate(http_requests_total[5m])
+</pre>
+
+<div class="answer">
+
+The result of the query is then displayed using a Grafana panel.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. Grafana Alerting</h2>
+
+<p>
+Grafana provides alerting capabilities that can evaluate queries
+against defined conditions and send notifications through configured
+contact points and notification policies.
+</p>
+
+<div class="flow">
+
+Metric
+<br>↓<br>
+
+Query
+<br>↓<br>
+
+Condition
+<br>↓<br>
+
+Alert Rule
+<br>↓<br>
+
+Contact Point
+<br>↓<br>
+
+Notification
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Grafana vs Prometheus</h2>
+
+<table>
+
+<tr>
+<th>Grafana</th>
+<th>Prometheus</th>
+</tr>
+
+<tr>
+<td>Visualization platform.</td>
+<td>Metrics monitoring system.</td>
+</tr>
+
+<tr>
+<td>Creates dashboards.</td>
+<td>Collects and stores metrics.</td>
+</tr>
+
+<tr>
+<td>Queries data sources.</td>
+<td>Provides PromQL.</td>
+</tr>
+
+<tr>
+<td>Can connect to many data sources.</td>
+<td>Primarily focused on metrics.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Grafana Dashboard for Kubernetes</h2>
+
+<div class="flow">
+
+Kubernetes Cluster
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+Kubernetes Metrics
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Dashboard
+
+</div>
+
+<p>
+Typical panels include:</p>
+
+<ul>
+<li>Node CPU utilization</li>
+<li>Node memory utilization</li>
+<li>Pod CPU usage</li>
+<li>Pod memory usage</li>
+<li>Pod restarts</li>
+<li>Request rate</li>
+<li>Error rate</li>
+<li>Application latency</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Real-Time Scenario: Production CPU Spike</h2>
+
+<h3>Scenario</h3>
+
+<p>
+The production CPU usage suddenly reaches 95%.
+</p>
+
+<div class="answer">
+
+<strong>Step 1:</strong> Open the Grafana dashboard.
+
+<br><br>
+
+<strong>Step 2:</strong> Identify which node, Pod or service is consuming CPU.
+
+<br><br>
+
+<strong>Step 3:</strong> Use PromQL to inspect the metric.
+
+<br><br>
+
+<strong>Step 4:</strong> Check memory, traffic, errors and latency.
+
+<br><br>
+
+<strong>Step 5:</strong> Check recent deployments and application logs.
+
+<br><br>
+
+<strong>Step 6:</strong> Determine whether scaling or rollback is required.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Real-Time Scenario: Pod Restarts</h2>
+
+<p>
+If a Kubernetes Pod repeatedly restarts, Grafana can help identify
+the pattern by visualizing restart metrics.
+</p>
+
+<div class="flow">
+
+Pod Restarts
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana Panel
+<br>↓<br>
+
+Identify Affected Pod
+<br>↓<br>
+
+kubectl / Logs / Events
+<br>↓<br>
+
+Root Cause
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Real-Time Scenario: High Application Latency</h2>
+
+<p>
+Use Grafana to compare latency with request rate, CPU, memory and
+error rate.
+</p>
+
+<table>
+
+<tr>
+<th>Metric</th>
+<th>What to Check</th>
+</tr>
+
+<tr>
+<td>Latency</td>
+<td>Is response time increasing?</td>
+</tr>
+
+<tr>
+<td>Request Rate</td>
+<td>Is traffic suddenly increasing?</td>
+</tr>
+
+<tr>
+<td>Error Rate</td>
+<td>Are requests failing?</td>
+</tr>
+
+<tr>
+<td>CPU</td>
+<td>Is application CPU saturated?</td>
+</tr>
+
+<tr>
+<td>Memory</td>
+<td>Is memory pressure increasing?</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 20. Common Grafana Problems</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>Possible Cause</th>
+</tr>
+
+<tr>
+<td>No data</td>
+<td>Wrong data source or query.</td>
+</tr>
+
+<tr>
+<td>Prometheus unreachable</td>
+<td>Network or URL configuration issue.</td>
+</tr>
+
+<tr>
+<td>Panel error</td>
+<td>Invalid query or unsupported data.</td>
+</tr>
+
+<tr>
+<td>Missing metrics</td>
+<td>Prometheus scrape or exporter problem.</td>
+</tr>
+
+<tr>
+<td>Wrong dashboard values</td>
+<td>Incorrect filters, labels or query.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Troubleshooting "No Data"</h2>
+
+<ol>
+
+<li>Check Grafana data source.</li>
+
+<li>Click the data source connection test.</li>
+
+<li>Verify the Prometheus URL.</li>
+
+<li>Open Prometheus directly.</li>
+
+<li>Run the same PromQL query in Prometheus.</li>
+
+<li>Check whether the target is up.</li>
+
+<li>Check the selected time range.</li>
+
+<li>Verify dashboard variables and filters.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Production Monitoring Dashboard</h2>
+
+<div class="flow">
+
+<strong>Infrastructure</strong>
+<br>
+CPU • Memory • Disk • Network
+<br><br>
+
+<strong>Application</strong>
+<br>
+Requests • Errors • Latency
+<br><br>
+
+<strong>Kubernetes</strong>
+<br>
+Pods • Nodes • Restarts • Resources
+<br><br>
+
+<strong>Alerts</strong>
+<br>
+Critical • Warning • Recovery
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Interview Answer: Explain Grafana</h2>
+
+<div class="answer">
+
+"Grafana is an open-source visualization and observability platform.
+In a typical DevOps environment, I can configure Prometheus as a
+Grafana data source, use PromQL queries to retrieve metrics and
+display those metrics using dashboards and panels. For Kubernetes
+monitoring, Grafana can provide dashboards for CPU, memory, Pod
+restarts, request rate, latency and other application metrics."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 24. Quick Revision</h2>
+
+<ul>
+
+<li><strong>Grafana</strong> → Visualization and observability platform.</li>
+
+<li><strong>Data Source</strong> → Backend from which Grafana gets data.</li>
+
+<li><strong>Dashboard</strong> → Collection of panels.</li>
+
+<li><strong>Panel</strong> → Individual visualization.</li>
+
+<li><strong>PromQL</strong> → Query language for Prometheus.</li>
+
+<li><strong>Variables</strong> → Dynamic dashboard filters.</li>
+
+<li><strong>Prometheus</strong> → Common metrics data source.</li>
+
+<li><strong>Alerting</strong> → Evaluate conditions and notify configured receivers.</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 25. Top Interview Questions</h2>
+
+<ol>
+
+<li>What is Grafana?</li>
+
+<li>Why is Grafana used?</li>
+
+<li>Grafana vs Prometheus?</li>
+
+<li>What is a Grafana dashboard?</li>
+
+<li>What is a panel?</li>
+
+<li>What is a data source?</li>
+
+<li>How do you connect Prometheus to Grafana?</li>
+
+<li>What is PromQL?</li>
+
+<li>What are Grafana variables?</li>
+
+<li>How do you monitor Kubernetes using Grafana?</li>
+
+<li>How do you troubleshoot "No Data"?</li>
+
+<li>How would you design a production monitoring dashboard?</li>
+
+<li>How would you investigate a CPU spike using Grafana?</li>
+
+<li>How would you investigate high application latency?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p>
+<strong>monitoring-real-time-scenarios.html</strong>
+</p>
+
+<p>
+Next we will focus only on practical production scenarios and
+interview-ready troubleshooting answers.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<p>
+<a href="index.html">← Back to Monitoring</a>
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Grafana Basics • 2026
+</footer>
+
+</body>
+</html>
+```
+

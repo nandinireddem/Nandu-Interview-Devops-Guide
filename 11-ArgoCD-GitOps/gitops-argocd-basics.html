@@ -1,0 +1,702 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitOps & ArgoCD Basics</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:48px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+header h1{
+    margin:8px 0;
+    font-size:42px;
+    color:#93c5fd
+}
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:8px
+}
+.warning{
+    background:#241b10;
+    border-left:4px solid #fbbf24;
+    padding:16px;
+    border-radius:8px
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+th{
+    background:#172033;
+    color:#93c5fd
+}
+code{
+    background:#0d1425;
+    padding:2px 6px;
+    border-radius:5px;
+    color:#fbbf24
+}
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:50px">🔄</div>
+
+<h1>GitOps & ArgoCD Basics</h1>
+
+<p>
+Core GitOps concepts and ArgoCD fundamentals explained in
+interview-ready language with practical Kubernetes examples.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is GitOps?</h2>
+
+<p>
+GitOps is a way of managing application and infrastructure deployments
+where <strong>Git acts as the source of truth</strong>.
+The desired state of the system is stored in Git, and an automated
+controller continuously works to make the actual environment match
+that desired state.
+</p>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+GitOps is a declarative deployment approach where the desired state of
+applications and infrastructure is maintained in Git. A GitOps
+controller such as ArgoCD continuously compares the Git state with the
+Kubernetes cluster and reconciles differences.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why Do We Use GitOps?</h2>
+
+<ul>
+<li>Git provides version history.</li>
+<li>Every configuration change can be reviewed.</li>
+<li>Changes can go through Pull Requests.</li>
+<li>Rollback becomes easier.</li>
+<li>Deployment becomes consistent and repeatable.</li>
+<li>Cluster configuration becomes auditable.</li>
+<li>Manual <code>kubectl</code> changes can be reduced.</li>
+</ul>
+
+<div class="answer">
+<strong>Key Idea:</strong><br>
+Instead of manually telling Kubernetes what to do every time,
+we declare what we want in Git and let automation maintain that state.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What is ArgoCD?</h2>
+
+<p>
+ArgoCD is a <strong>Kubernetes-native continuous delivery and GitOps
+tool</strong>. It monitors Git repositories containing Kubernetes
+manifests or Helm/Kustomize configurations and synchronizes them with
+the target Kubernetes cluster.
+</p>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+ArgoCD is a declarative GitOps continuous delivery tool for Kubernetes.
+It continuously monitors the desired state stored in Git and
+synchronizes that state with the Kubernetes cluster.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Traditional Deployment vs GitOps</h2>
+
+<table>
+
+<tr>
+<th>Traditional Approach</th>
+<th>GitOps Approach</th>
+</tr>
+
+<tr>
+<td>Developer or operator may manually run deployment commands.</td>
+<td>Git contains the desired state.</td>
+</tr>
+
+<tr>
+<td>Cluster state may not be fully tracked.</td>
+<td>Configuration is version-controlled.</td>
+</tr>
+
+<tr>
+<td>Rollback can require manual commands.</td>
+<td>Previous Git versions can be restored.</td>
+</tr>
+
+<tr>
+<td>Configuration changes may be difficult to audit.</td>
+<td>Git history provides an audit trail.</td>
+</tr>
+
+<tr>
+<td>Manual drift correction.</td>
+<td>Controller can continuously reconcile drift.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Declarative vs Imperative</h2>
+
+<h3>Imperative</h3>
+
+<p>
+You tell the system <strong>how</strong> to perform an action.
+</p>
+
+<div class="flow">
+kubectl create deployment nginx --image=nginx
+</div>
+
+<h3>Declarative</h3>
+
+<p>
+You define <strong>what the final state should be</strong>.
+Kubernetes determines how to reach that state.
+</p>
+
+<div class="flow">
+
+Git
+<br>↓<br>
+deployment.yaml
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Kubernetes
+
+</div>
+
+<div class="answer">
+<strong>Interview Point:</strong><br>
+GitOps strongly favors a declarative model because the desired state is
+explicitly stored and versioned.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Push-Based vs Pull-Based Deployment</h2>
+
+<table>
+
+<tr>
+<th>Push-Based</th>
+<th>Pull-Based</th>
+</tr>
+
+<tr>
+<td>CI/CD system pushes changes into the cluster.</td>
+<td>Agent/controller pulls desired state from Git.</td>
+</tr>
+
+<tr>
+<td>Pipeline usually needs cluster credentials.</td>
+<td>Cluster-side controller can access Git.</td>
+</tr>
+
+<tr>
+<td>Example: CI pipeline running kubectl apply.</td>
+<td>Example: ArgoCD.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+<strong>Important:</strong><br>
+ArgoCD follows the <strong>pull-based</strong> GitOps model.
+ArgoCD continuously monitors the Git repository and reconciles the
+desired state with Kubernetes.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. How Does ArgoCD Work?</h2>
+
+<div class="flow">
+
+Git Repository
+<br>↓<br>
+ArgoCD Reads Desired State
+<br>↓<br>
+Compares Git State with Cluster State
+<br>↓<br>
+Detects Difference
+<br>↓<br>
+Application Becomes OutOfSync
+<br>↓<br>
+Sync
+<br>↓<br>
+Kubernetes API
+<br>↓<br>
+Cluster Matches Git
+<br>↓<br>
+Synced
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Desired State vs Actual State</h2>
+
+<table>
+
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><strong>Desired State</strong></td>
+<td>The configuration defined in Git.</td>
+</tr>
+
+<tr>
+<td><strong>Actual State</strong></td>
+<td>The resources currently running in Kubernetes.</td>
+</tr>
+
+<tr>
+<td><strong>Drift</strong></td>
+<td>A difference between desired and actual state.</td>
+</tr>
+
+<tr>
+<td><strong>Reconciliation</strong></td>
+<td>The process of bringing actual state toward desired state.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is Drift?</h2>
+
+<p>
+Drift occurs when the Kubernetes cluster no longer matches the
+configuration stored in Git.
+</p>
+
+<div class="flow">
+
+Git says replicas = 3
+<br>↓<br>
+Someone manually changes replicas to 1
+<br>↓<br>
+Git State ≠ Cluster State
+<br>↓<br>
+Drift Detected
+
+</div>
+
+<div class="answer">
+If automated self-healing is enabled, ArgoCD can restore the cluster
+toward the Git-defined state.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. What is Sync?</h2>
+
+<p>
+Sync means applying the desired configuration from Git to the
+Kubernetes cluster so that the cluster moves toward the desired state.
+</p>
+
+<p>
+ArgoCD can perform synchronization manually or automatically depending
+on the application's configuration.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is Reconciliation?</h2>
+
+<p>
+Reconciliation is the continuous process of comparing the desired
+state with the actual state and identifying differences.
+</p>
+
+<div class="answer">
+
+<strong>Interview Wording:</strong><br>
+
+ArgoCD continuously observes the application state and compares it with
+the desired state in Git. If there is a difference, ArgoCD can take
+action to reconcile the cluster according to the configured sync policy.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Sync vs Reconciliation</h2>
+
+<table>
+
+<tr>
+<th>Sync</th>
+<th>Reconciliation</th>
+</tr>
+
+<tr>
+<td>Action that applies desired configuration.</td>
+<td>Continuous comparison process.</td>
+</tr>
+
+<tr>
+<td>Can be manually or automatically triggered.</td>
+<td>Continuously evaluates state.</td>
+</tr>
+
+<tr>
+<td>Moves cluster toward desired state.</td>
+<td>Detects whether the cluster has drifted.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 13. What is Self-Healing?</h2>
+
+<p>
+Self-healing is the ability of ArgoCD to automatically correct certain
+out-of-band changes so that the cluster returns toward the desired
+state defined in Git.
+</p>
+
+<div class="flow">
+
+Git
+<br>
+replicas: 3
+<br>↓<br>
+Manual Change
+<br>
+replicas: 1
+<br>↓<br>
+ArgoCD Detects Drift
+<br>↓<br>
+Self-Healing
+<br>↓<br>
+replicas: 3
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. What is Pruning?</h2>
+
+<p>
+Pruning removes Kubernetes resources that were previously managed by
+ArgoCD but are no longer defined in the desired Git configuration,
+when pruning is enabled.
+</p>
+
+<div class="warning">
+
+<strong>Interview Caution:</strong><br>
+
+Pruning can delete resources. It should be enabled carefully,
+especially in production environments.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Why is Git the Source of Truth?</h2>
+
+<ul>
+
+<li>Git provides version control.</li>
+
+<li>Changes are traceable.</li>
+
+<li>Pull Requests can provide review and approval.</li>
+
+<li>Previous versions are available.</li>
+
+<li>Deployment configuration is centralized.</li>
+
+<li>Teams can reproduce the desired environment.</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. GitOps Deployment Flow</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git Commit
+<br>↓<br>
+Pull Request
+<br>↓<br>
+Review & Merge
+<br>↓<br>
+Git Repository
+<br>↓<br>
+ArgoCD Detects Change
+<br>↓<br>
+Sync
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Application Updated
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. ArgoCD + CI/CD</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+GitHub
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build + Test + Security Scan
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Container Registry
+<br>↓<br>
+Update GitOps Repository
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Kubernetes / EKS
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+GitHub Actions handles CI activities such as build, test, security
+scanning and image publishing. ArgoCD handles the CD/GitOps side by
+monitoring the GitOps repository and synchronizing the desired state
+into Kubernetes.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 18. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is GitOps?</li>
+
+<li>What is ArgoCD?</li>
+
+<li>Why do we use ArgoCD?</li>
+
+<li>Why is Git called the source of truth?</li>
+
+<li>Is ArgoCD push-based or pull-based?</li>
+
+<li>What is desired state?</li>
+
+<li>What is actual state?</li>
+
+<li>What is drift?</li>
+
+<li>What is synchronization?</li>
+
+<li>What is reconciliation?</li>
+
+<li>What is self-healing?</li>
+
+<li>What is pruning?</li>
+
+<li>How is GitOps different from traditional CI/CD?</li>
+
+<li>What is the difference between declarative and imperative deployment?</li>
+
+<li>How does ArgoCD work with GitHub Actions?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 One-Minute Revision</h2>
+
+<div class="answer">
+
+<strong>GitOps</strong> → Git is the source of truth.<br><br>
+
+<strong>ArgoCD</strong> → Kubernetes GitOps continuous delivery tool.<br><br>
+
+<strong>Desired State</strong> → Configuration stored in Git.<br><br>
+
+<strong>Actual State</strong> → Current Kubernetes state.<br><br>
+
+<strong>Drift</strong> → Desired state and actual state differ.<br><br>
+
+<strong>Sync</strong> → Apply desired state to the cluster.<br><br>
+
+<strong>Reconciliation</strong> → Continuously compare states.<br><br>
+
+<strong>Self-Healing</strong> → Automatically restore supported drift.<br><br>
+
+<strong>Pruning</strong> → Remove resources no longer defined in Git.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p>
+<strong>argocd-architecture.html</strong>
+</p>
+
+<a href="index.html">← Back to ArgoCD & GitOps Index</a>
+
+</div>
+
+</main>
+
+<footer>
+GitOps & ArgoCD Basics • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

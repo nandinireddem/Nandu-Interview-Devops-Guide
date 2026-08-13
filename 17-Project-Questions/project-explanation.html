@@ -1,0 +1,642 @@
+```html id="m4x7qp"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Project Explanation | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b9
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🗣️</div>
+
+<h1>Project Explanation</h1>
+
+<p>
+Interview-ready explanations for the complete Cloud & DevOps project.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. Give Me Your Project Introduction</h2>
+
+<div class="answer">
+
+<p>
+"My project is an end-to-end Cloud and DevOps implementation
+focused on automating the application deployment lifecycle.
+</p>
+
+<p>
+The source code is maintained in GitHub. Whenever changes are
+pushed, the CI/CD pipeline is triggered.
+</p>
+
+<p>
+Jenkins handles the build, testing and Docker image creation.
+The Docker image is pushed to a container registry and then
+deployed to Kubernetes running on AWS.
+</p>
+
+<p>
+Terraform is used to provision the required infrastructure, while
+Prometheus and Grafana are used for monitoring and visualization."
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>2. Explain the Project Step by Step</h2>
+
+<div class="flow">
+
+1️⃣ Developer writes code
+<br>↓<br>
+2️⃣ Code pushed to GitHub
+<br>↓<br>
+3️⃣ Jenkins pipeline starts
+<br>↓<br>
+4️⃣ Source code checkout
+<br>↓<br>
+5️⃣ Build application
+<br>↓<br>
+6️⃣ Run tests
+<br>↓<br>
+7️⃣ Security scan
+<br>↓<br>
+8️⃣ Build Docker image
+<br>↓<br>
+9️⃣ Push image to registry
+<br>↓<br>
+🔟 Deploy to Kubernetes
+<br>↓<br>
+1️⃣1️⃣ Verify application
+<br>↓<br>
+1️⃣2️⃣ Monitor using Prometheus/Grafana
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>3. What Happens When Developer Pushes Code?</h2>
+
+<div class="answer">
+
+<p>
+The developer pushes the code to GitHub.
+</p>
+
+<p>
+GitHub sends an event through the configured webhook to Jenkins.
+Jenkins receives the event and starts the pipeline.
+</p>
+
+<p>
+The pipeline checks out the latest code and executes the defined
+CI/CD stages.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>4. Explain Your Jenkins Pipeline</h2>
+
+<pre>
+pipeline {
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                // Checkout source code
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build application
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run tests
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                // Build Docker image
+            }
+        }
+
+        stage('Push') {
+            steps {
+                // Push image to registry
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy application
+            }
+        }
+    }
+}
+</pre>
+
+<div class="answer">
+
+The pipeline is divided into logical stages so that each phase
+can be identified and troubleshot independently.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>5. Why Do You Build a Docker Image?</h2>
+
+<div class="answer">
+
+The Docker image packages the application and its dependencies
+into a consistent artifact.
+
+The same image can then be promoted through environments instead
+of rebuilding the application differently for each environment.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>6. How Is the Docker Image Tagged?</h2>
+
+<div class="answer">
+
+I would prefer an immutable tag such as a Git commit SHA or
+release version instead of relying only on <code>latest</code>.
+
+Example:
+
+<pre>
+myapp:1.0.0
+myapp:&lt;git-commit-sha&gt;
+</pre>
+
+This makes it easier to identify exactly which version was
+deployed.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>7. How Does Kubernetes Get the Image?</h2>
+
+<div class="flow">
+
+Container Registry
+<br>↓<br>
+Kubernetes Node
+<br>↓<br>
+Container Runtime
+<br>↓<br>
+Application Container
+<br>↓<br>
+Pod
+
+</div>
+
+<div class="answer">
+
+The Kubernetes workload specifies the container image.
+
+The cluster pulls the image from the configured container registry
+when creating the Pod, subject to the required registry access.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>8. Explain Your Kubernetes Deployment</h2>
+
+<pre>
+apiVersion: apps/v1
+kind: Deployment
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:1.0.0
+        ports:
+        - containerPort: 8080
+</pre>
+
+<div class="answer">
+
+The Deployment defines the desired state of the application.
+
+For example, with three replicas Kubernetes attempts to maintain
+three application Pods.
+
+If a Pod fails, the controller can create a replacement.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>9. How Does Terraform Help Your Project?</h2>
+
+<div class="answer">
+
+Terraform manages the infrastructure as code.
+
+For example, the infrastructure can include:
+
+<ul>
+<li>VPC</li>
+<li>Subnets</li>
+<li>Security groups</li>
+<li>EKS cluster</li>
+<li>Node groups</li>
+<li>IAM-related resources</li>
+</ul>
+
+Terraform allows infrastructure changes to be reviewed,
+version-controlled and reproduced.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>10. How Do You Handle Terraform Changes?</h2>
+
+<div class="flow">
+
+Terraform Code
+<br>↓<br>
+terraform init
+<br>↓<br>
+terraform plan
+<br>↓<br>
+Review Changes
+<br>↓<br>
+terraform apply
+<br>↓<br>
+Infrastructure Updated
+
+</div>
+
+<div class="answer">
+
+I use <code>terraform plan</code> to review the proposed changes
+before applying them.
+
+This helps prevent unexpected infrastructure modifications.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>11. Explain Monitoring in Your Project</h2>
+
+<div class="flow">
+
+Application / Kubernetes
+<br>↓<br>
+Metrics
+<br>↓<br>
+Prometheus
+<br>↓<br>
+Grafana
+<br>↓<br>
+Dashboard
+<br>↓<br>
+Engineer
+
+</div>
+
+<div class="answer">
+
+Prometheus collects metrics from the monitored targets.
+
+Grafana connects to Prometheus as a data source and displays
+those metrics in dashboards.
+
+This helps identify resource and application-level problems.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>12. What Happens If a Deployment Fails?</h2>
+
+<div class="answer">
+
+I first identify the failing layer.
+
+For Kubernetes I would check:
+
+<pre>
+kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+kubectl get events
+</pre>
+
+Then I determine whether the issue is related to the image,
+configuration, secrets, resources, networking or application
+startup.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>13. What Was Your Troubleshooting Method?</h2>
+
+<div class="answer">
+
+I follow a layer-by-layer approach instead of changing multiple
+things at the same time.
+
+<div class="flow">
+
+Application
+<br>↓<br>
+Container
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Network
+<br>↓<br>
+Cloud Infrastructure
+<br>↓<br>
+CI/CD
+
+</div>
+
+I start with logs and the first meaningful error, then move
+towards the underlying infrastructure if required.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>14. How Would You Make the Project Production Ready?</h2>
+
+<div class="answer">
+
+I would add:
+
+<ul>
+<li>High availability</li>
+<li>Autoscaling</li>
+<li>Centralized logging</li>
+<li>Secret management</li>
+<li>Image vulnerability scanning</li>
+<li>Automated rollback</li>
+<li>Monitoring and alerting</li>
+<li>Environment separation</li>
+<li>Least-privilege IAM</li>
+<li>Backup and disaster recovery strategy</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 FINAL REVISION</span>
+
+<h2>15. 30-Second Project Explanation</h2>
+
+<div class="answer">
+
+<p>
+"I built an end-to-end DevOps pipeline for deploying a
+containerized application on AWS.
+</p>
+
+<p>
+The code is maintained in GitHub and Jenkins automates the CI/CD
+workflow. The application is tested, containerized using Docker
+and the image is pushed to a registry.
+</p>
+
+<p>
+Terraform is used for infrastructure provisioning and Kubernetes
+handles container deployment and management.
+Prometheus and Grafana provide monitoring and visualization.
+</p>
+
+<p>
+The main objective was to make the deployment process automated,
+repeatable and easier to monitor."
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Project Questions
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Project Explanation • 2026
+</footer>
+
+</body>
+</html>
+```

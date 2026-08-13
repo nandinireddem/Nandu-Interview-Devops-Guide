@@ -1,0 +1,989 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Project Troubleshooting | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b9
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto;
+    color:#dbeafe
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🛠️</div>
+
+<h1>Project Troubleshooting</h1>
+
+<p>
+Real-time troubleshooting scenarios for an end-to-end
+Cloud & DevOps project.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. Your Complete Troubleshooting Method</h2>
+
+<div class="flow">
+
+Identify Failure
+<br>↓<br>
+Check Logs
+<br>↓<br>
+Find First Meaningful Error
+<br>↓<br>
+Identify Failed Layer
+<br>↓<br>
+Verify Configuration
+<br>↓<br>
+Fix Root Cause
+<br>↓<br>
+Retest
+<br>↓<br>
+Monitor
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+"I don't immediately change multiple configurations. I first
+identify where the failure occurred, check the logs and isolate
+the root cause. Then I make the required change, rerun the
+affected stage and verify the result."
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>2. Jenkins Pipeline Failed</h2>
+
+<h3>Symptoms</h3>
+
+<p>The CI/CD pipeline suddenly fails.</p>
+
+<div class="answer">
+
+First I open the Jenkins console output and identify the first
+meaningful error.
+
+Then I determine the failed stage:
+
+<ul>
+<li>Checkout</li>
+<li>Build</li>
+<li>Test</li>
+<li>Docker build</li>
+<li>Image push</li>
+<li>Deployment</li>
+</ul>
+
+I troubleshoot only that layer first.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>3. Git Checkout Failed</h2>
+
+<pre>
+git clone &lt;repository-url&gt;
+</pre>
+
+<div class="answer">
+
+I check:
+
+<ul>
+<li>Repository URL</li>
+<li>Branch</li>
+<li>Credentials</li>
+<li>Repository permissions</li>
+<li>Network connectivity</li>
+<li>Git installation on the Jenkins agent</li>
+</ul>
+
+If authentication fails, I verify the Jenkins credential and
+its permissions rather than changing unrelated pipeline stages.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>4. Docker Build Failed</h2>
+
+<pre>
+docker build -t myapp:1.0 .
+</pre>
+
+<div class="answer">
+
+I check the Docker build output and inspect:
+
+<ul>
+<li>Dockerfile syntax</li>
+<li>Base image</li>
+<li>Build context</li>
+<li>File paths</li>
+<li>Dependencies</li>
+<li>Network access</li>
+</ul>
+
+I focus on the first actual error instead of the final generic
+"build failed" message.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>5. Docker Container Exits Immediately</h2>
+
+<pre>
+docker ps -a
+
+docker logs &lt;container-id&gt;
+
+docker inspect &lt;container-id&gt;
+</pre>
+
+<div class="answer">
+
+I check the container logs and inspect the configured command.
+
+Typical causes include:
+
+<ul>
+<li>Application startup failure</li>
+<li>Incorrect CMD or ENTRYPOINT</li>
+<li>Missing environment variables</li>
+<li>Missing dependencies</li>
+<li>Process exits immediately</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>6. Docker Container Is Running but Application Is Not Accessible</h2>
+
+<pre>
+docker ps
+docker logs &lt;container&gt;
+docker inspect &lt;container&gt;
+</pre>
+
+<div class="answer">
+
+I verify:
+
+<ul>
+<li>Application listening port</li>
+<li>Container port</li>
+<li>Host port mapping</li>
+<li>Application listening address</li>
+</ul>
+
+Example:
+
+<pre>
+docker run -p 8080:8080 myapp
+</pre>
+
+Then test:
+
+<pre>
+curl http://localhost:8080
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>7. Docker Image Push Failed</h2>
+
+<div class="answer">
+
+I check:
+
+<ul>
+<li>Registry authentication</li>
+<li>Image name</li>
+<li>Image tag</li>
+<li>Repository permissions</li>
+<li>Network connectivity</li>
+</ul>
+
+I also verify that the image actually exists locally:
+
+<pre>
+docker images
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>8. Kubernetes Pod Is Pending</h2>
+
+<pre>
+kubectl get pods
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl get events
+</pre>
+
+<div class="answer">
+
+I check for:
+
+<ul>
+<li>Insufficient CPU or memory</li>
+<li>Node availability</li>
+<li>Scheduling constraints</li>
+<li>Taints and tolerations</li>
+<li>Node selectors</li>
+<li>Persistent volume issues</li>
+</ul>
+
+The <code>describe</code> output and events usually provide the
+most useful clues.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>9. Kubernetes Pod Is in CrashLoopBackOff</h2>
+
+<pre>
+kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<div class="answer">
+
+CrashLoopBackOff means the container repeatedly starts and then
+fails.
+
+I would investigate:
+
+<ul>
+<li>Application startup error</li>
+<li>Incorrect configuration</li>
+<li>Missing environment variables</li>
+<li>Secrets</li>
+<li>Dependency failures</li>
+<li>Incorrect command</li>
+<li>Health probe configuration</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>10. Kubernetes Shows ImagePullBackOff</h2>
+
+<div class="answer">
+
+I check:
+
+<ul>
+<li>Image name</li>
+<li>Image tag</li>
+<li>Registry availability</li>
+<li>Image existence</li>
+<li>Registry credentials</li>
+<li>Image pull permissions</li>
+</ul>
+
+Then:
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+I look at the Events section for the exact image-pull error.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>11. Application Is Running but Service Is Not Working</h2>
+
+<pre>
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl get pods --show-labels
+</pre>
+
+<div class="answer">
+
+I verify that the Service selector matches the Pod labels.
+
+Then I verify that the Service port and targetPort match the
+application configuration.
+
+A Service with no healthy endpoints cannot route traffic to the
+application Pods.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>12. Kubernetes Deployment Rollout Is Stuck</h2>
+
+<pre>
+kubectl rollout status deployment/myapp
+
+kubectl get pods
+
+kubectl describe deployment myapp
+</pre>
+
+<div class="answer">
+
+I check whether new Pods are:
+
+<ul>
+<li>Failing to start</li>
+<li>Unable to pull the image</li>
+<li>Failing readiness probes</li>
+<li>Unable to schedule</li>
+<li>Missing configuration</li>
+</ul>
+
+If the release is confirmed unhealthy, I can consider rolling
+back to the previous known-good revision.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>13. Terraform Apply Failed</h2>
+
+<pre>
+terraform plan
+terraform apply
+</pre>
+
+<div class="answer">
+
+I read the exact Terraform error and identify which resource
+failed.
+
+I then check:
+
+<ul>
+<li>AWS credentials</li>
+<li>Region</li>
+<li>IAM permissions</li>
+<li>Resource limits</li>
+<li>Resource dependencies</li>
+<li>Existing resource conflicts</li>
+<li>Terraform configuration</li>
+</ul>
+
+I avoid repeatedly running <code>apply</code> without understanding
+the failure.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>14. Terraform Says Resource Already Exists</h2>
+
+<div class="answer">
+
+I first determine whether the resource was created outside
+Terraform or already exists in the expected state.
+
+Depending on the situation, the resource may need to be imported
+into Terraform state or the configuration/state relationship may
+need to be corrected.
+
+The correct solution depends on how the resource was originally
+created.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>15. AWS Authentication Error</h2>
+
+<pre>
+aws sts get-caller-identity
+</pre>
+
+<div class="answer">
+
+I verify:
+
+<ul>
+<li>AWS credentials</li>
+<li>Credential expiration</li>
+<li>Configured profile</li>
+<li>Region</li>
+<li>IAM permissions</li>
+<li>Environment variables</li>
+</ul>
+
+The STS identity command is a useful first check to confirm which
+AWS identity the environment is actually using.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>16. EKS Cluster Is Working but kubectl Cannot Connect</h2>
+
+<pre>
+kubectl get nodes
+</pre>
+
+<div class="answer">
+
+I check:
+
+<ul>
+<li>Kubeconfig</li>
+<li>AWS identity</li>
+<li>Cluster endpoint</li>
+<li>Network connectivity</li>
+<li>Cluster authentication</li>
+<li>Authorization / RBAC</li>
+</ul>
+
+I would verify that kubectl is pointing to the correct cluster.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>17. Application Became Unhealthy After Deployment</h2>
+
+<div class="flow">
+
+Deployment
+<br>↓
+<br>
+Pods Running?
+<br>↓
+<br>
+Readiness Probe?
+<br>↓
+<br>
+Application Logs?
+<br>↓
+<br>
+Service Endpoints?
+<br>↓
+<br>
+External Dependencies?
+<br>↓
+<br>
+Root Cause
+
+</div>
+
+<div class="answer">
+
+A Pod being in the Running state does not automatically mean the
+application is ready to receive traffic.
+
+I check readiness, logs, dependencies and Service endpoints.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>18. Monitoring Shows High CPU</h2>
+
+<pre>
+kubectl top pods
+kubectl top nodes
+</pre>
+
+<div class="answer">
+
+I identify whether the high CPU usage is caused by:
+
+<ul>
+<li>Application workload</li>
+<li>Traffic increase</li>
+<li>Resource limits</li>
+<li>Application bug</li>
+<li>Insufficient capacity</li>
+</ul>
+
+Then I correlate the Kubernetes metrics with application
+behavior before deciding whether scaling is required.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>19. Grafana Dashboard Shows No Data</h2>
+
+<div class="answer">
+
+I check:
+
+<ul>
+<li>Prometheus is running</li>
+<li>Prometheus is scraping targets</li>
+<li>Grafana data source configuration</li>
+<li>Prometheus URL</li>
+<li>Query correctness</li>
+<li>Target health</li>
+</ul>
+
+The first thing I verify is whether Prometheus itself has the
+expected metrics.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>20. How Would You Handle a Production Incident?</h2>
+
+<div class="answer">
+
+My approach would be:
+
+<ol>
+<li>Understand the impact.</li>
+<li>Identify the affected component.</li>
+<li>Check monitoring and logs.</li>
+<li>Stop further harmful changes.</li>
+<li>Restore service using the safest known solution.</li>
+<li>Verify recovery.</li>
+<li>Investigate root cause.</li>
+<li>Document the incident and preventive action.</li>
+</ol>
+
+The priority during an incident is to restore service safely,
+then perform deeper root-cause analysis.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ INTERVIEW GOLD</span>
+
+<h2>21. One Troubleshooting Example to Remember</h2>
+
+<h3>Scenario</h3>
+
+<p>
+"After a new deployment, the application became unavailable.
+What would you do?"
+</p>
+
+<div class="answer">
+
+<p>
+<strong>Step 1:</strong> Check whether the Pods are running.
+</p>
+
+<pre>
+kubectl get pods
+</pre>
+
+<p>
+<strong>Step 2:</strong> Check Pod logs.
+</p>
+
+<pre>
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+<p>
+<strong>Step 3:</strong> Describe the Pod if necessary.
+</p>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<p>
+<strong>Step 4:</strong> Check Service and endpoints.
+</p>
+
+<pre>
+kubectl get svc
+kubectl get endpoints
+</pre>
+
+<p>
+<strong>Step 5:</strong> Check whether the new image or configuration
+caused the problem.
+</p>
+
+<p>
+<strong>Step 6:</strong> If the new release is confirmed as the
+cause, restore the previous known-good version and then investigate
+the root cause.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 FINAL REVISION</span>
+
+<h2>22. Troubleshooting Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Commands / Checks</th>
+</tr>
+
+<tr>
+<td>Jenkins failure</td>
+<td>Console output → failed stage</td>
+</tr>
+
+<tr>
+<td>Docker container stopped</td>
+<td>docker ps -a → docker logs</td>
+</tr>
+
+<tr>
+<td>Docker application inaccessible</td>
+<td>Port mapping → application port</td>
+</tr>
+
+<tr>
+<td>Pod Pending</td>
+<td>kubectl describe pod → events</td>
+</tr>
+
+<tr>
+<td>CrashLoopBackOff</td>
+<td>kubectl logs → --previous → describe</td>
+</tr>
+
+<tr>
+<td>ImagePullBackOff</td>
+<td>Image → tag → registry → credentials</td>
+</tr>
+
+<tr>
+<td>Service not working</td>
+<td>Service → selectors → endpoints</td>
+</tr>
+
+<tr>
+<td>Terraform failure</td>
+<td>Error → resource → credentials/permissions</td>
+</tr>
+
+<tr>
+<td>kubectl connection failure</td>
+<td>Kubeconfig → AWS identity → network → RBAC</td>
+</tr>
+
+<tr>
+<td>High CPU</td>
+<td>kubectl top → application behavior</td>
+</tr>
+
+<tr>
+<td>Grafana no data</td>
+<td>Prometheus → targets → data source → query</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Golden Troubleshooting Formula</h2>
+
+<div class="flow">
+
+<strong>Observe</strong>
+<br>↓<br>
+<strong>Identify</strong>
+<br>↓<br>
+<strong>Check Logs</strong>
+<br>↓<br>
+<strong>Isolate Layer</strong>
+<br>↓<br>
+<strong>Find Root Cause</strong>
+<br>↓<br>
+<strong>Fix</strong>
+<br>↓<br>
+<strong>Verify</strong>
+<br>↓<br>
+<strong>Prevent Recurrence</strong>
+
+</div>
+
+<div class="answer">
+
+<strong>Best interview line:</strong>
+
+<p>
+"I don't troubleshoot by randomly changing configurations. I
+first identify the failed layer, check the relevant logs and
+events, isolate the root cause, apply the smallest appropriate
+fix, and then verify that the system has recovered."
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Project Questions
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Project Troubleshooting • 2026
+</footer>
+
+</body>
+</html>
+```

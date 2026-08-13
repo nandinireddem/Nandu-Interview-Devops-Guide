@@ -1,0 +1,715 @@
+```html id="k4v8qx"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Networking Final Revision | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔥</div>
+
+<h1>Networking Final Revision</h1>
+
+<p>
+Last-minute high-priority networking revision for Cloud & DevOps
+interviews.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Networking Fundamentals</h2>
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>Quick Answer</th>
+</tr>
+
+<tr>
+<td>IP Address</td>
+<td>Identifies a network interface or endpoint within an IP network.</td>
+</tr>
+
+<tr>
+<td>Public IP</td>
+<td>An address used for public network reachability when routing and security allow it.</td>
+</tr>
+
+<tr>
+<td>Private IP</td>
+<td>An address used within private network ranges and not directly routable on the public Internet.</td>
+</tr>
+
+<tr>
+<td>TCP</td>
+<td>Connection-oriented transport protocol with reliable, ordered delivery.</td>
+</tr>
+
+<tr>
+<td>UDP</td>
+<td>Connectionless transport protocol with lower overhead but no built-in delivery guarantee.</td>
+</tr>
+
+<tr>
+<td>DNS</td>
+<td>Resolves domain names to IP addresses and other DNS records.</td>
+</tr>
+
+<tr>
+<td>HTTP</td>
+<td>Application-layer protocol commonly used for web communication.</td>
+</tr>
+
+<tr>
+<td>HTTPS</td>
+<td>HTTP protected by TLS.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Important Ports</h2>
+
+<table>
+
+<tr>
+<th>Port</th>
+<th>Protocol / Service</th>
+</tr>
+
+<tr>
+<td>22</td>
+<td>SSH</td>
+</tr>
+
+<tr>
+<td>53</td>
+<td>DNS</td>
+</tr>
+
+<tr>
+<td>80</td>
+<td>HTTP</td>
+</tr>
+
+<tr>
+<td>443</td>
+<td>HTTPS</td>
+</tr>
+
+<tr>
+<td>3306</td>
+<td>MySQL</td>
+</tr>
+
+<tr>
+<td>5432</td>
+<td>PostgreSQL</td>
+</tr>
+
+<tr>
+<td>6379</td>
+<td>Redis</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. OSI Model</h2>
+
+<div class="flow">
+
+7️⃣ Application
+<br>
+6️⃣ Presentation
+<br>
+5️⃣ Session
+<br>
+4️⃣ Transport
+<br>
+3️⃣ Network
+<br>
+2️⃣ Data Link
+<br>
+1️⃣ Physical
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Tip:</strong><br>
+
+For troubleshooting, remember:
+
+<br><br>
+
+Application → HTTP/DNS<br>
+Transport → TCP/UDP/Ports<br>
+Network → IP/Routing<br>
+Data Link → MAC/Ethernet<br>
+Physical → Cables/Signals
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. VPC Architecture</h2>
+
+<div class="flow">
+
+VPC
+<br>↓
+<br>
+Public Subnet
+<br>
+Load Balancer
+<br>↓
+<br>
+Private Subnet
+<br>
+Application Servers
+<br>↓
+<br>
+Private Database Subnet
+<br>
+Database
+
+</div>
+
+<p>
+This layered design separates public access from application and
+data layers.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Public vs Private Subnet</h2>
+
+<table>
+
+<tr>
+<th>Public</th>
+<th>Private</th>
+</tr>
+
+<tr>
+<td>Has a route toward an Internet Gateway.</td>
+<td>Does not have a direct route to an Internet Gateway.</td>
+</tr>
+
+<tr>
+<td>Common for internet-facing load balancers.</td>
+<td>Common for application and database resources.</td>
+</tr>
+
+<tr>
+<td>Can support resources with public addressing.</td>
+<td>Resources can use private addressing and controlled outbound paths.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Internet Gateway vs NAT Gateway</h2>
+
+<table>
+
+<tr>
+<th>Internet Gateway</th>
+<th>NAT Gateway</th>
+</tr>
+
+<tr>
+<td>Provides VPC connectivity to the Internet when routes and addressing permit it.</td>
+<td>Provides outbound Internet access for private resources.</td>
+</tr>
+
+<tr>
+<td>Used by public subnet routing.</td>
+<td>Commonly used by private subnet routing.</td>
+</tr>
+
+<tr>
+<td>Does not itself make a resource public.</td>
+<td>Does not provide unsolicited inbound Internet access to private instances.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Security Group vs NACL</h2>
+
+<div class="answer">
+
+<strong>Security Group:</strong><br>
+Stateful → resource/network-interface level → allow rules.
+
+<br><br>
+
+<strong>NACL:</strong><br>
+Stateless → subnet level → allow and deny rules.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Load Balancer</h2>
+
+<div class="flow">
+
+Client
+<br>↓
+<br>
+⚖️ Load Balancer
+<br>↓
+<br>
+Target Group
+<br>↓
+<br>
+Application Servers
+
+</div>
+
+<p>
+A load balancer distributes traffic across healthy targets and
+can improve availability and scalability.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. DNS Flow</h2>
+
+<div class="flow">
+
+User
+<br>↓
+<br>
+example.com
+<br>↓
+<br>
+DNS Resolver
+<br>↓
+<br>
+IP / Endpoint
+<br>↓
+<br>
+Application
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Essential Troubleshooting Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>ping</code></td>
+<td>Basic ICMP reachability test.</td>
+</tr>
+
+<tr>
+<td><code>curl</code></td>
+<td>HTTP/HTTPS and API testing.</td>
+</tr>
+
+<tr>
+<td><code>nslookup</code></td>
+<td>DNS lookup.</td>
+</tr>
+
+<tr>
+<td><code>dig</code></td>
+<td>Detailed DNS queries.</td>
+</tr>
+
+<tr>
+<td><code>ss</code></td>
+<td>View sockets and listening ports.</td>
+</tr>
+
+<tr>
+<td><code>ip addr</code></td>
+<td>View interfaces and IP addresses.</td>
+</tr>
+
+<tr>
+<td><code>ip route</code></td>
+<td>View routing table.</td>
+</tr>
+
+<tr>
+<td><code>traceroute</code></td>
+<td>Trace network path.</td>
+</tr>
+
+<tr>
+<td><code>nc</code></td>
+<td>Test TCP/UDP connectivity.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Real-Time Troubleshooting Flow</h2>
+
+<div class="flow">
+
+<strong>DNS</strong>
+<br>↓<br>
+<strong>IP Connectivity</strong>
+<br>↓<br>
+<strong>Route</strong>
+<br>↓<br>
+<strong>Port</strong>
+<br>↓<br>
+<strong>Firewall / Security Group</strong>
+<br>↓<br>
+<strong>Load Balancer</strong>
+<br>↓<br>
+<strong>Application</strong>
+<br>↓<br>
+<strong>Logs</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Scenario: Application Not Reachable</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<br><br>
+
+"I would troubleshoot layer by layer. First I would verify DNS
+resolution, then network connectivity and routing. Next I would
+check whether the required port is listening and whether firewall
+or Security Group rules allow the traffic. If a load balancer is
+involved, I would check the listener, target group and target health.
+Finally, I would check the application logs."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Scenario: Private EC2 Cannot Access Internet</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<br><br>
+
+"I would verify the subnet route table and confirm that the default
+route points to a NAT Gateway. Then I would verify that the NAT
+Gateway has a valid path through the Internet Gateway, and check
+Security Groups, NACLs and DNS configuration."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Scenario: Load Balancer Target Unhealthy</h2>
+
+<div class="answer">
+
+<strong>Check:</strong>
+
+<ol>
+<li>Target instance or pod is running.</li>
+<li>Application is listening on the expected port.</li>
+<li>Health-check path is correct.</li>
+<li>Security Groups allow load-balancer traffic.</li>
+<li>Network routing is correct.</li>
+<li>Application returns the expected health-check response.</li>
+<li>Review application and load-balancer logs.</li>
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Top 20 Interview Questions</h2>
+
+<ol>
+
+<li>What is an IP address?</li>
+
+<li>Public IP vs private IP?</li>
+
+<li>TCP vs UDP?</li>
+
+<li>Explain the OSI model.</li>
+
+<li>What is DNS?</li>
+
+<li>What is a port?</li>
+
+<li>What is a VPC?</li>
+
+<li>Public subnet vs private subnet?</li>
+
+<li>What is a route table?</li>
+
+<li>Internet Gateway vs NAT Gateway?</li>
+
+<li>What is a load balancer?</li>
+
+<li>Security Group vs NACL?</li>
+
+<li>What is network segmentation?</li>
+
+<li>Why use private subnets for databases?</li>
+
+<li>What is VPN?</li>
+
+<li>What is HTTPS?</li>
+
+<li>How do you troubleshoot DNS?</li>
+
+<li>How do you troubleshoot a connection timeout?</li>
+
+<li>How do you troubleshoot an unhealthy load-balancer target?</li>
+
+<li>How do you troubleshoot Kubernetes networking?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 30-Second Revision</h2>
+
+<div class="flow">
+
+🌐 <strong>DNS</strong> → Name to IP
+
+<br><br>
+
+📍 <strong>IP</strong> → Identifies Network Endpoint
+
+<br><br>
+
+🚪 <strong>Port</strong> → Identifies Service Endpoint
+
+<br><br>
+
+🛣️ <strong>Route Table</strong> → Traffic Path
+
+<br><br>
+
+🌍 <strong>IGW</strong> → Internet Connectivity
+
+<br><br>
+
+🔄 <strong>NAT</strong> → Private Outbound Internet
+
+<br><br>
+
+⚖️ <strong>Load Balancer</strong> → Distributes Traffic
+
+<br><br>
+
+🔐 <strong>Security Group</strong> → Stateful Access Control
+
+<br><br>
+
+🧱 <strong>NACL</strong> → Stateless Subnet Filtering
+
+<br><br>
+
+🔧 <strong>Troubleshooting</strong> → DNS → Route → Port → Security → App
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to Networking
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Networking Final Revision • 2026
+</footer>
+
+</body>
+</html>
+```
+

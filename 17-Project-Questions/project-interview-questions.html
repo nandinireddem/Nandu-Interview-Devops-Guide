@@ -1,0 +1,683 @@
+```html id="p7k3vd"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Project Interview Questions | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b9
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🎤</div>
+
+<h1>Project Interview Questions</h1>
+
+<p>
+High-priority project questions, follow-ups and interview-ready
+answers for DevOps interviews.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>1. Explain Your Project.</h2>
+
+<div class="answer">
+
+I worked on an end-to-end Cloud and DevOps project focused on
+automating application deployment.
+
+The source code is maintained in GitHub. Jenkins automates the
+CI/CD pipeline, Docker is used for containerization, Terraform
+provisions infrastructure, and Kubernetes manages the deployed
+containers.
+
+Prometheus and Grafana are used for monitoring and visualization.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>2. What Was Your Role?</h2>
+
+<div class="answer">
+
+My role was focused on the DevOps implementation.
+
+I worked on:
+
+<ul>
+<li>Cloud infrastructure</li>
+<li>Terraform automation</li>
+<li>Docker containerization</li>
+<li>Jenkins CI/CD</li>
+<li>Kubernetes deployment</li>
+<li>Monitoring</li>
+<li>Troubleshooting</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>3. Why Did You Choose AWS?</h2>
+
+<div class="answer">
+
+AWS provides a broad set of cloud services for compute,
+networking, storage, security and managed Kubernetes.
+
+It also allowed me to implement the project using real cloud
+infrastructure instead of only local environments.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>4. Why Docker?</h2>
+
+<div class="answer">
+
+Docker packages the application and its dependencies into a
+portable image.
+
+This provides consistency between development, testing and
+deployment environments and makes container-based deployment
+easier.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>5. Why Kubernetes Instead of Docker Alone?</h2>
+
+<div class="answer">
+
+Docker can run containers, but Kubernetes provides orchestration
+for multiple containers.
+
+Kubernetes provides:
+
+<ul>
+<li>Scheduling</li>
+<li>Self-healing</li>
+<li>Scaling</li>
+<li>Service discovery</li>
+<li>Rolling updates</li>
+</ul>
+
+Therefore Kubernetes is more suitable for managing applications
+at scale.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>6. Why Terraform?</h2>
+
+<div class="answer">
+
+Terraform allows infrastructure to be defined as code.
+
+It makes infrastructure:
+
+<ul>
+<li>Repeatable</li>
+<li>Version controlled</li>
+<li>Reviewable</li>
+<li>Automated</li>
+</ul>
+
+It also reduces manual configuration through the cloud console.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>7. Why Jenkins?</h2>
+
+<div class="answer">
+
+Jenkins automates the CI/CD lifecycle.
+
+It can automatically build the application, run tests, create
+Docker images, push them to a registry and trigger deployment.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>8. What Happens When Code Is Pushed?</h2>
+
+<div class="flow">
+
+Developer
+→ GitHub
+→ Webhook
+→ Jenkins
+→ Build
+→ Test
+→ Docker
+→ Registry
+→ Kubernetes
+
+</div>
+
+<div class="answer">
+
+The Git push triggers Jenkins through the configured integration.
+Jenkins checks out the latest code and executes the pipeline
+stages.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>9. What If the Jenkins Pipeline Fails?</h2>
+
+<div class="answer">
+
+I first inspect the Jenkins console output and identify the first
+meaningful error.
+
+Then I determine which stage failed and troubleshoot that layer.
+
+For example:
+
+<ul>
+<li>Git → credentials or repository</li>
+<li>Build → dependency or code issue</li>
+<li>Docker → Dockerfile or daemon</li>
+<li>Registry → authentication or permissions</li>
+<li>Kubernetes → manifest, RBAC or image issue</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY FREQUENT</span>
+
+<h2>10. What If the Pod Is Not Starting?</h2>
+
+<div class="answer">
+
+I would check:
+
+<pre>
+kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+kubectl get events
+</pre>
+
+I would look for image-pull failures, configuration errors,
+resource issues, scheduling problems or application startup
+failures.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>11. What If the Docker Image Cannot Be Pulled?</h2>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>Image name</li>
+<li>Image tag</li>
+<li>Registry availability</li>
+<li>Image existence</li>
+<li>Registry credentials</li>
+<li>Kubernetes image-pull permissions</li>
+</ul>
+
+A common error is <strong>ImagePullBackOff</strong>.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>12. What If the Application Is Running but Not Accessible?</h2>
+
+<div class="answer">
+
+I would check the request path layer by layer:
+
+<div class="flow">
+
+User
+→ Load Balancer / Ingress
+→ Service
+→ Pod
+→ Container Port
+→ Application
+
+</div>
+
+I would verify Service selectors, endpoints, ports, network
+configuration and application listening address.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>13. How Do You Monitor the Application?</h2>
+
+<div class="answer">
+
+Prometheus collects metrics and Grafana visualizes them.
+
+I would monitor metrics such as:
+
+<ul>
+<li>CPU usage</li>
+<li>Memory usage</li>
+<li>Pod availability</li>
+<li>Request metrics</li>
+<li>Application performance</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>14. How Do You Handle Secrets?</h2>
+
+<div class="answer">
+
+I would never hardcode passwords, tokens or cloud credentials in
+source code or Dockerfiles.
+
+Secrets should be stored using an appropriate secret-management
+mechanism and accessed only by authorized workloads.
+
+The principle is <strong>least privilege</strong>.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>15. How Would You Roll Back a Failed Deployment?</h2>
+
+<div class="answer">
+
+First I would confirm that the new version is unhealthy.
+
+For a Kubernetes Deployment, I can inspect rollout history and
+use the appropriate rollback mechanism.
+
+The key objective is to restore the last known-good version
+quickly while investigating the root cause.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>16. How Would You Scale the Application?</h2>
+
+<div class="answer">
+
+At the Kubernetes workload level, I can increase replicas.
+
+For dynamic workloads, Kubernetes autoscaling can be used based
+on suitable resource or application metrics.
+
+At the infrastructure level, the worker capacity may also need
+to scale so the cluster has enough resources.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>17. What Was the Biggest Challenge?</h2>
+
+<div class="answer">
+
+The biggest challenge was troubleshooting issues across multiple
+layers such as CI/CD, Docker, Kubernetes and AWS.
+
+Instead of making random changes, I learned to isolate the
+failure layer first, inspect logs and then fix the root cause.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>18. What Would You Change If You Built It Again?</h2>
+
+<div class="answer">
+
+I would improve the project with:
+
+<ul>
+<li>Better secret management</li>
+<li>Automated vulnerability scanning</li>
+<li>Centralized logging</li>
+<li>Automated rollback</li>
+<li>More comprehensive alerting</li>
+<li>Stronger IAM least-privilege policies</li>
+<li>Separate environments</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐</span>
+
+<h2>19. What Happens If AWS Goes Down?</h2>
+
+<div class="answer">
+
+For a production-critical application, I would design for
+resilience rather than assuming a single environment is enough.
+
+Depending on the business requirement, this could include
+multi-AZ architecture, backups, disaster recovery and potentially
+multi-region strategies.
+
+The correct design depends on availability requirements and cost.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ FOLLOW-UP</span>
+
+<h2>20. If I Remove Jenkins, Can the Project Still Work?</h2>
+
+<div class="answer">
+
+Yes.
+
+Jenkins is the CI/CD automation tool. The application can still
+run without Jenkins, but the automated build and deployment
+workflow would need another CI/CD solution or manual execution.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ FOLLOW-UP</span>
+
+<h2>21. If I Remove Kubernetes, Can Docker Run the Application?</h2>
+
+<div class="answer">
+
+Yes.
+
+Docker can run the application directly on a host.
+
+Kubernetes becomes valuable when we need orchestration features
+such as scaling, self-healing, service discovery and rolling
+deployments across multiple workloads.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ FOLLOW-UP</span>
+
+<h2>22. What Is the Difference Between Terraform and Jenkins?</h2>
+
+<div class="answer">
+
+<strong>Terraform</strong> manages infrastructure.
+
+<strong>Jenkins</strong> automates CI/CD workflows.
+
+They can work together, but they solve different problems.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ FINAL REVISION</span>
+
+<h2>🔥 Project Questions You Must Know</h2>
+
+<div class="flow">
+
+Explain Project
+<br>↓<br>
+Explain Architecture
+<br>↓<br>
+Explain CI/CD
+<br>↓<br>
+Why Docker?
+<br>↓<br>
+Why Kubernetes?
+<br>↓<br>
+Why Terraform?
+<br>↓<br>
+Why Jenkins?
+<br>↓<br>
+What Problems Did You Face?
+<br>↓<br>
+How Did You Troubleshoot?
+<br>↓<br>
+How Do You Monitor?
+<br>↓<br>
+How Do You Roll Back?
+<br>↓<br>
+How Would You Improve It?
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Project Questions
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Project Interview Questions • 2026
+</footer>
+
+</body>
+</html>
+```

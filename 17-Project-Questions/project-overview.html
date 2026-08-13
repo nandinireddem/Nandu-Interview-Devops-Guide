@@ -1,0 +1,594 @@
+```html id="q8v3lm"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Project Overview | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b9
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🚀</div>
+
+<h1>Project Overview</h1>
+
+<p>
+Interview-ready overview of an end-to-end Cloud & DevOps project.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. Tell Me About Your Project</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<p>
+I worked on an end-to-end Cloud and DevOps project where I
+containerized an application and automated its build,
+testing, infrastructure provisioning and deployment.
+</p>
+
+<p>
+The main goal was to create a repeatable deployment process
+instead of manually creating infrastructure and deploying the
+application.
+</p>
+
+<p>
+I used Git for source-code management, Jenkins for CI/CD,
+Docker for containerization, Terraform for infrastructure
+automation, Kubernetes for container orchestration, and AWS
+services for cloud infrastructure.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>2. What Problem Does Your Project Solve?</h2>
+
+<div class="answer">
+
+The project reduces manual deployment effort and makes the
+deployment process more consistent and repeatable.
+
+Instead of manually:
+
+<ul>
+<li>Creating infrastructure</li>
+<li>Building applications</li>
+<li>Building Docker images</li>
+<li>Deploying containers</li>
+<li>Updating environments</li>
+</ul>
+
+the process is automated through DevOps tools and CI/CD.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>3. Explain the Overall Project Flow</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git / GitHub
+<br>↓<br>
+Jenkins CI/CD
+<br>↓<br>
+Build + Test
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Container Registry
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+AWS Infrastructure
+<br>↓<br>
+Monitoring
+
+</div>
+
+<div class="answer">
+
+A developer pushes code to the Git repository. Jenkins detects
+the change and starts the pipeline.
+
+The pipeline builds and tests the application, creates a Docker
+image and pushes it to the container registry.
+
+The image is then deployed to the Kubernetes environment running
+on AWS.
+
+Monitoring tools are used to observe the health and performance
+of the deployed application.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>4. What Technologies Did You Use?</h2>
+
+<table>
+
+<tr>
+<th>Category</th>
+<th>Technology</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Cloud</td>
+<td>AWS</td>
+<td>Cloud infrastructure</td>
+</tr>
+
+<tr>
+<td>Version Control</td>
+<td>Git / GitHub</td>
+<td>Source-code management</td>
+</tr>
+
+<tr>
+<td>CI/CD</td>
+<td>Jenkins</td>
+<td>Pipeline automation</td>
+</tr>
+
+<tr>
+<td>Containerization</td>
+<td>Docker</td>
+<td>Package application and dependencies</td>
+</tr>
+
+<tr>
+<td>Infrastructure as Code</td>
+<td>Terraform</td>
+<td>Provision infrastructure</td>
+</tr>
+
+<tr>
+<td>Orchestration</td>
+<td>Kubernetes</td>
+<td>Deploy and manage containers</td>
+</tr>
+
+<tr>
+<td>Monitoring</td>
+<td>Prometheus / Grafana</td>
+<td>Metrics and visualization</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>5. Why Did You Use Docker?</h2>
+
+<div class="answer">
+
+Docker packages the application together with its dependencies
+into a container image.
+
+This makes the application environment more consistent across
+development, testing and deployment.
+
+It also makes the application easier to deploy and scale.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>6. Why Did You Use Kubernetes?</h2>
+
+<div class="answer">
+
+Kubernetes helps manage containers at scale.
+
+It provides capabilities such as:
+
+<ul>
+<li>Container scheduling</li>
+<li>Self-healing</li>
+<li>Service discovery</li>
+<li>Scaling</li>
+<li>Rolling updates</li>
+<li>Load balancing</li>
+</ul>
+
+Instead of manually managing individual containers, Kubernetes
+provides an orchestration layer.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>7. Why Did You Use Terraform?</h2>
+
+<div class="answer">
+
+Terraform allows infrastructure to be defined as code.
+
+Instead of manually creating AWS resources through the console,
+I can define the infrastructure in Terraform configuration files.
+
+This provides:
+
+<ul>
+<li>Repeatability</li>
+<li>Version control</li>
+<li>Consistency</li>
+<li>Automation</li>
+<li>Infrastructure change tracking</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>8. Why Did You Use Jenkins?</h2>
+
+<div class="answer">
+
+Jenkins automates the CI/CD process.
+
+For example:
+
+<div class="flow">
+
+Code Commit
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Image Push
+<br>↓<br>
+Deployment
+
+</div>
+
+This reduces manual work and provides a repeatable deployment
+workflow.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>9. What Was Your Role in the Project?</h2>
+
+<div class="answer">
+
+I worked on the DevOps side of the project.
+
+My responsibilities included:
+
+<ul>
+<li>Creating cloud infrastructure</li>
+<li>Writing Terraform configurations</li>
+<li>Containerizing the application</li>
+<li>Creating CI/CD pipelines</li>
+<li>Working with Kubernetes deployments</li>
+<li>Configuring monitoring</li>
+<li>Troubleshooting deployment issues</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>10. What Was the Most Challenging Part?</h2>
+
+<div class="answer">
+
+One of the challenging parts was troubleshooting failures across
+different layers of the stack.
+
+For example, a deployment issue could originate from the Docker
+image, Kubernetes configuration, credentials, networking or
+infrastructure.
+
+I learned to troubleshoot systematically by checking the failed
+layer first instead of changing multiple things at once.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>11. How Would You Explain the Project in 60 Seconds?</h2>
+
+<div class="answer">
+
+<p>
+"My project is an end-to-end Cloud and DevOps implementation
+focused on automating application deployment.
+</p>
+
+<p>
+The source code is maintained in GitHub. Jenkins handles the
+CI/CD pipeline, where the application is built and tested and a
+Docker image is created.
+</p>
+
+<p>
+The image is stored in a container registry and deployed to
+Kubernetes running on AWS. Terraform is used to automate the
+underlying infrastructure.
+</p>
+
+<p>
+Finally, monitoring tools such as Prometheus and Grafana are used
+to monitor the application and infrastructure."
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>12. What Would You Improve in the Project?</h2>
+
+<div class="answer">
+
+In a production environment, I would improve the project by
+adding:
+
+<ul>
+<li>Automated security scanning</li>
+<li>Centralized logging</li>
+<li>Stronger secret management</li>
+<li>Automated rollback</li>
+<li>High availability</li>
+<li>Infrastructure state management</li>
+<li>Better monitoring and alerting</li>
+<li>Environment separation</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Project Introduction Formula</h2>
+
+<div class="flow">
+
+<strong>What?</strong>
+→ Project
+
+<br><br>
+
+<strong>Why?</strong>
+→ Problem
+
+<br><br>
+
+<strong>How?</strong>
+→ Architecture
+
+<br><br>
+
+<strong>Tools?</strong>
+→ AWS + DevOps Stack
+
+<br><br>
+
+<strong>Your Role?</strong>
+→ Responsibilities
+
+<br><br>
+
+<strong>Challenge?</strong>
+→ Troubleshooting
+
+<br><br>
+
+<strong>Improvement?</strong>
+→ Production Readiness
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Project Questions
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Project Overview • 2026
+</footer>
+
+</body>
+</html>
+```

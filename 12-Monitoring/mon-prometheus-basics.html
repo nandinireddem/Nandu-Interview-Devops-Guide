@@ -1,0 +1,1001 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Prometheus Basics | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:42px;
+    margin:10px 0;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:8px;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{
+    color:#fbbf24;
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+.badge{
+    display:inline-block;
+    background:#1e293b;
+    color:#93c5fd;
+    padding:5px 11px;
+    border-radius:20px;
+    margin:4px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">📊</div>
+
+<h1>Prometheus Basics</h1>
+
+<p>
+Interview-focused guide to Prometheus, metrics, targets, scraping,
+labels, exporters, PromQL and monitoring fundamentals.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Prometheus?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+Prometheus is an open-source monitoring and alerting system designed
+primarily for collecting and storing time-series metrics.
+
+It uses a pull-based model where Prometheus periodically scrapes
+metrics from configured targets.
+
+</div>
+
+<div class="flow">
+
+Application / Server
+<br>↓<br>
+
+<strong>Metrics Endpoint</strong>
+<br>↓<br>
+
+<strong>Prometheus</strong>
+<br>↓<br>
+
+Time-Series Database
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Dashboard / Alert
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why is Prometheus used?</h2>
+
+<ul>
+<li>Infrastructure monitoring.</li>
+<li>Application monitoring.</li>
+<li>Kubernetes monitoring.</li>
+<li>CPU and memory monitoring.</li>
+<li>Request and error monitoring.</li>
+<li>Alerting based on metrics.</li>
+<li>Performance troubleshooting.</li>
+</ul>
+
+<div class="answer">
+
+<strong>Example:</strong><br>
+
+If a Kubernetes application's CPU usage continuously increases,
+Prometheus can collect the CPU metrics and an alert rule can notify
+the DevOps team.
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What is a Metric?</h2>
+
+<p>
+A metric is a numerical measurement representing the state or behavior
+of a system at a particular point in time.
+</p>
+
+<table>
+
+<tr>
+<th>Metric Example</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>CPU usage</td>
+<td>Processor utilization.</td>
+</tr>
+
+<tr>
+<td>Memory usage</td>
+<td>Memory consumed by a process or system.</td>
+</tr>
+
+<tr>
+<td>HTTP requests</td>
+<td>Number of requests received.</td>
+</tr>
+
+<tr>
+<td>HTTP errors</td>
+<td>Number of failed requests.</td>
+</tr>
+
+<tr>
+<td>Network traffic</td>
+<td>Amount of network data transferred.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 4 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is Time-Series Data?</h2>
+
+<p>
+Prometheus stores metrics as time-series data.
+A time series consists of a metric name, labels and timestamped values.
+</p>
+
+<pre>
+http_requests_total{
+    method="GET",
+    status="200"
+}
+</pre>
+
+<div class="answer">
+
+The same metric can contain different time series based on its labels.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is Scraping?</h2>
+
+<div class="answer">
+
+<strong>Scraping</strong> means Prometheus periodically sends an HTTP
+request to a target's metrics endpoint and collects the exposed metrics.
+
+</div>
+
+<div class="flow">
+
+Prometheus
+<br>↓
+<br>
+HTTP GET
+<br>↓
+<br>
+Target: <code>/metrics</code>
+<br>↓
+<br>
+Metrics Returned
+<br>↓
+<br>
+Prometheus Stores Metrics
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Pull Model vs Push Model</h2>
+
+<table>
+
+<tr>
+<th>Pull Model</th>
+<th>Push Model</th>
+</tr>
+
+<tr>
+<td>Monitoring system pulls metrics.</td>
+<td>Applications push metrics.</td>
+</tr>
+
+<tr>
+<td>Prometheus primarily uses pull.</td>
+<td>Pushgateway can be used for certain short-lived jobs.</td>
+</tr>
+
+<tr>
+<td>Prometheus controls scraping.</td>
+<td>Application controls sending.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Interview Tip:</strong><br>
+
+Prometheus primarily follows a <strong>pull-based architecture</strong>.
+
+</div>
+
+</div>
+
+
+<!-- 7 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is a Target?</h2>
+
+<p>
+A target is an endpoint that Prometheus monitors and scrapes for metrics.
+</p>
+
+<p>Examples:</p>
+
+<ul>
+<li>Linux server.</li>
+<li>Application server.</li>
+<li>Kubernetes node.</li>
+<li>Database exporter.</li>
+<li>Web server exporter.</li>
+</ul>
+
+</div>
+
+
+<!-- 8 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is an Exporter?</h2>
+
+<div class="answer">
+
+An exporter is a component that exposes metrics from a system or
+application in a format that Prometheus can scrape.
+
+</div>
+
+<table>
+
+<tr>
+<th>Exporter</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Node Exporter</td>
+<td>Linux/Unix system metrics.</td>
+</tr>
+
+<tr>
+<td>Blackbox Exporter</td>
+<td>Probe endpoints and network services.</td>
+</tr>
+
+<tr>
+<td>MySQL Exporter</td>
+<td>MySQL database metrics.</td>
+</tr>
+
+<tr>
+<td>Redis Exporter</td>
+<td>Redis metrics.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Linux Server
+<br>↓<br>
+Node Exporter
+<br>↓<br>
+<code>/metrics</code>
+<br>↓<br>
+Prometheus
+
+</div>
+
+</div>
+
+
+<!-- 9 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is Node Exporter?</h2>
+
+<p>
+Node Exporter exposes hardware and operating-system metrics from
+Unix-like systems so Prometheus can collect them.
+</p>
+
+<p>Examples include:</p>
+
+<ul>
+<li>CPU statistics.</li>
+<li>Memory statistics.</li>
+<li>Disk usage.</li>
+<li>Filesystem statistics.</li>
+<li>Network statistics.</li>
+</ul>
+
+</div>
+
+
+<!-- 10 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. What are Labels?</h2>
+
+<p>
+Labels are key-value pairs attached to metrics that provide additional
+dimensions for filtering and grouping.
+</p>
+
+<pre>
+http_requests_total{
+    method="GET",
+    status="200",
+    service="frontend"
+}
+</pre>
+
+<p>
+Here <code>method</code>, <code>status</code> and <code>service</code>
+are labels.
+</p>
+
+</div>
+
+
+<!-- 11 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Prometheus Metric Types</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Counter</td>
+<td>Monotonically increasing value, such as total requests.</td>
+</tr>
+
+<tr>
+<td>Gauge</td>
+<td>Value that can increase or decrease, such as memory usage.</td>
+</tr>
+
+<tr>
+<td>Histogram</td>
+<td>Measures observations and groups them into buckets.</td>
+</tr>
+
+<tr>
+<td>Summary</td>
+<td>Calculates quantiles over observations.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 12 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Counter vs Gauge</h2>
+
+<table>
+
+<tr>
+<th>Counter</th>
+<th>Gauge</th>
+</tr>
+
+<tr>
+<td>Normally only increases.</td>
+<td>Can increase or decrease.</td>
+</tr>
+
+<tr>
+<td>Example: total HTTP requests.</td>
+<td>Example: current memory usage.</td>
+</tr>
+
+<tr>
+<td>Can reset when application restarts.</td>
+<td>Represents current state.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 13 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What is PromQL?</h2>
+
+<div class="answer">
+
+PromQL, or Prometheus Query Language, is used to select, filter,
+aggregate and analyze time-series data stored in Prometheus.
+
+</div>
+
+<h3>Example</h3>
+
+<pre>
+up
+</pre>
+
+<p>
+Returns the health status of monitored targets.
+</p>
+
+<h3>Example with label filtering</h3>
+
+<pre>
+up{job="node-exporter"}
+</pre>
+
+</div>
+
+
+<!-- 14 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Common PromQL Examples</h2>
+
+<pre>
+up
+
+rate(http_requests_total[5m])
+
+sum(rate(http_requests_total[5m]))
+
+node_memory_MemAvailable_bytes
+
+node_cpu_seconds_total
+</pre>
+
+<div class="answer">
+
+<strong>Interview Tip:</strong><br>
+
+Know the concepts behind <code>rate()</code>,
+label filtering, aggregation and time ranges.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. What is the <code>up</code> Metric?</h2>
+
+<p>
+The <code>up</code> metric indicates whether Prometheus was able to
+successfully scrape a target.
+</p>
+
+<table>
+
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Target scrape succeeded.</td>
+</tr>
+
+<tr>
+<td>0</td>
+<td>Target scrape failed.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 16 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Prometheus Configuration</h2>
+
+<p>
+Prometheus configuration is commonly stored in
+<code>prometheus.yml</code>.
+</p>
+
+<pre>
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+
+  - job_name: "node-exporter"
+
+    static_configs:
+      - targets:
+          - "localhost:9100"
+</pre>
+
+<p>
+The configuration defines how frequently Prometheus scrapes targets
+and which targets should be monitored.
+</p>
+
+</div>
+
+
+<!-- 17 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. What is scrape_interval?</h2>
+
+<p>
+<code>scrape_interval</code> specifies how frequently Prometheus
+collects metrics from targets.
+</p>
+
+<pre>
+scrape_interval: 15s
+</pre>
+
+<p>
+This means Prometheus attempts to scrape configured targets every
+15 seconds unless overridden by a more specific configuration.
+</p>
+
+</div>
+
+
+<!-- 18 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. What is Service Discovery?</h2>
+
+<div class="answer">
+
+Service discovery allows Prometheus to automatically discover
+monitoring targets instead of manually configuring every target.
+
+</div>
+
+<p>
+This is especially useful in dynamic environments such as Kubernetes,
+where Pods and Services can change frequently.
+</p>
+
+</div>
+
+
+<!-- 19 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Prometheus in Kubernetes</h2>
+
+<div class="flow">
+
+Kubernetes
+<br>↓<br>
+
+Pods / Nodes / Services
+<br>↓<br>
+
+Service Discovery
+<br>↓<br>
+
+Exporters / Metrics Endpoints
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Dashboard / Alerts
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Prometheus vs Grafana</h2>
+
+<table>
+
+<tr>
+<th>Prometheus</th>
+<th>Grafana</th>
+</tr>
+
+<tr>
+<td>Collects and stores metrics.</td>
+<td>Visualizes metrics.</td>
+</tr>
+
+<tr>
+<td>Provides PromQL.</td>
+<td>Provides dashboards and panels.</td>
+</tr>
+
+<tr>
+<td>Can evaluate alert rules.</td>
+<td>Can visualize and alert depending on configuration.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Simple Interview Answer:</strong><br>
+
+Prometheus is primarily the metrics collection and time-series
+monitoring system, while Grafana is primarily the visualization
+and dashboarding platform.
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. What happens when a target goes down?</h2>
+
+<div class="flow">
+
+Target Down
+<br>↓<br>
+
+Prometheus Scrape Fails
+<br>↓<br>
+
+<code>up = 0</code>
+<br>↓<br>
+
+Alert Rule Evaluated
+<br>↓<br>
+
+Alert Generated
+<br>↓<br>
+
+Alertmanager
+<br>↓<br>
+
+Notification
+
+</div>
+
+</div>
+
+
+<!-- 22 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Troubleshooting: Metric Not Available</h2>
+
+<ol>
+
+<li>Check whether Prometheus is running.</li>
+
+<li>Check the target status.</li>
+
+<li>Verify the metrics endpoint.</li>
+
+<li>Check <code>up</code>.</li>
+
+<li>Check Prometheus configuration.</li>
+
+<li>Check network connectivity.</li>
+
+<li>Check exporter logs.</li>
+
+<li>Verify the metric name and labels.</li>
+
+</ol>
+
+<pre>
+up
+</pre>
+
+</div>
+
+
+<!-- 23 -->
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Interview Scenario</h2>
+
+<h3>Scenario:</h3>
+
+<p>
+Your application CPU usage suddenly reaches 95%. What would you do?
+</p>
+
+<div class="answer">
+
+<strong>Answer:</strong>
+
+<br><br>
+
+First, I would use Prometheus metrics to confirm the CPU spike and
+identify the affected instance or Pod using labels.
+
+Then I would check application traffic, recent deployments,
+resource limits and application logs.
+
+If the issue is caused by increased traffic, I would verify whether
+scaling is working correctly. If it is caused by a faulty deployment,
+I would investigate the recent change and roll back if required.
+
+</div>
+
+</div>
+
+
+<!-- 24 -->
+<div class="card">
+
+<h2>🧠 24. Quick Revision</h2>
+
+<ul>
+
+<li><strong>Prometheus</strong> → Metrics collection and storage.</li>
+
+<li><strong>Scraping</strong> → Prometheus pulls metrics.</li>
+
+<li><strong>Target</strong> → Endpoint being monitored.</li>
+
+<li><strong>Exporter</strong> → Exposes system/application metrics.</li>
+
+<li><strong>Labels</strong> → Dimensions for metrics.</li>
+
+<li><strong>PromQL</strong> → Queries Prometheus data.</li>
+
+<li><strong>Counter</strong> → Increasing value.</li>
+
+<li><strong>Gauge</strong> → Increasing/decreasing value.</li>
+
+<li><strong>up = 1</strong> → Successful scrape.</li>
+
+<li><strong>up = 0</strong> → Scrape failure.</li>
+
+<li><strong>Grafana</strong> → Visualization.</li>
+
+<li><strong>Alertmanager</strong> → Alert routing and notifications.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 25 -->
+<div class="card">
+
+<h2>🔥 25. Top Interview Questions</h2>
+
+<ol>
+
+<li>What is Prometheus?</li>
+
+<li>Why do we use Prometheus?</li>
+
+<li>Explain Prometheus architecture.</li>
+
+<li>What is scraping?</li>
+
+<li>What is a target?</li>
+
+<li>What are exporters?</li>
+
+<li>What is Node Exporter?</li>
+
+<li>What are labels?</li>
+
+<li>What is PromQL?</li>
+
+<li>Counter vs Gauge?</li>
+
+<li>What is the up metric?</li>
+
+<li>What is service discovery?</li>
+
+<li>How does Prometheus monitor Kubernetes?</li>
+
+<li>Prometheus vs Grafana?</li>
+
+<li>How do you troubleshoot a missing metric?</li>
+
+<li>What happens when a target goes down?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p>
+<strong>prometheus-architecture.html</strong>
+</p>
+
+<p>
+Next we will cover the complete Prometheus architecture,
+components, data flow, TSDB, exporters, Alertmanager and
+Kubernetes monitoring.
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Prometheus Basics • 2026
+</footer>
+
+</body>
+</html>
+```

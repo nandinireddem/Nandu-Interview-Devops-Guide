@@ -1,0 +1,985 @@
+```html id="q8m2vz"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EKS Troubleshooting | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{margin:7px 0}
+
+.tag{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:13px;
+    margin-bottom:10px
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔧</div>
+
+<h1>EKS Troubleshooting</h1>
+
+<p>
+Real-time Amazon EKS troubleshooting scenarios, diagnostic commands
+and interview-ready approaches.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. EKS Troubleshooting Method</h2>
+
+<div class="flow">
+
+Problem
+<br>↓<br>
+Identify Layer
+<br>↓<br>
+Check Status
+<br>↓<br>
+Check Events
+<br>↓<br>
+Check Logs
+<br>↓<br>
+Check Networking / IAM
+<br>↓<br>
+Fix
+<br>↓<br>
+Verify
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Rule:</strong>
+
+Don't randomly change configurations. First identify whether the
+problem is at the Pod, Node, Kubernetes, AWS networking, IAM or
+application layer.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Essential Troubleshooting Commands</h2>
+
+<pre>
+kubectl get nodes
+
+kubectl get pods -A
+
+kubectl get pods -o wide
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl describe node &lt;node-name&gt;
+
+kubectl get events -A
+
+kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl get svc -A
+
+kubectl get endpoints -A
+
+kubectl get endpointslices -A
+
+kubectl get ns
+
+kubectl get deployments -A
+
+kubectl get daemonsets -A
+
+kubectl get configmaps -A
+
+kubectl get secrets -A
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Scenario: Pod Stuck in Pending</h2>
+
+<span class="tag">VERY COMMON</span>
+
+<p>
+A Pending Pod means Kubernetes has not successfully scheduled or
+started it yet.
+</p>
+
+<h3>Step 1 — Check Pod</h3>
+
+<pre>
+kubectl get pod &lt;pod-name&gt;
+</pre>
+
+<h3>Step 2 — Describe Pod</h3>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<h3>Check</h3>
+
+<ul>
+<li>Insufficient CPU or memory.</li>
+<li>Node selector mismatch.</li>
+<li>Affinity / anti-affinity.</li>
+<li>Taints and tolerations.</li>
+<li>Persistent volume constraints.</li>
+<li>Scheduling events.</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would first describe the Pod and inspect the Events section.
+Then I would check node capacity, taints, tolerations, selectors,
+affinity rules and storage constraints."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Scenario: Pod in CrashLoopBackOff</h2>
+
+<span class="tag">VERY COMMON</span>
+
+<p>
+CrashLoopBackOff means a container is repeatedly starting and
+crashing, with Kubernetes applying increasing restart delays.
+</p>
+
+<h3>Commands</h3>
+
+<pre>
+kubectl get pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt; --previous
+
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Application error.</li>
+<li>Incorrect environment variables.</li>
+<li>Missing configuration.</li>
+<li>Missing Secret or ConfigMap.</li>
+<li>Wrong command or arguments.</li>
+<li>Dependency unavailable.</li>
+<li>Health probe causing restarts.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Scenario: Pod in ImagePullBackOff</h2>
+
+<p>
+The node cannot successfully pull the container image.
+</p>
+
+<h3>Check</h3>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Incorrect image name.</li>
+<li>Incorrect image tag.</li>
+<li>Private registry authentication problem.</li>
+<li>Registry unavailable.</li>
+<li>Network connectivity problem.</li>
+<li>Insufficient permissions.</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Approach:</strong><br>
+
+"I would inspect Pod events first. I would verify the image
+repository and tag, registry authentication, node connectivity
+and required permissions."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Scenario: Node is NotReady</h2>
+
+<pre>
+kubectl get nodes
+
+kubectl describe node &lt;node-name&gt;
+</pre>
+
+<h3>Check</h3>
+
+<ul>
+<li>Node Conditions.</li>
+<li>MemoryPressure.</li>
+<li>DiskPressure.</li>
+<li>PIDPressure.</li>
+<li>NetworkUnavailable.</li>
+<li>kubelet health.</li>
+<li>Node connectivity to the control plane.</li>
+<li>Instance health.</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would check the node conditions and Events first. Then I would
+investigate kubelet health, resource pressure, networking,
+instance health and connectivity with the EKS control plane."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Scenario: High CPU or Memory</h2>
+
+<pre>
+kubectl top nodes
+
+kubectl top pods -A
+</pre>
+
+<p>
+If Metrics Server or another metrics provider is available, these
+commands can show resource utilization.
+</p>
+
+<h3>Investigate</h3>
+
+<ul>
+<li>Which Pod consumes the resources?</li>
+<li>Are resource requests configured?</li>
+<li>Are resource limits appropriate?</li>
+<li>Is HPA configured?</li>
+<li>Does the node have enough capacity?</li>
+<li>Should the node group scale?</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Scenario: Service Not Reachable</h2>
+
+<div class="flow">
+
+Client
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Endpoints
+<br>↓
+<br>
+Pods
+
+</div>
+
+<h3>Check</h3>
+
+<pre>
+kubectl get svc
+
+kubectl describe svc &lt;service-name&gt;
+
+kubectl get endpoints &lt;service-name&gt;
+
+kubectl get endpointslices
+
+kubectl get pods --show-labels
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Incorrect Service selector.</li>
+<li>No healthy Pods.</li>
+<li>Incorrect targetPort.</li>
+<li>Application not listening on expected port.</li>
+<li>NetworkPolicy blocking traffic.</li>
+<li>DNS problem.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Scenario: DNS Not Working</h2>
+
+<h3>Check CoreDNS</h3>
+
+<pre>
+kubectl get pods -n kube-system
+</pre>
+
+<h3>Check DNS Service</h3>
+
+<pre>
+kubectl get svc -n kube-system
+</pre>
+
+<h3>Test From a Pod</h3>
+
+<pre>
+kubectl exec -it &lt;pod-name&gt; -- nslookup kubernetes.default
+</pre>
+
+<h3>Investigate</h3>
+
+<ul>
+<li>CoreDNS Pods.</li>
+<li>CoreDNS logs.</li>
+<li>Service configuration.</li>
+<li>Pod DNS configuration.</li>
+<li>Network connectivity.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Scenario: Pod Cannot Access Internet</h2>
+
+<div class="flow">
+
+Pod
+<br>↓
+<br>
+VPC CNI
+<br>↓
+<br>
+Node / VPC
+<br>↓
+<br>
+Route Table
+<br>↓
+<br>
+NAT Gateway
+<br>↓
+<br>
+Internet Gateway
+<br>↓
+<br>
+Internet
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>Pod networking.</li>
+<li>Subnet routing.</li>
+<li>NAT Gateway.</li>
+<li>Route tables.</li>
+<li>Security Groups.</li>
+<li>NACLs where applicable.</li>
+<li>DNS.</li>
+<li>VPC CNI health.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Scenario: Pods Cannot Communicate</h2>
+
+<h3>Check</h3>
+
+<ol>
+
+<li>Are both Pods Running?</li>
+
+<li>Can you resolve the Service DNS?</li>
+
+<li>Does the Service have endpoints?</li>
+
+<li>Is the correct port being used?</li>
+
+<li>Are NetworkPolicies blocking traffic?</li>
+
+<li>Is the CNI functioning correctly?</li>
+
+<li>Are AWS networking controls involved?</li>
+
+</ol>
+
+<pre>
+kubectl get pods -o wide
+
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl get networkpolicy -A
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Scenario: Ingress / ALB Not Working</h2>
+
+<h3>Check</h3>
+
+<pre>
+kubectl get ingress -A
+
+kubectl describe ingress &lt;ingress-name&gt;
+
+kubectl get pods -n kube-system
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>AWS Load Balancer Controller problem.</li>
+<li>Incorrect Ingress configuration.</li>
+<li>Wrong target type.</li>
+<li>Subnet tagging/configuration issue.</li>
+<li>Security Group issue.</li>
+<li>IAM permissions issue.</li>
+<li>Incorrect Service configuration.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Scenario: EKS Node Cannot Join Cluster</h2>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Incorrect node IAM permissions.</li>
+<li>Incorrect cluster configuration.</li>
+<li>Network connectivity issue.</li>
+<li>Security Group rules.</li>
+<li>Subnet or routing issue.</li>
+<li>Incorrect bootstrap configuration.</li>
+<li>Instance or launch configuration issue.</li>
+</ul>
+
+<h3>Investigate</h3>
+
+<pre>
+aws eks describe-cluster --name &lt;cluster-name&gt;
+
+kubectl get nodes
+
+kubectl get events -A
+</pre>
+
+<div class="answer">
+
+<strong>Interview Approach:</strong><br>
+
+"I would verify the node IAM role, subnet and security-group
+configuration, cluster endpoint connectivity and node bootstrap
+logs."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Scenario: Pod IP Exhaustion</h2>
+
+<p>
+A VPC CNI-based EKS cluster can experience IP capacity constraints
+when the subnet or node networking capacity is exhausted.
+</p>
+
+<h3>Check</h3>
+
+<ul>
+<li>Available subnet IP addresses.</li>
+<li>Number of Pods per node.</li>
+<li>Node instance networking limits.</li>
+<li>VPC CNI status and logs.</li>
+<li>Cluster scaling requirements.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Scenario: Deployment Has No Available Pods</h2>
+
+<pre>
+kubectl get deployment
+
+kubectl describe deployment &lt;deployment-name&gt;
+
+kubectl get replicaset
+
+kubectl get pods
+</pre>
+
+<h3>Check</h3>
+
+<ul>
+<li>Deployment desired replicas.</li>
+<li>ReplicaSet status.</li>
+<li>Pod scheduling.</li>
+<li>Container image.</li>
+<li>Configuration.</li>
+<li>Readiness and liveness probes.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Scenario: Readiness Probe Failing</h2>
+
+<p>
+A failed readiness probe means Kubernetes does not consider the
+container ready to receive Service traffic.
+</p>
+
+<h3>Check</h3>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Wrong health-check path.</li>
+<li>Wrong port.</li>
+<li>Application startup is slow.</li>
+<li>Application dependency is unavailable.</li>
+<li>Incorrect probe configuration.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Scenario: Liveness Probe Causing Restarts</h2>
+
+<div class="answer">
+
+A liveness probe determines whether the container should be
+restarted. If it repeatedly fails, Kubernetes may restart the
+container.
+
+Check the probe path, port, timing, initial delay and application
+startup behavior before changing the configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Scenario: Cannot Access EKS Cluster</h2>
+
+<h3>Check</h3>
+
+<pre>
+aws sts get-caller-identity
+
+aws eks describe-cluster \
+--name &lt;cluster-name&gt;
+
+kubectl cluster-info
+
+kubectl get nodes
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Wrong AWS identity.</li>
+<li>Incorrect kubeconfig.</li>
+<li>Insufficient EKS access permissions.</li>
+<li>Cluster endpoint access configuration.</li>
+<li>Network connectivity issue.</li>
+<li>Expired or invalid authentication.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Scenario: Check EKS Control Plane Health</h2>
+
+<p>
+EKS manages the Kubernetes control-plane infrastructure, so
+troubleshooting focuses on API availability, cluster status,
+access configuration and Kubernetes resources rather than logging
+into control-plane servers.
+</p>
+
+<pre>
+aws eks describe-cluster \
+--name &lt;cluster-name&gt;
+
+kubectl cluster-info
+
+kubectl get nodes
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Troubleshooting Decision Tree</h2>
+
+<div class="flow">
+
+Is the Pod Running?
+<br>
+↓ No
+<br>
+Check Events / Scheduling
+<br><br>
+
+Running but restarting?
+<br>
+↓
+<br>
+Check Logs / Probes
+<br><br>
+
+Running but unreachable?
+<br>
+↓
+<br>
+Check Service / Endpoints / DNS
+<br><br>
+
+Network issue?
+<br>
+↓
+<br>
+Check CNI / Routes / SG / NetworkPolicy
+<br><br>
+
+Node problem?
+<br>
+↓
+<br>
+Check Node Conditions / kubelet / Resources
+<br><br>
+
+Cluster access problem?
+<br>
+↓
+<br>
+Check IAM / kubeconfig / Endpoint Access
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Golden Troubleshooting Commands</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Commands</th>
+</tr>
+
+<tr>
+<td>Pod Pending</td>
+<td><code>kubectl describe pod</code></td>
+</tr>
+
+<tr>
+<td>Pod CrashLoopBackOff</td>
+<td><code>kubectl logs --previous</code></td>
+</tr>
+
+<tr>
+<td>ImagePullBackOff</td>
+<td><code>kubectl describe pod</code></td>
+</tr>
+
+<tr>
+<td>Node NotReady</td>
+<td><code>kubectl describe node</code></td>
+</tr>
+
+<tr>
+<td>Service unavailable</td>
+<td><code>kubectl get endpoints</code></td>
+</tr>
+
+<tr>
+<td>DNS issue</td>
+<td><code>kubectl get pods -n kube-system</code></td>
+</tr>
+
+<tr>
+<td>Ingress issue</td>
+<td><code>kubectl describe ingress</code></td>
+</tr>
+
+<tr>
+<td>Cluster access issue</td>
+<td><code>aws sts get-caller-identity</code></td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 22. Top EKS Troubleshooting Interview Questions</h2>
+
+<ol>
+
+<li>How do you troubleshoot a Pod stuck in Pending?</li>
+
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+
+<li>How do you troubleshoot ImagePullBackOff?</li>
+
+<li>Why does a node become NotReady?</li>
+
+<li>How do you troubleshoot Service connectivity?</li>
+
+<li>How do you troubleshoot CoreDNS?</li>
+
+<li>How do you troubleshoot Pod-to-Pod communication?</li>
+
+<li>How do you troubleshoot Pod internet connectivity?</li>
+
+<li>How do you troubleshoot an ALB/Ingress?</li>
+
+<li>Why can't a worker node join EKS?</li>
+
+<li>How do you troubleshoot Pod IP exhaustion?</li>
+
+<li>How do you troubleshoot failed health probes?</li>
+
+<li>How do you troubleshoot EKS authentication?</li>
+
+<li>How do you approach a production EKS incident?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Interview Golden Rule</h2>
+
+<div class="answer">
+
+<strong>Always troubleshoot from inside → outside:</strong>
+
+<br><br>
+
+Pod
+→ Container
+→ Node
+→ Kubernetes Service
+→ DNS
+→ CNI
+→ VPC
+→ AWS Network
+→ External Service
+
+<br><br>
+
+This gives you a structured troubleshooting approach instead of
+randomly changing configurations.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to EKS
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • EKS Troubleshooting • 2026
+</footer>
+
+</body>
+</html>
+```

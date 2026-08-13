@@ -1,0 +1,918 @@
+```html id="w8q4cd"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubernetes Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{margin:7px 0}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:55px">☸️</div>
+<h1>Kubernetes Real-Time Scenarios</h1>
+<p>
+Production-style Kubernetes troubleshooting scenarios commonly
+asked in DevOps interviews.
+</p>
+</header>
+
+<main class="container">
+
+
+<div class="card">
+<h2>🎯 Kubernetes Troubleshooting Approach</h2>
+
+<div class="flow">
+Pod Status
+<br>↓<br>
+Events
+<br>↓<br>
+Logs
+<br>↓<br>
+Describe Resources
+<br>↓<br>
+Networking
+<br>↓<br>
+Application
+<br>↓<br>
+Root Cause → Fix → Verify
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. Pod Is in CrashLoopBackOff</h2>
+
+<h3>Question</h3>
+
+<p>
+A Pod keeps restarting and shows <strong>CrashLoopBackOff</strong>.
+How would you troubleshoot it?
+</p>
+
+<div class="answer">
+
+First check the Pod:
+
+<pre>
+kubectl get pods
+</pre>
+
+Then inspect it:
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+Check logs:
+
+<pre>
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+If the container restarted:
+
+<pre>
+kubectl logs &lt;pod-name&gt; --previous
+</pre>
+
+I would investigate application errors, incorrect commands,
+missing configuration, failed health checks, permissions or
+resource problems.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>2. Pod Is in Pending State</h2>
+
+<pre>
+kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<div class="answer">
+
+The Events section is very important.
+
+Common causes:
+
+<ul>
+<li>Insufficient CPU or memory</li>
+<li>Node selector mismatch</li>
+<li>Affinity/anti-affinity rules</li>
+<li>Taints and tolerations</li>
+<li>Unbound PersistentVolumeClaim</li>
+<li>Scheduling constraints</li>
+</ul>
+
+I would identify the scheduler event explaining why the Pod
+cannot be placed on a node.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>3. Pod Shows ImagePullBackOff</h2>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Image name</li>
+<li>Image tag</li>
+<li>Registry availability</li>
+<li>ImagePullSecrets</li>
+<li>Private registry authentication</li>
+<li>Network connectivity</li>
+</ul>
+
+The Events section normally provides the immediate reason for
+the image pull failure.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>4. Pod Is Running but Application Is Not Accessible</h2>
+
+<div class="flow">
+Client
+<br>↓<br>
+Service
+<br>↓<br>
+Pod
+<br>↓<br>
+Container
+<br>↓<br>
+Application
+</div>
+
+<h3>Check</h3>
+
+<pre>
+kubectl get pods -o wide
+kubectl get svc
+kubectl describe svc &lt;service-name&gt;
+kubectl get endpoints &lt;service-name&gt;
+</pre>
+
+<div class="answer">
+
+I would verify that the Service selector matches the Pod labels
+and that the target application is listening on the expected
+container port.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>5. Service Has No Endpoints</h2>
+
+<pre>
+kubectl get endpoints &lt;service-name&gt;
+kubectl describe svc &lt;service-name&gt;
+kubectl get pods --show-labels
+</pre>
+
+<div class="answer">
+
+The most common issue is a mismatch between the Service selector
+and Pod labels.
+
+For example:
+
+<pre>
+Service selector:
+app: nginx
+
+Pod label:
+app: apache
+</pre>
+
+The Service will not select that Pod.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>6. Deployment Is Not Creating New Pods</h2>
+
+<pre>
+kubectl get deployment
+kubectl describe deployment &lt;deployment-name&gt;
+kubectl get replicaset
+kubectl get events --sort-by=.lastTimestamp
+</pre>
+
+<div class="answer">
+
+I would check the Deployment desired replicas, ReplicaSet status,
+Pod scheduling, resource constraints and image availability.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>7. New Deployment Version Is Failing</h2>
+
+<div class="answer">
+
+I would compare the new ReplicaSet with the previous working
+ReplicaSet.
+
+Check:
+
+<ul>
+<li>Image version</li>
+<li>Environment variables</li>
+<li>ConfigMaps</li>
+<li>Secrets</li>
+<li>Probes</li>
+<li>Resource limits</li>
+<li>Application logs</li>
+</ul>
+
+Then, if necessary, perform a rollback.
+
+<pre>
+kubectl rollout history deployment/myapp
+
+kubectl rollout undo deployment/myapp
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>8. Readiness Probe Is Failing</h2>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+<div class="answer">
+
+A readiness probe determines whether the Pod should receive
+traffic.
+
+I would verify:
+
+<ul>
+<li>Probe path</li>
+<li>Probe port</li>
+<li>Application startup time</li>
+<li>Initial delay</li>
+<li>Timeout</li>
+<li>Application health endpoint</li>
+</ul>
+
+A failed readiness probe removes the Pod from Service endpoints.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>9. Liveness Probe Keeps Restarting the Container</h2>
+
+<div class="answer">
+
+A liveness probe determines whether the container should be
+restarted.
+
+If it is too aggressive, a healthy but slow-starting application
+may repeatedly restart.
+
+I would review the probe configuration and application startup
+behavior.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>10. Pod Is OOMKilled</h2>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<div class="answer">
+
+OOMKilled usually indicates that the container exceeded its
+memory limit.
+
+I would check:
+
+<pre>
+kubectl top pod
+</pre>
+
+Then compare actual usage with the configured resource requests
+and limits.
+
+Possible solutions include fixing a memory leak, optimizing the
+application or adjusting the memory limit based on actual
+requirements.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>11. Node Is NotReady</h2>
+
+<pre>
+kubectl get nodes
+
+kubectl describe node &lt;node-name&gt;
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Node conditions</li>
+<li>Kubelet status</li>
+<li>Container runtime</li>
+<li>CPU and memory pressure</li>
+<li>Disk pressure</li>
+<li>Network connectivity</li>
+<li>Node events</li>
+</ul>
+
+On the node:
+
+<pre>
+systemctl status kubelet
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>12. Pods Are Stuck on One Node</h2>
+
+<div class="answer">
+
+I would investigate scheduling configuration:
+
+<ul>
+<li>Node selectors</li>
+<li>Node affinity</li>
+<li>Taints</li>
+<li>Tolerations</li>
+<li>Resource availability</li>
+</ul>
+
+Commands:
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+kubectl describe node &lt;node-name&gt;
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>13. DNS Is Not Working Inside Kubernetes</h2>
+
+<pre>
+kubectl get pods -n kube-system
+
+kubectl get svc -n kube-system
+
+kubectl logs -n kube-system -l k8s-app=kube-dns
+</pre>
+
+<p>Test from a Pod:</p>
+
+<pre>
+nslookup kubernetes.default
+</pre>
+
+<div class="answer">
+
+I would investigate CoreDNS health, the DNS Service, Pod
+networking and DNS configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>14. Ingress Is Not Working</h2>
+
+<pre>
+kubectl get ingress
+
+kubectl describe ingress &lt;ingress-name&gt;
+
+kubectl get svc
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Ingress Controller</li>
+<li>Ingress rules</li>
+<li>Host/path configuration</li>
+<li>Backend Service</li>
+<li>Service endpoints</li>
+<li>DNS</li>
+<li>TLS certificate if HTTPS is used</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>15. ConfigMap Changes Are Not Reflected in Application</h2>
+
+<div class="answer">
+
+The behavior depends on how the ConfigMap is consumed.
+
+If configuration is injected as environment variables, existing
+containers generally need to be restarted to receive updated
+values.
+
+If mounted as files, updates can be reflected into the mounted
+volume depending on Kubernetes behavior and application handling.
+
+A common approach is to trigger a controlled rollout when
+configuration changes.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>16. Secret Is Not Available Inside Pod</h2>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+kubectl get secret
+</pre>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>Secret exists in the same namespace</li>
+<li>Correct Secret name</li>
+<li>Correct key</li>
+<li>Volume or environment variable configuration</li>
+<li>Pod specification</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>17. Kubernetes Deployment Rollback</h2>
+
+<pre>
+kubectl rollout history deployment/myapp
+
+kubectl rollout status deployment/myapp
+
+kubectl rollout undo deployment/myapp
+</pre>
+
+<div class="answer">
+
+I would first confirm the new deployment is unhealthy, identify
+the cause, and then roll back to the previous known-good
+revision if required.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>18. HPA Is Not Scaling Pods</h2>
+
+<pre>
+kubectl get hpa
+
+kubectl describe hpa &lt;hpa-name&gt;
+
+kubectl top pods
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Metrics Server</li>
+<li>CPU/memory resource requests</li>
+<li>HPA configuration</li>
+<li>Current and desired metrics</li>
+<li>Minimum and maximum replicas</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>19. Pod Cannot Mount PersistentVolume</h2>
+
+<pre>
+kubectl get pvc
+kubectl describe pvc &lt;pvc-name&gt;
+
+kubectl get pv
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>PVC status</li>
+<li>StorageClass</li>
+<li>PV availability</li>
+<li>Access mode</li>
+<li>Requested storage</li>
+<li>CSI driver</li>
+<li>Events</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>20. Cluster Has Insufficient Resources</h2>
+
+<pre>
+kubectl top nodes
+
+kubectl describe nodes
+</pre>
+
+<div class="answer">
+
+I would determine whether the problem is CPU, memory or another
+resource.
+
+Possible solutions:
+
+<ul>
+<li>Optimize Pod resource requests</li>
+<li>Scale the node group</li>
+<li>Add larger nodes</li>
+<li>Use cluster autoscaling</li>
+<li>Remove unnecessary workloads</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 TOP INTERVIEW REVISION</span>
+
+<h2>21. Kubernetes Troubleshooting Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Commands</th>
+</tr>
+
+<tr>
+<td>CrashLoopBackOff</td>
+<td>get pods → logs → describe</td>
+</tr>
+
+<tr>
+<td>Pending</td>
+<td>describe pod → Events</td>
+</tr>
+
+<tr>
+<td>ImagePullBackOff</td>
+<td>describe pod → image/secret</td>
+</tr>
+
+<tr>
+<td>Service unavailable</td>
+<td>get svc → endpoints → labels</td>
+</tr>
+
+<tr>
+<td>Node NotReady</td>
+<td>get nodes → describe node → kubelet</td>
+</tr>
+
+<tr>
+<td>OOMKilled</td>
+<td>describe pod → top pod → resources</td>
+</tr>
+
+<tr>
+<td>DNS issue</td>
+<td>CoreDNS → DNS service → nslookup</td>
+</tr>
+
+<tr>
+<td>Ingress issue</td>
+<td>Ingress → controller → service → endpoints</td>
+</tr>
+
+<tr>
+<td>HPA issue</td>
+<td>get hpa → describe hpa → metrics</td>
+</tr>
+
+<tr>
+<td>PVC issue</td>
+<td>get pvc → describe pvc → PV/StorageClass</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Golden Kubernetes Interview Formula</h2>
+
+<div class="flow">
+
+<strong>Pod Problem</strong>
+→ get pods → describe → logs
+
+<br><br>
+
+<strong>Scheduling Problem</strong>
+→ Events → Nodes → Resources
+
+<br><br>
+
+<strong>Networking Problem</strong>
+→ Service → Endpoints → DNS → Ingress
+
+<br><br>
+
+<strong>Storage Problem</strong>
+→ PVC → PV → StorageClass
+
+<br><br>
+
+<strong>Performance Problem</strong>
+→ top → Requests/Limits → HPA
+
+<br><br>
+
+<strong>Deployment Problem</strong>
+→ Rollout → Logs → Rollback
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Real-Time Scenarios
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Kubernetes Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,1293 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Monitoring Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:42px;
+    margin:10px 0;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1080px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    margin:22px 0;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:8px;
+}
+
+.warning{
+    background:#211a0d;
+    border-left:4px solid #fbbf24;
+    padding:18px;
+    border-radius:8px;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{
+    color:#fbbf24;
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+li{
+    margin:8px 0;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🚨</div>
+
+<h1>Monitoring Real-Time Scenarios</h1>
+
+<p>
+Production-oriented Prometheus, Grafana, Kubernetes and DevOps
+monitoring scenarios with interview-ready troubleshooting answers.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Production Monitoring Flow</h2>
+
+<div class="flow">
+
+Application / Infrastructure
+<br>↓<br>
+
+Metrics
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Dashboard / Alert
+<br>↓<br>
+
+DevOps Engineer
+<br>↓<br>
+
+Troubleshooting
+<br>↓<br>
+
+Resolution
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Scenario: Server CPU is 95%</h2>
+
+<h3>Problem</h3>
+
+<p>
+A production server suddenly shows 95% CPU utilization.
+</p>
+
+<h3>How would you troubleshoot?</h3>
+
+<ol>
+
+<li>Open the Grafana CPU dashboard.</li>
+
+<li>Identify the affected instance.</li>
+
+<li>Check when the CPU increase started.</li>
+
+<li>Check running processes on the server.</li>
+
+<li>Compare CPU with traffic/request rate.</li>
+
+<li>Check recent deployments or configuration changes.</li>
+
+<li>Check memory and disk activity.</li>
+
+<li>Determine whether the workload needs scaling or optimization.</li>
+
+</ol>
+
+<div class="flow">
+
+CPU Alert
+<br>↓<br>
+Grafana
+<br>↓<br>
+Identify Instance
+<br>↓<br>
+Linux Process Investigation
+<br>↓<br>
+Find Root Cause
+<br>↓<br>
+Fix / Scale
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would first identify the affected instance from Grafana and
+determine when the CPU spike started. Then I would correlate CPU with
+traffic, deployments and other system metrics. On the server I would
+inspect processes and resource usage to identify the process causing
+the spike. Based on the root cause, I would optimize, restart,
+rollback or scale the workload."
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Scenario: Memory Usage is Increasing</h2>
+
+<p>
+Memory usage continuously increases and reaches a critical threshold.
+</p>
+
+<h3>Investigation</h3>
+
+<ol>
+
+<li>Check memory dashboard.</li>
+
+<li>Identify affected node or application.</li>
+
+<li>Check whether the increase is gradual or sudden.</li>
+
+<li>Check application memory usage.</li>
+
+<li>Check container memory limits.</li>
+
+<li>Check for OOMKilled events.</li>
+
+<li>Review application logs.</li>
+
+<li>Investigate possible memory leak.</li>
+
+</ol>
+
+<pre>
+kubectl get pods
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Scenario: Kubernetes Pod Keeps Restarting</h2>
+
+<div class="flow">
+
+Pod Restart Alert
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Identify Pod
+<br>↓<br>
+
+kubectl describe pod
+<br>↓<br>
+
+kubectl logs
+<br>↓<br>
+
+Check Events
+<br>↓<br>
+
+Find Root Cause
+
+</div>
+
+<h3>Possible Causes</h3>
+
+<ul>
+
+<li>Application crash</li>
+<li>OOMKilled</li>
+<li>Failed health probe</li>
+<li>Configuration error</li>
+<li>Missing Secret or ConfigMap</li>
+<li>Image problem</li>
+<li>Dependency failure</li>
+
+</ul>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Scenario: Application Latency is High</h2>
+
+<p>
+Users report that the application is responding slowly.
+</p>
+
+<h3>Metrics to compare</h3>
+
+<table>
+
+<tr>
+<th>Metric</th>
+<th>Why check it?</th>
+</tr>
+
+<tr>
+<td>Latency</td>
+<td>Confirms response-time degradation.</td>
+</tr>
+
+<tr>
+<td>Request Rate</td>
+<td>Identifies traffic spikes.</td>
+</tr>
+
+<tr>
+<td>Error Rate</td>
+<td>Identifies failing requests.</td>
+</tr>
+
+<tr>
+<td>CPU</td>
+<td>Checks resource saturation.</td>
+</tr>
+
+<tr>
+<td>Memory</td>
+<td>Checks memory pressure.</td>
+</tr>
+
+<tr>
+<td>Database Metrics</td>
+<td>Checks database bottlenecks.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would correlate latency with request rate, CPU, memory, errors
+and database performance. If latency increased together with traffic,
+I would investigate capacity. If infrastructure metrics are normal,
+I would investigate the application and downstream dependencies."
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Scenario: HTTP 5xx Errors Increase</h2>
+
+<div class="flow">
+
+5xx Error Spike
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Identify Service
+<br>↓<br>
+
+Check Application Logs
+<br>↓<br>
+
+Check Recent Deployment
+<br>↓<br>
+
+Check Dependencies
+<br>↓<br>
+
+Rollback / Fix
+
+</div>
+
+<h3>Possible Causes</h3>
+
+<ul>
+
+<li>Application bug</li>
+<li>Bad deployment</li>
+<li>Database failure</li>
+<li>Dependency unavailable</li>
+<li>Configuration issue</li>
+<li>Resource exhaustion</li>
+
+</ul>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Scenario: Disk Usage is 90%</h2>
+
+<h3>Investigation</h3>
+
+<ol>
+
+<li>Check Grafana disk dashboard.</li>
+
+<li>Identify affected server.</li>
+
+<li>Check filesystem usage.</li>
+
+<li>Identify large files/directories.</li>
+
+<li>Check application and system logs.</li>
+
+<li>Check log rotation.</li>
+
+<li>Clean unnecessary files if safe.</li>
+
+<li>Increase storage if required.</li>
+
+</ol>
+
+<pre>
+df -h
+
+du -sh /var/log/*
+
+df -i
+</pre>
+
+<div class="warning">
+
+Do not blindly delete production files. First determine what is
+consuming the storage and whether the data is required.
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Scenario: Prometheus Target is DOWN</h2>
+
+<p>
+A target appears as <code>DOWN</code> in Prometheus.
+</p>
+
+<h3>Checklist</h3>
+
+<ol>
+
+<li>Check target URL.</li>
+
+<li>Check target network connectivity.</li>
+
+<li>Check exporter status.</li>
+
+<li>Check metrics endpoint.</li>
+
+<li>Check port.</li>
+
+<li>Check firewall/security rules.</li>
+
+<li>Check service discovery configuration.</li>
+
+<li>Check Prometheus logs.</li>
+
+</ol>
+
+<pre>
+curl http://target:9100/metrics
+</pre>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Scenario: Grafana Shows "No Data"</h2>
+
+<h3>Check in this order</h3>
+
+<ol>
+
+<li>Grafana data source.</li>
+
+<li>Prometheus URL.</li>
+
+<li>Prometheus availability.</li>
+
+<li>PromQL query.</li>
+
+<li>Dashboard time range.</li>
+
+<li>Dashboard variables.</li>
+
+<li>Prometheus target status.</li>
+
+</ol>
+
+<div class="answer">
+
+<strong>Best interview approach:</strong>
+
+<p>
+"I would isolate whether the problem is in Grafana, the query,
+Prometheus or the monitored target instead of immediately assuming
+Grafana is broken."
+</p>
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Scenario: Alert is Not Triggering</h2>
+
+<h3>Possible Causes</h3>
+
+<ul>
+
+<li>Alert expression is incorrect.</li>
+<li>Metric is missing.</li>
+<li>Threshold has not been reached.</li>
+<li>Rule is not loaded.</li>
+<li>Evaluation interval issue.</li>
+<li>Alertmanager routing problem.</li>
+<li>Notification receiver configuration issue.</li>
+
+</ul>
+
+<div class="flow">
+
+Metric
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Alert Rule
+<br>↓<br>
+
+Rule Evaluation
+<br>↓<br>
+
+Alert
+<br>↓<br>
+
+Alertmanager
+<br>↓<br>
+
+Notification
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Scenario: Too Many Alerts</h2>
+
+<p>
+The monitoring system is generating hundreds of notifications.
+</p>
+
+<h3>How to handle it?</h3>
+
+<ul>
+
+<li>Group related alerts.</li>
+
+<li>Review alert thresholds.</li>
+
+<li>Remove noisy alerts.</li>
+
+<li>Use inhibition rules where appropriate.</li>
+
+<li>Use silences during planned maintenance.</li>
+
+<li>Separate warning and critical alerts.</li>
+
+<li>Ensure alerts represent actionable problems.</li>
+
+</ul>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+A good monitoring system should reduce alert fatigue rather than
+generate notifications for every small metric fluctuation.
+
+</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Scenario: Kubernetes Node is NotReady</h2>
+
+<div class="flow">
+
+Node NotReady
+<br>↓<br>
+
+Grafana Alert
+<br>↓<br>
+
+kubectl get nodes
+<br>↓<br>
+
+kubectl describe node
+<br>↓<br>
+
+Check Kubelet
+<br>↓<br>
+
+Check CPU / Memory / Disk
+<br>↓<br>
+
+Resolve Node Problem
+
+</div>
+
+<pre>
+kubectl get nodes
+
+kubectl describe node &lt;node-name&gt;
+
+kubectl get pods -A
+</pre>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Scenario: Pod is OOMKilled</h2>
+
+<p>
+A Kubernetes container is terminated because it exceeded its memory
+limit.
+</p>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+<p>
+Look for:</p>
+
+<pre>
+Reason: OOMKilled
+</pre>
+
+<h3>Possible Solutions</h3>
+
+<ul>
+
+<li>Investigate memory usage.</li>
+
+<li>Check application behavior.</li>
+
+<li>Review memory requests and limits.</li>
+
+<li>Optimize the application if necessary.</li>
+
+<li>Increase memory limit when justified.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Scenario: Traffic Suddenly Increases</h2>
+
+<p>
+Request rate suddenly increases from normal levels.
+</p>
+
+<div class="flow">
+
+Traffic Spike
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Request Rate
+<br>↓<br>
+
+CPU / Memory
+<br>↓<br>
+
+Application Capacity
+<br>↓<br>
+
+Scaling Decision
+
+</div>
+
+<p>
+If the workload is designed for horizontal scaling, verify that the
+appropriate autoscaling mechanism is responding correctly.
+</p>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Scenario: Deployment Causes Errors</h2>
+
+<div class="flow">
+
+Deployment
+<br>↓<br>
+
+Error Rate Increases
+<br>↓<br>
+
+Grafana
+<br>↓<br>
+
+Compare Before / After
+<br>↓<br>
+
+Check Application Logs
+<br>↓<br>
+
+Confirm Deployment Correlation
+<br>↓<br>
+
+Rollback / Fix
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"If the error rate increases immediately after a deployment, I would
+compare the monitoring metrics before and after the release, inspect
+application logs and verify whether the deployment is responsible.
+If confirmed and the impact is significant, I would follow the
+rollback procedure."
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Scenario: Database is Slow</h2>
+
+<h3>What would you check?</h3>
+
+<ul>
+
+<li>Database latency</li>
+<li>Connection count</li>
+<li>CPU</li>
+<li>Memory</li>
+<li>Disk I/O</li>
+<li>Slow queries</li>
+<li>Application request rate</li>
+<li>Database errors</li>
+
+</ul>
+
+<div class="answer">
+
+Do not immediately blame the database. Correlate application
+latency, database metrics and traffic to identify the bottleneck.
+
+</div>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Scenario: Monitoring System Itself is Down</h2>
+
+<p>
+If Prometheus or Grafana becomes unavailable, monitoring visibility
+is affected.
+</p>
+
+<h3>Recovery Approach</h3>
+
+<ol>
+
+<li>Check service/container/Pod status.</li>
+
+<li>Check application logs.</li>
+
+<li>Check resource availability.</li>
+
+<li>Check storage.</li>
+
+<li>Check configuration.</li>
+
+<li>Check network connectivity.</li>
+
+<li>Restore service.</li>
+
+<li>Verify metrics collection after recovery.</li>
+
+</ol>
+
+<div class="warning">
+
+Monitoring is itself a production dependency. It should also be
+designed for reliability and appropriate backup/recovery procedures.
+
+</div>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 18. Scenario: Metrics Suddenly Disappear</h2>
+
+<h3>Possible Causes</h3>
+
+<ul>
+
+<li>Exporter stopped.</li>
+<li>Target became unreachable.</li>
+<li>Service discovery stopped finding the target.</li>
+<li>Prometheus scrape configuration changed.</li>
+<li>Prometheus is experiencing resource issues.</li>
+<li>Metric name or labels changed after an application update.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 19 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Scenario: How do you investigate an Incident?</h2>
+
+<div class="flow">
+
+Alert
+<br>↓<br>
+
+Confirm Impact
+<br>↓<br>
+
+Identify Affected Service
+<br>↓<br>
+
+Check Metrics
+<br>↓<br>
+
+Check Logs
+<br>↓<br>
+
+Check Recent Changes
+<br>↓<br>
+
+Check Dependencies
+<br>↓<br>
+
+Find Root Cause
+<br>↓<br>
+
+Mitigate
+<br>↓<br>
+
+Permanent Fix
+<br>↓<br>
+
+Post-Incident Review
+
+</div>
+
+</div>
+
+
+<!-- 20 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Golden Signals</h2>
+
+<p>
+Four commonly used service-level monitoring signals are:
+</p>
+
+<table>
+
+<tr>
+<th>Signal</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Latency</td>
+<td>How long requests take.</td>
+</tr>
+
+<tr>
+<td>Traffic</td>
+<td>How much demand the system receives.</td>
+</tr>
+
+<tr>
+<td>Errors</td>
+<td>How many requests are failing.</td>
+</tr>
+
+<tr>
+<td>Saturation</td>
+<td>How close the system is to its resource limits.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+These signals help engineers understand both user impact and system
+capacity.
+
+</div>
+
+</div>
+
+
+<!-- 21 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Metrics vs Logs vs Traces</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>Best For</th>
+</tr>
+
+<tr>
+<td>Metrics</td>
+<td>Trends, thresholds and system health.</td>
+</tr>
+
+<tr>
+<td>Logs</td>
+<td>Detailed event information.</td>
+</tr>
+
+<tr>
+<td>Traces</td>
+<td>Request flow across distributed services.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Metrics
+<br>↓<br>
+"Something is wrong"
+<br><br>
+
+Logs
+<br>↓<br>
+"What happened?"
+<br><br>
+
+Traces
+<br>↓<br>
+"Where did the request slow/fail?"
+
+</div>
+
+</div>
+
+
+<!-- 22 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 22. Complete Production Troubleshooting Example</h2>
+
+<h3>Scenario</h3>
+
+<p>
+Users report slow responses and intermittent errors.
+</p>
+
+<h3>Approach</h3>
+
+<ol>
+
+<li>Check Grafana latency.</li>
+
+<li>Check request rate.</li>
+
+<li>Check error rate.</li>
+
+<li>Check CPU and memory.</li>
+
+<li>Identify affected Pods.</li>
+
+<li>Check application logs.</li>
+
+<li>Check database latency.</li>
+
+<li>Check recent deployments.</li>
+
+<li>Identify root cause.</li>
+
+<li>Apply mitigation.</li>
+
+<li>Verify recovery through monitoring.</li>
+
+</ol>
+
+<div class="answer">
+
+<strong>Strong Interview Answer:</strong><br>
+
+"I would first quantify the impact using monitoring metrics. Then I
+would correlate latency and error rate with traffic, infrastructure
+resources, application logs and downstream dependencies. I would
+also check recent changes such as deployments. After identifying the
+most likely root cause, I would mitigate the issue, verify recovery
+using the same metrics and then work on the permanent fix."
+
+</div>
+
+</div>
+
+
+<!-- 23 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 23. Monitoring Best Practices</h2>
+
+<ul>
+
+<li>Monitor user-facing services.</li>
+
+<li>Create actionable alerts.</li>
+
+<li>Avoid excessive alerting.</li>
+
+<li>Monitor infrastructure and applications.</li>
+
+<li>Use meaningful dashboards.</li>
+
+<li>Track latency, traffic, errors and saturation.</li>
+
+<li>Monitor the monitoring stack itself.</li>
+
+<li>Use appropriate retention and storage policies.</li>
+
+<li>Document incident response procedures.</li>
+
+<li>Correlate metrics with logs and traces when available.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 24 -->
+
+<div class="card">
+
+<h2>🔥 24. Top Scenario-Based Interview Questions</h2>
+
+<ol>
+
+<li>CPU usage suddenly reaches 95%. What will you do?</li>
+
+<li>Memory usage continuously increases. How will you investigate?</li>
+
+<li>A Pod keeps restarting. How will you troubleshoot?</li>
+
+<li>Why is a Pod OOMKilled?</li>
+
+<li>Prometheus target is DOWN. What will you check?</li>
+
+<li>Grafana shows No Data. How will you troubleshoot?</li>
+
+<li>Application latency suddenly increases. What will you check?</li>
+
+<li>HTTP 5xx errors suddenly increase. What will you do?</li>
+
+<li>Disk usage reaches 90%. How will you investigate?</li>
+
+<li>Kubernetes node becomes NotReady. What will you check?</li>
+
+<li>An alert is not triggering. How will you troubleshoot?</li>
+
+<li>You receive too many alerts. How will you reduce alert fatigue?</li>
+
+<li>A deployment causes production errors. What will you do?</li>
+
+<li>Metrics suddenly disappear. What could be the reason?</li>
+
+<li>How would you investigate a production incident end-to-end?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 25 -->
+
+<div class="card">
+
+<h2>🧠 25. Final Revision Flow</h2>
+
+<div class="flow">
+
+<strong>Detect</strong>
+<br>
+Alert / Dashboard
+<br>↓<br>
+
+<strong>Measure</strong>
+<br>
+Metrics
+<br>↓<br>
+
+<strong>Correlate</strong>
+<br>
+Metrics + Logs + Traces
+<br>↓<br>
+
+<strong>Investigate</strong>
+<br>
+Application + Infrastructure + Dependencies
+<br>↓<br>
+
+<strong>Mitigate</strong>
+<br>
+Rollback / Scale / Fix
+<br>↓<br>
+
+<strong>Verify</strong>
+<br>
+Monitoring
+<br>↓<br>
+
+<strong>Prevent</strong>
+<br>
+Permanent Fix + Improvements
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p>
+<strong>monitoring-final-revision.html</strong>
+</p>
+
+<p>
+Final Monitoring revision page with the most important concepts,
+commands, interview questions and one-page quick revision.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<p>
+<a href="index.html">← Back to Monitoring</a>
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Monitoring Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

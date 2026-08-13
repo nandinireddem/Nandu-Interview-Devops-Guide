@@ -1,0 +1,931 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Jenkins Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b9
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{margin:7px 0}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔧</div>
+
+<h1>Jenkins Real-Time Scenarios</h1>
+
+<p>
+Production-style Jenkins CI/CD troubleshooting scenarios
+commonly asked in DevOps interviews.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>🎯 Jenkins Troubleshooting Approach</h2>
+
+<div class="flow">
+
+Build Trigger
+<br>↓<br>
+Jenkins Controller
+<br>↓<br>
+Agent
+<br>↓<br>
+Checkout
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Docker / Artifact
+<br>↓<br>
+Deploy
+<br>↓<br>
+Verify
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. Jenkins Build Is Failing</h2>
+
+<h3>Question</h3>
+
+<p>
+A Jenkins pipeline suddenly starts failing. How would you
+troubleshoot it?
+</p>
+
+<div class="answer">
+
+I would first open the console output and identify the
+<strong>first meaningful error</strong>.
+
+Then I would determine which stage failed:
+
+<ul>
+<li>Checkout</li>
+<li>Build</li>
+<li>Test</li>
+<li>Docker build</li>
+<li>Registry push</li>
+<li>Deployment</li>
+</ul>
+
+I would fix the root cause and rerun the pipeline.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>2. Jenkins Agent Is Offline</h2>
+
+<pre>
+Manage Jenkins → Nodes
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Agent status</li>
+<li>Network connectivity</li>
+<li>Jenkins agent process</li>
+<li>Java version</li>
+<li>Disk space</li>
+<li>Authentication</li>
+<li>Controller-agent connection</li>
+</ul>
+
+If the agent runs on Linux:
+
+<pre>
+df -h
+free -h
+java -version
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>3. Jenkins Job Is Stuck in Queue</h2>
+
+<div class="answer">
+
+I would check whether an eligible agent is available.
+
+Possible reasons:
+
+<ul>
+<li>No available executor</li>
+<li>Agent offline</li>
+<li>Label mismatch</li>
+<li>Concurrency restriction</li>
+<li>Resource shortage</li>
+</ul>
+
+I would inspect the queue and node configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>4. Git Checkout Is Failing</h2>
+
+<pre>
+git clone &lt;repository-url&gt;
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Repository URL</li>
+<li>Branch name</li>
+<li>Git credentials</li>
+<li>SSH key</li>
+<li>Repository permissions</li>
+<li>Network connectivity</li>
+<li>Git installation on the agent</li>
+</ul>
+
+I would also verify that Jenkins is using the expected
+credential.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>5. Jenkins Cannot Authenticate to GitHub</h2>
+
+<div class="answer">
+
+I would verify the configured Jenkins credential and its
+permissions.
+
+Depending on the setup, Jenkins may use:
+
+<ul>
+<li>SSH key</li>
+<li>Personal access token</li>
+<li>GitHub App credentials</li>
+</ul>
+
+I would also check whether the credential is correctly selected
+in the pipeline or SCM configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>6. Docker Command Fails Inside Jenkins</h2>
+
+<pre>
+docker --version
+docker ps
+</pre>
+
+<div class="answer">
+
+I would check whether Docker is installed on the Jenkins agent
+and whether the Jenkins user can access the Docker daemon.
+
+For Linux:
+
+<pre>
+systemctl status docker
+
+groups jenkins
+</pre>
+
+I would also verify the Docker socket and agent environment.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>7. Docker Image Build Works Locally but Fails in Jenkins</h2>
+
+<div class="answer">
+
+I would compare the local and Jenkins environments.
+
+Check:
+
+<ul>
+<li>Docker version</li>
+<li>Build context</li>
+<li>Dockerfile</li>
+<li>Environment variables</li>
+<li>Credentials</li>
+<li>Network access</li>
+<li>File permissions</li>
+<li>Architecture</li>
+</ul>
+
+The Jenkins console output should be used to identify the
+specific failure.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>8. Jenkins Cannot Push Image to Docker Hub</h2>
+
+<pre>
+docker login
+
+docker push username/myapp:latest
+</pre>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>Docker registry credentials</li>
+<li>Credential ID configured in Jenkins</li>
+<li>Repository name</li>
+<li>Image tag</li>
+<li>Docker Hub permissions</li>
+</ul>
+
+I would avoid hardcoding the username or password in the
+Jenkinsfile.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>9. Jenkins Cannot Push Image to Amazon ECR</h2>
+
+<div class="answer">
+
+I would verify AWS credentials and ECR permissions.
+
+Typical required actions include permissions related to
+authenticating and pushing image layers.
+
+The flow is:
+
+<div class="flow">
+
+Jenkins
+<br>↓<br>
+AWS Credentials
+<br>↓<br>
+ECR Login
+<br>↓<br>
+Docker Tag
+<br>↓<br>
+Docker Push
+<br>↓<br>
+Amazon ECR
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>10. Jenkins Pipeline Is Not Triggering Automatically</h2>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Webhook configuration</li>
+<li>Repository webhook delivery</li>
+<li>Jenkins URL accessibility</li>
+<li>Job trigger configuration</li>
+<li>Branch configuration</li>
+<li>Webhook plugin/configuration</li>
+</ul>
+
+For GitHub integration, I would inspect the webhook delivery
+logs to determine whether the event reached Jenkins.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>11. Jenkinsfile Has Syntax Error</h2>
+
+<div class="answer">
+
+I would inspect the pipeline syntax and validate the Jenkinsfile
+before running it.
+
+For declarative pipelines, the structure should follow:
+
+<pre>
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building application'
+            }
+        }
+    }
+}
+</pre>
+
+I would identify the exact parser error reported by Jenkins.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>12. Jenkins Credentials Are Not Working</h2>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>Credential exists</li>
+<li>Credential ID matches Jenkinsfile</li>
+<li>Credential type is correct</li>
+<li>Credential has required permissions</li>
+<li>Credential is available to the job</li>
+</ul>
+
+I would never print secrets directly into console output.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>13. Pipeline Is Taking Too Long</h2>
+
+<div class="answer">
+
+I would identify the slowest stage.
+
+Possible causes:
+
+<ul>
+<li>Slow dependency downloads</li>
+<li>Large Docker builds</li>
+<li>Slow tests</li>
+<li>Insufficient agent resources</li>
+<li>Network latency</li>
+<li>Unnecessary sequential stages</li>
+</ul>
+
+Where appropriate, independent stages can be parallelized.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>14. Jenkins Server Disk Is Full</h2>
+
+<pre>
+df -h
+
+du -sh /var/lib/jenkins/*
+</pre>
+
+<div class="answer">
+
+I would identify whether the space is being consumed by:
+
+<ul>
+<li>Old builds</li>
+<li>Workspace files</li>
+<li>Artifacts</li>
+<li>Logs</li>
+<li>Docker images</li>
+<li>Temporary files</li>
+</ul>
+
+Then I would implement build retention and cleanup policies
+rather than manually deleting important Jenkins data.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>15. Workspace Has Corrupted or Stale Files</h2>
+
+<div class="answer">
+
+If a build is behaving unexpectedly because of workspace state,
+I would clean the workspace and rerun the build.
+
+In a Pipeline:
+
+<pre>
+cleanWs()
+</pre>
+
+I would first confirm that workspace cleanup is safe for the
+job.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>16. Jenkins Deployment Stage Failed</h2>
+
+<div class="answer">
+
+I would determine whether the failure happened while deploying
+to:
+
+<ul>
+<li>EC2</li>
+<li>Docker</li>
+<li>ECS</li>
+<li>Kubernetes</li>
+<li>EKS</li>
+</ul>
+
+Then I would check deployment logs, credentials, connectivity,
+target health and the state of the deployed application.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>17. Kubernetes Deployment from Jenkins Fails</h2>
+
+<pre>
+kubectl get nodes
+kubectl get pods
+kubectl get deployment
+</pre>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>kubectl is installed on the agent</li>
+<li>Kubeconfig or cluster credentials</li>
+<li>Cluster connectivity</li>
+<li>Namespace</li>
+<li>RBAC permissions</li>
+<li>Manifest validity</li>
+<li>Image availability</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>18. Jenkins Pipeline Failed After Deployment</h2>
+
+<div class="answer">
+
+I would separate the problem into:
+
+<div class="flow">
+
+Build Successful
+<br>↓<br>
+Deployment Successful?
+<br>↓<br>
+Application Healthy?
+<br>↓<br>
+Health Check
+<br>↓<br>
+Rollback if Required
+
+</div>
+
+A deployment being technically successful does not necessarily
+mean the application is healthy.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>19. How Do You Secure Jenkins?</h2>
+
+<div class="answer">
+
+I would use:
+
+<ul>
+<li>RBAC / least privilege</li>
+<li>Credentials Manager</li>
+<li>HTTPS</li>
+<li>Restricted agent permissions</li>
+<li>Plugin updates</li>
+<li>Jenkins updates</li>
+<li>Secret masking</li>
+<li>Network restrictions</li>
+<li>Audit logs</li>
+<li>Separate production access</li>
+</ul>
+
+I would avoid storing passwords or cloud credentials directly
+inside Jenkinsfiles.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>20. How Would You Design a Production Jenkins Pipeline?</h2>
+
+<div class="flow">
+
+Developer Push
+<br>↓<br>
+Webhook
+<br>↓<br>
+Jenkins
+<br>↓<br>
+Checkout
+<br>↓<br>
+Build
+<br>↓<br>
+Unit Tests
+<br>↓<br>
+Security Scan
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Push to ECR
+<br>↓<br>
+Deploy
+<br>↓<br>
+Health Check
+<br>↓<br>
+Monitoring
+
+</div>
+
+<div class="answer">
+
+I would include automated testing, security scanning, immutable
+image tagging, secure credentials, deployment verification and
+rollback capability.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 TOP INTERVIEW REVISION</span>
+
+<h2>21. Jenkins Troubleshooting Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Check</th>
+</tr>
+
+<tr>
+<td>Build failed</td>
+<td>Console output → first meaningful error</td>
+</tr>
+
+<tr>
+<td>Agent offline</td>
+<td>Node → network → Java → disk</td>
+</tr>
+
+<tr>
+<td>Job stuck</td>
+<td>Queue → executor → labels</td>
+</tr>
+
+<tr>
+<td>Git failure</td>
+<td>URL → branch → credentials</td>
+</tr>
+
+<tr>
+<td>Docker failure</td>
+<td>Docker installation → permissions</td>
+</tr>
+
+<tr>
+<td>Registry push failure</td>
+<td>Login → credentials → tag → permissions</td>
+</tr>
+
+<tr>
+<td>Webhook failure</td>
+<td>Webhook → Jenkins trigger → delivery</td>
+</tr>
+
+<tr>
+<td>Credentials failure</td>
+<td>ID → type → permissions</td>
+</tr>
+
+<tr>
+<td>Slow pipeline</td>
+<td>Identify slowest stage</td>
+</tr>
+
+<tr>
+<td>Disk full</td>
+<td>df → Jenkins home → retention</td>
+</tr>
+
+<tr>
+<td>Kubernetes deploy failure</td>
+<td>kubectl → kubeconfig → RBAC → namespace</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Golden Jenkins Interview Formula</h2>
+
+<div class="flow">
+
+<strong>Build Failure</strong>
+→ Console Output
+
+<br><br>
+
+<strong>Agent Problem</strong>
+→ Node + Network + Resources
+
+<br><br>
+
+<strong>Git Problem</strong>
+→ URL + Branch + Credentials
+
+<br><br>
+
+<strong>Docker Problem</strong>
+→ Docker + Permissions + Registry
+
+<br><br>
+
+<strong>Deployment Problem</strong>
+→ Credentials + Target + Health
+
+<br><br>
+
+<strong>Security</strong>
+→ RBAC + Credentials + Least Privilege
+
+<br><br>
+
+<strong>Production</strong>
+→ Build → Test → Scan → Deploy → Verify
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Real-Time Scenarios
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Jenkins Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

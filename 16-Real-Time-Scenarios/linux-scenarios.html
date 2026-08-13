@@ -1,0 +1,785 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+header h1{color:#93c5fd;font-size:40px;margin:10px 0}
+header p{max-width:900px;margin:auto;color:#9ca8b8}
+.container{width:min(1050px,92%);margin:auto;padding:35px 0}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+th{background:#172033;color:#93c5fd}
+li{margin:7px 0}
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:55px">🐧</div>
+<h1>Linux Real-Time Scenarios</h1>
+<p>
+Production-style Linux troubleshooting scenarios commonly asked
+in DevOps interviews.
+</p>
+</header>
+
+<main class="container">
+
+<div class="card">
+<h2>🎯 Linux Troubleshooting Approach</h2>
+
+<div class="flow">
+Problem
+<br>↓<br>
+Check System Health
+<br>↓<br>
+Processes
+<br>↓<br>
+Memory / CPU / Disk
+<br>↓<br>
+Network
+<br>↓<br>
+Logs
+<br>↓<br>
+Root Cause
+<br>↓<br>
+Fix & Verify
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+<h2>1. Server CPU Usage Is 100%</h2>
+
+<h3>Question</h3>
+<p>
+A production Linux server suddenly reaches 100% CPU. How would
+you troubleshoot it?
+</p>
+
+<div class="answer">
+
+<strong>Step 1: Check overall CPU usage</strong>
+
+<pre>
+top
+uptime
+</pre>
+
+<strong>Step 2: Find the process consuming CPU</strong>
+
+<pre>
+ps aux --sort=-%cpu | head
+</pre>
+
+<strong>Step 3:</strong> Determine whether the process is expected,
+a runaway process, application issue or traffic-related issue.
+
+<strong>Step 4:</strong> Check application logs.
+
+<strong>Step 5:</strong> Fix the root cause and monitor again.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>2. Server Memory Is Almost Full</h2>
+
+<pre>
+free -h
+top
+ps aux --sort=-%mem | head
+</pre>
+
+<div class="answer">
+
+I would identify which process is consuming memory and determine
+whether the system is under genuine memory pressure or whether
+Linux is using memory for cache.
+
+I would also check swap usage.
+
+<pre>
+swapon --show
+</pre>
+
+Then I would investigate the application for a memory leak or
+increase capacity if required.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+<h2>3. Disk Space Is 100% Full</h2>
+
+<pre>
+df -h
+</pre>
+
+<p>Then identify large directories:</p>
+
+<pre>
+du -sh /* 2&gt;/dev/null
+du -sh /var/* 2&gt;/dev/null
+</pre>
+
+<div class="answer">
+
+Common causes include:
+
+<ul>
+<li>Large application logs</li>
+<li>Temporary files</li>
+<li>Old packages</li>
+<li>Large application data</li>
+<li>Log rotation failure</li>
+</ul>
+
+I would clean only safe files, fix log rotation if necessary,
+and increase disk capacity when required.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>4. Application Is Running but Users Cannot Access It</h2>
+
+<div class="flow">
+User
+<br>↓<br>
+Network
+<br>↓<br>
+Server
+<br>↓<br>
+Port
+<br>↓<br>
+Application
+</div>
+
+<h3>Check</h3>
+
+<pre>
+systemctl status application.service
+
+ss -tulpn
+
+curl localhost:8080
+</pre>
+
+<div class="answer">
+
+I would verify that the application process is running and
+listening on the expected port. Then I would check firewall,
+security rules and network connectivity.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+<h2>5. Service Is Not Running</h2>
+
+<pre>
+systemctl status nginx
+
+systemctl start nginx
+
+systemctl enable nginx
+</pre>
+
+<p>For deeper investigation:</p>
+
+<pre>
+journalctl -u nginx
+</pre>
+
+<div class="answer">
+
+I would first check the service status, then inspect the service
+logs and configuration, fix the root cause and restart the service.
+After restarting, I would verify its status and application
+connectivity.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>6. SSH Connection Is Failing</h2>
+
+<h3>Check from client</h3>
+
+<pre>
+ssh user@server-ip
+</pre>
+
+<h3>Check on server</h3>
+
+<pre>
+systemctl status sshd
+
+ss -tlnp | grep :22
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Server availability</li>
+<li>Port 22 connectivity</li>
+<li>SSH service</li>
+<li>Firewall rules</li>
+<li>User account</li>
+<li>SSH key / password</li>
+<li>sshd configuration</li>
+<li>Authentication logs</li>
+</ul>
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>7. Permission Denied Error</h2>
+
+<pre>
+ls -l file.txt
+
+id
+
+whoami
+</pre>
+
+<p>Check ownership:</p>
+
+<pre>
+chown user:group file.txt
+</pre>
+
+<p>Check permissions:</p>
+
+<pre>
+chmod 640 file.txt
+</pre>
+
+<div class="answer">
+
+I would first identify the user running the process and compare
+that user's permissions with the file or directory ownership.
+I would avoid blindly using <strong>chmod 777</strong>.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+<h2>8. Which Process Is Using a Port?</h2>
+
+<pre>
+ss -tulpn
+</pre>
+
+<p>Or:</p>
+
+<pre>
+lsof -i :8080
+</pre>
+
+<div class="answer">
+
+This helps identify which process is listening on the required
+port and whether another application is causing a port conflict.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>9. Application Logs Are Growing Rapidly</h2>
+
+<pre>
+du -sh /var/log/*
+
+tail -f /var/log/application.log
+</pre>
+
+<div class="answer">
+
+I would determine why the application is generating excessive
+logs, check log rotation configuration and prevent the filesystem
+from becoming full.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐</span>
+<h2>10. How Do You Find a File?</h2>
+
+<pre>
+find /var/log -name "*.log"
+
+find / -name "app.conf" 2&gt;/dev/null
+</pre>
+
+<p>Search inside files:</p>
+
+<pre>
+grep -R "ERROR" /var/log/
+</pre>
+
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>11. Server Load Average Is High</h2>
+
+<pre>
+uptime
+
+top
+</pre>
+
+<div class="answer">
+
+Load average indicates how much work is waiting for CPU or
+other system resources. I would correlate load average with
+CPU, memory, disk I/O and process information rather than
+assuming high load always means high CPU.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐</span>
+<h2>12. Disk I/O Is Very High</h2>
+
+<pre>
+iostat
+
+iotop
+
+vmstat
+</pre>
+
+<div class="answer">
+
+I would identify the process causing high disk activity and
+determine whether the workload is application-related,
+database-related or caused by insufficient disk performance.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+<h2>13. DNS Is Not Working</h2>
+
+<pre>
+nslookup google.com
+
+dig google.com
+
+cat /etc/resolv.conf
+</pre>
+
+<div class="answer">
+
+I would determine whether the issue is DNS configuration,
+network connectivity, resolver availability or an application-
+specific DNS problem.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐</span>
+<h2>14. Server Cannot Reach Another Server</h2>
+
+<pre>
+ping server-ip
+
+curl -v http://server-ip:8080
+
+nc -vz server-ip 8080
+</pre>
+
+<div class="answer">
+
+I would troubleshoot layer by layer:
+
+<ul>
+<li>DNS</li>
+<li>Routing</li>
+<li>Firewall</li>
+<li>Port availability</li>
+<li>Target service</li>
+</ul>
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>15. Process Is Stuck</h2>
+
+<pre>
+ps aux | grep application
+
+top
+</pre>
+
+<p>Inspect the process:</p>
+
+<pre>
+ps -p PID -f
+</pre>
+
+<p>If necessary, terminate gracefully:</p>
+
+<pre>
+kill PID
+</pre>
+
+<p>Force termination only when required:</p>
+
+<pre>
+kill -9 PID
+</pre>
+
+<div class="answer">
+<strong>Interview Point:</strong>
+Use SIGTERM first so the application has an opportunity to
+clean up. SIGKILL should be a last resort.
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+<h2>16. Server Rebooted Unexpectedly</h2>
+
+<div class="answer">
+
+I would investigate:
+
+<ul>
+<li>System logs</li>
+<li>Kernel messages</li>
+<li>Cloud provider events</li>
+<li>OOM events</li>
+<li>Hardware / infrastructure events</li>
+<li>Scheduled jobs</li>
+<li>Manual administrative actions</li>
+</ul>
+
+Useful commands:
+
+<pre>
+journalctl -b -1
+dmesg | tail -50
+last reboot
+</pre>
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>17. OOM Killer Terminated an Application</h2>
+
+<pre>
+dmesg | grep -i "out of memory"
+
+journalctl -k | grep -i oom
+</pre>
+
+<div class="answer">
+
+I would identify which process consumed excessive memory,
+check application behavior and determine whether memory limits
+or instance capacity need adjustment.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐</span>
+<h2>18. Cron Job Is Not Running</h2>
+
+<pre>
+crontab -l
+
+systemctl status cron
+</pre>
+
+<p>Check logs:</p>
+
+<pre>
+grep CRON /var/log/syslog
+</pre>
+
+<div class="answer">
+
+I would verify the cron syntax, correct user, executable
+permissions, absolute paths and environment variables.
+Cron runs with a limited environment, so commands that work
+interactively may fail in cron.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">⭐⭐⭐⭐⭐</span>
+<h2>19. Find the Top CPU and Memory Processes</h2>
+
+<pre>
+ps aux --sort=-%cpu | head
+
+ps aux --sort=-%mem | head
+</pre>
+
+<div class="answer">
+
+These commands quickly help identify resource-heavy processes
+during production troubleshooting.
+
+</div>
+</div>
+
+
+<div class="card">
+<span class="badge">🔥 TOP INTERVIEW REVISION</span>
+<h2>20. Linux Troubleshooting Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Commands</th>
+</tr>
+
+<tr>
+<td>High CPU</td>
+<td>top, ps</td>
+</tr>
+
+<tr>
+<td>High Memory</td>
+<td>free -h, top</td>
+</tr>
+
+<tr>
+<td>Disk Full</td>
+<td>df -h, du</td>
+</tr>
+
+<tr>
+<td>Service Down</td>
+<td>systemctl, journalctl</td>
+</tr>
+
+<tr>
+<td>Port Problem</td>
+<td>ss, lsof</td>
+</tr>
+
+<tr>
+<td>Network Problem</td>
+<td>ping, curl, nc</td>
+</tr>
+
+<tr>
+<td>DNS Problem</td>
+<td>dig, nslookup</td>
+</tr>
+
+<tr>
+<td>Permission Problem</td>
+<td>ls -l, id, chmod, chown</td>
+</tr>
+
+<tr>
+<td>Process Problem</td>
+<td>ps, top, kill</td>
+</tr>
+
+<tr>
+<td>System Failure</td>
+<td>journalctl, dmesg</td>
+</tr>
+
+</table>
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Golden Linux Interview Formula</h2>
+
+<div class="flow">
+
+<strong>CPU</strong>
+→ top / ps
+
+<br><br>
+
+<strong>Memory</strong>
+→ free / top
+
+<br><br>
+
+<strong>Disk</strong>
+→ df / du
+
+<br><br>
+
+<strong>Process</strong>
+→ ps / top
+
+<br><br>
+
+<strong>Service</strong>
+→ systemctl / journalctl
+
+<br><br>
+
+<strong>Network</strong>
+→ ping / curl / ss / nc
+
+<br><br>
+
+<strong>DNS</strong>
+→ dig / nslookup
+
+<br><br>
+
+<strong>Permissions</strong>
+→ ls / chmod / chown
+
+<br><br>
+
+<strong>Logs</strong>
+→ journalctl / grep / tail
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Real-Time Scenarios
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Linux Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

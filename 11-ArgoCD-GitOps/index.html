@@ -1,0 +1,478 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArgoCD & GitOps - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+.logo{
+    font-size:52px;
+}
+
+h1{
+    margin:8px 0;
+    font-size:clamp(30px,5vw,48px);
+}
+
+h1 span{
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:40px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:28px;
+    margin-bottom:22px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:22px;
+    margin:20px 0;
+    font-size:17px;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:8px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 12px;
+    margin:4px;
+    border-radius:20px;
+    border:1px solid #334155;
+    background:#172033;
+    color:#fbbf24;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+a{
+    color:#c4b5fd;
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">🔄</div>
+
+<h1>ArgoCD <span>& GitOps</span></h1>
+
+<p>
+Interview-focused guide covering GitOps fundamentals, ArgoCD architecture,
+applications, synchronization, deployment strategies, troubleshooting,
+security and real-time scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>🎯 What You Will Learn</h2>
+
+<div class="badge">GitOps</div>
+<div class="badge">ArgoCD</div>
+<div class="badge">Kubernetes</div>
+<div class="badge">Declarative Deployment</div>
+<div class="badge">Sync</div>
+<div class="badge">Rollback</div>
+<div class="badge">Security</div>
+<div class="badge">Troubleshooting</div>
+
+<p>
+This section focuses only on the concepts that are important for
+DevOps interviews and real production environments.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐ Learning Flow</h2>
+
+<div class="flow">
+
+GitOps Fundamentals
+<br>↓<br>
+ArgoCD Architecture
+<br>↓<br>
+ArgoCD Components
+<br>↓<br>
+Application & ApplicationSet
+<br>↓<br>
+Repository Configuration
+<br>↓<br>
+Sync & Reconciliation
+<br>↓<br>
+Deployment Strategies
+<br>↓<br>
+Security & RBAC
+<br>↓<br>
+Troubleshooting
+<br>↓<br>
+Real-Time Scenarios
+<br>↓<br>
+Final Revision
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📚 Main Files</h2>
+
+<table>
+
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><strong>gitops-argocd-basics.html</strong></td>
+<td>GitOps fundamentals and ArgoCD basics</td>
+</tr>
+
+<tr>
+<td><strong>argocd-architecture.html</strong></td>
+<td>Architecture, components and request flow</td>
+</tr>
+
+<tr>
+<td><strong>argocd-applications-sync.html</strong></td>
+<td>Applications, repositories, sync and reconciliation</td>
+</tr>
+
+<tr>
+<td><strong>argocd-security-troubleshooting.html</strong></td>
+<td>RBAC, secrets, common failures and troubleshooting</td>
+</tr>
+
+<tr>
+<td><strong>argocd-final-revision.html</strong></td>
+<td>Last-minute interview revision</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🚀 Complete GitOps Flow</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git Application / Manifest Repository
+<br>↓<br>
+ArgoCD Detects Desired State
+<br>↓<br>
+ArgoCD Compares Git vs Cluster
+<br>↓<br>
+OutOfSync
+<br>↓<br>
+Sync
+<br>↓<br>
+Kubernetes API
+<br>↓<br>
+Resources Created / Updated
+<br>↓<br>
+Cluster Reaches Desired State
+<br>↓<br>
+ArgoCD Continuously Reconciles
+
+</div>
+
+<div class="answer">
+
+<strong>Core interview point:</strong>
+
+Git is the source of truth. ArgoCD continuously compares the desired
+state stored in Git with the actual state of the Kubernetes cluster
+and works to keep them aligned.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 Most Important Interview Areas</h2>
+
+<ol>
+
+<li>What is GitOps?</li>
+
+<li>Why use ArgoCD?</li>
+
+<li>Push-based vs Pull-based deployment</li>
+
+<li>ArgoCD architecture</li>
+
+<li>ArgoCD components</li>
+
+<li>Application and ApplicationSet</li>
+
+<li>Desired state vs actual state</li>
+
+<li>Sync and reconciliation</li>
+
+<li>Automated vs manual sync</li>
+
+<li>Self-healing</li>
+
+<li>Pruning</li>
+
+<li>Rollback</li>
+
+<li>ArgoCD RBAC</li>
+
+<li>Repository authentication</li>
+
+<li>ArgoCD troubleshooting</li>
+
+<li>ArgoCD with GitHub Actions</li>
+
+<li>ArgoCD with Kubernetes / EKS</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔗 GitHub Actions + ArgoCD</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+GitHub
+<br>↓<br>
+GitHub Actions
+<br>↓<br>
+Build + Test + Security Scan
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Container Registry
+<br>↓<br>
+Update GitOps Repository
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Kubernetes / EKS
+
+</div>
+
+<div class="answer">
+
+<strong>Simple interview explanation:</strong>
+
+GitHub Actions handles the CI part such as build, test, scan and
+image publishing. ArgoCD handles continuous delivery by watching the
+GitOps repository and synchronizing the desired state into Kubernetes.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Memory</h2>
+
+<table>
+
+<tr>
+<th>Term</th>
+<th>Remember</th>
+</tr>
+
+<tr>
+<td>GitOps</td>
+<td>Git is the source of truth for desired infrastructure/application state.</td>
+</tr>
+
+<tr>
+<td>ArgoCD</td>
+<td>GitOps continuous delivery tool for Kubernetes.</td>
+</tr>
+
+<tr>
+<td>Desired State</td>
+<td>What Git says the cluster should look like.</td>
+</tr>
+
+<tr>
+<td>Actual State</td>
+<td>What currently exists in the cluster.</td>
+</tr>
+
+<tr>
+<td>Sync</td>
+<td>Apply desired state from Git to the cluster.</td>
+</tr>
+
+<tr>
+<td>Drift</td>
+<td>Difference between desired and actual state.</td>
+</tr>
+
+<tr>
+<td>Self-Healing</td>
+<td>Automatically correct supported drift.</td>
+</tr>
+
+<tr>
+<td>Prune</td>
+<td>Remove resources no longer defined in Git.</td>
+</tr>
+
+<tr>
+<td>Rollback</td>
+<td>Return to a previous desired application state.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>📌 Recommended Order</h2>
+
+<div class="flow">
+
+01 → GitOps & ArgoCD Basics
+<br>
+02 → Architecture
+<br>
+03 → Applications & Sync
+<br>
+04 → Security & Troubleshooting
+<br>
+05 → Final Revision
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🏠 Back to Main Guide</h2>
+
+<p>
+<a href="../index.html">← Back to DevOps Interview Master Guide</a>
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+🔄 ArgoCD & GitOps • DevOps Interview Master Guide
+<br><br>
+Nandu's DevOps Interview Guide • 2026
+
+</footer>
+
+</body>
+</html>
+```

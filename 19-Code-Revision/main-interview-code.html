@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MAIN Interview Code Revision</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:55px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b9;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:28px;
+    margin-bottom:25px;
+}
+
+h2{
+    color:#93c5fd;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:20px;
+    overflow-x:auto;
+    color:#dbeafe;
+    font-family:Consolas,monospace;
+}
+
+.badge{
+    display:inline-block;
+    background:#1e293b;
+    color:#fbbf24;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.note{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:7px;
+    margin:15px 0;
+}
+
+.toc a{
+    display:block;
+    color:#93c5fd;
+    text-decoration:none;
+    margin:9px 0;
+}
+
+.toc a:hover{
+    text-decoration:underline;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px;">💻</div>
+
+<h1>MAIN Interview Code Revision</h1>
+
+<p>
+High-probability code, YAML and configuration questions
+that an interviewer may ask you to write.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- INTRO -->
+
+<div class="card">
+
+<span class="badge">🔥 FINAL CODE REVISION</span>
+
+<h2>What Is This File?</h2>
+
+<p>
+This is the single main code-revision file for the complete
+DevOps Interview Guide.
+</p>
+
+<div class="note">
+
+<strong>Focus:</strong>
+
+Only code/configuration that has a realistic possibility of being
+asked as:
+
+<br><br>
+
+"Write a Dockerfile."
+
+<br>
+
+"Write a Kubernetes Deployment."
+
+<br>
+
+"Write a Terraform configuration."
+
+<br>
+
+"Write a Jenkinsfile."
+
+<br>
+
+"Write a CI/CD YAML."
+
+</div>
+
+</div>
+
+
+<!-- TABLE OF CONTENTS -->
+
+<div class="card">
+
+<h2>📚 Contents</h2>
+
+<div class="toc">
+
+<a href="#docker">🐳 1. Dockerfile</a>
+
+<a href="#kubernetes">☸️ 2. Kubernetes Manifests</a>
+
+<a href="#terraform">🏗️ 3. Terraform</a>
+
+<a href="#jenkins">🔧 4. Jenkinsfile</a>
+
+<a href="#github-actions">⚙️ 5. GitHub Actions</a>
+
+<a href="#bash">🐚 6. Bash Scripting</a>
+
+<a href="#aws">☁️ 7. AWS CLI</a>
+
+</div>
+
+</div>
+
+
+<!-- DOCKER -->
+
+<div class="card" id="docker">
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<h2>🐳 1. Dockerfile</h2>
+
+<h3>Basic Dockerfile</h3>
+
+<pre>
+FROM nginx:alpine
+
+COPY . /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+</pre>
+
+<h3>Node.js Application</h3>
+
+<pre>
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+</pre>
+
+<div class="note">
+
+<strong>Possible interview question:</strong>
+
+Write a Dockerfile for an application.
+
+</div>
+
+</div>
+
+
+<!-- KUBERNETES -->
+
+<div class="card" id="kubernetes">
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<h2>☸️ 2. Kubernetes Manifests</h2>
+
+
+<h3>Deployment</h3>
+
+<pre>
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: myapp
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+
+    metadata:
+      labels:
+        app: myapp
+
+    spec:
+
+      containers:
+        - name: myapp
+          image: nginx:latest
+
+          ports:
+            - containerPort: 80
+</pre>
+
+
+<h3>Service</h3>
+
+<pre>
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: myapp-service
+
+spec:
+
+  selector:
+    app: myapp
+
+  ports:
+    - port: 80
+      targetPort: 80
+
+  type: ClusterIP
+</pre>
+
+
+<h3>ConfigMap</h3>
+
+<pre>
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-config
+
+data:
+  APP_ENV: "production"
+  APP_NAME: "myapp"
+</pre>
+
+
+<h3>Secret</h3>
+
+<pre>
+apiVersion: v1
+kind: Secret
+
+metadata:
+  name: app-secret
+
+type: Opaque
+
+stringData:
+  DB_USERNAME: admin
+  DB_PASSWORD: password
+</pre>
+
+
+<h3>Ingress</h3>
+
+<pre>
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: myapp-ingress
+
+spec:
+
+  rules:
+
+    - host: myapp.example.com
+
+      http:
+
+        paths:
+
+          - path: /
+            pathType: Prefix
+
+            backend:
+
+              service:
+                name: myapp-service
+
+                port:
+                  number: 80
+</pre>
+
+
+<h3>HPA</h3>
+
+<pre>
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name: myapp-hpa
+
+spec:
+
+  scaleTargetRef:
+
+    apiVersion: apps/v1
+    kind: Deployment
+    name: myapp
+
+  minReplicas: 2
+  maxReplicas: 5
+
+  metrics:
+
+    - type: Resource
+
+      resource:
+
+        name: cpu
+
+        target:
+
+          type: Utilization
+          averageUtilization: 70
+</pre>
+
+<div class="note">
+
+<strong>Priority:</strong>
+
+Deployment → Service → ConfigMap/Secret → Ingress → HPA
+
+</div>
+
+</div>
+
+
+<!-- TERRAFORM -->
+
+<div class="card" id="terraform">
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<h2>🏗️ 3. Terraform Code</h2>
+
+
+<h3>AWS Provider</h3>
+
+<pre>
+terraform {
+
+  required_providers {
+
+    aws = {
+
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+
+    }
+  }
+}
+
+provider "aws" {
+
+  region = "ap-south-1"
+
+}
+</pre>
+
+
+<h3>EC2 Resource</h3>
+
+<pre>
+resource "aws_instance" "web" {
+
+  ami           = "ami-xxxxxxxx"
+  instance_type = "t3.micro"
+
+  tags = {
+
+    Name = "web-server"
+
+  }
+}
+</pre>
+
+
+<h3>Variable</h3>
+
+<pre>
+variable "instance_type" {
+
+  description = "EC2 instance type"
+
+  type = string
+
+  default = "t3.micro"
+}
+</pre>
+
+
+<h3>Output</h3>
+
+<pre>
+output "instance_public_ip" {
+
+  value = aws_instance.web.public_ip
+
+}
+</pre>
+
+
+<div class="note">
+
+<strong>Possible interview questions:</strong>
+
+<br><br>
+
+Write Terraform code to create an EC2 instance.
+
+<br>
+
+How do you define a variable?
+
+<br>
+
+How do you create an output?
+
+</div>
+
+</div>
+
+
+<!-- JENKINS -->
+
+<div class="card" id="jenkins">
+
+<span class="badge">⭐⭐⭐⭐⭐ MUST KNOW</span>
+
+<h2>🔧 4. Jenkinsfile</h2>
+
+<h3>Basic Declarative Pipeline</h3>
+
+<pre>
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+
+            steps {
+
+                echo 'Checking out source code'
+
+            }
+        }
+
+
+        stage('Build') {
+
+            steps {
+
+                echo 'Building application'
+
+            }
+        }
+
+
+        stage('Test') {
+
+            steps {
+
+                echo 'Running tests'
+
+            }
+        }
+
+
+        stage('Docker Build') {
+
+            steps {
+
+                sh 'docker build -t myapp:latest .'
+
+            }
+        }
+
+
+        stage('Deploy') {
+
+            steps {
+
+                echo 'Deploying application'
+
+            }
+        }
+    }
+}
+</pre>
+
+<div class="note">
+
+<strong>Possible question:</strong>
+
+Write a basic Jenkins declarative pipeline.
+
+</div>
+
+</div>
+
+
+<!-- GITHUB ACTIONS -->
+
+<div class="card" id="github-actions">
+
+<span class="badge">⭐⭐⭐⭐ GOOD TO KNOW</span>
+
+<h2>⚙️ 5. GitHub Actions YAML</h2>
+
+<pre>
+name: CI
+
+on:
+
+  push:
+
+    branches:
+      - main
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+      - name: Build
+        run: echo "Building application"
+
+
+      - name: Test
+        run: echo "Running tests"
+</pre>
+
+<div class="note">
+
+<strong>Possible question:</strong>
+
+Write a basic GitHub Actions workflow.
+
+</div>
+
+</div>
+
+
+<!-- BASH -->
+
+<div class="card" id="bash">
+
+<span class="badge">⭐⭐⭐ BASIC</span>
+
+<h2>🐚 6. Bash Scripting</h2>
+
+<h3>File Check</h3>
+
+<pre>
+#!/bin/bash
+
+if [ -f "/etc/passwd" ]; then
+
+    echo "File exists"
+
+else
+
+    echo "File does not exist"
+
+fi
+</pre>
+
+
+<h3>Simple Backup Script</h3>
+
+<pre>
+#!/bin/bash
+
+SOURCE="/var/www"
+
+BACKUP="/backup"
+
+DATE=$(date +%Y-%m-%d)
+
+mkdir -p "$BACKUP"
+
+tar -czf "$BACKUP/backup-$DATE.tar.gz" "$SOURCE"
+
+echo "Backup completed"
+</pre>
+
+<div class="note">
+
+Basic Bash is enough unless the specific job requires
+strong scripting skills.
+
+</div>
+
+</div>
+
+
+<!-- AWS CLI -->
+
+<div class="card" id="aws">
+
+<span class="badge">⭐⭐⭐ BASIC</span>
+
+<h2>☁️ 7. Important AWS CLI</h2>
+
+
+<h3>Check AWS Identity</h3>
+
+<pre>
+aws sts get-caller-identity
+</pre>
+
+
+<h3>List S3 Buckets</h3>
+
+<pre>
+aws s3 ls
+</pre>
+
+
+<h3>List EKS Clusters</h3>
+
+<pre>
+aws eks list-clusters
+</pre>
+
+
+<h3>Update EKS Kubeconfig</h3>
+
+<pre>
+aws eks update-kubeconfig \
+  --region ap-south-1 \
+  --name my-cluster
+</pre>
+
+
+<div class="note">
+
+No need to memorize hundreds of AWS CLI commands.
+
+These are only the common interview-level examples.
+
+</div>
+
+</div>
+
+
+<!-- FINAL PRIORITY -->
+
+<div class="card">
+
+<span class="badge">🔥 FINAL REVISION PRIORITY</span>
+
+<h2>What Should I Memorize?</h2>
+
+<h3>⭐⭐⭐⭐⭐ Must Know</h3>
+
+<ul>
+
+<li>Dockerfile</li>
+
+<li>Kubernetes Deployment</li>
+
+<li>Kubernetes Service</li>
+
+<li>Terraform resource</li>
+
+<li>Jenkinsfile</li>
+
+</ul>
+
+
+<h3>⭐⭐⭐⭐ Good to Know</h3>
+
+<ul>
+
+<li>ConfigMap</li>
+
+<li>Secret</li>
+
+<li>Ingress</li>
+
+<li>HPA</li>
+
+<li>GitHub Actions YAML</li>
+
+</ul>
+
+
+<h3>⭐⭐⭐ Basic Awareness</h3>
+
+<ul>
+
+<li>Bash scripting</li>
+
+<li>AWS CLI</li>
+
+</ul>
+
+</div>
+
+
+<!-- GOLDEN RULE -->
+
+<div class="card">
+
+<h2>🧠 Golden Rule</h2>
+
+<div class="note">
+
+Don't memorize every line blindly.
+
+Understand the structure:
+
+<br><br>
+
+<strong>
+Docker → Image
+<br>
+Kubernetes → Desired State
+<br>
+Terraform → Infrastructure
+<br>
+Jenkins → Pipeline
+<br>
+GitHub Actions → Workflow
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="../index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+
+← Back to Main Guide
+
+</a>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+Nandu's DevOps Interview Guide • MAIN Interview Code Revision • 2026
+
+</footer>
+
+</body>
+</html>

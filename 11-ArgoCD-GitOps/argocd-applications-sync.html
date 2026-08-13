@@ -1,0 +1,817 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ArgoCD Applications & Sync</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    margin:10px 0;
+    font-size:42px;
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:8px;
+}
+
+.warning{
+    background:#241b10;
+    border-left:4px solid #fbbf24;
+    padding:16px;
+    border-radius:8px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+code{
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#fbbf24;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:50px">🔄</div>
+
+<h1>ArgoCD Applications & Sync</h1>
+
+<p>
+Applications, synchronization, OutOfSync, automated deployment,
+self-healing, pruning, health status and real-time GitOps flow.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is an ArgoCD Application?</h2>
+
+<p>
+An ArgoCD Application is a Kubernetes custom resource that defines
+which configuration should be deployed from a source repository to a
+target Kubernetes cluster and namespace.
+</p>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+An ArgoCD Application connects the desired state stored in Git with a
+destination Kubernetes cluster and continuously manages the
+application according to the configured synchronization policy.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Three Important Parts of an Application</h2>
+
+<table>
+
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><strong>Source</strong></td>
+<td>Where the desired configuration comes from.</td>
+</tr>
+
+<tr>
+<td><strong>Destination</strong></td>
+<td>Where the application will be deployed.</td>
+</tr>
+
+<tr>
+<td><strong>Sync Policy</strong></td>
+<td>Controls how synchronization should happen.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+📦 Git Repository
+<br>
+<strong>Source</strong>
+<br>↓<br>
+🔄 ArgoCD Application
+<br>↓<br>
+☸️ Kubernetes Cluster
+<br>
+<strong>Destination</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Example ArgoCD Application</h2>
+
+<pre>
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: nginx-app
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/example/gitops-repo.git
+    targetRevision: main
+    path: manifests
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+</pre>
+
+<div class="answer">
+
+<strong>Remember:</strong><br>
+
+<code>source</code> → What should be deployed?<br>
+<code>destination</code> → Where should it be deployed?<br>
+<code>syncPolicy</code> → How should synchronization happen?
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. What is Sync?</h2>
+
+<p>
+Sync is the process of applying the desired state from Git to the
+target Kubernetes cluster.
+</p>
+
+<div class="flow">
+
+Git Desired State
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Compare With Live State
+<br>↓<br>
+Differences Found
+<br>↓<br>
+<strong>SYNC</strong>
+<br>↓<br>
+Kubernetes Updated
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. What is OutOfSync?</h2>
+
+<p>
+An application becomes <strong>OutOfSync</strong> when the desired state
+in Git differs from the live state in Kubernetes.
+</p>
+
+<div class="flow">
+
+Git
+<br>
+replicas = 3
+<br>↓<br>
+Kubernetes
+<br>
+replicas = 1
+<br>↓<br>
+⚠️ <strong>OUT OF SYNC</strong>
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+OutOfSync means there is a difference between the desired state stored
+in Git and the live state running in the Kubernetes cluster.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is Synced?</h2>
+
+<p>
+An application is Synced when the live Kubernetes state matches the
+desired configuration.
+</p>
+
+<div class="flow">
+
+Git
+<br>
+replicas = 3
+<br>↕<br>
+Kubernetes
+<br>
+replicas = 3
+<br>↓<br>
+✅ <strong>SYNCED</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Manual Sync</h2>
+
+<p>
+In manual synchronization, ArgoCD detects a difference but waits for
+the user to trigger synchronization.
+</p>
+
+<div class="flow">
+
+Git Change
+<br>↓<br>
+ArgoCD Detects Difference
+<br>↓<br>
+⚠️ OutOfSync
+<br>↓<br>
+👨‍💻 Engineer Clicks Sync
+<br>↓<br>
+Kubernetes Updated
+
+</div>
+
+<div class="answer">
+
+<strong>Use Case:</strong><br>
+
+Manual sync is useful when deployments, especially production
+deployments, require an explicit human action.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Automated Sync</h2>
+
+<p>
+With automated synchronization enabled, ArgoCD can automatically apply
+eligible changes detected in the desired Git state.
+</p>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git Commit
+<br>↓<br>
+ArgoCD Detects Change
+<br>↓<br>
+Automatic Sync
+<br>↓<br>
+Kubernetes Updated
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+Automated sync removes the need for an engineer to manually click the
+Sync button for every eligible Git change.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is Self-Heal?</h2>
+
+<p>
+Self-healing allows ArgoCD to react to certain changes made directly
+to Kubernetes that cause drift from the desired Git state.
+</p>
+
+<div class="flow">
+
+Git
+<br>
+replicas = 3
+<br>↓<br>
+Manual kubectl Change
+<br>
+replicas = 1
+<br>↓<br>
+ArgoCD Detects Drift
+<br>↓<br>
+Self-Heal
+<br>↓<br>
+Cluster moves toward Git state
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+Self-heal helps ArgoCD automatically reconcile certain out-of-band
+changes so that the live state moves back toward the desired Git state.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 10. What is Pruning?</h2>
+
+<p>
+Pruning removes resources that are no longer defined in the desired
+application state when pruning is enabled.
+</p>
+
+<div class="flow">
+
+Git
+<br>
+Deployment + Service
+<br>↓<br>
+Developer removes Service from Git
+<br>↓<br>
+ArgoCD Detects Difference
+<br>↓<br>
+Pruning Enabled
+<br>↓<br>
+Service Removed From Cluster
+
+</div>
+
+<div class="warning">
+
+<strong>Important:</strong><br>
+
+Pruning can delete Kubernetes resources. It should be enabled carefully,
+especially for production environments.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Sync Policy</h2>
+
+<p>
+The sync policy defines how ArgoCD should synchronize the application.
+</p>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>Automated</td>
+<td>Automatically synchronize eligible changes.</td>
+</tr>
+
+<tr>
+<td>Prune</td>
+<td>Remove resources no longer desired.</td>
+</tr>
+
+<tr>
+<td>Self-Heal</td>
+<td>React to supported live-state drift.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Application Health</h2>
+
+<p>
+ArgoCD also monitors the health of application resources.
+</p>
+
+<table>
+
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Healthy</td>
+<td>Resources are operating as expected.</td>
+</tr>
+
+<tr>
+<td>Progressing</td>
+<td>Resources are still moving toward the expected state.</td>
+</tr>
+
+<tr>
+<td>Degraded</td>
+<td>One or more resources are unhealthy.</td>
+</tr>
+
+<tr>
+<td>Missing</td>
+<td>An expected resource is not present.</td>
+</tr>
+
+<tr>
+<td>Unknown</td>
+<td>ArgoCD cannot determine the resource health.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Synced vs Healthy</h2>
+
+<table>
+
+<tr>
+<th>Status</th>
+<th>Question It Answers</th>
+</tr>
+
+<tr>
+<td><strong>Synced</strong></td>
+<td>Does the live configuration match Git?</td>
+</tr>
+
+<tr>
+<td><strong>Healthy</strong></td>
+<td>Are the deployed resources operating correctly?</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Example:</strong><br>
+
+An application can be <strong>Synced but Degraded</strong> if Kubernetes
+matches Git but the deployed application is unhealthy.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. Sync Waves</h2>
+
+<p>
+Sync waves allow resources to be applied in a controlled order.
+</p>
+
+<div class="flow">
+
+Wave 0
+<br>
+Namespace
+<br>↓<br>
+
+Wave 1
+<br>
+ConfigMap / Secret
+<br>↓<br>
+
+Wave 2
+<br>
+Deployment
+<br>↓<br>
+
+Wave 3
+<br>
+Ingress
+
+</div>
+
+<p>
+This is useful when certain resources need to exist before dependent
+resources are deployed.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Complete Sync Flow</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓<br>
+Git Commit
+<br>↓<br>
+📦 Git Repository
+<br>↓<br>
+🔍 ArgoCD Detects Change
+<br>↓<br>
+📥 Repo Server
+<br>↓<br>
+Manifest Generation
+<br>↓<br>
+🔄 Application Controller
+<br>↓<br>
+Compare Desired vs Live
+<br>↓<br>
+⚠️ OutOfSync
+<br>↓<br>
+Sync
+<br>↓<br>
+☸️ Kubernetes API
+<br>↓<br>
+🚀 Resources Updated
+<br>↓<br>
+❤️ Health Check
+<br>↓<br>
+✅ Synced + Healthy
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Real-Time Interview Scenario</h2>
+
+<h3>Scenario</h3>
+
+<p>
+Your Git repository says the application should have three replicas,
+but someone manually changes the Deployment to one replica using
+<code>kubectl</code>.
+</p>
+
+<h3>What happens?</h3>
+
+<ol>
+
+<li>ArgoCD compares desired and live state.</li>
+
+<li>It detects a difference.</li>
+
+<li>The Application becomes OutOfSync.</li>
+
+<li>If automated sync with self-heal is enabled, ArgoCD can reconcile
+the drift.</li>
+
+<li>The Kubernetes Deployment moves toward the Git-defined state.</li>
+
+<li>ArgoCD checks the resulting application health.</li>
+
+</ol>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"This is configuration drift. ArgoCD detects that the live state
+differs from the desired state in Git. If self-healing is enabled,
+ArgoCD automatically reconciles the supported drift and brings the
+cluster back toward the Git state."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is an ArgoCD Application?</li>
+
+<li>What is synchronization in ArgoCD?</li>
+
+<li>What is OutOfSync?</li>
+
+<li>What is Synced?</li>
+
+<li>Manual sync vs automated sync?</li>
+
+<li>What is self-healing?</li>
+
+<li>What is pruning?</li>
+
+<li>What is a sync policy?</li>
+
+<li>What is the difference between Synced and Healthy?</li>
+
+<li>What are sync waves?</li>
+
+<li>What happens when someone changes a resource using kubectl?</li>
+
+<li>Explain the complete ArgoCD synchronization flow.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 One-Minute Revision</h2>
+
+<div class="answer">
+
+<strong>Application</strong> → Defines what and where to deploy.<br><br>
+
+<strong>Sync</strong> → Applies desired Git state to Kubernetes.<br><br>
+
+<strong>OutOfSync</strong> → Git and cluster differ.<br><br>
+
+<strong>Synced</strong> → Git and cluster match.<br><br>
+
+<strong>Automated Sync</strong> → Synchronization happens automatically.<br><br>
+
+<strong>Self-Heal</strong> → Reconciles supported live-state drift.<br><br>
+
+<strong>Prune</strong> → Removes resources no longer desired.<br><br>
+
+<strong>Healthy</strong> → Application resources are operating correctly.<br><br>
+
+<strong>Sync Waves</strong> → Control deployment order.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p>
+<strong>argocd-helm-kustomize.html</strong>
+</p>
+
+<a href="index.html">← Back to ArgoCD & GitOps Index</a>
+
+</div>
+
+</main>
+
+<footer>
+ArgoCD Applications & Sync • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

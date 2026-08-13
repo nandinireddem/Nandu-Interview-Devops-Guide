@@ -1,0 +1,911 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EKS Final Revision | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{
+    margin:8px 0
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:13px;
+    margin-bottom:10px
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">☸️</div>
+
+<h1>EKS Final Revision</h1>
+
+<p>
+Last-minute Amazon EKS interview revision covering architecture,
+networking, security, troubleshooting, scaling and production
+scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Amazon EKS?</h2>
+
+<div class="answer">
+
+Amazon EKS is a managed Kubernetes service provided by AWS.
+AWS manages the Kubernetes control-plane infrastructure while
+customers manage workloads, worker capacity and cluster
+configuration according to the chosen architecture.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. EKS High-Level Architecture</h2>
+
+<div class="flow">
+
+👤 User
+<br>↓
+<br>
+AWS / Kubernetes API
+<br>↓
+<br>
+☸️ EKS Control Plane
+<br>↓
+<br>
+Worker Nodes
+<br>↓
+<br>
+Pods
+<br>↓
+<br>
+Applications
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Control Plane vs Data Plane</h2>
+
+<table>
+
+<tr>
+<th>Control Plane</th>
+<th>Data Plane</th>
+</tr>
+
+<tr>
+<td>Runs Kubernetes control components.</td>
+<td>Runs application workloads.</td>
+</tr>
+
+<tr>
+<td>Managed by AWS in EKS.</td>
+<td>Uses compute capacity such as managed nodes, self-managed nodes or other supported compute models.</td>
+</tr>
+
+<tr>
+<td>API Server, scheduler and controllers are part of the Kubernetes control plane.</td>
+<td>Worker nodes run Pods and container workloads.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. EKS Networking</h2>
+
+<div class="flow">
+
+VPC
+<br>↓
+<br>
+Subnets
+<br>↓
+<br>
+Worker Nodes
+<br>↓
+<br>
+Pods
+<br>↓
+<br>
+Services
+<br>↓
+<br>
+Load Balancer / Ingress
+
+</div>
+
+<div class="answer">
+
+<strong>Key Point:</strong><br>
+
+EKS integrates Kubernetes networking with AWS VPC networking.
+The AWS VPC CNI is commonly used to provide Pod networking.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Kubernetes Service Types</h2>
+
+<table>
+
+<tr>
+<th>Service</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>ClusterIP</td>
+<td>Internal cluster communication.</td>
+</tr>
+
+<tr>
+<td>NodePort</td>
+<td>Exposes a Service through a port on nodes.</td>
+</tr>
+
+<tr>
+<td>LoadBalancer</td>
+<td>Provides integration with external load-balancing infrastructure.</td>
+</tr>
+
+<tr>
+<td>ExternalName</td>
+<td>Provides a DNS-based alias to an external service.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Ingress</h2>
+
+<div class="answer">
+
+Ingress defines HTTP/HTTPS routing rules to Services.
+In AWS EKS, the AWS Load Balancer Controller can use Ingress
+resources to provision and configure Application Load Balancers.
+
+</div>
+
+<div class="flow">
+
+Internet
+<br>↓
+<br>
+ALB
+<br>↓
+<br>
+Ingress
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Pods
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. EKS Security</h2>
+
+<div class="flow">
+
+IAM
+<br>↓
+<br>
+EKS Access
+<br>↓
+<br>
+Kubernetes RBAC
+<br>↓
+<br>
+Resources
+
+<br><br>
+
+Security Groups
+<br>+
+<br>
+NetworkPolicy
+<br>+
+<br>
+Encryption
+<br>+
+<br>
+Secrets
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. IAM vs RBAC</h2>
+
+<div class="answer">
+
+<strong>IAM:</strong>
+Controls AWS-level identity and permissions.
+
+<br><br>
+
+<strong>Kubernetes RBAC:</strong>
+Controls authorization to Kubernetes resources.
+
+<br><br>
+
+<strong>Interview Answer:</strong><br>
+
+"IAM determines who can access AWS/EKS and what AWS permissions
+they have, while Kubernetes RBAC determines what an authorized
+identity can do inside Kubernetes."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Workload Access to AWS</h2>
+
+<div class="flow">
+
+Pod
+<br>↓
+<br>
+Kubernetes Service Account
+<br>↓
+<br>
+IAM Role
+<br>↓
+<br>
+AWS API
+<br>↓
+<br>
+S3 / DynamoDB / Secrets Manager / etc.
+
+</div>
+
+<div class="answer">
+
+Avoid storing long-lived AWS access keys directly inside
+application containers.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. EKS Autoscaling</h2>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Scales</th>
+</tr>
+
+<tr>
+<td>HPA</td>
+<td>Application Pods.</td>
+</tr>
+
+<tr>
+<td>Cluster Autoscaler</td>
+<td>Configured node groups.</td>
+</tr>
+
+<tr>
+<td>Karpenter</td>
+<td>Dynamic compute capacity based on pending workload requirements.</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+Traffic ↑
+<br>↓
+<br>
+HPA
+<br>↓
+<br>
+Pods ↑
+<br>↓
+<br>
+Node Capacity Insufficient
+<br>↓
+<br>
+Karpenter / Cluster Autoscaler
+<br>↓
+<br>
+Nodes ↑
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Most Important Troubleshooting Scenarios</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Check</th>
+</tr>
+
+<tr>
+<td>Pod Pending</td>
+<td>kubectl describe pod</td>
+</tr>
+
+<tr>
+<td>CrashLoopBackOff</td>
+<td>kubectl logs --previous</td>
+</tr>
+
+<tr>
+<td>ImagePullBackOff</td>
+<td>Pod Events</td>
+</tr>
+
+<tr>
+<td>Node NotReady</td>
+<td>kubectl describe node</td>
+</tr>
+
+<tr>
+<td>Service Not Working</td>
+<td>Service + Endpoints</td>
+</tr>
+
+<tr>
+<td>DNS Problem</td>
+<td>CoreDNS</td>
+</tr>
+
+<tr>
+<td>Ingress Problem</td>
+<td>Ingress + Load Balancer Controller</td>
+</tr>
+
+<tr>
+<td>Pod Internet Problem</td>
+<td>Routes + NAT + Security Groups + CNI</td>
+</tr>
+
+<tr>
+<td>Cluster Access Problem</td>
+<td>IAM + kubeconfig + endpoint access</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Golden Troubleshooting Flow</h2>
+
+<div class="flow">
+
+Pod
+<br>↓
+<br>
+Container
+<br>↓
+<br>
+Node
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Endpoints
+<br>↓
+<br>
+DNS
+<br>↓
+<br>
+CNI
+<br>↓
+<br>
+VPC
+<br>↓
+<br>
+AWS Network
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Tip:</strong><br>
+
+Always identify the failing layer before changing configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Important Commands</h2>
+
+<pre>
+kubectl get nodes
+
+kubectl get pods -A
+
+kubectl get pods -o wide
+
+kubectl describe pod &lt;pod&gt;
+
+kubectl describe node &lt;node&gt;
+
+kubectl logs &lt;pod&gt;
+
+kubectl logs &lt;pod&gt; --previous
+
+kubectl get svc -A
+
+kubectl get endpoints -A
+
+kubectl get ingress -A
+
+kubectl get events -A
+
+kubectl get hpa -A
+
+kubectl top pods -A
+
+kubectl top nodes
+
+aws sts get-caller-identity
+
+aws eks describe-cluster --name &lt;cluster-name&gt;
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Production EKS Architecture</h2>
+
+<div class="flow">
+
+🌍 Users
+<br>↓
+<br>
+Route 53
+<br>↓
+<br>
+AWS Load Balancer
+<br>↓
+<br>
+EKS
+<br>↓
+<br>
+Kubernetes Services
+<br>↓
+<br>
+Pods
+<br>↓
+<br>
+AWS VPC
+<br>↓
+<br>
+AWS Services
+
+<br><br>
+
+Git
+<br>↓
+<br>
+CI/CD
+<br>↓
+<br>
+Container Registry
+<br>↓
+<br>
+GitOps / Deployment
+<br>↓
+<br>
+EKS
+
+<br><br>
+
+Prometheus
+<br>↓
+<br>
+Grafana
+<br>↓
+<br>
+Monitoring
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Real-Time Scenario</h2>
+
+<span class="badge">VERY IMPORTANT</span>
+
+<h3>Question:</h3>
+
+<p>
+Your application is running on EKS. Suddenly traffic increases
+10x. How will you handle it?
+</p>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br><br>
+
+"First, the load balancer distributes the increased traffic to
+the application. HPA can detect increased resource utilization
+and increase the number of Pod replicas. If the existing nodes
+do not have enough capacity, a node provisioning mechanism such
+as Cluster Autoscaler or Karpenter can add compute capacity.
+Once the new nodes are ready, pending Pods are scheduled.
+I would monitor the application using metrics and logs and verify
+that the system has recovered."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Real-Time Failure Scenario</h2>
+
+<h3>Question:</h3>
+
+<p>
+A Pod is running but users cannot access the application.
+How do you troubleshoot?
+</p>
+
+<div class="answer">
+
+<strong>Step 1:</strong> Check Pod status.
+
+<br><br>
+
+<strong>Step 2:</strong> Check application logs.
+
+<br><br>
+
+<strong>Step 3:</strong> Check Service.
+
+<br><br>
+
+<strong>Step 4:</strong> Check Endpoints / EndpointSlices.
+
+<br><br>
+
+<strong>Step 5:</strong> Check DNS.
+
+<br><br>
+
+<strong>Step 6:</strong> Check Ingress / Load Balancer.
+
+<br><br>
+
+<strong>Step 7:</strong> Check Security Groups and NetworkPolicies.
+
+<br><br>
+
+<strong>Step 8:</strong> Check AWS networking and routing.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Top 20 EKS Interview Questions</h2>
+
+<ol>
+
+<li>What is Amazon EKS?</li>
+
+<li>Explain EKS architecture.</li>
+
+<li>Control plane vs data plane?</li>
+
+<li>What is a managed node group?</li>
+
+<li>What is AWS VPC CNI?</li>
+
+<li>How does Pod networking work?</li>
+
+<li>ClusterIP vs NodePort vs LoadBalancer?</li>
+
+<li>What is Ingress?</li>
+
+<li>How does ALB integrate with EKS?</li>
+
+<li>IAM vs Kubernetes RBAC?</li>
+
+<li>How does a Pod securely access S3?</li>
+
+<li>What is NetworkPolicy?</li>
+
+<li>Security Group vs NetworkPolicy?</li>
+
+<li>What is HPA?</li>
+
+<li>Cluster Autoscaler vs Karpenter?</li>
+
+<li>How do you troubleshoot Pending Pods?</li>
+
+<li>How do you troubleshoot CrashLoopBackOff?</li>
+
+<li>How do you troubleshoot a NotReady node?</li>
+
+<li>How do you troubleshoot Service connectivity?</li>
+
+<li>How would you design a production EKS cluster?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 18. One-Minute EKS Revision</h2>
+
+<div class="flow">
+
+☸️ EKS
+→ Managed Kubernetes
+
+<br><br>
+
+🎛️ Control Plane
+→ Kubernetes Management
+
+<br><br>
+
+🖥️ Nodes
+→ Run Workloads
+
+<br><br>
+
+📦 Pods
+→ Run Containers
+
+<br><br>
+
+🌐 VPC CNI
+→ Pod Networking
+
+<br><br>
+
+⚙️ Service
+→ Stable Pod Access
+
+<br><br>
+
+🚦 Ingress / ALB
+→ HTTP/HTTPS Traffic
+
+<br><br>
+
+🔐 IAM + RBAC
+→ Security
+
+<br><br>
+
+📈 HPA
+→ Pod Scaling
+
+<br><br>
+
+⚡ Karpenter / CA
+→ Node Capacity
+
+<br><br>
+
+🔧 kubectl
+→ Troubleshooting
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🎯 Final Interview Formula</h2>
+
+<div class="answer">
+
+<strong>EKS = Kubernetes + AWS Networking + IAM + Compute +
+Security + Scaling + Troubleshooting</strong>
+
+<br><br>
+
+If you can explain these areas clearly with one real-time
+scenario for each, you have the core EKS interview coverage
+needed for a fresher DevOps role.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to EKS
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • EKS Final Revision • 2026
+</footer>
+
+</body>
+</html>
+```

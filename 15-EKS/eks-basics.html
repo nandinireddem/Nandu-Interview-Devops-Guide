@@ -1,0 +1,850 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EKS Basics | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">☸️</div>
+
+<h1>Amazon EKS Basics</h1>
+
+<p>
+High-priority Amazon Elastic Kubernetes Service fundamentals
+for Cloud & DevOps interviews.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Amazon EKS?</h2>
+
+<div class="answer">
+
+Amazon EKS, or Amazon Elastic Kubernetes Service, is a managed
+Kubernetes service provided by AWS.
+
+AWS manages the Kubernetes control plane infrastructure, while
+the customer manages workloads and worker compute according to
+the chosen EKS architecture.
+
+</div>
+
+<h3>Simple Interview Answer</h3>
+
+<p>
+"EKS is AWS's managed Kubernetes service. AWS manages the
+Kubernetes control plane, while I deploy and manage my applications
+on worker nodes or other supported compute options."
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Why Do We Use EKS?</h2>
+
+<ul>
+<li>Run containerized applications using Kubernetes.</li>
+<li>Reduce operational effort for the Kubernetes control plane.</li>
+<li>Integrate Kubernetes with AWS services.</li>
+<li>Support scalable and highly available workloads.</li>
+<li>Use Kubernetes orchestration, deployments and services.</li>
+<li>Integrate with CI/CD and DevOps tooling.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. EKS High-Level Architecture</h2>
+
+<div class="flow">
+
+<strong>AWS Account</strong>
+<br>↓<br>
+<strong>EKS Cluster</strong>
+<br><br>
+
+┌───────────────────────────────┐
+<br>
+│ Kubernetes Control Plane      │
+<br>
+│ API Server / etcd / Scheduler │
+<br>
+└───────────────────────────────┘
+<br>
+↓
+<br>
+┌───────────────────────────────┐
+<br>
+│ Worker Compute                │
+<br>
+│ Managed Node Groups / Fargate │
+<br>
+└───────────────────────────────┘
+<br>
+↓
+<br>
+<strong>Pods → Containers → Applications</strong>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. EKS Control Plane</h2>
+
+<p>
+The EKS control plane contains the Kubernetes components responsible
+for managing the cluster state and coordinating workloads.
+</p>
+
+<h3>Important Components</h3>
+
+<ul>
+<li>Kubernetes API Server</li>
+<li>etcd</li>
+<li>Scheduler</li>
+<li>Controller Manager</li>
+</ul>
+
+<div class="answer">
+
+AWS operates the EKS control-plane infrastructure for the managed
+EKS service. As a user, you interact with it primarily through the
+Kubernetes API and AWS APIs/tools.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Kubernetes API Server</h2>
+
+<p>
+The API Server is the main entry point to the Kubernetes control
+plane.
+</p>
+
+<div class="flow">
+
+kubectl
+<br>↓<br>
+Kubernetes API Server
+<br>↓<br>
+Kubernetes Resources
+
+</div>
+
+<h3>Example</h3>
+
+<pre>
+kubectl get pods
+</pre>
+
+<p>
+The kubectl command communicates with the Kubernetes API Server.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is etcd?</h2>
+
+<p>
+etcd is a distributed key-value store used by Kubernetes to store
+cluster state and configuration data.
+</p>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"etcd stores Kubernetes cluster state, such as resource
+configuration and metadata. The Kubernetes control plane uses it
+as its backing data store."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is the Kubernetes Scheduler?</h2>
+
+<p>
+The scheduler determines which suitable node should run a newly
+created Pod.
+</p>
+
+<div class="flow">
+
+Pod Created
+<br>↓<br>
+Scheduler
+<br>↓<br>
+Select Suitable Node
+<br>↓<br>
+Pod Runs on Node
+
+</div>
+
+<p>
+It considers factors such as resource availability, scheduling
+constraints, affinity and taints/tolerations.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What are Worker Nodes?</h2>
+
+<p>
+Worker nodes provide compute capacity where Kubernetes workloads
+run.
+</p>
+
+<div class="flow">
+
+EKS Cluster
+<br>↓
+<br>
+Worker Node
+<br>↓
+<br>
+kubelet + Container Runtime
+<br>↓
+<br>
+Pods
+<br>↓
+<br>
+Containers
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. EKS Managed Node Group</h2>
+
+<p>
+A managed node group is a group of EC2 worker nodes that EKS helps
+provision and manage as part of the cluster.
+</p>
+
+<h3>Benefits</h3>
+
+<ul>
+<li>Automated node provisioning.</li>
+<li>Integration with EKS lifecycle operations.</li>
+<li>Scaling support.</li>
+<li>Managed node update workflows.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. EKS with Fargate</h2>
+
+<p>
+AWS Fargate can provide serverless compute for supported EKS Pods,
+so you don't manage the underlying EC2 worker nodes for those Pods.
+</p>
+
+<div class="flow">
+
+EKS
+<br>↓<br>
+Pod
+<br>↓<br>
+AWS Fargate
+<br>↓<br>
+AWS Managed Compute
+
+</div>
+
+<h3>Managed Nodes vs Fargate</h3>
+
+<table>
+
+<tr>
+<th>Managed Node Group</th>
+<th>Fargate</th>
+</tr>
+
+<tr>
+<td>Uses EC2 worker nodes.</td>
+<td>Runs supported Pods on serverless compute.</td>
+</tr>
+
+<tr>
+<td>You manage node-level configuration and capacity.</td>
+<td>No EC2 worker node management for those Pods.</td>
+</tr>
+
+<tr>
+<td>More control over node configuration.</td>
+<td>Less infrastructure management.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is a Pod?</h2>
+
+<p>
+A Pod is the smallest deployable unit in Kubernetes.
+</p>
+
+<div class="flow">
+
+Node
+<br>↓<br>
+Pod
+<br>↓<br>
+Container
+<br>↓<br>
+Application
+
+</div>
+
+<p>
+A Pod can contain one or more containers that share networking and
+storage resources within the Pod.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is kubelet?</h2>
+
+<p>
+kubelet is the Kubernetes node agent that runs on worker nodes.
+It communicates with the Kubernetes control plane and makes sure
+the assigned Pods and containers are running as specified.
+</p>
+
+<div class="answer">
+
+<strong>Remember:</strong><br>
+
+API Server → Control Plane<br>
+kubelet → Worker Node Agent
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What is kube-proxy?</h2>
+
+<p>
+kube-proxy is a Kubernetes component traditionally responsible for
+implementing service networking rules on nodes.
+</p>
+
+<p>
+In AWS EKS, networking behavior also depends on the AWS VPC CNI and
+the Kubernetes networking configuration.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. How Does kubectl Connect to EKS?</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+kubectl
+<br>↓<br>
+kubeconfig
+<br>↓<br>
+EKS Kubernetes API Server
+<br>↓<br>
+Cluster Resources
+
+</div>
+
+<h3>Common Command</h3>
+
+<pre>
+aws eks update-kubeconfig \
+--region ap-south-1 \
+--name my-eks-cluster
+</pre>
+
+<p>
+This configures kubeconfig so kubectl can connect to the specified
+EKS cluster using AWS authentication integration.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. EKS Cluster vs Kubernetes Cluster</h2>
+
+<table>
+
+<tr>
+<th>Self-Managed Kubernetes</th>
+<th>Amazon EKS</th>
+</tr>
+
+<tr>
+<td>You manage the Kubernetes control plane.</td>
+<td>AWS provides the managed Kubernetes control plane.</td>
+</tr>
+
+<tr>
+<td>You handle control-plane infrastructure.</td>
+<td>AWS handles the underlying control-plane infrastructure.</td>
+</tr>
+
+<tr>
+<td>You manage infrastructure integration yourself.</td>
+<td>EKS integrates with AWS services.</td>
+</tr>
+
+<tr>
+<td>More operational responsibility.</td>
+<td>Reduced control-plane operational burden.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. What is an EKS Cluster?</h2>
+
+<div class="answer">
+
+An EKS cluster is the Kubernetes environment running on AWS. It
+includes the managed Kubernetes control plane and the compute
+resources used to run workloads, such as managed node groups,
+self-managed nodes or Fargate depending on the architecture.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. EKS and VPC</h2>
+
+<p>
+EKS integrates closely with AWS VPC networking.
+</p>
+
+<div class="flow">
+
+AWS VPC
+<br>↓<br>
+Subnets
+<br>↓<br>
+EKS Cluster
+<br>↓<br>
+Worker Nodes
+<br>↓<br>
+Pods
+
+</div>
+
+<p>
+The exact networking model depends on the EKS configuration, but
+AWS VPC networking is a major EKS interview topic.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. EKS Authentication vs Authorization</h2>
+
+<table>
+
+<tr>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+
+<tr>
+<td>Who are you?</td>
+<td>What are you allowed to do?</td>
+</tr>
+
+<tr>
+<td>Identity verification.</td>
+<td>Permission evaluation.</td>
+</tr>
+
+<tr>
+<td>AWS IAM can participate in EKS authentication.</td>
+<td>Kubernetes RBAC controls Kubernetes permissions.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Easy Interview Line:</strong><br>
+
+IAM helps establish identity/access from the AWS side, while
+Kubernetes RBAC determines what an authenticated identity can do
+inside Kubernetes.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Common EKS Commands</h2>
+
+<pre>
+aws eks list-clusters
+
+aws eks describe-cluster \
+--name my-eks-cluster
+
+aws eks update-kubeconfig \
+--region ap-south-1 \
+--name my-eks-cluster
+
+kubectl get nodes
+
+kubectl get pods -A
+
+kubectl get svc -A
+
+kubectl get namespaces
+
+kubectl describe node &lt;node-name&gt;
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Real-Time Scenario: Node Is Not Ready</h2>
+
+<div class="answer">
+
+<strong>Interview Approach:</strong>
+
+<ol>
+
+<li>Check node status.</li>
+
+<li>Run <code>kubectl describe node</code>.</li>
+
+<li>Check kubelet/node conditions.</li>
+
+<li>Check CPU and memory availability.</li>
+
+<li>Check networking and CNI status.</li>
+
+<li>Check node IAM permissions.</li>
+
+<li>Check system and Kubernetes events.</li>
+
+<li>Check whether the node can communicate with the control plane.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 21. Real-Time Scenario: Pod Stuck in Pending</h2>
+
+<div class="answer">
+
+<strong>Possible Causes:</strong>
+
+<ul>
+<li>Insufficient CPU or memory.</li>
+<li>Node selector mismatch.</li>
+<li>Affinity rules.</li>
+<li>Taints without matching tolerations.</li>
+<li>Insufficient available nodes.</li>
+<li>Storage or volume constraints.</li>
+</ul>
+
+<strong>First Command:</strong>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt;
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 22. Most Important EKS Interview Questions</h2>
+
+<ol>
+
+<li>What is Amazon EKS?</li>
+
+<li>Why do we use EKS?</li>
+
+<li>Explain EKS architecture.</li>
+
+<li>What does AWS manage in EKS?</li>
+
+<li>What is the EKS control plane?</li>
+
+<li>What is a managed node group?</li>
+
+<li>Managed node group vs Fargate?</li>
+
+<li>What is a Kubernetes Pod?</li>
+
+<li>What is kubelet?</li>
+
+<li>What is kube-proxy?</li>
+
+<li>How does kubectl connect to EKS?</li>
+
+<li>How does EKS integrate with VPC?</li>
+
+<li>How does authentication work in EKS?</li>
+
+<li>IAM vs Kubernetes RBAC?</li>
+
+<li>How do you troubleshoot a NotReady node?</li>
+
+<li>Why is a Pod stuck in Pending?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+☸️ <strong>EKS</strong>
+→ Managed Kubernetes on AWS
+
+<br><br>
+
+🎛️ <strong>Control Plane</strong>
+→ API Server + etcd + Scheduler + Controllers
+
+<br><br>
+
+🖥️ <strong>Node</strong>
+→ Runs Kubernetes workloads
+
+<br><br>
+
+📦 <strong>Pod</strong>
+→ Smallest deployable Kubernetes unit
+
+<br><br>
+
+⚙️ <strong>kubelet</strong>
+→ Node Agent
+
+<br><br>
+
+🔐 <strong>IAM</strong>
+→ AWS Identity / EKS Access
+
+<br><br>
+
+🛡️ <strong>RBAC</strong>
+→ Kubernetes Authorization
+
+<br><br>
+
+🌐 <strong>VPC</strong>
+→ AWS Network Environment
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to EKS
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • EKS Basics • 2026
+</footer>
+
+</body>
+</html>
+```

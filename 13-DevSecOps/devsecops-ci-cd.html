@@ -1,0 +1,786 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DevSecOps in CI/CD | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:7px
+}
+
+.warning{
+    background:#211a0d;
+    border-left:4px solid #fbbf24;
+    padding:17px;
+    border-radius:7px
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:16px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+code{
+    background:#0d1425;
+    color:#fbbf24;
+    padding:3px 6px;
+    border-radius:4px
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔒</div>
+
+<h1>DevSecOps in CI/CD</h1>
+
+<p>
+How security checks are integrated into automated CI/CD pipelines
+using practical stages, security gates and real-time examples.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Why Integrate Security into CI/CD?</h2>
+
+<p>
+CI/CD automates building, testing and deploying applications.
+DevSecOps extends this automation by adding security checks into
+the same delivery process.
+</p>
+
+<p>
+This allows security issues to be detected before an insecure
+artifact reaches production.
+</p>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"We integrate security into CI/CD so that security checks become
+automated and repeatable. The pipeline can scan source code,
+dependencies, secrets, container images and infrastructure before
+deployment."
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Typical DevSecOps CI/CD Flow</h2>
+
+<div class="flow">
+
+Developer Push
+<br>↓<br>
+
+Checkout Code
+<br>↓<br>
+
+SAST
+<br>↓<br>
+
+Secret Scan
+<br>↓<br>
+
+Dependency Scan
+<br>↓<br>
+
+Build
+<br>↓<br>
+
+Docker Image
+<br>↓<br>
+
+Container Scan
+<br>↓<br>
+
+Push Image
+<br>↓<br>
+
+Deploy to Test
+<br>↓<br>
+
+DAST
+<br>↓<br>
+
+Production
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Where Should Security Scans Run?</h2>
+
+<table>
+
+<tr>
+<th>Pipeline Stage</th>
+<th>Security Check</th>
+</tr>
+
+<tr>
+<td>Source Checkout</td>
+<td>Secret scanning</td>
+</tr>
+
+<tr>
+<td>Code Analysis</td>
+<td>SAST</td>
+</tr>
+
+<tr>
+<td>Dependency Installation</td>
+<td>SCA</td>
+</tr>
+
+<tr>
+<td>Docker Build</td>
+<td>Dockerfile linting</td>
+</tr>
+
+<tr>
+<td>Image Build</td>
+<td>Container vulnerability scanning</td>
+</tr>
+
+<tr>
+<td>Infrastructure Validation</td>
+<td>IaC security scanning</td>
+</tr>
+
+<tr>
+<td>Test Environment</td>
+<td>DAST</td>
+</tr>
+
+<tr>
+<td>Deployment</td>
+<td>Policy and access controls</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Security Gates</h2>
+
+<p>
+A security gate determines whether the pipeline can continue after
+a security check.
+</p>
+
+<h3>Example Policy</h3>
+
+<ul>
+<li>Critical vulnerabilities → Block deployment</li>
+<li>High vulnerabilities → Block or require approval</li>
+<li>Medium vulnerabilities → Track and remediate</li>
+<li>Low vulnerabilities → Track according to policy</li>
+</ul>
+
+<div class="warning">
+
+The exact thresholds should be defined by the organization's
+security policy. Do not assume that every vulnerability should
+automatically fail every pipeline.
+
+</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Example Jenkins Pipeline</h2>
+
+<pre>
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/example/project.git'
+            }
+        }
+
+        stage('SAST') {
+            steps {
+                echo 'Run SonarQube analysis'
+            }
+        }
+
+        stage('Secret Scan') {
+            steps {
+                echo 'Run Gitleaks'
+            }
+        }
+
+        stage('Dependency Scan') {
+            steps {
+                echo 'Run dependency scanner'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Build application'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t myapp:latest .'
+            }
+        }
+
+        stage('Container Scan') {
+            steps {
+                sh 'trivy image myapp:latest'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy application'
+            }
+        }
+    }
+}
+</pre>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+"The commands are examples. In a real project, I would configure
+credentials, scanners, severity thresholds and quality gates based
+on the organization's security requirements."
+
+</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Example GitHub Actions Flow</h2>
+
+<pre>
+name: DevSecOps Pipeline
+
+on:
+  push:
+
+jobs:
+
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Secret Scan
+        run: |
+          gitleaks detect --source .
+
+      - name: Build Docker Image
+        run: |
+          docker build -t myapp:${{ github.sha }} .
+
+      - name: Container Scan
+        run: |
+          trivy image myapp:${{ github.sha }}
+
+</pre>
+
+<p>
+In production, scanners should be pinned and configured according
+to the organization's security and CI/CD standards.
+</p>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What If Trivy Finds a Critical Vulnerability?</h2>
+
+<ol>
+
+<li>Trivy scans the image.</li>
+
+<li>A critical vulnerability is detected.</li>
+
+<li>The configured security policy evaluates the result.</li>
+
+<li>If critical vulnerabilities are blocking conditions, the pipeline fails.</li>
+
+<li>The image is not promoted to the next environment.</li>
+
+<li>The vulnerable package or base image is updated.</li>
+
+<li>The image is rebuilt and scanned again.</li>
+
+</ol>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"If Trivy finds a critical vulnerability, I would check the affected
+package and severity, apply the organization's policy, block the
+image from promotion if it violates the policy, remediate the
+vulnerability and rerun the pipeline."
+
+</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What If Gitleaks Finds an AWS Credential?</h2>
+
+<div class="warning">
+
+<strong>First priority: revoke or rotate the exposed credential.</strong>
+
+</div>
+
+<ol>
+
+<li>Stop the pipeline.</li>
+
+<li>Identify the exposed credential.</li>
+
+<li>Revoke or rotate it immediately.</li>
+
+<li>Remove the secret from the source.</li>
+
+<li>Clean repository history if required.</li>
+
+<li>Store the replacement credential securely.</li>
+
+<li>Run the pipeline again.</li>
+
+</ol>
+
+<p>
+Deleting the secret from the current file alone may not remove it
+from Git history.
+</p>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. How Do You Store Secrets in CI/CD?</h2>
+
+<p>
+Never hard-code production credentials directly inside pipeline
+files.
+</p>
+
+<h3>Common Options</h3>
+
+<ul>
+<li>GitHub Secrets</li>
+<li>Jenkins Credentials</li>
+<li>AWS Secrets Manager</li>
+<li>HashiCorp Vault</li>
+<li>Cloud-specific secret management services</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I store sensitive credentials in a dedicated secrets-management
+solution or the CI/CD platform's protected credential store and
+inject them only when required."
+
+</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. How Do You Prevent Insecure Deployment?</h2>
+
+<ul>
+
+<li>Run automated security scans.</li>
+
+<li>Configure security gates.</li>
+
+<li>Use least-privilege credentials.</li>
+
+<li>Protect production environments.</li>
+
+<li>Require approvals where appropriate.</li>
+
+<li>Scan container images.</li>
+
+<li>Scan infrastructure definitions.</li>
+
+<li>Monitor deployed applications.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 11. Security vs Pipeline Speed</h2>
+
+<p>
+Security checks should be designed so they provide strong protection
+without unnecessarily slowing development.
+</p>
+
+<table>
+
+<tr>
+<th>Fast Checks</th>
+<th>Slower Checks</th>
+</tr>
+
+<tr>
+<td>Secret scanning</td>
+<td>Full DAST scans</td>
+</tr>
+
+<tr>
+<td>Basic SAST</td>
+<td>Large dependency analysis</td>
+</tr>
+
+<tr>
+<td>Dockerfile linting</td>
+<td>Deep security testing</td>
+</tr>
+
+</table>
+
+<p>
+A common approach is to run fast checks early and deeper tests at
+appropriate later stages.
+</p>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Security Pipeline Failure Troubleshooting</h2>
+
+<h3>Scenario</h3>
+
+<p>
+"The deployment failed because the security stage failed."
+</p>
+
+<h3>Approach</h3>
+
+<ol>
+
+<li>Identify which security tool failed.</li>
+
+<li>Read the scanner output.</li>
+
+<li>Identify severity and affected component.</li>
+
+<li>Determine whether the failure is expected.</li>
+
+<li>Fix the vulnerability or configuration.</li>
+
+<li>Rerun the scan.</li>
+
+<li>Continue deployment only when policy requirements are satisfied.</li>
+
+</ol>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Complete DevSecOps Pipeline</h2>
+
+<div class="flow">
+
+GitHub
+<br>↓<br>
+
+GitHub Actions / Jenkins
+<br>↓<br>
+
+SAST
+<br>↓<br>
+
+Gitleaks
+<br>↓<br>
+
+SCA
+<br>↓<br>
+
+Build
+<br>↓<br>
+
+Docker
+<br>↓<br>
+
+Trivy
+<br>↓<br>
+
+Container Registry
+<br>↓<br>
+
+Kubernetes / ECS
+<br>↓<br>
+
+DAST
+<br>↓<br>
+
+Monitoring
+
+</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>🔥 14. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>How do you integrate security into CI/CD?</li>
+
+<li>Where would you place SAST in a pipeline?</li>
+
+<li>Where would you run DAST?</li>
+
+<li>How do you scan Docker images?</li>
+
+<li>What happens if Trivy finds a critical vulnerability?</li>
+
+<li>What happens if Gitleaks detects a secret?</li>
+
+<li>How do you store CI/CD secrets?</li>
+
+<li>What is a security gate?</li>
+
+<li>How do you prevent insecure images from reaching production?</li>
+
+<li>How would you troubleshoot a failed security stage?</li>
+
+<li>How do you balance security and deployment speed?</li>
+
+<li>How do you secure a Jenkins pipeline?</li>
+
+<li>How do you secure GitHub Actions?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>🧠 30-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Code</strong> → SAST
+
+<br><br>
+
+<strong>Dependencies</strong> → SCA
+
+<br><br>
+
+<strong>Secrets</strong> → Gitleaks
+
+<br><br>
+
+<strong>Dockerfile</strong> → Hadolint
+
+<br><br>
+
+<strong>Container Image</strong> → Trivy
+
+<br><br>
+
+<strong>Running Application</strong> → DAST
+
+<br><br>
+
+<strong>Security Gate</strong> → Decide whether pipeline continues
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to DevSecOps
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • DevSecOps in CI/CD • 2026
+</footer>
+
+</body>
+</html>
+```

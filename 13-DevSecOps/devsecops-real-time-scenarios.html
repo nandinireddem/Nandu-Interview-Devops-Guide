@@ -1,0 +1,756 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DevSecOps Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+
+strong{color:#fbbf24}
+
+.scenario{
+    background:#0d1425;
+    border-left:4px solid #60a5fa;
+    padding:18px;
+    border-radius:7px;
+    margin:15px 0
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.warning{
+    background:#211a0d;
+    border-left:4px solid #fbbf24;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:16px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🚨</div>
+
+<h1>DevSecOps Real-Time Scenarios</h1>
+
+<p>
+Production-style security situations, troubleshooting approaches
+and interview-ready answers.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- Scenario 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Trivy Finds a Critical Vulnerability</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+Your CI/CD pipeline builds a Docker image. Trivy reports a
+CRITICAL vulnerability. What will you do?
+
+</div>
+
+<h3>Approach</h3>
+
+<ol>
+
+<li>Check the vulnerability ID and affected package.</li>
+
+<li>Confirm whether the vulnerability actually affects the application.</li>
+
+<li>Check whether a patched package or newer base image is available.</li>
+
+<li>Update the dependency or base image.</li>
+
+<li>Rebuild the Docker image.</li>
+
+<li>Run Trivy again.</li>
+
+<li>Allow promotion only if the organization's security policy is satisfied.</li>
+
+</ol>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would first analyze the vulnerability and affected package.
+If it violates our security policy, I would block the image from
+promotion, update the vulnerable dependency or base image, rebuild
+the image and rerun the scan."
+
+</div>
+
+</div>
+
+
+<!-- Scenario 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. AWS Secret Committed to Git</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+A developer accidentally commits an AWS access key to GitHub.
+What do you do?
+
+</div>
+
+<h3>Immediate Actions</h3>
+
+<ol>
+
+<li>Revoke or rotate the exposed credential immediately.</li>
+
+<li>Check CloudTrail or relevant logs for suspicious usage.</li>
+
+<li>Remove the secret from the source.</li>
+
+<li>Check Git history and clean it if necessary.</li>
+
+<li>Store the replacement credential securely.</li>
+
+<li>Add secret scanning to the CI/CD pipeline.</li>
+
+</ol>
+
+<div class="warning">
+
+<strong>Important:</strong><br>
+
+Do not assume that deleting the key from the latest commit makes
+the credential safe. The credential may still exist in Git history
+or may already have been copied.
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"My first priority is credential revocation or rotation. Then I
+would investigate possible usage, remove the secret, clean the
+repository if required, replace it with a securely managed
+credential and add secret scanning to prevent recurrence."
+
+</div>
+
+</div>
+
+
+<!-- Scenario 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Gitleaks Fails the Pipeline</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+The Gitleaks stage fails during a deployment pipeline.
+What do you check?
+
+</div>
+
+<ol>
+
+<li>Read the Gitleaks output.</li>
+
+<li>Identify the detected secret.</li>
+
+<li>Determine whether it is a real secret or false positive.</li>
+
+<li>If real, revoke or rotate the credential.</li>
+
+<li>Remove the secret from the repository.</li>
+
+<li>Use secure secret storage.</li>
+
+<li>Rerun the pipeline.</li>
+
+</ol>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would inspect the Gitleaks finding, verify whether it is a true
+secret, immediately rotate it if necessary, remove it from source
+control and rerun the pipeline after remediation."
+
+</div>
+
+</div>
+
+
+<!-- Scenario 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. SonarQube Quality Gate Failed</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+The build passes, but the SonarQube quality gate fails.
+Can you deploy?
+
+</div>
+
+<p>
+Normally, if the quality gate is configured as a blocking condition,
+the pipeline should not promote the artifact until the issue is
+resolved or an authorized exception is applied.
+</p>
+
+<h3>What to Check?</h3>
+
+<ul>
+
+<li>Security vulnerabilities</li>
+
+<li>Bugs</li>
+
+<li>Code smells</li>
+
+<li>Coverage requirements</li>
+
+<li>Duplicated code</li>
+
+<li>Quality gate configuration</li>
+
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would inspect the failed quality gate conditions. If the gate is
+configured as a blocking policy, I would fix the reported issues
+before promoting the application."
+
+</div>
+
+</div>
+
+
+<!-- Scenario 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Developer Says the Security Scan Is a False Positive</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+A scanner reports a vulnerability, but the developer believes it is
+a false positive. What do you do?
+
+</div>
+
+<ol>
+
+<li>Verify the finding manually.</li>
+
+<li>Check the vulnerability details and affected component.</li>
+
+<li>Confirm whether the vulnerable code path is actually used.</li>
+
+<li>Review the scanner documentation and evidence.</li>
+
+<li>Document the finding.</li>
+
+<li>Follow the organization's approved exception process if it is genuinely a false positive.</li>
+
+</ol>
+
+<div class="warning">
+
+Never simply suppress security findings without validation and
+documentation.
+
+</div>
+
+</div>
+
+
+<!-- Scenario 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Vulnerable Base Image</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+Your Docker image uses an outdated Ubuntu or Alpine base image and
+the scanner reports many vulnerabilities.
+
+</div>
+
+<h3>Solution</h3>
+
+<ol>
+
+<li>Check for a supported newer base image.</li>
+
+<li>Update the Dockerfile.</li>
+
+<li>Rebuild the image.</li>
+
+<li>Run the vulnerability scan again.</li>
+
+<li>Test the application.</li>
+
+<li>Promote the new image after security checks pass.</li>
+
+</ol>
+
+<pre>
+FROM ubuntu:24.04
+</pre>
+
+<p>
+The exact base image version should be selected according to the
+application's compatibility and organizational standards.
+</p>
+
+</div>
+
+
+<!-- Scenario 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Critical Vulnerability Found in Production</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+A critical vulnerability is discovered in a production application.
+What is your response?
+
+</div>
+
+<div class="flow">
+
+Detect
+<br>↓<br>
+Assess Risk
+<br>↓<br>
+Contain
+<br>↓<br>
+Patch / Mitigate
+<br>↓<br>
+Test
+<br>↓<br>
+Deploy Fix
+<br>↓<br>
+Monitor
+
+</div>
+
+<h3>Important Actions</h3>
+
+<ul>
+
+<li>Assess severity and exposure.</li>
+
+<li>Identify affected systems.</li>
+
+<li>Apply available patches or mitigations.</li>
+
+<li>Restrict exposure if necessary.</li>
+
+<li>Deploy the fix safely.</li>
+
+<li>Monitor for exploitation.</li>
+
+<li>Document the incident.</li>
+
+</ul>
+
+</div>
+
+
+<!-- Scenario 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 8. Security Scan Makes Pipeline Too Slow</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+The security team added many scans and now CI/CD takes 45 minutes.
+Developers are complaining.
+
+</div>
+
+<h3>Possible Approach</h3>
+
+<ul>
+
+<li>Run lightweight checks earlier.</li>
+
+<li>Run deeper scans at appropriate pipeline stages.</li>
+
+<li>Cache dependencies where appropriate.</li>
+
+<li>Run independent security checks in parallel.</li>
+
+<li>Avoid duplicate scanning.</li>
+
+<li>Optimize scanner configuration.</li>
+
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would optimize the pipeline rather than simply removing security.
+Fast checks can run early, independent scans can run in parallel and
+deeper security testing can run at appropriate stages."
+
+</div>
+
+</div>
+
+
+<!-- Scenario 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Security Scan Passes but Production Is Still Compromised</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+All CI security scans passed, but a production security incident
+still occurred. Does that mean DevSecOps failed?
+
+</div>
+
+<p>
+Not necessarily. Security scanners cover specific classes of risks;
+they do not guarantee that an application is completely secure.
+</p>
+
+<h3>Investigate</h3>
+
+<ul>
+
+<li>Application vulnerabilities</li>
+
+<li>Cloud configuration</li>
+
+<li>IAM permissions</li>
+
+<li>Network exposure</li>
+
+<li>Runtime vulnerabilities</li>
+
+<li>Credential compromise</li>
+
+<li>Monitoring and detection gaps</li>
+
+</ul>
+
+<div class="answer">
+
+<strong>Key Point:</strong><br>
+
+"DevSecOps reduces security risk through continuous controls, but
+security is a continuous process rather than a one-time guarantee."
+
+</div>
+
+</div>
+
+
+<!-- Scenario 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 10. How Would You Secure a Jenkins Pipeline?</h2>
+
+<ul>
+
+<li>Use Jenkins Credentials instead of hard-coded secrets.</li>
+
+<li>Apply least-privilege permissions.</li>
+
+<li>Keep Jenkins and plugins updated.</li>
+
+<li>Restrict administrative access.</li>
+
+<li>Use security scanning stages.</li>
+
+<li>Protect production deployment stages.</li>
+
+<li>Audit pipeline activity.</li>
+
+<li>Secure Jenkins agents.</li>
+
+</ul>
+
+</div>
+
+
+<!-- Scenario 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 11. How Would You Secure a Kubernetes Deployment?</h2>
+
+<ul>
+
+<li>Use RBAC.</li>
+
+<li>Follow least privilege.</li>
+
+<li>Scan container images.</li>
+
+<li>Do not store sensitive credentials directly in manifests.</li>
+
+<li>Use NetworkPolicies where appropriate.</li>
+
+<li>Apply Pod Security controls.</li>
+
+<li>Restrict container privileges.</li>
+
+<li>Monitor workloads and cluster activity.</li>
+
+</ul>
+
+</div>
+
+
+<!-- Scenario 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. IaC Scan Finds a Public AWS Resource</h2>
+
+<div class="scenario">
+
+<strong>Scenario:</strong><br>
+
+An IaC scanner reports that a Terraform resource could expose
+something publicly. What do you do?
+
+</div>
+
+<ol>
+
+<li>Identify the affected resource.</li>
+
+<li>Understand why public access is configured.</li>
+
+<li>Check whether it is actually required.</li>
+
+<li>Restrict access if unnecessary.</li>
+
+<li>Update the Terraform code.</li>
+
+<li>Run the security scan again.</li>
+
+<li>Apply the infrastructure only after validation.</li>
+
+</ol>
+
+</div>
+
+
+<!-- Scenario 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Complete Interview Scenario</h2>
+
+<div class="scenario">
+
+<strong>Question:</strong><br>
+
+"Explain how you would implement DevSecOps for a project from
+GitHub to production."
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br><br>
+
+"I would start by integrating security into the CI/CD pipeline.
+After a developer pushes code to GitHub, I would run secret scanning
+and SAST. Then I would scan dependencies for known vulnerabilities.
+After building the Docker image, I would scan the image using Trivy.
+Infrastructure definitions can also be scanned before deployment.
+After deployment to a test environment, I would run appropriate
+dynamic security testing. Security gates would prevent artifacts
+that violate the organization's defined policies from progressing
+to production. Finally, I would monitor the production environment
+and continuously remediate vulnerabilities."
+
+</div>
+
+</div>
+
+
+<!-- Quick revision -->
+
+<div class="card">
+
+<h2>🧠 30-Second Scenario Revision</h2>
+
+<div class="flow">
+
+<strong>Secret Found</strong>
+→ Rotate / Revoke → Remove → Secure Storage
+
+<br><br>
+
+<strong>Critical Vulnerability</strong>
+→ Assess → Fix / Mitigate → Rescan
+
+<br><br>
+
+<strong>Security Gate Failed</strong>
+→ Read Finding → Validate → Remediate → Rerun
+
+<br><br>
+
+<strong>False Positive</strong>
+→ Verify → Document → Approved Exception if Valid
+
+<br><br>
+
+<strong>Production Incident</strong>
+→ Detect → Contain → Fix → Monitor
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to DevSecOps
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • DevSecOps Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

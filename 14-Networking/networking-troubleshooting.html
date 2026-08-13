@@ -1,0 +1,869 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Networking Troubleshooting | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto;
+    color:#e5e7eb
+}
+
+code{
+    color:#fbbf24
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔧</div>
+
+<h1>Networking Troubleshooting</h1>
+
+<p>
+Real-time networking troubleshooting commands, methodology and
+Cloud/DevOps interview scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Networking Troubleshooting Approach</h2>
+
+<div class="flow">
+
+Application
+<br>↓<br>
+Port
+<br>↓<br>
+DNS
+<br>↓<br>
+IP Connectivity
+<br>↓<br>
+Routing
+<br>↓<br>
+Firewall / Security
+<br>↓<br>
+Network Interface
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Tip:</strong><br>
+
+Don't randomly run commands. Troubleshoot layer by layer and
+identify exactly where communication is failing.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. ping</h2>
+
+<p>
+The <code>ping</code> command is commonly used to test basic
+network reachability using ICMP.
+</p>
+
+<pre>
+ping 8.8.8.8
+ping 192.168.1.10
+</pre>
+
+<h3>What does it tell us?</h3>
+
+<ul>
+<li>Whether a destination responds to ICMP.</li>
+<li>Approximate round-trip time.</li>
+<li>Packet loss.</li>
+</ul>
+
+<div class="answer">
+
+<strong>Important:</strong><br>
+
+A failed ping does not always mean the application is unreachable.
+ICMP may be blocked while TCP traffic is still allowed.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. nslookup</h2>
+
+<p>
+Used to test DNS resolution.
+</p>
+
+<pre>
+nslookup google.com
+</pre>
+
+<p>
+If DNS resolution fails, investigate DNS configuration before
+assuming there is an application connectivity problem.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. dig</h2>
+
+<p>
+<code>dig</code> provides detailed DNS query information.
+</p>
+
+<pre>
+dig example.com
+dig example.com A
+dig example.com MX
+</pre>
+
+<h3>Useful Information</h3>
+
+<ul>
+<li>DNS server used</li>
+<li>Answer records</li>
+<li>TTL</li>
+<li>Query status</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. curl</h2>
+
+<p>
+<code>curl</code> is extremely useful for testing HTTP/HTTPS
+connectivity and APIs.
+</p>
+
+<pre>
+curl http://example.com
+
+curl -I https://example.com
+
+curl -v https://example.com
+</pre>
+
+<div class="answer">
+
+<strong>DevOps Use Case:</strong><br>
+
+When an application is not responding, curl helps determine whether
+the HTTP endpoint itself is reachable and what response the server
+returns.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. ss</h2>
+
+<p>
+<code>ss</code> displays socket and network connection information.
+</p>
+
+<pre>
+ss -tulnp
+</pre>
+
+<table>
+
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>-t</td>
+<td>TCP</td>
+</tr>
+
+<tr>
+<td>-u</td>
+<td>UDP</td>
+</tr>
+
+<tr>
+<td>-l</td>
+<td>Listening sockets</td>
+</tr>
+
+<tr>
+<td>-n</td>
+<td>Don't resolve service names</td>
+</tr>
+
+<tr>
+<td>-p</td>
+<td>Show process information where permitted</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. ip addr</h2>
+
+<p>
+Displays network interfaces and their IP addresses.
+</p>
+
+<pre>
+ip addr
+</pre>
+
+<p>
+Use it to check whether the expected interface has an IP address
+and whether the interface is up.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. ip route</h2>
+
+<p>
+Displays the system's routing table.
+</p>
+
+<pre>
+ip route
+</pre>
+
+<div class="answer">
+
+<strong>Interview Question:</strong><br><br>
+
+"What do you check if a server cannot reach another network?"
+
+<br><br>
+
+<strong>Answer:</strong><br>
+
+"I first verify the routing table to make sure there is a valid
+route toward the destination."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. traceroute</h2>
+
+<p>
+Shows the network hops taken toward a destination.
+</p>
+
+<pre>
+traceroute example.com
+</pre>
+
+<p>
+On Windows, the equivalent command is:
+
+</p>
+
+<pre>
+tracert example.com
+</pre>
+
+<p>
+It can help identify where traffic appears to stop or experience
+unexpected delay.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Test a Specific Port</h2>
+
+<p>
+Sometimes the network is reachable but a particular service port
+is not accessible.
+</p>
+
+<h3>Linux</h3>
+
+<pre>
+nc -zv 10.0.1.10 8080
+</pre>
+
+<h3>Windows PowerShell</h3>
+
+<pre>
+Test-NetConnection 10.0.1.10 -Port 8080
+</pre>
+
+<div class="answer">
+
+<strong>Key idea:</strong><br>
+
+Ping tests basic ICMP reachability. A TCP port test checks whether
+a specific service port can be reached.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. DNS Troubleshooting</h2>
+
+<div class="flow">
+
+Application
+<br>↓<br>
+Hostname
+<br>↓<br>
+DNS Resolution
+<br>↓<br>
+IP Address
+<br>↓<br>
+TCP Connection
+<br>↓<br>
+Application Response
+
+</div>
+
+<h3>Commands</h3>
+
+<pre>
+nslookup example.com
+dig example.com
+</pre>
+
+<h3>Check</h3>
+
+<ul>
+<li>Correct DNS record?</li>
+<li>Correct DNS server?</li>
+<li>DNS resolution working?</li>
+<li>Correct IP returned?</li>
+<li>Network route available?</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Application Not Reachable</h2>
+
+<div class="answer">
+
+<strong>Scenario:</strong><br>
+
+An application is running on port 8080, but users cannot access it.
+
+<br><br>
+
+<strong>Troubleshooting:</strong>
+
+<ol>
+
+<li>Check whether the application process is running.</li>
+
+<li>Check whether port 8080 is listening.</li>
+
+<li>Check the server's IP address.</li>
+
+<li>Check local firewall rules.</li>
+
+<li>Check cloud Security Group / firewall rules.</li>
+
+<li>Check subnet route table.</li>
+
+<li>Check Network ACL where applicable.</li>
+
+<li>Check load balancer listener and target health if a load balancer is used.</li>
+
+<li>Test using curl or a TCP port test.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. EC2 Cannot Access Internet</h2>
+
+<div class="answer">
+
+<strong>Scenario:</strong><br>
+
+An EC2 instance cannot download packages or access an external
+website.
+
+<br><br>
+
+<strong>Check:</strong>
+
+<ol>
+
+<li>Does the instance have network connectivity?</li>
+
+<li>Is the subnet public or private?</li>
+
+<li>Check the route table.</li>
+
+<li>For private subnets, verify NAT Gateway configuration.</li>
+
+<li>Verify NAT Gateway has a working path to the Internet Gateway.</li>
+
+<li>Check Security Group rules.</li>
+
+<li>Check Network ACL rules.</li>
+
+<li>Check DNS resolution.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. DNS Works but Website Doesn't</h2>
+
+<div class="flow">
+
+DNS
+<br>↓
+<br>
+IP returned successfully
+<br>↓
+<br>
+TCP connection
+<br>↓
+<br>
+Port 80 / 443
+<br>↓
+<br>
+HTTP response
+
+</div>
+
+<p>
+If DNS resolves correctly, the next step is to test TCP and HTTP
+connectivity rather than repeatedly checking DNS.
+</p>
+
+<pre>
+curl -v https://example.com
+
+Test-NetConnection example.com -Port 443
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Connection Refused vs Timeout</h2>
+
+<table>
+
+<tr>
+<th>Connection Refused</th>
+<th>Connection Timeout</th>
+</tr>
+
+<tr>
+<td>Host is reachable but the connection was rejected.</td>
+<td>No response was received within the expected time.</td>
+</tr>
+
+<tr>
+<td>Possible service not listening.</td>
+<td>Possible routing or firewall issue.</td>
+</tr>
+
+<tr>
+<td>Wrong application port is another possibility.</td>
+<td>Security Group, NACL or network path may be involved.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Load Balancer Troubleshooting</h2>
+
+<div class="flow">
+
+Client
+<br>↓
+<br>
+DNS
+<br>↓
+<br>
+Load Balancer
+<br>↓
+<br>
+Listener
+<br>↓
+<br>
+Target Group
+<br>↓
+<br>
+Target Health
+<br>↓
+<br>
+Application Port
+<br>↓
+<br>
+Application
+
+</div>
+
+<h3>Check</h3>
+
+<ul>
+<li>DNS resolution</li>
+<li>Load balancer status</li>
+<li>Listener configuration</li>
+<li>Target group</li>
+<li>Health check path</li>
+<li>Target health</li>
+<li>Security groups</li>
+<li>Application port</li>
+<li>Application logs</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Kubernetes Networking Troubleshooting</h2>
+
+<p>
+For Kubernetes, troubleshoot from the application outward.
+</p>
+
+<div class="flow">
+
+Pod
+<br>↓
+<br>
+Container Port
+<br>↓
+<br>
+Service
+<br>↓
+<br>
+Endpoints / EndpointSlices
+<br>↓
+<br>
+Ingress / Load Balancer
+<br>↓
+<br>
+External Client
+
+</div>
+
+<h3>Useful Commands</h3>
+
+<pre>
+kubectl get pods -o wide
+
+kubectl get svc
+
+kubectl get endpoints
+
+kubectl describe pod &lt;pod-name&gt;
+
+kubectl logs &lt;pod-name&gt;
+
+kubectl exec -it &lt;pod-name&gt; -- sh
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Common Troubleshooting Checklist</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Things to Check</th>
+</tr>
+
+<tr>
+<td>DNS not resolving</td>
+<td>DNS records, resolver, DNS configuration</td>
+</tr>
+
+<tr>
+<td>Cannot reach IP</td>
+<td>Interface, route, firewall, network path</td>
+</tr>
+
+<tr>
+<td>Port unavailable</td>
+<td>Service listening, firewall, Security Group</td>
+</tr>
+
+<tr>
+<td>Website unavailable</td>
+<td>DNS → TCP → LB → Application</td>
+</tr>
+
+<tr>
+<td>Private EC2 no Internet</td>
+<td>Route table → NAT Gateway → IGW</td>
+</tr>
+
+<tr>
+<td>Load balancer unhealthy</td>
+<td>Health check → target port → security rules</td>
+</tr>
+
+<tr>
+<td>Kubernetes service failing</td>
+<td>Pods → Service → Endpoints → Ingress</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 19. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>How do you troubleshoot a network connectivity issue?</li>
+
+<li>What does ping tell you?</li>
+
+<li>What is the difference between ping and curl?</li>
+
+<li>How do you troubleshoot DNS?</li>
+
+<li>What does nslookup do?</li>
+
+<li>What does dig do?</li>
+
+<li>How do you check listening ports in Linux?</li>
+
+<li>How do you test whether a specific port is reachable?</li>
+
+<li>Connection refused vs connection timeout?</li>
+
+<li>How do you troubleshoot an unreachable EC2 instance?</li>
+
+<li>How do you troubleshoot an unhealthy load balancer target?</li>
+
+<li>How do you troubleshoot Kubernetes networking?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+<strong>DNS Issue</strong>
+→ nslookup / dig
+
+<br><br>
+
+<strong>IP Issue</strong>
+→ ping / ip addr / ip route
+
+<br><br>
+
+<strong>Port Issue</strong>
+→ ss / nc / Test-NetConnection
+
+<br><br>
+
+<strong>HTTP Issue</strong>
+→ curl
+
+<br><br>
+
+<strong>Path Issue</strong>
+→ traceroute / tracert
+
+<br><br>
+
+<strong>Cloud Issue</strong>
+→ Route Table / SG / NACL / NAT / LB
+
+<br><br>
+
+<strong>Kubernetes Issue</strong>
+→ Pod / Service / Endpoint / Ingress
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to Networking
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Networking Troubleshooting • 2026
+</footer>
+
+</body>
+</html>
+```

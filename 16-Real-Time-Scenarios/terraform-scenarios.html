@@ -1,0 +1,950 @@
+```html id="7kq2mp"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terraform Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b9
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{margin:7px 0}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🏗️</div>
+
+<h1>Terraform Real-Time Scenarios</h1>
+
+<p>
+Production-style Terraform troubleshooting and infrastructure
+scenarios commonly asked in DevOps interviews.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>🎯 Terraform Troubleshooting Approach</h2>
+
+<div class="flow">
+
+Code
+<br>↓<br>
+terraform init
+<br>↓<br>
+terraform validate
+<br>↓<br>
+terraform plan
+<br>↓<br>
+terraform apply
+<br>↓<br>
+State
+<br>↓<br>
+Cloud Resource
+<br>↓<br>
+Verify → Fix → Prevent
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. Terraform Apply Fails</h2>
+
+<h3>Question</h3>
+
+<p>
+Terraform plan succeeds but terraform apply fails. What would
+you do?
+</p>
+
+<div class="answer">
+
+I would first read the exact provider error and identify whether
+the failure is related to permissions, configuration, quotas,
+dependencies or an existing cloud resource.
+
+Then I would fix the root cause and run:
+
+<pre>
+terraform plan
+terraform apply
+</pre>
+
+I would avoid randomly changing resources without understanding
+the error.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>2. Terraform State File Is Missing</h2>
+
+<div class="answer">
+
+The Terraform state tracks the relationship between configuration
+and infrastructure.
+
+If the state is missing, Terraform may believe resources do not
+exist.
+
+I would first check whether the state is stored locally or in a
+remote backend.
+
+For production, I would prefer a remote backend with appropriate
+locking and access control.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>3. Terraform State and Real Infrastructure Are Different</h2>
+
+<h3>Question</h3>
+
+<p>
+Someone manually changes an AWS resource. What happens when
+Terraform runs?
+</p>
+
+<div class="answer">
+
+This is called <strong>configuration drift</strong>.
+
+I would run:
+
+<pre>
+terraform plan
+</pre>
+
+Terraform refreshes its understanding of the infrastructure and
+the plan can show differences between the desired configuration
+and actual infrastructure.
+
+The correct solution is to bring the infrastructure back under
+controlled Terraform management rather than making random manual
+changes.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>4. Two Engineers Run Terraform at the Same Time</h2>
+
+<div class="answer">
+
+This can cause state consistency problems if both operations
+modify the same state concurrently.
+
+For production, I would use a remote backend with
+<strong>state locking</strong> where supported.
+
+Example AWS architecture:
+
+<div class="flow">
+
+Developer A
+&nbsp;&nbsp;&nbsp;&nbsp; Developer B
+<br>↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+Terraform
+<br>↓<br>
+Remote Backend
+<br>↓<br>
+Shared State
+
+</div>
+
+The lock prevents conflicting state operations.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>5. Terraform State Is Locked</h2>
+
+<h3>Question</h3>
+
+<p>
+Terraform says the state is locked. What do you do?
+</p>
+
+<div class="answer">
+
+First I would determine whether another Terraform operation is
+actually running.
+
+I would not immediately force-unlock the state.
+
+Only after confirming that the original operation is no longer
+running and the lock is stale would I consider:
+
+<pre>
+terraform force-unlock &lt;LOCK_ID&gt;
+</pre>
+
+<strong>Important:</strong> Force-unlock can be dangerous if another
+Terraform operation is still running.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>6. Terraform Wants to Recreate an Important Resource</h2>
+
+<pre>
+terraform plan
+</pre>
+
+<div class="answer">
+
+I would carefully inspect why Terraform wants to replace the
+resource.
+
+Possible causes include:
+
+<ul>
+<li>Immutable attribute changes</li>
+<li>Configuration changes</li>
+<li>State mismatch</li>
+<li>Drift</li>
+<li>Provider behavior</li>
+</ul>
+
+I would not run apply blindly against a production resource.
+
+I would understand the planned replacement first.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>7. Resource Exists in AWS but Terraform Wants to Create It</h2>
+
+<div class="answer">
+
+This usually means Terraform does not have that resource correctly
+represented in its state.
+
+If the resource was created outside Terraform, I would consider
+importing it into state.
+
+Modern Terraform supports import blocks, for example:
+
+<pre>
+import {
+  to = aws_instance.app
+  id = "i-0123456789abcdef0"
+}
+</pre>
+
+The exact resource type and ID depend on the provider.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>8. Terraform Destroy Is Dangerous</h2>
+
+<h3>Question</h3>
+
+<p>
+How would you safely destroy infrastructure?
+</p>
+
+<div class="answer">
+
+First I would review:
+
+<pre>
+terraform plan -destroy
+</pre>
+
+I would verify the resources being removed and ensure that
+production resources are protected through process and policy.
+
+Where appropriate, lifecycle rules can prevent accidental
+destruction:
+
+<pre>
+lifecycle {
+  prevent_destroy = true
+}
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>9. Terraform Provider Authentication Fails</h2>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>Credentials</li>
+<li>IAM permissions</li>
+<li>Environment variables</li>
+<li>AWS profile</li>
+<li>Region</li>
+<li>Account</li>
+<li>STS identity</li>
+</ul>
+
+For AWS:
+
+<pre>
+aws sts get-caller-identity
+</pre>
+
+This quickly confirms which AWS identity Terraform may be
+expected to use.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>10. Terraform Plan Shows Unexpected Changes</h2>
+
+<div class="answer">
+
+I would investigate:
+
+<ul>
+<li>Recent code changes</li>
+<li>Variable values</li>
+<li>State</li>
+<li>Manual cloud changes</li>
+<li>Provider version</li>
+<li>Resource defaults</li>
+</ul>
+
+Then I would compare the plan carefully before applying it.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>11. Terraform Variables Are Not Getting the Expected Value</h2>
+
+<p>Check variable declaration:</p>
+
+<pre>
+variable "region" {
+  type    = string
+  default = "ap-south-1"
+}
+</pre>
+
+<p>Check tfvars:</p>
+
+<pre>
+region = "ap-south-1"
+</pre>
+
+<div class="answer">
+
+I would verify variable precedence, variable names, tfvars files,
+environment variables and command-line values.
+
+I would also check whether Terraform is loading the expected
+workspace and configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>12. Terraform Module Is Not Working</h2>
+
+<pre>
+terraform init
+terraform validate
+terraform plan
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Module source</li>
+<li>Module version</li>
+<li>Required inputs</li>
+<li>Outputs</li>
+<li>Provider configuration</li>
+<li>Module dependency</li>
+</ul>
+
+I would also inspect the module source itself if necessary.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>13. Terraform Init Fails</h2>
+
+<div class="answer">
+
+Common causes include:
+
+<ul>
+<li>Provider download failure</li>
+<li>Backend configuration problem</li>
+<li>Authentication issue</li>
+<li>Network/proxy problem</li>
+<li>Invalid module source</li>
+</ul>
+
+I would inspect the exact error before changing the configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>14. Terraform Configuration Has Syntax Errors</h2>
+
+<pre>
+terraform fmt
+terraform validate
+</pre>
+
+<div class="answer">
+
+<strong>terraform fmt</strong> formats the configuration.
+
+<strong>terraform validate</strong> checks whether the configuration
+is syntactically and internally valid.
+
+I would run both before creating infrastructure.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>15. Terraform Apply Fails Halfway Through</h2>
+
+<div class="answer">
+
+Terraform may have successfully created some resources before
+another resource failed.
+
+I would first inspect:
+
+<pre>
+terraform state list
+
+terraform plan
+</pre>
+
+I would identify what already exists, understand the failed
+resource and then safely continue after fixing the root cause.
+
+I would not automatically destroy everything and start again.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>16. Terraform State Contains Sensitive Information</h2>
+
+<div class="answer">
+
+Terraform state can contain sensitive resource information.
+
+I would:
+
+<ul>
+<li>Use a secure remote backend</li>
+<li>Restrict backend access</li>
+<li>Encrypt state at rest</li>
+<li>Control IAM permissions</li>
+<li>Avoid committing state files to Git</li>
+<li>Protect state backups</li>
+</ul>
+
+Example .gitignore:
+
+<pre>
+*.tfstate
+*.tfstate.*
+.terraform/
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>17. Terraform Resource Was Deleted Manually</h2>
+
+<p>
+Someone deletes an EC2 instance manually from AWS.
+</p>
+
+<div class="answer">
+
+Terraform still has the resource recorded in state.
+
+During the next plan, Terraform detects that the real resource
+is missing and may propose creating it again to match the desired
+configuration.
+
+I would review the plan and apply only after confirming that
+recreation is expected.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>18. Different Environments Need Different Values</h2>
+
+<p>
+For example, development and production need different instance
+sizes.
+</p>
+
+<div class="answer">
+
+I would avoid hardcoding environment-specific values.
+
+A common approach is:
+
+<pre>
+terraform.tfvars
+dev.tfvars
+prod.tfvars
+</pre>
+
+Or use workspaces/modules depending on the architecture.
+
+Example:
+
+<pre>
+instance_type = "t3.micro"
+</pre>
+
+The exact approach should match the team's environment strategy.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>19. How Would You Manage Terraform in a Team?</h2>
+
+<div class="answer">
+
+I would use:
+
+<ul>
+<li>Git for version control</li>
+<li>Pull requests and code review</li>
+<li>Remote state</li>
+<li>State locking</li>
+<li>Reusable modules</li>
+<li>Separate environments</li>
+<li>CI validation</li>
+<li>Terraform plan before apply</li>
+<li>Restricted production access</li>
+</ul>
+
+A typical pipeline:
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+terraform fmt
+<br>↓<br>
+terraform validate
+<br>↓<br>
+terraform plan
+<br>↓<br>
+Code Review
+<br>↓<br>
+terraform apply
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>20. Terraform Changes Must Be Applied Automatically</h2>
+
+<div class="answer">
+
+I would integrate Terraform into CI/CD.
+
+The pipeline could run:
+
+<pre>
+terraform init
+terraform fmt -check
+terraform validate
+terraform plan
+</pre>
+
+After approval, a controlled process can execute:
+
+<pre>
+terraform apply
+</pre>
+
+Production apply should have appropriate approval and access
+controls rather than allowing every developer to change
+infrastructure directly.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 TOP INTERVIEW REVISION</span>
+
+<h2>21. Terraform Troubleshooting Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Check</th>
+</tr>
+
+<tr>
+<td>Apply failed</td>
+<td>Error message → provider → permissions</td>
+</tr>
+
+<tr>
+<td>State missing</td>
+<td>Backend → state storage</td>
+</tr>
+
+<tr>
+<td>State drift</td>
+<td>terraform plan</td>
+</tr>
+
+<tr>
+<td>State locked</td>
+<td>Check active operation → stale lock</td>
+</tr>
+
+<tr>
+<td>Resource already exists</td>
+<td>State → import</td>
+</tr>
+
+<tr>
+<td>Unexpected replacement</td>
+<td>Plan → changed attributes → drift</td>
+</tr>
+
+<tr>
+<td>Authentication failure</td>
+<td>STS → credentials → IAM</td>
+</tr>
+
+<tr>
+<td>Module failure</td>
+<td>Source → version → inputs → outputs</td>
+</tr>
+
+<tr>
+<td>Init failure</td>
+<td>Backend → provider → network</td>
+</tr>
+
+<tr>
+<td>Syntax issue</td>
+<td>fmt → validate</td>
+</tr>
+
+<tr>
+<td>Team usage</td>
+<td>Git → remote state → locking → review</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Golden Terraform Interview Formula</h2>
+
+<div class="flow">
+
+<strong>Code</strong>
+→ fmt → validate
+
+<br><br>
+
+<strong>Preview</strong>
+→ plan
+
+<br><br>
+
+<strong>State</strong>
+→ Remote Backend + Locking
+
+<br><br>
+
+<strong>Drift</strong>
+→ plan
+
+<br><br>
+
+<strong>Existing Resource</strong>
+→ Import
+
+<br><br>
+
+<strong>Failure</strong>
+→ Read Error → Fix Root Cause → Plan Again
+
+<br><br>
+
+<strong>Production</strong>
+→ Review → Approval → Apply
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Real-Time Scenarios
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Terraform Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

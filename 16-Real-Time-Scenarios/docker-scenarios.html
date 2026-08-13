@@ -1,0 +1,930 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Docker Real-Time Scenarios | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+li{margin:7px 0}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🐳</div>
+
+<h1>Docker Real-Time Scenarios</h1>
+
+<p>
+Production-style Docker troubleshooting scenarios commonly asked
+in DevOps interviews.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>🎯 Docker Troubleshooting Approach</h2>
+
+<div class="flow">
+
+Container Status
+<br>↓<br>
+Logs
+<br>↓<br>
+Process
+<br>↓<br>
+Network
+<br>↓<br>
+Volumes
+<br>↓<br>
+Image
+<br>↓<br>
+Configuration
+<br>↓<br>
+Root Cause → Fix → Verify
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. Container Starts and Immediately Exits</h2>
+
+<h3>Question</h3>
+
+<p>
+A Docker container starts but immediately stops. How would
+you troubleshoot it?
+</p>
+
+<div class="answer">
+
+First check the container status:
+
+<pre>
+docker ps -a
+</pre>
+
+Then check logs:
+
+<pre>
+docker logs &lt;container_id&gt;
+</pre>
+
+Then inspect the container:
+
+<pre>
+docker inspect &lt;container_id&gt;
+</pre>
+
+I would verify the container's main process and its
+<strong>CMD / ENTRYPOINT</strong> configuration.
+
+A container normally stays alive only while its main process
+(PID 1) is running.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>2. Container Is Running but Application Is Not Accessible</h2>
+
+<div class="flow">
+
+Container
+<br>↓<br>
+Application
+<br>↓<br>
+Container Port
+<br>↓<br>
+Host Port
+<br>↓<br>
+Client
+
+</div>
+
+<h3>Check</h3>
+
+<pre>
+docker ps
+
+docker port &lt;container_id&gt;
+
+docker logs &lt;container_id&gt;
+</pre>
+
+<p>
+Also verify that the application is listening on the expected
+port and that the port is correctly published.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>3. Port Mapping Is Wrong</h2>
+
+<pre>
+docker run -d -p 8080:80 nginx
+</pre>
+
+<p>
+Here:
+<strong>8080</strong> = host port<br>
+<strong>80</strong> = container port
+</p>
+
+<div class="answer">
+
+If users access port 8080 on the host, Docker forwards the
+traffic to port 80 inside the container.
+
+Check the mapping with:
+
+<pre>
+docker port &lt;container_id&gt;
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>4. Container Cannot Connect to Another Container</h2>
+
+<div class="answer">
+
+I would check whether both containers are connected to the
+same Docker network.
+
+<pre>
+docker network ls
+
+docker network inspect &lt;network&gt;
+</pre>
+
+Create a network if required:
+
+<pre>
+docker network create app-network
+</pre>
+
+Run containers on it:
+
+<pre>
+docker run -d --name db --network app-network mysql
+docker run -d --name app --network app-network myapp
+</pre>
+
+Containers on the same user-defined network can communicate
+using container/service names.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>5. Docker Container Cannot Reach the Internet</h2>
+
+<h3>Check</h3>
+
+<pre>
+docker exec -it &lt;container&gt; sh
+
+ping 8.8.8.8
+
+nslookup google.com
+</pre>
+
+<div class="answer">
+
+I would distinguish between:
+
+<ul>
+<li>General network connectivity problem</li>
+<li>DNS resolution problem</li>
+<li>Docker network configuration problem</li>
+<li>Host firewall or proxy configuration</li>
+</ul>
+
+I would also inspect the Docker network:
+
+<pre>
+docker network inspect bridge
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>6. Container Has High CPU Usage</h2>
+
+<pre>
+docker stats
+</pre>
+
+<p>
+Then identify the process:
+</p>
+
+<pre>
+docker top &lt;container_id&gt;
+</pre>
+
+<div class="answer">
+
+I would check application logs and determine whether the high
+CPU is caused by traffic, an application problem, a runaway
+process or insufficient resources.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>7. Container Is Using Too Much Memory</h2>
+
+<pre>
+docker stats
+</pre>
+
+<p>
+Check container configuration:
+</p>
+
+<pre>
+docker inspect &lt;container_id&gt;
+</pre>
+
+<div class="answer">
+
+I would investigate application memory usage and, where
+appropriate, configure container resource limits.
+
+Example:
+
+<pre>
+docker run -d --memory=512m --cpus=1 myapp
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>8. Image Build Is Failing</h2>
+
+<pre>
+docker build -t myapp .
+</pre>
+
+<div class="answer">
+
+I would inspect the exact build step that failed.
+
+Common causes:
+
+<ul>
+<li>Incorrect Dockerfile syntax</li>
+<li>Wrong base image</li>
+<li>Missing files in build context</li>
+<li>Incorrect COPY path</li>
+<li>Package installation failure</li>
+<li>Network or registry issue</li>
+<li>Permission problem</li>
+</ul>
+
+I would fix the first meaningful error rather than focusing
+only on the final error message.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>9. Dockerfile COPY Is Failing</h2>
+
+<pre>
+docker build -t myapp .
+</pre>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>File exists in the build context</li>
+<li>Correct relative path</li>
+<li>.dockerignore is not excluding the file</li>
+<li>Correct capitalization</li>
+<li>Build is being executed from the expected directory</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>10. Image Is Too Large</h2>
+
+<div class="answer">
+
+I would reduce image size by:
+
+<ul>
+<li>Using a smaller base image when appropriate</li>
+<li>Using multi-stage builds</li>
+<li>Removing unnecessary packages</li>
+<li>Cleaning package caches</li>
+<li>Using an effective .dockerignore</li>
+<li>Copying only required application files</li>
+</ul>
+
+Example:
+
+<pre>
+.dockerignore
+
+.git
+node_modules
+*.log
+.env
+README.md
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>11. Container Cannot Pull Image from Registry</h2>
+
+<pre>
+docker pull username/myapp:latest
+</pre>
+
+<div class="answer">
+
+I would check:
+
+<ul>
+<li>Image name</li>
+<li>Image tag</li>
+<li>Registry availability</li>
+<li>Authentication</li>
+<li>Repository permissions</li>
+<li>Network connectivity</li>
+</ul>
+
+For private registries:
+
+<pre>
+docker login
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>12. Container Data Is Lost After Container Removal</h2>
+
+<div class="answer">
+
+Container writable storage is ephemeral. For persistent data,
+I would use Docker volumes or an external storage system.
+
+Example:
+
+<pre>
+docker volume create app-data
+
+docker run -d \
+  --name app \
+  -v app-data:/data \
+  myapp
+</pre>
+
+Check volumes:
+
+<pre>
+docker volume ls
+</pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>13. Docker Volume Is Not Mounting Correctly</h2>
+
+<pre>
+docker inspect &lt;container_id&gt;
+</pre>
+
+<div class="answer">
+
+I would verify:
+
+<ul>
+<li>Volume exists</li>
+<li>Correct source and destination paths</li>
+<li>Mount mode</li>
+<li>Permissions</li>
+<li>Application is writing to the expected path</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>14. Docker Compose Application Is Not Starting</h2>
+
+<pre>
+docker compose ps
+
+docker compose logs
+
+docker compose config
+</pre>
+
+<div class="answer">
+
+I would first validate the rendered Compose configuration,
+then inspect individual service logs and dependencies.
+
+I would also check:
+
+<ul>
+<li>Environment variables</li>
+<li>Ports</li>
+<li>Volumes</li>
+<li>Networks</li>
+<li>Dependency configuration</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>15. Application Container Cannot Connect to Database</h2>
+
+<div class="flow">
+
+Application
+<br>↓<br>
+Docker Network
+<br>↓<br>
+Database Container
+<br>↓<br>
+Database Port
+
+</div>
+
+<div class="answer">
+
+I would verify that both containers are on the same network,
+the application uses the database service/container name rather
+than an incorrect localhost address, and that the database is
+actually listening.
+
+For example, inside a Compose network:
+
+<pre>
+DB_HOST=db
+DB_PORT=3306
+</pre>
+
+<strong>Important:</strong> Inside a container,
+<code>localhost</code> refers to that same container.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>16. Docker Daemon Is Not Running</h2>
+
+<h3>Linux</h3>
+
+<pre>
+systemctl status docker
+
+systemctl start docker
+
+systemctl enable docker
+</pre>
+
+<h3>Check Docker</h3>
+
+<pre>
+docker info
+</pre>
+
+<div class="answer">
+
+If the daemon is unavailable, Docker CLI commands that require
+the daemon will fail. I would check daemon status and logs.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>17. Container Logs Are Huge</h2>
+
+<pre>
+docker logs &lt;container_id&gt;
+</pre>
+
+<div class="answer">
+
+I would identify why excessive logging is happening and configure
+appropriate Docker logging and rotation settings rather than
+allowing unlimited log growth.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>18. Container Works Locally but Fails in CI/CD</h2>
+
+<div class="answer">
+
+I would compare the environments.
+
+Check:
+
+<ul>
+<li>Dockerfile</li>
+<li>Environment variables</li>
+<li>Secrets</li>
+<li>Build context</li>
+<li>CPU architecture</li>
+<li>Registry credentials</li>
+<li>Network access</li>
+<li>Runtime configuration</li>
+</ul>
+
+<strong>Interview Point:</strong>
+
+"The image should be treated as the same deployable artifact
+across environments. I would identify environmental differences
+rather than rebuilding different application logic for each
+environment."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>19. Security Vulnerability Found in Docker Image</h2>
+
+<div class="answer">
+
+I would:
+
+<ul>
+<li>Scan the image</li>
+<li>Identify vulnerable packages</li>
+<li>Update the base image</li>
+<li>Upgrade vulnerable dependencies</li>
+<li>Rebuild the image</li>
+<li>Scan again</li>
+<li>Prevent deployment if critical policy requirements are violated</li>
+</ul>
+
+Tools such as Trivy can be integrated into CI/CD pipelines.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 TOP INTERVIEW REVISION</span>
+
+<h2>20. Docker Troubleshooting Cheat Sheet</h2>
+
+<table>
+
+<tr>
+<th>Problem</th>
+<th>First Check</th>
+</tr>
+
+<tr>
+<td>Container exited</td>
+<td>docker ps -a → docker logs</td>
+</tr>
+
+<tr>
+<td>Application inaccessible</td>
+<td>docker port → logs → listening port</td>
+</tr>
+
+<tr>
+<td>Container networking</td>
+<td>docker network ls / inspect</td>
+</tr>
+
+<tr>
+<td>High CPU</td>
+<td>docker stats → docker top</td>
+</tr>
+
+<tr>
+<td>High memory</td>
+<td>docker stats → inspect</td>
+</tr>
+
+<tr>
+<td>Build failure</td>
+<td>Dockerfile → build output</td>
+</tr>
+
+<tr>
+<td>Image pull failure</td>
+<td>Registry → login → tag → permissions</td>
+</tr>
+
+<tr>
+<td>Data lost</td>
+<td>Volume configuration</td>
+</tr>
+
+<tr>
+<td>Compose failure</td>
+<td>docker compose config → logs</td>
+</tr>
+
+<tr>
+<td>Database connection</td>
+<td>Network → hostname → port → DB status</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Golden Docker Interview Formula</h2>
+
+<div class="flow">
+
+<strong>Container</strong>
+→ Status + Logs
+
+<br><br>
+
+<strong>Image</strong>
+→ Dockerfile + Build
+
+<br><br>
+
+<strong>Network</strong>
+→ Network + Port
+
+<br><br>
+
+<strong>Storage</strong>
+→ Volume
+
+<br><br>
+
+<strong>Resources</strong>
+→ CPU + Memory
+
+<br><br>
+
+<strong>Registry</strong>
+→ Login + Image + Tag
+
+<br><br>
+
+<strong>Security</strong>
+→ Scan + Least Privilege
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Real-Time Scenarios
+</a>
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Docker Real-Time Scenarios • 2026
+</footer>
+
+</body>
+</html>
+```

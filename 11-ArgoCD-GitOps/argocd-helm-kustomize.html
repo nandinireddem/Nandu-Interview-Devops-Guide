@@ -1,0 +1,668 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArgoCD with Helm & Kustomize</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    margin:10px 0;
+    font-size:42px;
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:8px;
+}
+
+.warning{
+    background:#241b10;
+    border-left:4px solid #fbbf24;
+    padding:16px;
+    border-radius:8px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+code{
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#fbbf24;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:50px">⎈</div>
+<h1>ArgoCD with Helm & Kustomize</h1>
+<p>
+How ArgoCD works with Helm charts and Kustomize configurations,
+including interview questions and real-time deployment flow.
+</p>
+</header>
+
+<main class="container">
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. Why Use Helm or Kustomize with ArgoCD?</h2>
+
+<p>
+ArgoCD does not require every Kubernetes resource to be stored as
+plain YAML. It can work with configuration tools such as
+<strong>Helm</strong> and <strong>Kustomize</strong>.
+</p>
+
+<div class="flow">
+Git Repository
+<br>↓<br>
+Helm / Kustomize
+<br>↓<br>
+ArgoCD Repo Server
+<br>↓<br>
+Generated Kubernetes Manifests
+<br>↓<br>
+Kubernetes Cluster
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+ArgoCD can use Helm and Kustomize as manifest generation tools.
+The Repo Server processes the source configuration and produces the
+Kubernetes manifests that ArgoCD deploys.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is Helm?</h2>
+
+<p>
+Helm is a package manager for Kubernetes. It allows applications to be
+packaged and deployed using reusable charts and configurable values.
+</p>
+
+<h3>Important Helm Concepts</h3>
+
+<ul>
+<li><strong>Chart</strong> → Package containing Kubernetes resources.</li>
+<li><strong>values.yaml</strong> → Default configuration values.</li>
+<li><strong>templates</strong> → Kubernetes manifest templates.</li>
+<li><strong>Release</strong> → A deployed instance of a Helm chart.</li>
+</ul>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+Helm simplifies Kubernetes application packaging and deployment by
+using reusable charts and configurable values.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. How Does ArgoCD Use Helm?</h2>
+
+<div class="flow">
+Git Repository
+<br>↓<br>
+Helm Chart
+<br>↓<br>
+values.yaml
+<br>↓<br>
+ArgoCD Repo Server
+<br>↓<br>
+Helm Template Rendering
+<br>↓<br>
+Kubernetes Manifests
+<br>↓<br>
+Application Controller
+<br>↓<br>
+Kubernetes
+</div>
+
+<p>
+ArgoCD can use Helm charts as a source and render them into Kubernetes
+manifests before applying the resulting resources.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 4. Example Helm Repository Structure</h2>
+
+<pre>
+my-app/
+│
+├── Chart.yaml
+├── values.yaml
+│
+└── templates/
+    ├── deployment.yaml
+    ├── service.yaml
+    └── ingress.yaml
+</pre>
+
+<div class="answer">
+<strong>Remember:</strong><br>
+<code>Chart.yaml</code> → Chart metadata<br>
+<code>values.yaml</code> → Configuration values<br>
+<code>templates/</code> → Kubernetes resource templates
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Example ArgoCD Application Using Helm</h2>
+
+<pre>
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: my-app
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/example/gitops-repo.git
+    targetRevision: main
+    path: helm/my-app
+
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+</pre>
+
+<p>
+The <code>path</code> points to the Helm chart and the
+<code>helm</code> section provides Helm-specific configuration.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is Kustomize?</h2>
+
+<p>
+Kustomize is a Kubernetes-native configuration customization tool.
+It allows teams to customize Kubernetes YAML without using templates
+in the same way Helm does.
+</p>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+Kustomize allows Kubernetes manifests to be customized using
+overlays and patches while keeping a common base configuration.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. Kustomize Base and Overlay</h2>
+
+<div class="flow">
+
+Base
+<br>
+Common Kubernetes Configuration
+<br>↓<br>
+Development Overlay
+<br>+
+Production Overlay
+
+</div>
+
+<p>
+A common pattern is to maintain reusable base manifests and create
+environment-specific overlays.
+</p>
+
+<pre>
+kustomize/
+│
+├── base/
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   └── kustomization.yaml
+│
+└── overlays/
+    ├── dev/
+    │   └── kustomization.yaml
+    │
+    └── prod/
+        └── kustomization.yaml
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. How Does ArgoCD Use Kustomize?</h2>
+
+<div class="flow">
+Git Repository
+<br>↓<br>
+Kustomize Base
+<br>↓<br>
+Environment Overlay
+<br>↓<br>
+ArgoCD Repo Server
+<br>↓<br>
+Rendered Manifests
+<br>↓<br>
+Kubernetes Cluster
+</div>
+
+<p>
+ArgoCD identifies the Kustomize configuration and generates the
+resulting Kubernetes manifests before synchronization.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 9. Helm vs Kustomize</h2>
+
+<table>
+
+<tr>
+<th>Helm</th>
+<th>Kustomize</th>
+</tr>
+
+<tr>
+<td>Package manager for Kubernetes.</td>
+<td>Kubernetes configuration customization tool.</td>
+</tr>
+
+<tr>
+<td>Uses charts and templates.</td>
+<td>Uses bases, overlays and patches.</td>
+</tr>
+
+<tr>
+<td>Uses values for configuration.</td>
+<td>Uses overlays and patches for customization.</td>
+</tr>
+
+<tr>
+<td>Useful for packaging reusable applications.</td>
+<td>Useful for environment-specific configuration.</td>
+</tr>
+
+<tr>
+<td>Can manage application releases.</td>
+<td>Focuses on customizing Kubernetes manifests.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Helm vs Kustomize — Interview Answer</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br><br>
+
+Helm is a Kubernetes package manager that uses charts, templates and
+values to package and configure applications.<br><br>
+
+Kustomize is a Kubernetes-native customization tool that uses bases,
+overlays and patches to customize existing manifests.<br><br>
+
+In ArgoCD, both can be used as sources for generating the manifests
+that are ultimately synchronized to Kubernetes.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 11. Can ArgoCD Deploy Helm Charts?</h2>
+
+<p><strong>Yes.</strong></p>
+
+<p>
+ArgoCD can deploy applications from Helm chart sources and can use
+Helm values to customize deployments.
+</p>
+
+<div class="answer">
+<strong>Important:</strong><br>
+ArgoCD uses Helm primarily for manifest generation. ArgoCD itself
+manages the desired Kubernetes state and synchronization.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Can ArgoCD Deploy Kustomize?</h2>
+
+<p><strong>Yes.</strong></p>
+
+<p>
+ArgoCD can detect a Kustomize application and generate the final
+manifests before synchronization.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Dev and Production Example</h2>
+
+<div class="flow">
+
+Git
+<br>↓<br>
+
+Kustomize Base
+<br>↓<br>
+
+├── Dev Overlay
+<br>│   replicas = 1
+<br>│
+<br>└── Prod Overlay
+<br>&nbsp;&nbsp;&nbsp;&nbsp;replicas = 3
+<br>↓<br>
+
+ArgoCD
+<br>↓<br>
+
+Kubernetes
+
+</div>
+
+<p>
+The same base configuration can be reused while each environment gets
+its own configuration.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Real-Time GitOps Flow Using Helm</h2>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+Git Commit
+<br>↓<br>
+Helm Chart / values.yaml
+<br>↓<br>
+ArgoCD Detects Change
+<br>↓<br>
+Repo Server
+<br>↓<br>
+Helm Manifest Generation
+<br>↓<br>
+Application Controller
+<br>↓<br>
+Kubernetes API
+<br>↓<br>
+Deployment Updated
+<br>↓<br>
+Synced + Healthy
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What Happens When values.yaml Changes?</h2>
+
+<ol>
+
+<li>Developer changes a value in <code>values.yaml</code>.</li>
+
+<li>The change is committed to Git.</li>
+
+<li>ArgoCD detects the new Git revision.</li>
+
+<li>Repo Server renders the Helm chart using the updated values.</li>
+
+<li>ArgoCD compares the generated manifests with live resources.</li>
+
+<li>The Application becomes OutOfSync if a difference exists.</li>
+
+<li>ArgoCD synchronizes the new configuration.</li>
+
+<li>Kubernetes updates the application.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. What Happens When a Kustomize Overlay Changes?</h2>
+
+<ol>
+
+<li>Developer modifies an environment overlay.</li>
+
+<li>Change is pushed to Git.</li>
+
+<li>ArgoCD detects the new revision.</li>
+
+<li>Repo Server processes the Kustomize configuration.</li>
+
+<li>Final manifests are generated.</li>
+
+<li>ArgoCD compares desired and live state.</li>
+
+<li>Resources are synchronized.</li>
+
+<li>Application health is monitored.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. Common Interview Questions</h2>
+
+<ol>
+
+<li>What is Helm?</li>
+
+<li>What is Kustomize?</li>
+
+<li>How does ArgoCD work with Helm?</li>
+
+<li>How does ArgoCD work with Kustomize?</li>
+
+<li>What is a Helm chart?</li>
+
+<li>What is values.yaml?</li>
+
+<li>What are Kustomize bases and overlays?</li>
+
+<li>Helm vs Kustomize?</li>
+
+<li>Can ArgoCD deploy Helm charts?</li>
+
+<li>Can ArgoCD deploy Kustomize applications?</li>
+
+<li>What happens when values.yaml changes?</li>
+
+<li>What happens when a Kustomize overlay changes?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 One-Minute Revision</h2>
+
+<div class="answer">
+
+<strong>Helm</strong> → Kubernetes package manager.<br><br>
+
+<strong>Chart</strong> → Helm application package.<br><br>
+
+<strong>values.yaml</strong> → Helm configuration values.<br><br>
+
+<strong>Kustomize</strong> → Kubernetes configuration customization.<br><br>
+
+<strong>Base</strong> → Common configuration.<br><br>
+
+<strong>Overlay</strong> → Environment-specific customization.<br><br>
+
+<strong>ArgoCD Repo Server</strong> → Generates manifests.<br><br>
+
+<strong>Application Controller</strong> → Compares and reconciles state.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p><strong>argocd-rbac-security.html</strong></p>
+
+<a href="index.html">← Back to ArgoCD & GitOps Index</a>
+
+</div>
+
+</main>
+
+<footer>
+ArgoCD with Helm & Kustomize • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

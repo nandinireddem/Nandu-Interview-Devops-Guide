@@ -1,0 +1,789 @@
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevSecOps Basics | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:7px
+}
+.warning{
+    background:#211a0d;
+    border-left:4px solid #fbbf24;
+    padding:17px;
+    border-radius:7px
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+th{
+    background:#172033;
+    color:#93c5fd
+}
+code{
+    background:#0d1425;
+    color:#fbbf24;
+    padding:3px 6px;
+    border-radius:4px
+}
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:16px;
+    border-radius:9px;
+    overflow-x:auto
+}
+li{margin:7px 0}
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:55px">🔐</div>
+<h1>DevSecOps Basics</h1>
+<p>
+Security integrated into every stage of the software delivery lifecycle.
+Interview-focused concepts, terminology and practical examples.
+</p>
+</header>
+
+<main class="container">
+
+<!-- 1 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is DevSecOps?</h2>
+
+<p>
+<strong>DevSecOps</strong> means integrating security practices into
+the DevOps lifecycle instead of treating security as a separate
+activity performed only at the end.
+</p>
+
+<div class="flow">
+Plan
+<br>↓<br>
+Code
+<br>↓<br>
+Build
+<br>↓<br>
+Test
+<br>↓<br>
+Security
+<br>↓<br>
+Deploy
+<br>↓<br>
+Monitor
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"DevSecOps is an approach where security is integrated throughout
+the software development and delivery lifecycle. Instead of finding
+security issues only before production, we identify and fix them as
+early as possible using automated security checks in the development
+and CI/CD process."
+
+</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. DevOps vs DevSecOps</h2>
+
+<table>
+
+<tr>
+<th>DevOps</th>
+<th>DevSecOps</th>
+</tr>
+
+<tr>
+<td>Focuses on development, operations and automation.</td>
+<td>Adds security as an integral part of the lifecycle.</td>
+</tr>
+
+<tr>
+<td>Security may be handled separately.</td>
+<td>Security is shared across teams.</td>
+</tr>
+
+<tr>
+<td>Security checks may happen later.</td>
+<td>Security checks are shifted earlier.</td>
+</tr>
+
+<tr>
+<td>CI/CD automation.</td>
+<td>CI/CD + automated security controls.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Simple way to remember:</strong><br>
+
+DevOps = Development + Operations + Automation<br>
+DevSecOps = Development + Security + Operations + Automation
+
+</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. What is Shift-Left Security?</h2>
+
+<p>
+<strong>Shift-left security</strong> means moving security checks
+earlier in the software development lifecycle.
+</p>
+
+<div class="flow">
+
+Traditional
+<br>
+Code → Build → Test → Deploy → Security
+<br><br>
+
+Shift Left
+<br>
+Security → Code → Build → Test → Deploy
+
+</div>
+
+<p>
+The objective is to identify vulnerabilities when they are cheaper
+and easier to fix.
+</p>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"Shift-left security means introducing security activities as early
+as possible in the SDLC. For example, we can scan source code,
+dependencies, secrets, Dockerfiles and infrastructure definitions
+before they reach production."
+
+</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Why is DevSecOps Important?</h2>
+
+<ul>
+
+<li>Detects vulnerabilities earlier.</li>
+
+<li>Reduces security risks.</li>
+
+<li>Automates security checks.</li>
+
+<li>Reduces the cost of fixing vulnerabilities.</li>
+
+<li>Improves compliance and governance.</li>
+
+<li>Protects applications and infrastructure.</li>
+
+<li>Reduces the possibility of insecure deployments.</li>
+
+</ul>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Security Across the DevOps Lifecycle</h2>
+
+<table>
+
+<tr>
+<th>Stage</th>
+<th>Security Activity</th>
+</tr>
+
+<tr>
+<td>Plan</td>
+<td>Threat modeling, security requirements.</td>
+</tr>
+
+<tr>
+<td>Code</td>
+<td>SAST, secret detection, secure coding.</td>
+</tr>
+
+<tr>
+<td>Build</td>
+<td>Dependency and artifact scanning.</td>
+</tr>
+
+<tr>
+<td>Test</td>
+<td>DAST and security testing.</td>
+</tr>
+
+<tr>
+<td>Containerize</td>
+<td>Container image scanning.</td>
+</tr>
+
+<tr>
+<td>Infrastructure</td>
+<td>IaC security scanning.</td>
+</tr>
+
+<tr>
+<td>Deploy</td>
+<td>Policy and access controls.</td>
+</tr>
+
+<tr>
+<td>Operate</td>
+<td>Runtime monitoring and vulnerability management.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is SAST?</h2>
+
+<p>
+<strong>SAST — Static Application Security Testing</strong>
+analyzes application source code or compiled code without executing
+the application.
+</p>
+
+<p>
+It can identify security weaknesses during development or CI.
+</p>
+
+<h3>Example</h3>
+
+<p>
+A developer pushes code → CI pipeline runs SAST → vulnerability is
+detected → pipeline can fail based on the configured policy.
+</p>
+
+<p>
+<strong>Common example:</strong> SonarQube.
+</p>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is DAST?</h2>
+
+<p>
+<strong>DAST — Dynamic Application Security Testing</strong>
+tests a running application from the outside.
+</p>
+
+<div class="answer">
+
+<strong>SAST:</strong> Tests code.<br>
+<strong>DAST:</strong> Tests a running application.
+
+</div>
+
+<p>
+A commonly used DAST tool is OWASP ZAP.
+</p>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is SCA?</h2>
+
+<p>
+<strong>SCA — Software Composition Analysis</strong> scans third-party
+libraries and dependencies for known vulnerabilities.
+</p>
+
+<p>
+For example, if an application uses a vulnerable version of a
+dependency, SCA can identify the vulnerability.
+</p>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. SAST vs DAST vs SCA</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>What it checks</th>
+<th>When</th>
+</tr>
+
+<tr>
+<td>SAST</td>
+<td>Source/application code</td>
+<td>During development/build</td>
+</tr>
+
+<tr>
+<td>DAST</td>
+<td>Running application</td>
+<td>During testing</td>
+</tr>
+
+<tr>
+<td>SCA</td>
+<td>Third-party dependencies</td>
+<td>During development/build</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Container Security</h2>
+
+<p>
+Container images can contain vulnerable packages, outdated operating
+system components or insecure configurations.
+</p>
+
+<p>
+A tool such as <strong>Trivy</strong> can scan container images.
+</p>
+
+<pre>
+trivy image nginx:latest
+</pre>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+"I would scan container images before deployment and configure the
+CI/CD pipeline to block images that exceed the organization's
+defined vulnerability threshold."
+
+</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Secrets Management</h2>
+
+<p>
+Passwords, API keys, tokens and private credentials should never be
+committed directly into source control.
+</p>
+
+<h3>Bad Practice</h3>
+
+<pre>
+AWS_ACCESS_KEY_ID="AKIA..."
+AWS_SECRET_ACCESS_KEY="..."
+</pre>
+
+<h3>Better Approach</h3>
+
+<ul>
+<li>Environment variables</li>
+<li>GitHub Secrets</li>
+<li>AWS Secrets Manager</li>
+<li>HashiCorp Vault</li>
+<li>Kubernetes Secrets with appropriate protection</li>
+</ul>
+
+<p>
+Tools such as <strong>Gitleaks</strong> can detect accidentally
+committed secrets.
+</p>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is IaC Security?</h2>
+
+<p>
+Infrastructure-as-Code security means scanning infrastructure
+definitions for insecure configurations before deployment.
+</p>
+
+<p>
+Examples include Terraform, Kubernetes YAML and CloudFormation.
+</p>
+
+<p>
+Typical checks can identify things such as overly permissive access,
+public resources or insecure configuration.
+</p>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Common DevSecOps Tools</h2>
+
+<table>
+
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>SonarQube</td>
+<td>Code quality and security analysis.</td>
+</tr>
+
+<tr>
+<td>Trivy</td>
+<td>Container, filesystem and IaC vulnerability scanning.</td>
+</tr>
+
+<tr>
+<td>Gitleaks</td>
+<td>Secret detection.</td>
+</tr>
+
+<tr>
+<td>Hadolint</td>
+<td>Dockerfile linting.</td>
+</tr>
+
+<tr>
+<td>OWASP ZAP</td>
+<td>Dynamic application security testing.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. How DevSecOps Fits Into CI/CD</h2>
+
+<div class="flow">
+
+Developer Push
+<br>↓<br>
+Git
+<br>↓<br>
+Build
+<br>↓<br>
+SAST
+<br>↓<br>
+Dependency Scan
+<br>↓<br>
+Secret Scan
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Container Scan
+<br>↓<br>
+Deploy
+<br>↓<br>
+Runtime Monitoring
+
+</div>
+
+<div class="answer">
+
+Security becomes an automated quality gate rather than a manual
+activity performed only before production.
+
+</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What Happens When a Security Scan Fails?</h2>
+
+<ol>
+
+<li>The security tool detects a vulnerability.</li>
+
+<li>The pipeline evaluates the configured policy.</li>
+
+<li>If the vulnerability violates the policy, the security gate fails.</li>
+
+<li>The deployment can be blocked.</li>
+
+<li>The developer/team investigates the vulnerability.</li>
+
+<li>The issue is fixed or formally approved according to organizational policy.</li>
+
+<li>The pipeline is executed again.</li>
+
+</ol>
+
+<div class="warning">
+
+Do not automatically fail every pipeline for every low-severity
+finding. Organizations normally define severity thresholds and
+exception processes.
+
+</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. DevSecOps vs Security Team</h2>
+
+<p>
+DevSecOps does not mean removing security teams.
+</p>
+
+<p>
+Instead, security becomes a shared responsibility while security
+teams continue to provide expertise, policies, governance,
+risk management and advanced security practices.
+</p>
+
+</div>
+
+
+<!-- 17 -->
+
+<div class="card">
+
+<h2>🔥 17. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is DevSecOps?</li>
+
+<li>Why do we need DevSecOps?</li>
+
+<li>DevOps vs DevSecOps?</li>
+
+<li>What is Shift-Left Security?</li>
+
+<li>What is SAST?</li>
+
+<li>What is DAST?</li>
+
+<li>What is SCA?</li>
+
+<li>SAST vs DAST?</li>
+
+<li>How do you scan Docker images?</li>
+
+<li>How do you prevent secrets from being committed?</li>
+
+<li>What is IaC security?</li>
+
+<li>How do you integrate security into CI/CD?</li>
+
+<li>What happens when a security scan fails?</li>
+
+<li>What tools have you used for DevSecOps?</li>
+
+</ol>
+
+</div>
+
+
+<!-- 18 -->
+
+<div class="card">
+
+<h2>🧠 18. 30-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Shift Left</strong>
+= Find security issues early
+
+<br><br>
+
+<strong>SAST</strong>
+= Scan code
+
+<br><br>
+
+<strong>DAST</strong>
+= Scan running application
+
+<br><br>
+
+<strong>SCA</strong>
+= Scan dependencies
+
+<br><br>
+
+<strong>Trivy</strong>
+= Scan containers / IaC
+
+<br><br>
+
+<strong>Gitleaks</strong>
+= Detect secrets
+
+<br><br>
+
+<strong>Hadolint</strong>
+= Lint Dockerfiles
+
+<br><br>
+
+<strong>DevSecOps</strong>
+= Security throughout the DevOps lifecycle
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<p>
+<a href="index.html" style="color:#93c5fd">
+← Back to DevSecOps
+</a>
+</p>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • DevSecOps Basics • 2026
+</footer>
+
+</body>
+</html>
+```

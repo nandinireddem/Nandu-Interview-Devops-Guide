@@ -1,0 +1,469 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Monitoring | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:60px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header .icon{
+    font-size:58px;
+}
+
+header h1{
+    margin:10px 0;
+    font-size:44px;
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+    font-size:17px;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:40px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:24px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+}
+
+.topic{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:22px;
+    transition:transform .2s,border-color .2s;
+}
+
+.topic:hover{
+    transform:translateY(-4px);
+    border-color:#60a5fa;
+}
+
+.topic h3{
+    margin-top:0;
+}
+
+.topic a{
+    color:#93c5fd;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    margin:22px 0;
+}
+
+.badge{
+    display:inline-block;
+    background:#1e293b;
+    color:#93c5fd;
+    padding:6px 12px;
+    border-radius:20px;
+    margin:4px;
+}
+
+.priority{
+    color:#fbbf24;
+    font-weight:bold;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:8px;
+}
+
+ul{
+    padding-left:22px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="icon">📊</div>
+
+<h1>Monitoring</h1>
+
+<p>
+DevOps Interview Guide — Prometheus, Grafana, Metrics, Alerting,
+Observability and Real-Time Monitoring Scenarios.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>🎯 What You Will Learn</h2>
+
+<p>
+This section focuses on the most important monitoring concepts
+frequently asked in Cloud and DevOps interviews.
+</p>
+
+<div>
+<span class="badge">Prometheus</span>
+<span class="badge">Grafana</span>
+<span class="badge">Metrics</span>
+<span class="badge">PromQL</span>
+<span class="badge">Alerting</span>
+<span class="badge">Exporters</span>
+<span class="badge">Observability</span>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 Monitoring Architecture</h2>
+
+<div class="flow">
+
+Application / Kubernetes
+<br>↓<br>
+
+Metrics Endpoint / Exporter
+<br>↓<br>
+
+<strong>Prometheus</strong>
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+<strong>Grafana</strong>
+<br>↓<br>
+
+Dashboards
+<br>↓<br>
+
+Alerts
+<br>↓<br>
+
+Engineer / Team
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📚 Important Files</h2>
+
+<div class="grid">
+
+
+<div class="topic">
+
+<h3>⭐⭐⭐⭐⭐ Prometheus Basics</h3>
+
+<p>
+What Prometheus is, why it is used, metrics, targets, scraping,
+labels and time-series data.
+</p>
+
+<a href="prometheus-basics.html">
+Open Prometheus Basics →
+</a>
+
+</div>
+
+
+<div class="topic">
+
+<h3>⭐⭐⭐⭐⭐ Prometheus Architecture</h3>
+
+<p>
+Prometheus Server, TSDB, exporters, service discovery, Alertmanager
+and the complete monitoring flow.
+</p>
+
+<a href="prometheus-architecture.html">
+Open Prometheus Architecture →
+</a>
+
+</div>
+
+
+<div class="topic">
+
+<h3>⭐⭐⭐⭐⭐ Grafana Basics</h3>
+
+<p>
+Dashboards, data sources, panels, queries and visualization using
+Prometheus metrics.
+</p>
+
+<a href="grafana-basics.html">
+Open Grafana Basics →
+</a>
+
+</div>
+
+
+<div class="topic">
+
+<h3>⭐⭐⭐⭐⭐ Real-Time Scenarios</h3>
+
+<p>
+Production monitoring problems such as CPU spikes, memory issues,
+Pod failures and alert troubleshooting.
+</p>
+
+<a href="monitoring-real-time-scenarios.html">
+Open Real-Time Scenarios →
+</a>
+
+</div>
+
+
+<div class="topic">
+
+<h3>⭐⭐⭐⭐⭐ Final Revision</h3>
+
+<p>
+Last-minute interview revision covering Prometheus, Grafana,
+PromQL, alerting and observability.
+</p>
+
+<a href="monitoring-final-revision.html">
+Open Final Revision →
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐ Priority for Interviews</h2>
+
+<ul>
+
+<li>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+What is Prometheus and why is it used?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+Explain Prometheus architecture.
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+What is scraping in Prometheus?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+What are exporters?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+What is PromQL?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+Prometheus vs Grafana?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐⭐</span>
+How do you monitor Kubernetes?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐</span>
+What is Alertmanager?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐</span>
+How do you troubleshoot a missing metric?
+</li>
+
+<li>
+<span class="priority">⭐⭐⭐⭐</span>
+How do you monitor CPU and memory usage?
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>☸️ Kubernetes Monitoring Flow</h2>
+
+<div class="flow">
+
+Kubernetes Cluster
+<br>↓<br>
+
+Nodes + Pods
+<br>↓<br>
+
+Metrics / Exporters
+<br>↓<br>
+
+Prometheus
+<br>↓<br>
+
+PromQL
+<br>↓<br>
+
+Grafana Dashboard
+<br>↓<br>
+
+Alertmanager
+<br>↓<br>
+
+Notification
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Key Concepts</h2>
+
+<div class="answer">
+
+<strong>Monitoring</strong> → Knowing the health and performance of systems.
+
+<br><br>
+
+<strong>Metrics</strong> → Numeric measurements collected over time.
+
+<br><br>
+
+<strong>Prometheus</strong> → Collects and stores time-series metrics.
+
+<br><br>
+
+<strong>PromQL</strong> → Query language used to retrieve and analyze
+Prometheus metrics.
+
+<br><br>
+
+<strong>Grafana</strong> → Visualizes metrics through dashboards.
+
+<br><br>
+
+<strong>Alertmanager</strong> → Handles and routes alerts generated
+from Prometheus rules.
+
+<br><br>
+
+<strong>Observability</strong> → Understanding internal system behavior
+through telemetry such as metrics, logs and traces.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔗 Navigation</h2>
+
+<p>
+<a href="../index.html">← Back to DevOps Interview Guide</a>
+</p>
+
+<p>
+Next:
+<strong>prometheus-basics.html</strong>
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Monitoring • 2026
+</footer>
+
+</body>
+</html>
+```

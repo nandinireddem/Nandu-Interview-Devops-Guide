@@ -1,0 +1,812 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArgoCD Architecture</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    margin:10px 0;
+    font-size:42px;
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+h2{
+    color:#93c5fd;
+    margin-top:0;
+}
+
+h3{
+    color:#c4b5fd;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0;
+    font-weight:500;
+}
+
+.component{
+    background:#10182b;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:18px;
+    margin:14px 0;
+}
+
+.component strong{
+    color:#93c5fd;
+    font-size:18px;
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:8px;
+}
+
+.warning{
+    background:#241b10;
+    border-left:4px solid #fbbf24;
+    padding:16px;
+    border-radius:8px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+code{
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#fbbf24;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:50px">🏗️</div>
+
+<h1>ArgoCD Architecture</h1>
+
+<p>
+Understand the main ArgoCD components, their responsibilities,
+communication flow and how Git changes reach Kubernetes.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. ArgoCD Architecture Overview</h2>
+
+<p>
+ArgoCD follows a GitOps architecture where Git stores the desired
+application state and ArgoCD continuously works to keep the Kubernetes
+cluster aligned with that state.
+</p>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓<br>
+📦 Git Repository
+<br>↓<br>
+🔄 ArgoCD
+<br>↓<br>
+☸️ Kubernetes API Server
+<br>↓<br>
+🚀 Application Resources
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+ArgoCD continuously monitors the desired state stored in Git,
+compares it with the live state of Kubernetes and reconciles the
+differences through the Kubernetes API.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Main ArgoCD Components</h2>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+</tr>
+
+<tr>
+<td><strong>API Server</strong></td>
+<td>
+Provides the API used by the ArgoCD Web UI, CLI and other clients.
+Handles application and project operations.
+</td>
+</tr>
+
+<tr>
+<td><strong>Application Controller</strong></td>
+<td>
+Monitors applications, compares desired and live state, detects drift
+and performs reconciliation.
+</td>
+</tr>
+
+<tr>
+<td><strong>Repo Server</strong></td>
+<td>
+Connects to Git repositories and generates Kubernetes manifests from
+YAML, Helm, Kustomize and other supported sources.
+</td>
+</tr>
+
+<tr>
+<td><strong>Redis</strong></td>
+<td>
+Used primarily as a caching layer to improve ArgoCD performance.
+</td>
+</tr>
+
+<tr>
+<td><strong>Dex</strong></td>
+<td>
+Optional identity provider integration component used for
+authentication with external identity systems.
+</td>
+</tr>
+
+<tr>
+<td><strong>ApplicationSet Controller</strong></td>
+<td>
+Automates creation and management of multiple ArgoCD Applications.
+</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. ArgoCD API Server</h2>
+
+<p>
+The API Server is the main entry point for users and external clients.
+The ArgoCD Web UI and CLI communicate with the API Server.
+</p>
+
+<h3>Responsibilities</h3>
+
+<ul>
+<li>Provides ArgoCD APIs.</li>
+<li>Handles requests from the Web UI.</li>
+<li>Handles requests from the CLI.</li>
+<li>Provides application information.</li>
+<li>Supports authentication and authorization.</li>
+<li>Handles application and project operations.</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+The ArgoCD API Server acts as the interface between users or clients
+and ArgoCD services. The UI and CLI communicate with it to manage and
+inspect applications.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Application Controller</h2>
+
+<p>
+The Application Controller is the most important component for
+reconciliation.
+</p>
+
+<div class="flow">
+
+Git Desired State
+<br>↓<br>
+Application Controller
+<br>↕<br>
+Kubernetes API
+<br>↓<br>
+Live State
+
+</div>
+
+<h3>Main Responsibilities</h3>
+
+<ul>
+<li>Monitors ArgoCD Applications.</li>
+<li>Compares desired state with live state.</li>
+<li>Detects drift.</li>
+<li>Determines Synced or OutOfSync status.</li>
+<li>Performs reconciliation.</li>
+<li>Monitors application health.</li>
+<li>Triggers synchronization according to policy.</li>
+</ul>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+The Application Controller continuously compares the desired state
+from Git with the live Kubernetes state and reconciles differences
+according to the configured policy.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Repository Server</h2>
+
+<p>
+The Repo Server is responsible for retrieving application configuration
+from source repositories and generating Kubernetes manifests.
+</p>
+
+<div class="flow">
+
+Git Repository
+<br>↓<br>
+Repo Server
+<br>↓<br>
+Manifest Generation
+<br>↓<br>
+Kubernetes Manifests
+<br>↓<br>
+Application Controller
+
+</div>
+
+<h3>Common Configuration Sources</h3>
+
+<ul>
+<li>Plain Kubernetes YAML</li>
+<li>Helm charts</li>
+<li>Kustomize</li>
+<li>Other supported configuration tools</li>
+</ul>
+
+<div class="answer">
+
+<strong>Important Interview Difference:</strong><br>
+
+<strong>Repo Server</strong> → Gets configuration and generates manifests.<br><br>
+
+<strong>Application Controller</strong> → Compares states and reconciles the application.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐ 6. Redis</h2>
+
+<p>
+ArgoCD uses Redis mainly for caching.
+</p>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+Redis is a cache used by ArgoCD to improve performance. It is not the
+source of truth. Git remains the source of truth for the desired
+application configuration.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐ 7. Dex Server</h2>
+
+<p>
+Dex can be used as an identity broker between ArgoCD and external
+identity providers.
+</p>
+
+<p>
+It is mainly related to authentication and identity integration.
+Authorization and permissions are handled through ArgoCD's access
+control mechanisms.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐ 8. ApplicationSet Controller</h2>
+
+<p>
+ApplicationSet helps create multiple ArgoCD Applications from a common
+template.
+</p>
+
+<div class="flow">
+
+ApplicationSet
+<br>↓<br>
+Generator
+<br>↓<br>
+Application Template
+<br>↓<br>
+Application 1
+&nbsp;&nbsp; Application 2
+&nbsp;&nbsp; Application 3
+
+</div>
+
+<p>
+This becomes useful when the same application needs to be deployed to
+multiple clusters or environments.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Complete Git → Kubernetes Flow</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓<br>
+Git Commit
+<br>↓<br>
+📦 Git Repository
+<br>↓<br>
+🔍 ArgoCD Detects Change
+<br>↓<br>
+📥 Repo Server
+<br>↓<br>
+Manifest Generation
+<br>↓<br>
+🔄 Application Controller
+<br>↓<br>
+Compare Desired vs Live State
+<br>↓<br>
+☸️ Kubernetes API Server
+<br>↓<br>
+🚀 Deployment / Pods / Services
+<br>↓<br>
+❤️ Health Status
+<br>↓<br>
+✅ Synced + Healthy
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. How Does ArgoCD Communicate With Kubernetes?</h2>
+
+<p>
+ArgoCD communicates with Kubernetes through the
+<strong>Kubernetes API Server</strong>.
+</p>
+
+<div class="flow">
+
+ArgoCD Application Controller
+<br>↓<br>
+Kubernetes API Server
+<br>↓<br>
+Deployments
+<br>↓<br>
+ReplicaSets
+<br>↓<br>
+Pods
+<br>↓<br>
+Services / Ingress / ConfigMaps / Secrets
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+ArgoCD uses the Kubernetes API to inspect the live state of resources
+and apply the desired configuration to the target cluster.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Desired State vs Live State</h2>
+
+<table>
+
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><strong>Desired State</strong></td>
+<td>Configuration stored in Git.</td>
+</tr>
+
+<tr>
+<td><strong>Live State</strong></td>
+<td>Resources currently running in Kubernetes.</td>
+</tr>
+
+<tr>
+<td><strong>Drift</strong></td>
+<td>Difference between desired and live state.</td>
+</tr>
+
+<tr>
+<td><strong>Reconciliation</strong></td>
+<td>Process of bringing live state toward desired state.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What Happens When Git Changes?</h2>
+
+<ol>
+
+<li>Developer modifies Kubernetes configuration.</li>
+
+<li>The change is committed and pushed to Git.</li>
+
+<li>ArgoCD detects the updated desired state.</li>
+
+<li>Repo Server retrieves the configuration.</li>
+
+<li>Required manifests are generated.</li>
+
+<li>Application Controller compares desired and live state.</li>
+
+<li>The application becomes OutOfSync if there is a difference.</li>
+
+<li>ArgoCD synchronizes the resources according to the configured policy.</li>
+
+<li>Kubernetes API applies the changes.</li>
+
+<li>ArgoCD monitors the resulting health.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What Happens If Someone Uses kubectl?</h2>
+
+<p>
+Suppose Git says the Deployment should have three replicas, but an
+engineer manually changes it to one replica using <code>kubectl</code>.
+</p>
+
+<div class="flow">
+
+Git
+<br>
+replicas = 3
+<br>↓<br>
+Manual kubectl Change
+<br>
+replicas = 1
+<br>↓<br>
+ArgoCD Detects Difference
+<br>↓<br>
+<strong>OutOfSync</strong>
+<br>↓<br>
+Self-Heal if configured
+<br>↓<br>
+Cluster moves toward Git state
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Term:</strong>
+This difference between Git and Kubernetes is called
+<strong>configuration drift</strong>.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. What If Git Repository Is Unavailable?</h2>
+
+<p>
+If ArgoCD cannot access the Git repository, it cannot obtain fresh
+desired-state information from that repository.
+</p>
+
+<div class="answer">
+
+Existing workloads already running in Kubernetes do not simply disappear
+because Git is temporarily unavailable. However, ArgoCD cannot fetch
+new desired configuration from that repository until connectivity is
+restored.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. What If Kubernetes API Is Unavailable?</h2>
+
+<p>
+ArgoCD may still be able to access repository information, but it
+cannot inspect or modify the target Kubernetes cluster while the
+Kubernetes API is unavailable.
+</p>
+
+<div class="answer">
+
+Once Kubernetes API connectivity is restored, ArgoCD can resume
+monitoring and reconciliation.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Component Responsibilities — Quick Revision</h2>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Remember It As</th>
+</tr>
+
+<tr>
+<td>API Server</td>
+<td>UI / CLI / API entry point</td>
+</tr>
+
+<tr>
+<td>Application Controller</td>
+<td>Compare + Reconcile</td>
+</tr>
+
+<tr>
+<td>Repo Server</td>
+<td>Git + Manifest Generation</td>
+</tr>
+
+<tr>
+<td>Redis</td>
+<td>Cache</td>
+</tr>
+
+<tr>
+<td>Dex</td>
+<td>Identity Integration</td>
+</tr>
+
+<tr>
+<td>ApplicationSet Controller</td>
+<td>Multiple Applications</td>
+</tr>
+
+<tr>
+<td>Kubernetes API Server</td>
+<td>Target Cluster Interface</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 17. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>Explain ArgoCD architecture.</li>
+
+<li>What are the main ArgoCD components?</li>
+
+<li>What does the Application Controller do?</li>
+
+<li>What does the Repo Server do?</li>
+
+<li>What is the role of the ArgoCD API Server?</li>
+
+<li>How does ArgoCD communicate with Kubernetes?</li>
+
+<li>What is Redis used for?</li>
+
+<li>What is Dex?</li>
+
+<li>What is ApplicationSet?</li>
+
+<li>Explain the complete Git-to-Kubernetes flow.</li>
+
+<li>What happens when Git changes?</li>
+
+<li>What happens if someone manually changes a resource using kubectl?</li>
+
+<li>What happens if the Git repository is unavailable?</li>
+
+<li>What happens if the Kubernetes API Server is unavailable?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 One-Minute Revision</h2>
+
+<div class="answer">
+
+<strong>Git</strong> → Source of truth<br><br>
+
+<strong>API Server</strong> → User / CLI / UI interface<br><br>
+
+<strong>Repo Server</strong> → Gets Git configuration + generates manifests<br><br>
+
+<strong>Application Controller</strong> → Compare + reconcile<br><br>
+
+<strong>Redis</strong> → Cache<br><br>
+
+<strong>Dex</strong> → Identity integration<br><br>
+
+<strong>ApplicationSet</strong> → Manage multiple Applications<br><br>
+
+<strong>Kubernetes API</strong> → Target cluster interface
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p>
+<strong>argocd-applications-sync.html</strong>
+</p>
+
+<a href="index.html">← Back to ArgoCD & GitOps Index</a>
+
+</div>
+
+</main>
+
+<footer>
+ArgoCD Architecture • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

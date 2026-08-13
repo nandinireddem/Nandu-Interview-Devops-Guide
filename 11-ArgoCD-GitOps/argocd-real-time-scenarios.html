@@ -1,0 +1,640 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArgoCD Real-Time Scenarios</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    margin:10px 0;
+    font-size:42px;
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:8px;
+}
+
+.scenario{
+    background:#101a2d;
+    border-left:4px solid #60a5fa;
+    padding:18px;
+    border-radius:8px;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0;
+}
+
+code{
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#fbbf24;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:50px">🚀</div>
+<h1>ArgoCD Real-Time Scenarios</h1>
+<p>
+Production-style ArgoCD interview scenarios with practical troubleshooting
+approaches and interview-ready answers.
+</p>
+</header>
+
+<main class="container">
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 1. Git Change Is Not Reflected in Kubernetes</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+A developer changed the Deployment image tag in Git, but the Kubernetes
+cluster is still running the old image.
+</div>
+
+<h3>What I Would Check</h3>
+
+<ol>
+<li>Verify the correct repository.</li>
+<li>Verify the branch or revision.</li>
+<li>Verify the application path.</li>
+<li>Check whether ArgoCD detected the Git change.</li>
+<li>Check whether automated sync is enabled.</li>
+<li>Check Application events and sync status.</li>
+</ol>
+
+<pre>
+argocd app get my-app
+argocd app diff my-app
+argocd app sync my-app
+</pre>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would first verify that ArgoCD is tracking the correct repository,
+revision and path. Then I would check whether the application is
+OutOfSync and whether automated synchronization is enabled. If the
+change is detected but not applied, I would inspect the sync error.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 2. Application Shows OutOfSync</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+The application suddenly changes from Synced to OutOfSync even though
+nobody changed Git.
+</div>
+
+<h3>Likely Cause</h3>
+
+<p>
+Someone may have manually modified a Kubernetes resource using
+<code>kubectl</code>, causing configuration drift.
+</p>
+
+<div class="flow">
+Git
+<br>↓<br>
+Desired State
+<br>↓<br>
+ArgoCD
+<br>↕<br>
+Live Kubernetes State
+<br>↓<br>
+❌ Difference Detected
+<br>↓<br>
+OutOfSync
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would run an ArgoCD diff and identify the changed resource. If the
+change was made manually, I would either revert it or update Git if the
+change is actually required.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 3. Self-Healing Reverts a Manual Change</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+An engineer manually changes replicas from 3 to 1 using kubectl.
+Within a short time, ArgoCD changes them back to 3.
+</div>
+
+<div class="flow">
+Git
+<br>
+replicas: 3
+<br>↓<br>
+Kubernetes
+<br>
+replicas: 1
+<br>↓<br>
+ArgoCD detects drift
+<br>↓<br>
+Self-Heal
+<br>↓<br>
+replicas: 3
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+This is expected when automated sync with self-healing is enabled.
+ArgoCD continuously reconciles the live state toward the desired state
+stored in Git.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 4. Sync Failed Because of an Invalid Manifest</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+A developer pushes a malformed Kubernetes YAML file. ArgoCD detects
+the change but synchronization fails.
+</div>
+
+<h3>Approach</h3>
+
+<pre>
+argocd app get my-app
+</pre>
+
+<p>
+Read the error and identify the resource that failed. Validate the YAML
+and, depending on the source type, test Helm or Kustomize generation.
+</p>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would not repeatedly retry the sync. I would identify the exact
+manifest error, fix the configuration in Git, commit the correction
+and allow ArgoCD to reconcile again.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 5. Sync Succeeds but Pods Are Not Running</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+ArgoCD reports Synced, but the application is Degraded and Pods are
+failing.
+</div>
+
+<pre>
+kubectl get pods -n production
+kubectl describe pod &lt;pod-name&gt; -n production
+kubectl logs &lt;pod-name&gt; -n production
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Application startup failure.</li>
+<li>Missing environment variables.</li>
+<li>Missing Secret or ConfigMap.</li>
+<li>Image problem.</li>
+<li>Readiness or liveness probe failure.</li>
+<li>Insufficient resources.</li>
+</ul>
+
+<div class="answer">
+<strong>Key Point:</strong><br>
+Synced does not necessarily mean Healthy. Sync represents desired-state
+application, while health reflects the runtime state.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 6. Production Deployment Must Be Prevented</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+Developers should be able to deploy to Dev but must not be able to
+deploy or delete Production applications.
+</div>
+
+<div class="flow">
+Developer
+<br>↓<br>
+SSO Group
+<br>↓<br>
+ArgoCD RBAC
+<br>↓<br>
+Development Project
+<br>↓<br>
+Dev Namespace
+<br><br>
+Production → ❌ Denied
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would use AppProjects and RBAC. The developer role would be restricted
+to development applications and destinations, while production access
+would be granted only to authorized teams.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 7. Private Git Repository Cannot Be Accessed</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+The ArgoCD Application cannot fetch manifests from a private GitHub
+repository.
+</div>
+
+<h3>Check</h3>
+
+<pre>
+argocd repo list
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Incorrect repository URL.</li>
+<li>Invalid or expired credentials.</li>
+<li>Insufficient repository permissions.</li>
+<li>Network connectivity issue.</li>
+</ul>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would verify the repository URL and credentials configured in ArgoCD,
+confirm that the credential has access to the repository, and check
+the repository connection status.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 8. ImagePullBackOff After Successful Sync</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+ArgoCD successfully applies the Deployment, but the Pod enters
+ImagePullBackOff.
+</div>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt; -n production
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Wrong image name.</li>
+<li>Wrong image tag.</li>
+<li>Private registry authentication missing.</li>
+<li>Image does not exist.</li>
+</ul>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would inspect the Pod events first. Since ArgoCD already synchronized
+the Deployment successfully, I would troubleshoot the Kubernetes image
+pull process rather than the GitOps controller itself.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 9. Rollback After a Bad Deployment</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+A new production version was deployed and the application became
+unhealthy.
+</div>
+
+<h3>GitOps Approach</h3>
+
+<div class="flow">
+Bad Commit
+<br>↓<br>
+Deployment
+<br>↓<br>
+Application Failure
+<br>↓<br>
+Revert Git Commit
+<br>↓<br>
+ArgoCD Detects Change
+<br>↓<br>
+Sync
+<br>↓<br>
+Previous Version Restored
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+With GitOps, I prefer reverting the problematic Git change so that Git
+again represents the desired state. ArgoCD then reconciles the cluster
+to that known-good configuration.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 10. ArgoCD Application Is Stuck During Sync</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+The sync operation appears to remain in progress for a long time.
+</div>
+
+<h3>Investigation</h3>
+
+<pre>
+argocd app get my-app
+
+kubectl get events -A --sort-by=.lastTimestamp
+
+kubectl get pods -A
+</pre>
+
+<p>
+Identify the resource that is waiting. It could be a Deployment, Job,
+Pod, Service, webhook or another dependency.
+</p>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would identify the exact resource holding up the sync rather than
+assuming the entire ArgoCD installation is unhealthy.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 11. ArgoCD Server Is Not Accessible</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+The ArgoCD UI suddenly becomes inaccessible.
+</div>
+
+<h3>Check ArgoCD Components</h3>
+
+<pre>
+kubectl get pods -n argocd
+kubectl get svc -n argocd
+kubectl get events -n argocd
+</pre>
+
+<h3>Important Components</h3>
+
+<ul>
+<li>argocd-server</li>
+<li>argocd-repo-server</li>
+<li>argocd-application-controller</li>
+<li>argocd-redis</li>
+<li>argocd-applicationset-controller</li>
+</ul>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would first verify that the ArgoCD pods are running and then check
+the Service, ingress or load balancer configuration used to expose
+ArgoCD.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 12. Application Controller Problem</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+Applications stop reconciling even though the ArgoCD UI is accessible.
+</div>
+
+<pre>
+kubectl get pods -n argocd
+kubectl logs deployment/argocd-application-controller -n argocd
+</pre>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+The Application Controller is responsible for continuously comparing
+desired and live state and initiating reconciliation. I would inspect
+its logs, pod status and resource availability.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐ 13. Repo Server Problem</h2>
+
+<div class="scenario">
+<strong>Scenario:</strong><br>
+ArgoCD cannot generate manifests from Git.
+</div>
+
+<pre>
+kubectl get pods -n argocd
+kubectl logs deployment/argocd-repo-server -n argocd
+</pre>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+The Repo Server handles repository access and manifest generation.
+Therefore, if applications fail during manifest generation, I would
+check repository connectivity and Repo Server logs.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 14. Emergency Production Scenario</h2>
+
+<div class="scenario">
+<strong>Production is down immediately after a deployment.</strong>
+</div>
+
+<h3>My Troubleshooting Sequence</h3>
+
+<ol>
+<li>Check ArgoCD Application health.</li>
+<li>Check recent Git commit.</li>
+<li>Check sync history.</li>
+<li>Check Deployment and ReplicaSet.</li>
+<li>Check Pod status.</li>
+<li>Check application logs.</li>
+<li>Check Kubernetes events.</li>
+<li>Identify the root cause.</li>
+<li>Rollback by reverting the Git change if required.</li>
+<li>Verify application recovery.</li>
+</ol>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+During a production incident, I focus first on restoring service safely.
+I identify the failing layer, use the Git history to understand the
+change, and revert to a known-good version when necessary. After
+recovery, I investigate the root cause.
+</div>
+</div>
+
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 15. ArgoCD Interview Golden Flow</h2>
+
+<div class="flow">
+
+Git Repository
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+Application
+<br>↓<br>
+<strong>Sync Status</strong>
+<br>↓<br>
+Synced / OutOfSync
+<br>↓<br>
+<strong>Health Status</strong>
+<br>↓<br>
+Healthy / Degraded
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Pods → Services → Ingress
+<br>↓<br>
+Logs + Events
+<br>↓<br>
+Root Cause
+<br>↓<br>
+Fix in Git
+<br>↓<br>
+Reconciliation
+
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>🧠 One-Minute Revision</h2>
+
+<div class="answer">
+
+<strong>OutOfSync</strong> → Desired and live state differ.<br><br>
+
+<strong>SyncFailed</strong> → ArgoCD could not apply a change.<br><br>
+
+<strong>Degraded</strong> → Resource/application health is bad.<br><br>
+
+<strong>Git Error</strong> → Check URL, credentials and connectivity.<br><br>
+
+<strong>Manifest Error</strong> → Check YAML, Helm or Kustomize.<br><br>
+
+<strong>Pod Error</strong> → Check describe, logs and events.<br><br>
+
+<strong>Production Failure</strong> → Identify change → restore service →
+revert Git if required → verify recovery.
+
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>➡️ Next File</h2>
+
+<p><strong>argocd-final-revision.html</strong></p>
+
+<a href="index.html">← Back to ArgoCD & GitOps Index</a>
+</div>
+
+</main>
+
+<footer>
+ArgoCD Real-Time Scenarios • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,691 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ArgoCD RBAC & Security</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    margin:10px 0;
+    font-size:42px;
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:8px;
+}
+
+.warning{
+    background:#241b10;
+    border-left:4px solid #fbbf24;
+    padding:16px;
+    border-radius:8px;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+code{
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#fbbf24;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:50px">🔐</div>
+<h1>ArgoCD RBAC & Security</h1>
+<p>
+Authentication, authorization, RBAC policies, projects, repositories,
+Kubernetes permissions and important ArgoCD security practices.
+</p>
+</header>
+
+<main class="container">
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is RBAC?</h2>
+
+<p>
+RBAC stands for <strong>Role-Based Access Control</strong>.
+It controls what actions a user or service account is allowed to perform
+based on assigned roles and permissions.
+</p>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+ArgoCD RBAC controls which users or groups can perform actions such as
+viewing, syncing, creating or deleting applications and projects.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Authentication vs Authorization</h2>
+
+<table>
+
+<tr>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+
+<tr>
+<td>Who are you?</td>
+<td>What are you allowed to do?</td>
+</tr>
+
+<tr>
+<td>Login / identity verification.</td>
+<td>Permissions and access control.</td>
+</tr>
+
+<tr>
+<td>Example: SSO login.</td>
+<td>Example: Can this user sync an application?</td>
+</tr>
+
+</table>
+
+<div class="flow">
+
+👤 User
+<br>↓<br>
+<strong>Authentication</strong>
+<br>↓<br>
+Identity Verified
+<br>↓<br>
+<strong>Authorization / RBAC</strong>
+<br>↓<br>
+Allowed Actions
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. ArgoCD RBAC Components</h2>
+
+<ul>
+<li><strong>User / Group</strong> → Identity requesting access.</li>
+<li><strong>Role</strong> → Collection of permissions.</li>
+<li><strong>Policy</strong> → Defines allowed or denied actions.</li>
+<li><strong>Project</strong> → Restricts applications, repositories and destinations.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Common ArgoCD RBAC Actions</h2>
+
+<table>
+
+<tr>
+<th>Action</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>get</code></td>
+<td>View resources.</td>
+</tr>
+
+<tr>
+<td><code>create</code></td>
+<td>Create resources.</td>
+</tr>
+
+<tr>
+<td><code>update</code></td>
+<td>Modify resources.</td>
+</tr>
+
+<tr>
+<td><code>delete</code></td>
+<td>Delete resources.</td>
+</tr>
+
+<tr>
+<td><code>sync</code></td>
+<td>Synchronize an application.</td>
+</tr>
+
+<tr>
+<td><code>override</code></td>
+<td>Override application source during supported operations.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. ArgoCD RBAC Policy Example</h2>
+
+<pre>
+p, role:developer, applications, get, dev-project/*, allow
+p, role:developer, applications, sync, dev-project/*, allow
+
+g, alice, role:developer
+</pre>
+
+<p>
+The example gives the developer role permission to view and sync
+applications under the specified project scope.
+</p>
+
+<div class="answer">
+<strong>Interview Tip:</strong><br>
+Do not memorize only the syntax. Explain the principle:
+developers should receive only the permissions required for their job.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Least Privilege</h2>
+
+<p>
+The principle of least privilege means giving users and systems only
+the permissions they actually need.
+</p>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+View + Sync Dev Applications
+<br>↓<br>
+❌ No Production Delete Permission
+
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+In production, I would avoid giving broad admin permissions to every
+developer. I would use project-level RBAC and grant only the required
+actions.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What is an ArgoCD Project?</h2>
+
+<p>
+An ArgoCD Project is a logical boundary used to organize applications
+and restrict what those applications can access.
+</p>
+
+<h3>A Project Can Control:</h3>
+
+<ul>
+<li>Allowed source repositories</li>
+<li>Allowed destination clusters</li>
+<li>Allowed destination namespaces</li>
+<li>Allowed resource kinds</li>
+<li>Project roles</li>
+</ul>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+Projects provide an additional security and organizational boundary
+for ArgoCD applications.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Why Use Projects?</h2>
+
+<div class="flow">
+
+ArgoCD
+<br>↓<br>
+
+Project: Development
+<br>
+├── Dev Applications
+<br>
+├── Dev Repository
+<br>
+└── Dev Namespace
+
+<br><br>
+
+Project: Production
+<br>
+├── Prod Applications
+<br>
+├── Prod Repository
+<br>
+└── Prod Namespace
+
+</div>
+
+<p>
+This separation helps prevent accidental deployment of applications
+into unauthorized environments.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Project Security Example</h2>
+
+<pre>
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+
+metadata:
+  name: production
+  namespace: argocd
+
+spec:
+  sourceRepos:
+    - https://github.com/example/prod-gitops.git
+
+  destinations:
+    - namespace: production
+      server: https://kubernetes.default.svc
+</pre>
+
+<div class="answer">
+<strong>Meaning:</strong><br>
+This project can be configured so applications use approved Git
+repositories and approved Kubernetes destinations.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Kubernetes RBAC vs ArgoCD RBAC</h2>
+
+<table>
+
+<tr>
+<th>ArgoCD RBAC</th>
+<th>Kubernetes RBAC</th>
+</tr>
+
+<tr>
+<td>Controls access to ArgoCD resources and actions.</td>
+<td>Controls access to Kubernetes API resources.</td>
+</tr>
+
+<tr>
+<td>Example: Can user sync an ArgoCD Application?</td>
+<td>Example: Can service account create Deployments?</td>
+</tr>
+
+<tr>
+<td>Configured through ArgoCD RBAC policies.</td>
+<td>Uses Role, ClusterRole and bindings.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+<strong>Interview Point:</strong><br>
+They are separate authorization layers. A user being allowed to use
+ArgoCD does not automatically mean they have unrestricted Kubernetes
+permissions.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. What is SSO?</h2>
+
+<p>
+SSO stands for <strong>Single Sign-On</strong>. It allows users to
+authenticate through an external identity provider rather than
+maintaining separate credentials for every application.
+</p>
+
+<p>
+ArgoCD can integrate with identity providers using supported
+authentication mechanisms such as OIDC.
+</p>
+
+<div class="flow">
+
+👤 User
+<br>↓<br>
+Identity Provider
+<br>↓<br>
+Authentication
+<br>↓<br>
+ArgoCD
+<br>↓<br>
+RBAC
+<br>↓<br>
+Allowed Application Actions
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Why Use SSO Instead of Local Users?</h2>
+
+<ul>
+<li>Centralized identity management.</li>
+<li>Centralized access control.</li>
+<li>Easier onboarding and offboarding.</li>
+<li>Integration with organizational identity systems.</li>
+<li>Reduced dependency on separate local credentials.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. How Should Production ArgoCD Be Secured?</h2>
+
+<ul>
+
+<li>Use SSO / centralized identity where appropriate.</li>
+
+<li>Apply least-privilege RBAC.</li>
+
+<li>Separate environments using Projects.</li>
+
+<li>Restrict allowed Git repositories.</li>
+
+<li>Restrict allowed destination clusters and namespaces.</li>
+
+<li>Avoid giving admin permissions unnecessarily.</li>
+
+<li>Protect repository credentials and secrets.</li>
+
+<li>Use TLS for access to ArgoCD.</li>
+
+<li>Monitor and audit administrative actions.</li>
+
+<li>Control who can perform production sync or deletion.</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Real-Time Security Scenario</h2>
+
+<h3>Scenario</h3>
+
+<p>
+A developer needs to deploy applications to the development namespace,
+but must not be able to modify production applications.
+</p>
+
+<h3>Solution</h3>
+
+<div class="flow">
+
+Developer
+<br>↓<br>
+SSO Group
+<br>↓<br>
+Developer RBAC Role
+<br>↓<br>
+Development Project
+<br>↓<br>
+Dev Namespace
+<br>↓<br>
+✅ Allowed
+
+<br><br>
+
+Production
+<br>↓<br>
+❌ Access Denied
+
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I would use SSO groups with ArgoCD RBAC and AppProjects. The developer
+role would have access only to development applications and would not
+have production sync or delete permissions.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What If Someone Gets ArgoCD Admin Access?</h2>
+
+<p>
+An ArgoCD administrator can potentially control a large portion of the
+applications managed by ArgoCD, depending on the configured permissions
+and cluster access.
+</p>
+
+<div class="warning">
+<strong>Security Risk:</strong><br>
+ArgoCD is a powerful control plane. Administrative credentials must be
+protected carefully and broad permissions should be minimized.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 16. Repository Access Security</h2>
+
+<p>
+ArgoCD may need credentials to access private Git repositories.
+These credentials should be handled securely.
+</p>
+
+<ul>
+<li>Use secure credential mechanisms.</li>
+<li>Do not commit passwords or tokens to Git.</li>
+<li>Limit repository access.</li>
+<li>Rotate credentials when necessary.</li>
+<li>Use dedicated credentials where possible.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 17. Common Interview Questions</h2>
+
+<ol>
+
+<li>What is RBAC?</li>
+
+<li>Authentication vs authorization?</li>
+
+<li>What is ArgoCD RBAC?</li>
+
+<li>What is an AppProject?</li>
+
+<li>Why are Projects important?</li>
+
+<li>What is least privilege?</li>
+
+<li>ArgoCD RBAC vs Kubernetes RBAC?</li>
+
+<li>What is SSO?</li>
+
+<li>How would you secure production ArgoCD?</li>
+
+<li>How would you prevent developers from deploying to production?</li>
+
+<li>How do you protect private Git repository credentials?</li>
+
+<li>Why should ArgoCD admin access be restricted?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 One-Minute Revision</h2>
+
+<div class="answer">
+
+<strong>Authentication</strong> → Who are you?<br><br>
+
+<strong>Authorization</strong> → What can you do?<br><br>
+
+<strong>RBAC</strong> → Role-based permissions.<br><br>
+
+<strong>Project</strong> → Application security boundary.<br><br>
+
+<strong>Least Privilege</strong> → Give only required permissions.<br><br>
+
+<strong>SSO</strong> → Centralized identity authentication.<br><br>
+
+<strong>ArgoCD RBAC</strong> → Controls ArgoCD actions.<br><br>
+
+<strong>Kubernetes RBAC</strong> → Controls Kubernetes API access.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p><strong>argocd-troubleshooting.html</strong></p>
+
+<a href="index.html">← Back to ArgoCD & GitOps Index</a>
+
+</div>
+
+</main>
+
+<footer>
+ArgoCD RBAC & Security • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,773 @@
+```html id="8x4mqp"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EKS Architecture | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🏗️</div>
+
+<h1>Amazon EKS Architecture</h1>
+
+<p>
+Understand how the EKS control plane, VPC, worker nodes,
+Pods, networking and AWS services work together.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. EKS Architecture at a Glance</h2>
+
+<div class="flow">
+
+👨‍💻 Developer
+<br>↓
+<br>
+<strong>kubectl / AWS CLI</strong>
+<br>↓
+<br>
+┌────────────────────────────────────────────┐
+<br>
+│              Amazon EKS Cluster             │
+<br>
+│                                            │
+<br>
+│  ☸️ Managed Control Plane                  │
+<br>
+│  API Server • etcd • Scheduler • Controllers│
+<br>
+│                                            │
+<br>
+└────────────────────────────────────────────┘
+<br>
+↓
+<br>
+┌────────────────────────────────────────────┐
+<br>
+│                 AWS VPC                    │
+<br>
+│                                            │
+<br>
+│  AZ-A                    AZ-B              │
+<br>
+│  ┌──────────────┐       ┌──────────────┐  │
+<br>
+│  │ Worker Node  │       │ Worker Node  │  │
+<br>
+│  │ Pods         │       │ Pods         │  │
+<br>
+│  └──────────────┘       └──────────────┘  │
+<br>
+│                                            │
+<br>
+└────────────────────────────────────────────┘
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. EKS Control Plane</h2>
+
+<p>
+The EKS control plane runs Kubernetes control-plane components
+required to manage cluster state and workloads.
+</p>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+</tr>
+
+<tr>
+<td>API Server</td>
+<td>Entry point for Kubernetes API requests.</td>
+</tr>
+
+<tr>
+<td>etcd</td>
+<td>Stores Kubernetes cluster state.</td>
+</tr>
+
+<tr>
+<td>Scheduler</td>
+<td>Selects suitable nodes for Pods.</td>
+</tr>
+
+<tr>
+<td>Controllers</td>
+<td>Continuously reconcile desired and actual state.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+AWS manages the underlying EKS control-plane infrastructure.
+You interact with the Kubernetes API rather than managing the
+control-plane servers yourself.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. EKS Worker Node Architecture</h2>
+
+<div class="flow">
+
+EC2 Worker Node
+<br>↓<br>
+kubelet
+<br>↓<br>
+Container Runtime
+<br>↓<br>
+Pods
+<br>↓<br>
+Containers
+
+</div>
+
+<h3>Important Node Components</h3>
+
+<ul>
+<li>kubelet</li>
+<li>Container runtime</li>
+<li>Networking components</li>
+<li>Operating system</li>
+<li>Application Pods</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. EKS + VPC Architecture</h2>
+
+<div class="flow">
+
+AWS VPC
+<br><br>
+
+├── Public Subnets
+<br>
+│   └── Internet-facing Load Balancer
+<br><br>
+
+├── Private Subnet - AZ A
+<br>
+│   └── EKS Worker Nodes
+<br><br>
+
+├── Private Subnet - AZ B
+<br>
+│   └── EKS Worker Nodes
+<br><br>
+
+└── Private Database Subnets
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── Database
+
+</div>
+
+<p>
+A production architecture commonly spans multiple Availability
+Zones for resilience.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Availability Zones</h2>
+
+<p>
+EKS workloads can be distributed across multiple Availability Zones
+to reduce dependency on a single zone.
+</p>
+
+<div class="flow">
+
+Region
+<br>↓
+<br>
+┌────────────────────┬────────────────────┐
+<br>
+│ AZ-A               │ AZ-B               │
+<br>
+│                    │                    │
+<br>
+│ Node 1             │ Node 2             │
+<br>
+│ Pods               │ Pods               │
+<br>
+└────────────────────┴────────────────────┘
+
+</div>
+
+<h3>Benefits</h3>
+
+<ul>
+<li>Higher availability.</li>
+<li>Better failure tolerance.</li>
+<li>Workload distribution.</li>
+<li>Improved resilience.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. EKS Networking Architecture</h2>
+
+<div class="flow">
+
+Pod
+<br>↓<br>
+AWS VPC CNI
+<br>↓<br>
+VPC Network Interface / IP
+<br>↓<br>
+AWS VPC
+<br>↓<br>
+Route Table
+<br>↓<br>
+AWS Network
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Point:</strong><br>
+
+The AWS VPC CNI plugin enables Kubernetes Pods to use AWS VPC
+networking and IP addressing.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. EKS Service + Load Balancer Flow</h2>
+
+<div class="flow">
+
+🌍 Internet
+<br>↓<br>
+DNS
+<br>↓<br>
+AWS Load Balancer
+<br>↓<br>
+Kubernetes Service
+<br>↓<br>
+Pods
+<br>↓<br>
+Application
+
+</div>
+
+<p>
+Depending on the configuration, AWS load-balancing integrations
+can expose Kubernetes Services or Ingress resources externally.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. EKS Ingress Architecture</h2>
+
+<div class="flow">
+
+User
+<br>↓<br>
+DNS
+<br>↓<br>
+Application Load Balancer
+<br>↓<br>
+Ingress
+<br>↓<br>
+Kubernetes Service
+<br>↓<br>
+Pods
+
+</div>
+
+<p>
+The AWS Load Balancer Controller can provision and manage AWS load
+balancing resources from Kubernetes resources such as Ingress.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. EKS IAM + Kubernetes RBAC</h2>
+
+<div class="flow">
+
+AWS Identity
+<br>↓<br>
+IAM Authentication / EKS Access
+<br>↓<br>
+Kubernetes API Server
+<br>↓<br>
+Kubernetes Authorization
+<br>↓<br>
+RBAC
+<br>↓<br>
+Kubernetes Resource
+
+</div>
+
+<div class="answer">
+
+<strong>Remember:</strong><br>
+
+Authentication → Who are you?<br>
+Authorization → What are you allowed to do?
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. EKS Node Group Architecture</h2>
+
+<div class="flow">
+
+EKS Cluster
+<br>↓<br>
+Managed Node Group
+<br>↓<br>
+Auto Scaling Group
+<br>↓<br>
+EC2 Instances
+<br>↓<br>
+Pods
+
+</div>
+
+<p>
+Managed node groups simplify the lifecycle management of EC2
+worker nodes.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. EKS Fargate Architecture</h2>
+
+<div class="flow">
+
+EKS Control Plane
+<br>↓<br>
+Pod
+<br>↓<br>
+Fargate Profile
+<br>↓<br>
+AWS Fargate Compute
+
+</div>
+
+<p>
+Fargate can run supported Pods without requiring you to manage
+the underlying EC2 worker nodes for those Pods.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. EKS Storage Architecture</h2>
+
+<div class="flow">
+
+Application Pod
+<br>↓<br>
+PersistentVolumeClaim
+<br>↓<br>
+PersistentVolume
+<br>↓<br>
+CSI Driver
+<br>↓<br>
+AWS Storage
+
+</div>
+
+<p>
+EKS can integrate with AWS storage services through Kubernetes
+CSI drivers.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. EKS Security Architecture</h2>
+
+<div class="flow">
+
+Internet
+<br>↓<br>
+Load Balancer
+<br>↓<br>
+Security Groups
+<br>↓<br>
+EKS / Pods
+<br>↓<br>
+NetworkPolicies
+<br>↓<br>
+Application
+
+</div>
+
+<h3>Security Layers</h3>
+
+<ul>
+<li>IAM</li>
+<li>Kubernetes RBAC</li>
+<li>Security Groups</li>
+<li>Network ACLs</li>
+<li>NetworkPolicies</li>
+<li>Secrets management</li>
+<li>Encryption</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Production EKS Architecture</h2>
+
+<div class="flow">
+
+🌍 Users
+<br>↓<br>
+Route 53 / DNS
+<br>↓<br>
+AWS Load Balancer
+<br>↓<br>
+EKS Cluster
+<br>↓<br>
+
+┌─────────────────────────────┐
+<br>
+│ Multi-AZ Worker Nodes       │
+<br>
+│                             │
+<br>
+│ Pod → Service → Application │
+<br>
+└─────────────────────────────┘
+<br>
+↓
+<br>
+AWS Services
+<br>
+RDS / S3 / Secrets / CloudWatch
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. How Does a Request Reach a Pod?</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<br><br>
+
+"A user first resolves the application domain through DNS. The
+request reaches an AWS load balancer, which forwards traffic to
+the Kubernetes Service or its backend targets. The Service then
+routes the request to an appropriate Pod, where the application
+process handles the request."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. How Does a Pod Get Network Connectivity?</h2>
+
+<div class="answer">
+
+In a typical AWS VPC CNI setup, the CNI plugin assigns networking
+from the VPC to Pods using available VPC IP resources. This allows
+Pod traffic to integrate with AWS VPC routing and security controls.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. EKS Architecture Interview Scenario</h2>
+
+<div class="answer">
+
+<strong>Question:</strong><br><br>
+
+"Design a highly available EKS architecture for a production
+application."
+
+<br><br>
+
+<strong>Answer:</strong>
+
+<ol>
+
+<li>Create an EKS cluster across multiple Availability Zones.</li>
+
+<li>Use private subnets for worker nodes where appropriate.</li>
+
+<li>Deploy multiple worker nodes across Availability Zones.</li>
+
+<li>Use an internet-facing load balancer for public traffic.</li>
+
+<li>Use Kubernetes Services to distribute traffic to Pods.</li>
+
+<li>Use managed node groups or another appropriate compute model.</li>
+
+<li>Use appropriate IAM and Kubernetes RBAC controls.</li>
+
+<li>Use NetworkPolicies where supported and required.</li>
+
+<li>Use persistent storage through appropriate CSI drivers.</li>
+
+<li>Add monitoring, logging and alerting.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Important EKS Architecture Questions</h2>
+
+<ol>
+
+<li>Explain EKS architecture.</li>
+
+<li>What components are part of the control plane?</li>
+
+<li>What does AWS manage in EKS?</li>
+
+<li>How do worker nodes communicate with the control plane?</li>
+
+<li>How does EKS integrate with VPC?</li>
+
+<li>How does the AWS VPC CNI work at a high level?</li>
+
+<li>How does traffic reach a Pod?</li>
+
+<li>How does an Ingress expose an application?</li>
+
+<li>How does IAM integrate with EKS?</li>
+
+<li>What is the difference between IAM and RBAC?</li>
+
+<li>Managed Node Group vs Fargate?</li>
+
+<li>How would you design highly available EKS?</li>
+
+<li>How would you secure an EKS cluster?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Architecture Revision</h2>
+
+<div class="flow">
+
+☸️ <strong>EKS</strong>
+<br>↓<br>
+Managed Control Plane
+<br>↓<br>
+🌐 VPC
+<br>↓<br>
+Multi-AZ Worker Nodes
+<br>↓<br>
+📦 Pods
+<br>↓<br>
+⚙️ Services
+<br>↓<br>
+⚖️ Load Balancer
+<br>↓<br>
+🌍 Users
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to EKS
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • EKS Architecture • 2026
+</footer>
+
+</body>
+</html>
+```

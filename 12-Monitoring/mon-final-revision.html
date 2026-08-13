@@ -1,0 +1,622 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring Final Revision | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.65
+}
+header{
+    text-align:center;
+    padding:45px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+header p{
+    color:#9ca8b8;
+    max-width:850px;
+    margin:auto
+}
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:30px 0
+}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+    margin:20px 0
+}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:7px
+}
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:16px;
+    border-radius:9px;
+    overflow-x:auto;
+    color:#dbeafe
+}
+code{
+    color:#fbbf24;
+    background:#0d1425;
+    padding:2px 6px;
+    border-radius:4px
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:11px;
+    text-align:left
+}
+th{
+    background:#172033;
+    color:#93c5fd
+}
+li{margin:7px 0}
+footer{
+    text-align:center;
+    padding:28px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:50px">📊</div>
+<h1>Monitoring Final Revision</h1>
+<p>
+Prometheus + Grafana + Alerting + Troubleshooting — quick
+interview revision for DevOps engineers.
+</p>
+</header>
+
+<main class="container">
+
+<!-- CORE FLOW -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 1. Complete Monitoring Flow</h2>
+
+<div class="flow">
+Application / Server / Kubernetes
+<br>↓<br>
+Exporter / Application Metrics
+<br>↓<br>
+<strong>Prometheus</strong>
+<br>↓<br>
+PromQL
+<br>↓<br>
+<strong>Grafana</strong>
+<br>↓<br>
+Dashboard
+<br>↓<br>
+Alert Rule
+<br>↓<br>
+<strong>Alertmanager</strong>
+<br>↓<br>
+Notification
+</div>
+</div>
+
+<!-- PROMETHEUS -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 2. Prometheus — Must Know</h2>
+
+<ul>
+<li>Prometheus is an open-source monitoring and alerting system.</li>
+<li>It primarily collects time-series metrics.</li>
+<li>Prometheus usually uses a pull-based scraping model.</li>
+<li>Targets expose metrics through an HTTP endpoint.</li>
+<li>Prometheus stores metrics in its time-series database.</li>
+<li>PromQL is used to query metrics.</li>
+<li>Alert rules can be evaluated by Prometheus.</li>
+<li>Alertmanager handles alert routing and notifications.</li>
+</ul>
+
+<h3>Important Components</h3>
+
+<table>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>Prometheus Server</td>
+<td>Scrapes and stores metrics.</td>
+</tr>
+<tr>
+<td>Service Discovery</td>
+<td>Finds monitoring targets.</td>
+</tr>
+<tr>
+<td>Exporters</td>
+<td>Expose metrics for systems that do not natively expose Prometheus metrics.</td>
+</tr>
+<tr>
+<td>PromQL</td>
+<td>Queries and analyzes metrics.</td>
+</tr>
+<tr>
+<td>Alert Rules</td>
+<td>Define conditions for alerts.</td>
+</tr>
+<tr>
+<td>Alertmanager</td>
+<td>Routes and manages alerts.</td>
+</tr>
+</table>
+</div>
+
+<!-- PROMETHEUS COMMANDS -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 3. Important Prometheus Commands</h2>
+
+<pre>
+kubectl get pods -n monitoring
+
+kubectl get svc -n monitoring
+
+kubectl get prometheus -A
+
+kubectl logs &lt;prometheus-pod&gt; -n monitoring
+
+kubectl describe pod &lt;prometheus-pod&gt; -n monitoring
+</pre>
+
+<h3>Useful Checks</h3>
+
+<pre>
+curl http://localhost:9090/-/healthy
+
+curl http://target:9100/metrics
+</pre>
+</div>
+
+<!-- PROMQL -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 4. PromQL Quick Revision</h2>
+
+<h3>Basic Metric Query</h3>
+
+<pre>
+up
+</pre>
+
+<p>
+Returns the status of monitored targets.
+</p>
+
+<h3>CPU Example</h3>
+
+<pre>
+rate(node_cpu_seconds_total[5m])
+</pre>
+
+<h3>Memory Example</h3>
+
+<pre>
+node_memory_MemAvailable_bytes
+</pre>
+
+<h3>HTTP Error Example</h3>
+
+<pre>
+rate(http_requests_total{status=~"5.."}[5m])
+</pre>
+
+<div class="answer">
+<strong>Interview Point:</strong>
+PromQL allows filtering, aggregation and calculation over time-series
+metrics.
+</div>
+</div>
+
+<!-- GRAFANA -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 5. Grafana — Must Know</h2>
+
+<ul>
+<li>Grafana is a visualization and observability platform.</li>
+<li>It connects to data sources such as Prometheus.</li>
+<li>Queries retrieve data from the configured data source.</li>
+<li>Panels visualize the query results.</li>
+<li>Multiple panels can be organized into dashboards.</li>
+<li>Grafana can also participate in alerting.</li>
+</ul>
+
+<div class="flow">
+Prometheus
+<br>↓<br>
+Data Source
+<br>↓<br>
+PromQL Query
+<br>↓<br>
+Panel
+<br>↓<br>
+Dashboard
+</div>
+</div>
+
+<!-- GRAFANA INTERVIEW -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 6. Common Grafana Questions</h2>
+
+<h3>What is a Dashboard?</h3>
+<p>
+A dashboard is a collection of visualization panels that present
+monitoring information in one place.
+</p>
+
+<h3>What is a Data Source?</h3>
+<p>
+A data source is the backend from which Grafana retrieves data.
+Prometheus is a common monitoring data source.
+</p>
+
+<h3>Why use Grafana with Prometheus?</h3>
+
+<div class="answer">
+Prometheus is excellent at collecting and querying metrics, while
+Grafana provides a powerful visual interface for analyzing those
+metrics through dashboards.
+</div>
+</div>
+
+<!-- ALERTING -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 7. Alerting Flow</h2>
+
+<div class="flow">
+Metric
+<br>↓<br>
+PromQL
+<br>↓<br>
+Alert Rule
+<br>↓<br>
+Condition Met
+<br>↓<br>
+Alert
+<br>↓<br>
+Alertmanager
+<br>↓<br>
+Email / Slack / Other Notification
+</div>
+
+<h3>Important Difference</h3>
+
+<p>
+<strong>Prometheus:</strong> evaluates alert rules.
+</p>
+
+<p>
+<strong>Alertmanager:</strong> handles grouping, routing,
+silencing and notification management.
+</p>
+</div>
+
+<!-- GOLDEN SIGNALS -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 8. Four Golden Signals</h2>
+
+<table>
+<tr>
+<th>Signal</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>Latency</td>
+<td>How long requests take.</td>
+</tr>
+<tr>
+<td>Traffic</td>
+<td>How much demand the system receives.</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>How many requests are failing.</td>
+</tr>
+<tr>
+<td>Saturation</td>
+<td>How close the system is to its resource limits.</td>
+</tr>
+</table>
+</div>
+
+<!-- METRICS LOGS TRACES -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 9. Metrics vs Logs vs Traces</h2>
+
+<table>
+<tr>
+<th>Observability Signal</th>
+<th>Main Purpose</th>
+</tr>
+<tr>
+<td>Metrics</td>
+<td>Numerical measurements and trends.</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>Detailed events and messages.</td>
+</tr>
+<tr>
+<td>Traces</td>
+<td>Track a request across distributed services.</td>
+</tr>
+</table>
+
+<div class="flow">
+Metrics → What is wrong?
+<br><br>
+Logs → What happened?
+<br><br>
+Traces → Where did the request go / slow / fail?
+</div>
+</div>
+
+<!-- SCENARIOS -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 10. Top Troubleshooting Scenarios</h2>
+
+<h3>CPU is 95%</h3>
+<p>
+Check the affected instance, process usage, traffic, deployments,
+memory and scaling requirements.
+</p>
+
+<h3>Pod keeps restarting</h3>
+<p>
+Check <code>kubectl describe pod</code>, logs, events, probes,
+configuration and OOMKilled status.
+</p>
+
+<h3>Prometheus target is DOWN</h3>
+<p>
+Check target connectivity, exporter, metrics endpoint, port,
+service discovery and Prometheus configuration.
+</p>
+
+<h3>Grafana shows No Data</h3>
+<p>
+Check data source, Prometheus availability, PromQL query, time range,
+dashboard variables and target status.
+</p>
+
+<h3>5xx errors increase</h3>
+<p>
+Check application logs, recent deployments, dependencies,
+infrastructure metrics and database health.
+</p>
+
+<h3>Disk reaches 90%</h3>
+
+<pre>
+df -h
+du -sh /var/log/*
+df -i
+</pre>
+
+</div>
+
+<!-- INCIDENT FLOW -->
+
+<div class="card">
+<h2>⭐⭐⭐⭐⭐ 11. Production Incident Flow</h2>
+
+<div class="flow">
+<strong>Detect</strong>
+<br>↓<br>
+Alert
+<br>↓<br>
+<strong>Confirm Impact</strong>
+<br>↓<br>
+<strong>Identify Service</strong>
+<br>↓<br>
+Metrics + Logs
+<br>↓<br>
+<strong>Find Root Cause</strong>
+<br>↓<br>
+<strong>Mitigate</strong>
+<br>↓<br>
+<strong>Verify Recovery</strong>
+<br>↓<br>
+<strong>Permanent Fix</strong>
+<br>↓<br>
+Post-Incident Review
+</div>
+</div>
+
+<!-- IMPORTANT QUESTIONS -->
+
+<div class="card">
+<h2>🔥 12. Top Interview Questions</h2>
+
+<ol>
+<li>What is Prometheus?</li>
+<li>Explain Prometheus architecture.</li>
+<li>What is pull-based monitoring?</li>
+<li>What are exporters?</li>
+<li>What is PromQL?</li>
+<li>What is Alertmanager?</li>
+<li>Prometheus vs Grafana?</li>
+<li>How does Grafana connect to Prometheus?</li>
+<li>What is a Grafana dashboard?</li>
+<li>What are the four Golden Signals?</li>
+<li>Metrics vs Logs vs Traces?</li>
+<li>Prometheus target is DOWN. What will you check?</li>
+<li>Grafana shows No Data. How will you troubleshoot?</li>
+<li>CPU usage is 95%. What will you do?</li>
+<li>A Kubernetes Pod keeps restarting. How will you troubleshoot?</li>
+<li>What is OOMKilled?</li>
+<li>How do you troubleshoot a production incident?</li>
+<li>Why do we need monitoring in DevOps?</li>
+<li>How do you reduce alert fatigue?</li>
+<li>How do you monitor Kubernetes?</li>
+</ol>
+</div>
+
+<!-- QUICK REVISION -->
+
+<div class="card">
+<h2>🧠 13. 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>Prometheus</strong>
+= Collect + Store + Query + Alert
+
+<br><br>
+
+<strong>PromQL</strong>
+= Query Metrics
+
+<br><br>
+
+<strong>Exporter</strong>
+= Exposes Metrics
+
+<br><br>
+
+<strong>Grafana</strong>
+= Visualize Metrics
+
+<br><br>
+
+<strong>Alertmanager</strong>
+= Route + Group + Notify Alerts
+
+<br><br>
+
+<strong>Metrics</strong>
+= Numbers
+
+<br>
+
+<strong>Logs</strong>
+= Events
+
+<br>
+
+<strong>Traces</strong>
+= Request Journey
+
+<br><br>
+
+<strong>Golden Signals</strong>
+= Latency + Traffic + Errors + Saturation
+
+</div>
+</div>
+
+<!-- FINAL INTERVIEW ANSWER -->
+
+<div class="card">
+<h2>🎯 14. Interview-Ready Answer: Monitoring in DevOps</h2>
+
+<div class="answer">
+
+"In a DevOps environment, monitoring helps us understand the health
+and performance of applications and infrastructure. We can use
+Prometheus to collect and query metrics and Grafana to visualize
+those metrics through dashboards. Alerting can notify engineers when
+defined thresholds or conditions are reached. During incidents, I
+correlate metrics with logs and other available observability data,
+identify the root cause, mitigate the impact and then implement a
+permanent fix."
+
+</div>
+</div>
+
+<!-- FINAL CHECKLIST -->
+
+<div class="card">
+<h2>✅ 15. Monitoring Interview Checklist</h2>
+
+<ul>
+<li>✓ Prometheus basics</li>
+<li>✓ Prometheus architecture</li>
+<li>✓ Pull model</li>
+<li>✓ Exporters</li>
+<li>✓ PromQL</li>
+<li>✓ Grafana basics</li>
+<li>✓ Prometheus + Grafana integration</li>
+<li>✓ Alerting</li>
+<li>✓ Alertmanager</li>
+<li>✓ Golden Signals</li>
+<li>✓ Metrics vs Logs vs Traces</li>
+<li>✓ Kubernetes monitoring</li>
+<li>✓ Production scenarios</li>
+<li>✓ Troubleshooting approach</li>
+</ul>
+
+<div class="answer">
+<strong>Monitoring section complete.</strong> 🔥
+You should be able to explain the architecture, tools,
+integration and common production scenarios from these pages.
+</div>
+</div>
+
+<div class="card">
+<p>
+<a href="index.html">← Back to Monitoring</a>
+</p>
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Monitoring Final Revision • 2026
+</footer>
+
+</body>
+</html>
+```
+

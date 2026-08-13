@@ -1,0 +1,884 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Networking Basics | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:7px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:16px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+code{
+    background:#0d1425;
+    color:#fbbf24;
+    padding:3px 6px;
+    border-radius:4px
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🌐</div>
+
+<h1>Networking Basics</h1>
+
+<p>
+High-priority networking concepts for Cloud and DevOps interviews.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is a Computer Network?</h2>
+
+<div class="answer">
+
+A computer network is a collection of connected devices that
+communicate and exchange data using defined communication protocols.
+
+</div>
+
+<p>
+In Cloud and DevOps, networking is essential because applications,
+servers, containers, Kubernetes workloads and cloud services must
+communicate securely.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. What is an IP Address?</h2>
+
+<p>
+An IP address uniquely identifies a device or network interface
+within an IP network.
+</p>
+
+<h3>IPv4 Example</h3>
+
+<pre>
+192.168.1.10
+</pre>
+
+<h3>IPv6 Example</h3>
+
+<pre>
+2001:db8::10
+</pre>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"An IP address identifies a network interface so that devices can
+communicate with each other over an IP network."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Public IP vs Private IP</h2>
+
+<table>
+
+<tr>
+<th>Public IP</th>
+<th>Private IP</th>
+</tr>
+
+<tr>
+<td>Used for communication over the public Internet.</td>
+<td>Used inside private networks.</td>
+</tr>
+
+<tr>
+<td>Must be globally routable.</td>
+<td>Not directly routable over the public Internet.</td>
+</tr>
+
+<tr>
+<td>Example: public cloud instance address.</td>
+<td>Example: 10.0.1.20</td>
+</tr>
+
+</table>
+
+<p>
+Private IP ranges include:
+</p>
+
+<ul>
+<li>10.0.0.0/8</li>
+<li>172.16.0.0/12</li>
+<li>192.168.0.0/16</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. MAC Address</h2>
+
+<p>
+A MAC address is a hardware-level address associated with a network
+interface.
+</p>
+
+<pre>
+Example:
+
+00:1A:2B:3C:4D:5E
+</pre>
+
+<div class="answer">
+
+<strong>Simple Difference:</strong><br><br>
+
+IP address → Logical network addressing<br>
+MAC address → Link-layer hardware addressing
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. TCP vs UDP</h2>
+
+<table>
+
+<tr>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+
+<tr>
+<td>Connection-oriented</td>
+<td>Connectionless</td>
+</tr>
+
+<tr>
+<td>Reliable delivery</td>
+<td>No delivery guarantee</td>
+</tr>
+
+<tr>
+<td>Uses acknowledgements and retransmission</td>
+<td>No built-in retransmission</td>
+</tr>
+
+<tr>
+<td>More overhead</td>
+<td>Lower overhead</td>
+</tr>
+
+<tr>
+<td>HTTP/HTTPS, SSH</td>
+<td>DNS, streaming, real-time applications</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"TCP provides reliable, ordered delivery using mechanisms such as
+acknowledgements and retransmission. UDP is connectionless and has
+lower overhead but does not guarantee delivery."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. OSI Model</h2>
+
+<table>
+
+<tr>
+<th>Layer</th>
+<th>Name</th>
+<th>Example</th>
+</tr>
+
+<tr>
+<td>7</td>
+<td>Application</td>
+<td>HTTP, DNS, SMTP</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>Presentation</td>
+<td>Encryption, encoding</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>Session</td>
+<td>Session management</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>Transport</td>
+<td>TCP, UDP</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Network</td>
+<td>IP, routing</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Data Link</td>
+<td>Ethernet, MAC</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Physical</td>
+<td>Cables, signals</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Easy Memory Trick:</strong><br><br>
+
+<strong>A</strong>ll<br>
+<strong>P</strong>eople<br>
+<strong>S</strong>eem<br>
+<strong>T</strong>o<br>
+<strong>N</strong>eed<br>
+<strong>D</strong>ata<br>
+<strong>P</strong>rocessing
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. TCP/IP Model</h2>
+
+<table>
+
+<tr>
+<th>TCP/IP Layer</th>
+<th>Examples</th>
+</tr>
+
+<tr>
+<td>Application</td>
+<td>HTTP, HTTPS, DNS, SSH</td>
+</tr>
+
+<tr>
+<td>Transport</td>
+<td>TCP, UDP</td>
+</tr>
+
+<tr>
+<td>Internet</td>
+<td>IP, ICMP</td>
+</tr>
+
+<tr>
+<td>Network Access</td>
+<td>Ethernet, ARP</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What is a Port?</h2>
+
+<p>
+A port identifies a specific network service running on a host.
+</p>
+
+<table>
+
+<tr>
+<th>Port</th>
+<th>Service</th>
+</tr>
+
+<tr>
+<td>22</td>
+<td>SSH</td>
+</tr>
+
+<tr>
+<td>80</td>
+<td>HTTP</td>
+</tr>
+
+<tr>
+<td>443</td>
+<td>HTTPS</td>
+</tr>
+
+<tr>
+<td>53</td>
+<td>DNS</td>
+</tr>
+
+<tr>
+<td>25</td>
+<td>SMTP</td>
+</tr>
+
+<tr>
+<td>3306</td>
+<td>MySQL</td>
+</tr>
+
+<tr>
+<td>5432</td>
+<td>PostgreSQL</td>
+</tr>
+
+<tr>
+<td>8080</td>
+<td>Common alternative HTTP port</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. What is DNS?</h2>
+
+<p>
+DNS stands for <strong>Domain Name System</strong>.
+It translates domain names into IP addresses.
+</p>
+
+<div class="flow">
+
+User
+→ www.example.com
+<br>↓<br>
+DNS Resolver
+<br>↓<br>
+DNS Server
+<br>↓<br>
+IP Address
+<br>↓<br>
+Web Server
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"DNS translates human-readable domain names into IP addresses so
+clients can locate network services."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Common DNS Record Types</h2>
+
+<table>
+
+<tr>
+<th>Record</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>A</td>
+<td>Maps hostname to IPv4 address.</td>
+</tr>
+
+<tr>
+<td>AAAA</td>
+<td>Maps hostname to IPv6 address.</td>
+</tr>
+
+<tr>
+<td>CNAME</td>
+<td>Alias from one hostname to another.</td>
+</tr>
+
+<tr>
+<td>MX</td>
+<td>Mail server information.</td>
+</tr>
+
+<tr>
+<td>TXT</td>
+<td>Text information such as verification or policy records.</td>
+</tr>
+
+<tr>
+<td>NS</td>
+<td>Authoritative name servers.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. HTTP vs HTTPS</h2>
+
+<table>
+
+<tr>
+<th>HTTP</th>
+<th>HTTPS</th>
+</tr>
+
+<tr>
+<td>Unencrypted application traffic.</td>
+<td>HTTP protected using TLS.</td>
+</tr>
+
+<tr>
+<td>Typically port 80.</td>
+<td>Typically port 443.</td>
+</tr>
+
+<tr>
+<td>Less secure for sensitive traffic.</td>
+<td>Provides encryption and server authentication.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. What is a Firewall?</h2>
+
+<p>
+A firewall controls network traffic according to defined rules.
+</p>
+
+<p>
+Rules can typically consider factors such as:
+</p>
+
+<ul>
+<li>Source IP</li>
+<li>Destination IP</li>
+<li>Port</li>
+<li>Protocol</li>
+<li>Direction</li>
+</ul>
+
+<div class="answer">
+
+<strong>Cloud Example:</strong><br>
+
+AWS Security Groups act as virtual firewalls for supported AWS
+resources such as EC2 instances.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. What is a Subnet?</h2>
+
+<p>
+A subnet is a logical subdivision of an IP network.
+</p>
+
+<pre>
+VPC
+ |
+ +-- Public Subnet
+ |
+ +-- Private Subnet
+ |
+ +-- Database Subnet
+</pre>
+
+<p>
+In AWS, subnets are associated with a single Availability Zone.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. What is a Router?</h2>
+
+<p>
+A router forwards packets between different networks based on
+routing information.
+</p>
+
+<div class="flow">
+
+Network A
+→ Router
+→ Network B
+
+</div>
+
+<p>
+In cloud environments, routing tables determine where network
+traffic should be sent.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. What is NAT?</h2>
+
+<p>
+NAT stands for <strong>Network Address Translation</strong>.
+It translates network addresses between different address spaces.
+</p>
+
+<div class="answer">
+
+<strong>AWS Example:</strong><br>
+
+A NAT Gateway allows resources in a private subnet to initiate
+outbound Internet connections without requiring those resources
+to have public IP addresses.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. What is a Load Balancer?</h2>
+
+<p>
+A load balancer distributes incoming traffic across multiple
+backend servers or targets.
+</p>
+
+<div class="flow">
+
+Client
+<br>↓<br>
+Load Balancer
+<br>↓
+<br>
+Server 1 &nbsp;&nbsp; Server 2 &nbsp;&nbsp; Server 3
+
+</div>
+
+<h3>Benefits</h3>
+
+<ul>
+<li>High availability</li>
+<li>Scalability</li>
+<li>Traffic distribution</li>
+<li>Health-based routing</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Essential Networking Commands</h2>
+
+<pre>
+ip addr
+ip route
+ping 8.8.8.8
+nslookup example.com
+dig example.com
+curl https://example.com
+traceroute example.com
+ss -tulnp
+</pre>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>ping</td>
+<td>Basic connectivity testing using ICMP.</td>
+</tr>
+
+<tr>
+<td>nslookup</td>
+<td>DNS lookup.</td>
+</tr>
+
+<tr>
+<td>dig</td>
+<td>Detailed DNS query.</td>
+</tr>
+
+<tr>
+<td>curl</td>
+<td>Test HTTP/API connectivity.</td>
+</tr>
+
+<tr>
+<td>ss</td>
+<td>View sockets and listening ports.</td>
+</tr>
+
+<tr>
+<td>ip route</td>
+<td>View routing table.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 18. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>What is an IP address?</li>
+
+<li>Public IP vs Private IP?</li>
+
+<li>TCP vs UDP?</li>
+
+<li>Explain the OSI model.</li>
+
+<li>What is the TCP/IP model?</li>
+
+<li>What is DNS?</li>
+
+<li>What are A, AAAA, CNAME and MX records?</li>
+
+<li>What is a port?</li>
+
+<li>HTTP vs HTTPS?</li>
+
+<li>What is a firewall?</li>
+
+<li>What is a subnet?</li>
+
+<li>What is NAT?</li>
+
+<li>What is a router?</li>
+
+<li>What is a load balancer?</li>
+
+<li>How do you troubleshoot network connectivity?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+<strong>IP</strong> → Identifies network interface
+
+<br><br>
+
+<strong>Port</strong> → Identifies service
+
+<br><br>
+
+<strong>DNS</strong> → Name → IP
+
+<br><br>
+
+<strong>TCP</strong> → Reliable
+
+<br><br>
+
+<strong>UDP</strong> → Lightweight / connectionless
+
+<br><br>
+
+<strong>Router</strong> → Connects networks
+
+<br><br>
+
+<strong>Firewall</strong> → Controls traffic
+
+<br><br>
+
+<strong>NAT</strong> → Address translation
+
+<br><br>
+
+<strong>Load Balancer</strong> → Distributes traffic
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to Networking
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Networking Basics • 2026
+</footer>
+
+</body>
+</html>
+```

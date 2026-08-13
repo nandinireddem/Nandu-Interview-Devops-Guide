@@ -1,0 +1,787 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ArgoCD Troubleshooting & Real-Time Scenarios</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d;
+}
+
+header h1{
+    margin:10px 0;
+    font-size:42px;
+    color:#93c5fd;
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0;
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:22px;
+}
+
+h2{color:#93c5fd;margin-top:0}
+h3{color:#c4b5fd}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:16px;
+    border-radius:8px;
+}
+
+.warning{
+    background:#241b10;
+    border-left:4px solid #fbbf24;
+    padding:16px;
+    border-radius:8px;
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
+}
+
+th{
+    background:#172033;
+    color:#93c5fd;
+}
+
+code{
+    background:#0d1425;
+    padding:3px 7px;
+    border-radius:5px;
+    color:#fbbf24;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:20px;
+    border-radius:10px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div style="font-size:50px">🛠️</div>
+<h1>ArgoCD Troubleshooting & Real-Time Scenarios</h1>
+<p>
+Practical troubleshooting for OutOfSync, SyncFailed, Degraded,
+repository errors, Kubernetes failures and common production issues.
+</p>
+</header>
+
+<main class="container">
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. How Do You Troubleshoot ArgoCD?</h2>
+
+<p>
+The first step is to identify whether the problem is related to the
+Git repository, manifest generation, ArgoCD synchronization,
+Kubernetes resources or application health.
+</p>
+
+<div class="flow">
+Git Repository
+<br>↓<br>
+Repo Server
+<br>↓<br>
+Manifest Generation
+<br>↓<br>
+Application Controller
+<br>↓<br>
+Sync
+<br>↓<br>
+Kubernetes
+<br>↓<br>
+Application Health
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I first check the Application status and events, then determine whether
+the failure is in Git access, manifest generation, synchronization,
+Kubernetes resources or application health. I troubleshoot from the
+ArgoCD Application down to the underlying Kubernetes resources.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Application is OutOfSync</h2>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Git configuration changed.</li>
+<li>Someone manually changed the Kubernetes resource.</li>
+<li>Generated manifests differ from live resources.</li>
+<li>Different Git revision is being tracked.</li>
+<li>Expected resource is missing.</li>
+</ul>
+
+<h3>What I Check</h3>
+
+<pre>
+argocd app get my-app
+
+argocd app diff my-app
+</pre>
+
+<div class="answer">
+<strong>Approach:</strong><br>
+I compare the desired state with the live state using the Application
+details or CLI diff. Then I identify which resource differs before
+performing a sync.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Application is SyncFailed</h2>
+
+<p>
+SyncFailed means ArgoCD attempted synchronization but one or more
+operations failed.
+</p>
+
+<h3>Common Causes</h3>
+
+<ul>
+<li>Invalid Kubernetes manifest.</li>
+<li>Insufficient Kubernetes permissions.</li>
+<li>Resource already exists with conflicting ownership.</li>
+<li>Invalid namespace.</li>
+<li>Admission webhook rejection.</li>
+<li>Immutable field modification.</li>
+</ul>
+
+<h3>Useful Commands</h3>
+
+<pre>
+argocd app get my-app
+
+kubectl get events -n my-namespace
+
+kubectl describe deployment my-app -n my-namespace
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Application is Degraded</h2>
+
+<p>
+A Degraded status generally means that the resources may match the
+desired configuration but one or more resources are not healthy.
+</p>
+
+<div class="flow">
+Git = Desired State
+<br>↓<br>
+ArgoCD Sync
+<br>↓<br>
+Kubernetes Resource Created
+<br>↓<br>
+Pod Fails
+<br>↓<br>
+❌ Application Degraded
+</div>
+
+<h3>Check</h3>
+
+<pre>
+kubectl get pods -n my-namespace
+
+kubectl describe pod &lt;pod-name&gt; -n my-namespace
+
+kubectl logs &lt;pod-name&gt; -n my-namespace
+</pre>
+
+<div class="answer">
+<strong>Important:</strong><br>
+If ArgoCD says the application is Degraded, do not immediately assume
+ArgoCD itself is broken. The underlying Kubernetes workload may be
+unhealthy.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Git Repository Connection Failed</h2>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Incorrect repository URL.</li>
+<li>Invalid credentials.</li>
+<li>Expired access token.</li>
+<li>Private repository without valid credentials.</li>
+<li>Network or certificate problem.</li>
+</ul>
+
+<h3>Check</h3>
+
+<pre>
+argocd repo list
+
+argocd repo get https://github.com/example/repo.git
+</pre>
+
+<div class="answer">
+<strong>Approach:</strong><br>
+I verify the repository URL, authentication configuration and whether
+ArgoCD can successfully access the repository.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Manifest Generation Failed</h2>
+
+<p>
+ArgoCD may fail before synchronization if it cannot generate valid
+Kubernetes manifests.
+</p>
+
+<h3>Common Causes</h3>
+
+<ul>
+<li>Invalid YAML.</li>
+<li>Broken Helm template.</li>
+<li>Invalid Kustomize configuration.</li>
+<li>Missing Helm values.</li>
+<li>Unsupported plugin or configuration.</li>
+</ul>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+If manifest generation fails, I inspect the Application error message
+and determine whether the source is plain YAML, Helm or Kustomize.
+Then I validate the configuration independently before retrying.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 7. Namespace Not Found</h2>
+
+<p>
+A deployment may fail when the target namespace does not exist or the
+application is configured with an incorrect destination.
+</p>
+
+<h3>Check</h3>
+
+<pre>
+kubectl get namespaces
+
+kubectl get applications -n argocd
+
+argocd app get my-app
+</pre>
+
+<div class="answer">
+<strong>Fix:</strong><br>
+Verify the destination namespace and configure namespace creation
+where appropriate for the deployment model being used.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Pod is CrashLoopBackOff</h2>
+
+<p>
+This is usually a Kubernetes workload problem rather than an ArgoCD
+problem.
+</p>
+
+<pre>
+kubectl get pods -n my-namespace
+
+kubectl describe pod &lt;pod-name&gt; -n my-namespace
+
+kubectl logs &lt;pod-name&gt; -n my-namespace
+
+kubectl logs &lt;pod-name&gt; --previous -n my-namespace
+</pre>
+
+<h3>Common Causes</h3>
+
+<ul>
+<li>Application startup failure.</li>
+<li>Incorrect environment variables.</li>
+<li>Missing Secret or ConfigMap.</li>
+<li>Incorrect command or arguments.</li>
+<li>Health probe failure.</li>
+<li>Dependency unavailable.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. ImagePullBackOff</h2>
+
+<p>
+The Kubernetes node cannot successfully pull the required container
+image.
+</p>
+
+<h3>Check</h3>
+
+<pre>
+kubectl describe pod &lt;pod-name&gt; -n my-namespace
+</pre>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Incorrect image name.</li>
+<li>Incorrect image tag.</li>
+<li>Private registry authentication issue.</li>
+<li>Registry unavailable.</li>
+<li>Image does not exist.</li>
+</ul>
+
+<div class="answer">
+<strong>Important:</strong><br>
+ArgoCD may have successfully synchronized the Deployment while the
+application still remains unhealthy because Kubernetes cannot pull
+the image.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 10. Sync is Hanging</h2>
+
+<p>
+A sync can appear stuck when a resource is waiting for readiness,
+dependencies are unavailable or Kubernetes operations are blocked.
+</p>
+
+<h3>Check</h3>
+
+<pre>
+argocd app get my-app
+
+kubectl get pods -A
+
+kubectl get events -A --sort-by=.lastTimestamp
+</pre>
+
+<div class="answer">
+<strong>Approach:</strong><br>
+I check the specific resource where the sync is waiting, inspect
+Kubernetes events and verify whether the workload is becoming ready.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. ArgoCD Cannot Connect to Kubernetes</h2>
+
+<h3>Possible Causes</h3>
+
+<ul>
+<li>Cluster credentials problem.</li>
+<li>Network connectivity issue.</li>
+<li>Expired or invalid authentication.</li>
+<li>API server unavailable.</li>
+<li>Certificate problem.</li>
+</ul>
+
+<h3>Check</h3>
+
+<pre>
+argocd cluster list
+</pre>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I verify the cluster registration, connectivity to the Kubernetes API
+server and the credentials used by ArgoCD for that cluster.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. Useful ArgoCD CLI Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><code>argocd app list</code></td>
+<td>List applications.</td>
+</tr>
+
+<tr>
+<td><code>argocd app get APP</code></td>
+<td>Show application details.</td>
+</tr>
+
+<tr>
+<td><code>argocd app diff APP</code></td>
+<td>Compare desired and live state.</td>
+</tr>
+
+<tr>
+<td><code>argocd app sync APP</code></td>
+<td>Trigger synchronization.</td>
+</tr>
+
+<tr>
+<td><code>argocd app history APP</code></td>
+<td>View deployment history.</td>
+</tr>
+
+<tr>
+<td><code>argocd repo list</code></td>
+<td>List configured repositories.</td>
+</tr>
+
+<tr>
+<td><code>argocd cluster list</code></td>
+<td>List registered clusters.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Useful Kubernetes Commands</h2>
+
+<pre>
+kubectl get pods -A
+
+kubectl get deployments -A
+
+kubectl get services -A
+
+kubectl get events -A
+
+kubectl describe pod &lt;pod-name&gt; -n &lt;namespace&gt;
+
+kubectl logs &lt;pod-name&gt; -n &lt;namespace&gt;
+
+kubectl get nodes
+</pre>
+
+<div class="answer">
+<strong>Golden Rule:</strong><br>
+ArgoCD manages the desired state, but the actual workload still runs
+inside Kubernetes. Always inspect Kubernetes when application health
+is failing.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Scenario: Git Change but ArgoCD Does Not Update</h2>
+
+<h3>Possible Reasons</h3>
+
+<ol>
+
+<li>Wrong branch configured.</li>
+
+<li>Wrong repository path.</li>
+
+<li>ArgoCD cannot access the repository.</li>
+
+<li>Manifest generation failed.</li>
+
+<li>Application is not configured for automated sync.</li>
+
+</ol>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+I first check the Application source configuration, tracked revision
+and path. Then I verify repository connectivity and manifest
+generation. Finally I check whether the application requires manual
+sync or has automated synchronization enabled.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Scenario: Manual kubectl Change Gets Reverted</h2>
+
+<div class="flow">
+Git
+<br>
+replicas = 3
+<br>↓<br>
+kubectl change
+<br>
+replicas = 1
+<br>↓<br>
+ArgoCD detects drift
+<br>↓<br>
+Self-Heal
+<br>↓<br>
+replicas = 3
+</div>
+
+<div class="answer">
+<strong>Explanation:</strong><br>
+This is expected behavior when the application is configured for
+automated synchronization with self-healing. Git remains the desired
+source of truth.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Scenario: Sync Succeeds but Application is Degraded</h2>
+
+<div class="flow">
+Git Configuration
+<br>↓<br>
+ArgoCD Sync
+<br>↓<br>
+✅ Sync Successful
+<br>↓<br>
+Kubernetes Pod
+<br>↓<br>
+❌ Application Failure
+<br>↓<br>
+⚠️ Degraded
+</div>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+A successful sync only means ArgoCD applied the desired resources.
+The application can still be unhealthy. I would inspect Pods,
+Deployments, events, logs and health probes.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Production Troubleshooting Flow</h2>
+
+<div class="flow">
+
+<strong>1. Check Application Status</strong>
+<br>↓<br>
+Synced / OutOfSync?
+<br>↓<br>
+
+<strong>2. Check Health</strong>
+<br>↓<br>
+Healthy / Degraded?
+<br>↓<br>
+
+<strong>3. Check Application Events</strong>
+<br>↓<br>
+
+<strong>4. Check Git Repository</strong>
+<br>↓<br>
+
+<strong>5. Check Manifest Generation</strong>
+<br>↓<br>
+
+<strong>6. Check Kubernetes Resources</strong>
+<br>↓<br>
+
+Pods → Events → Logs → Services
+<br>↓<br>
+
+<strong>7. Fix Root Cause</strong>
+<br>↓<br>
+
+<strong>8. Sync / Reconcile</strong>
+<br>↓<br>
+
+✅ Verify Health
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Most Important Interview Questions</h2>
+
+<ol>
+
+<li>How do you troubleshoot an OutOfSync application?</li>
+
+<li>What causes SyncFailed?</li>
+
+<li>What causes an application to become Degraded?</li>
+
+<li>How do you troubleshoot Git repository connection errors?</li>
+
+<li>How do you troubleshoot manifest generation failures?</li>
+
+<li>What happens if a Pod is CrashLoopBackOff?</li>
+
+<li>How do you troubleshoot ImagePullBackOff?</li>
+
+<li>What if ArgoCD cannot connect to Kubernetes?</li>
+
+<li>Why can an application be Synced but Degraded?</li>
+
+<li>Why does a manual kubectl change get reverted?</li>
+
+<li>What would you check if Git changes are not reflected?</li>
+
+<li>Explain your ArgoCD production troubleshooting approach.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 One-Minute Revision</h2>
+
+<div class="answer">
+
+<strong>OutOfSync</strong> → Desired state differs from live state.<br><br>
+
+<strong>SyncFailed</strong> → Synchronization operation failed.<br><br>
+
+<strong>Degraded</strong> → Application resources are unhealthy.<br><br>
+
+<strong>CrashLoopBackOff</strong> → Container repeatedly fails/restarts.<br><br>
+
+<strong>ImagePullBackOff</strong> → Kubernetes cannot successfully pull the image.<br><br>
+
+<strong>Git Error</strong> → Check repository URL, credentials and connectivity.<br><br>
+
+<strong>Manifest Error</strong> → Check YAML, Helm or Kustomize generation.<br><br>
+
+<strong>Golden Rule</strong> → Troubleshoot from ArgoCD status down to
+the underlying Kubernetes resource.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>➡️ Next File</h2>
+
+<p><strong>argocd-real-time-scenarios.html</strong></p>
+
+<a href="index.html">← Back to ArgoCD & GitOps Index</a>
+
+</div>
+
+</main>
+
+<footer>
+ArgoCD Troubleshooting & Real-Time Scenarios • Nandu's DevOps Interview Guide • 2026
+</footer>
+
+</body>
+</html>
+```

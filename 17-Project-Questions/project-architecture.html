@@ -1,0 +1,763 @@
+```html id="a6m2qp"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Project Architecture | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:900px;
+    margin:auto;
+    color:#9ca8b9
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.architecture{
+    background:#080d18;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:28px;
+    margin:20px 0;
+    overflow-x:auto;
+    text-align:center;
+    font-family:Consolas,monospace;
+    color:#bfdbfe;
+    line-height:2.2
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:20px;
+    background:#1e293b;
+    color:#fbbf24;
+    font-size:12px;
+    margin-bottom:10px
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🏗️</div>
+
+<h1>Project Architecture</h1>
+
+<p>
+End-to-end architecture, component interaction and interview-ready
+explanation of the Cloud & DevOps project.
+</p>
+
+</header>
+
+<main class="container">
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>1. High-Level Architecture</h2>
+
+<div class="architecture">
+
+👨‍💻 Developer
+<br>
+│
+<br>
+▼
+<br>
+📦 GitHub
+<br>
+│
+<br>
+▼
+<br>
+⚙️ Jenkins CI/CD
+<br>
+│
+<br>
+├───────────────┐
+<br>
+▼               ▼
+<br>
+🧪 Tests       🔐 Security Scan
+<br>
+│               │
+<br>
+└───────┬───────┘
+<br>
+▼
+<br>
+🐳 Docker Image
+<br>
+│
+<br>
+▼
+<br>
+📦 Container Registry
+<br>
+│
+<br>
+▼
+<br>
+☸️ Kubernetes / EKS
+<br>
+│
+<br>
+├───────────────┐
+<br>
+▼               ▼
+<br>
+🚀 Application   📊 Monitoring
+<br>
+                  │
+<br>
+             Prometheus
+<br>
+                  │
+<br>
+               Grafana
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Explanation:</strong>
+
+<p>
+The architecture starts with the developer pushing application
+code to GitHub. Jenkins detects the change and starts the CI/CD
+pipeline.
+</p>
+
+<p>
+The pipeline performs build and testing activities and creates a
+Docker image. The image is pushed to a container registry.
+</p>
+
+<p>
+The container image is then deployed to Kubernetes running on AWS.
+Prometheus collects metrics and Grafana provides visualization.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>2. Explain the Request Flow</h2>
+
+<div class="architecture">
+
+User
+<br>
+↓
+<br>
+Load Balancer / Service
+<br>
+↓
+<br>
+Kubernetes
+<br>
+↓
+<br>
+Application Pod
+<br>
+↓
+<br>
+Application
+<br>
+↓
+<br>
+Database / External Services
+
+</div>
+
+<div class="answer">
+
+When a user sends a request, the request reaches the exposed
+application endpoint.
+
+Kubernetes routes the request to an available application Pod.
+The application processes the request and communicates with
+required backend services.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>3. Explain the CI/CD Flow</h2>
+
+<div class="architecture">
+
+Git Push
+<br>
+↓
+<br>
+GitHub
+<br>
+↓
+<br>
+Webhook
+<br>
+↓
+<br>
+Jenkins
+<br>
+↓
+<br>
+Checkout
+<br>
+↓
+<br>
+Build
+<br>
+↓
+<br>
+Test
+<br>
+↓
+<br>
+Security Scan
+<br>
+↓
+<br>
+Docker Build
+<br>
+↓
+<br>
+Push Image
+<br>
+↓
+<br>
+Deploy
+<br>
+↓
+<br>
+Health Check
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>4. Where Does Terraform Fit?</h2>
+
+<div class="architecture">
+
+Terraform Code
+<br>
+↓
+<br>
+Terraform Plan
+<br>
+↓
+<br>
+Terraform Apply
+<br>
+↓
+<br>
+AWS Infrastructure
+<br>
+│
+<br>
+├── VPC
+<br>
+├── Subnets
+<br>
+├── Security Groups
+<br>
+├── EKS
+<br>
+└── Node Groups
+
+</div>
+
+<div class="answer">
+
+Terraform is used for the infrastructure layer.
+
+Instead of manually creating AWS resources, the desired
+infrastructure is defined as code and Terraform creates or
+updates those resources.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>5. Why Separate Infrastructure and Application Deployment?</h2>
+
+<div class="answer">
+
+Infrastructure and application deployment have different
+responsibilities.
+
+<strong>Terraform:</strong> creates and manages infrastructure.
+
+<strong>CI/CD:</strong> builds and deploys the application.
+
+This separation makes the architecture easier to maintain and
+reduces unnecessary infrastructure changes during application
+deployments.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>6. Why Kubernetes?</h2>
+
+<div class="answer">
+
+Kubernetes provides the orchestration layer for containers.
+
+It manages:
+
+<ul>
+<li>Pod scheduling</li>
+<li>Service discovery</li>
+<li>Scaling</li>
+<li>Self-healing</li>
+<li>Rolling deployments</li>
+<li>Desired-state management</li>
+</ul>
+
+This is more suitable for managing multiple application
+instances than manually running Docker containers.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>7. How Does Kubernetes Achieve High Availability?</h2>
+
+<div class="architecture">
+
+Deployment
+<br>
+│
+<br>
+├── Pod 1
+<br>
+├── Pod 2
+<br>
+└── Pod 3
+<br>
+│
+<br>
+▼
+<br>
+Service
+<br>
+│
+<br>
+▼
+<br>
+Traffic Distribution
+
+</div>
+
+<div class="answer">
+
+Multiple replicas can run simultaneously.
+
+If one Pod fails, Kubernetes can create another Pod based on the
+desired state.
+
+A Service provides stable access to the application Pods.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>8. What Happens When a Pod Fails?</h2>
+
+<div class="answer">
+
+The Kubernetes controller continuously compares the actual state
+with the desired state.
+
+If a Pod managed by a Deployment fails, Kubernetes can create a
+replacement Pod to maintain the desired replica count.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐</span>
+
+<h2>9. Where Does Monitoring Fit?</h2>
+
+<div class="architecture">
+
+Application
+<br>
+↓
+<br>
+Metrics
+<br>
+↓
+<br>
+Prometheus
+<br>
+↓
+<br>
+Grafana
+<br>
+↓
+<br>
+Dashboard
+<br>
+↓
+<br>
+Engineer
+
+</div>
+
+<div class="answer">
+
+Prometheus collects and stores metrics.
+
+Grafana queries Prometheus and presents the metrics through
+dashboards.
+
+This helps engineers identify resource usage, application
+performance and operational problems.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>10. What Happens During a New Release?</h2>
+
+<div class="architecture">
+
+Developer Push
+<br>
+↓
+<br>
+Jenkins
+<br>
+↓
+<br>
+Build + Test
+<br>
+↓
+<br>
+New Docker Image
+<br>
+↓
+<br>
+Registry
+<br>
+↓
+<br>
+Kubernetes Deployment
+<br>
+↓
+<br>
+Rolling Update
+<br>
+↓
+<br>
+New Pods
+<br>
+↓
+<br>
+Health Check
+
+</div>
+
+<div class="answer">
+
+The new application version is packaged as a new image and
+deployed.
+
+Kubernetes can perform a rolling update so that new Pods are
+introduced while old Pods are gradually replaced.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐ VERY IMPORTANT</span>
+
+<h2>11. What If the New Deployment Fails?</h2>
+
+<div class="answer">
+
+I would first check:
+
+<pre>
+kubectl get pods
+kubectl describe pod &lt;pod-name&gt;
+kubectl logs &lt;pod-name&gt;
+</pre>
+
+I would identify whether the problem is related to:
+
+<ul>
+<li>Image</li>
+<li>Configuration</li>
+<li>Secrets</li>
+<li>Resources</li>
+<li>Networking</li>
+<li>Application startup</li>
+</ul>
+
+If the release is unhealthy, I would use the deployment's
+rollback capability where appropriate.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">⭐⭐⭐⭐⭐</span>
+
+<h2>12. Project Components and Responsibilities</h2>
+
+<table>
+
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+</tr>
+
+<tr>
+<td>GitHub</td>
+<td>Source-code management</td>
+</tr>
+
+<tr>
+<td>Jenkins</td>
+<td>CI/CD automation</td>
+</tr>
+
+<tr>
+<td>Docker</td>
+<td>Application containerization</td>
+</tr>
+
+<tr>
+<td>Container Registry</td>
+<td>Store Docker images</td>
+</tr>
+
+<tr>
+<td>Terraform</td>
+<td>Infrastructure as Code</td>
+</tr>
+
+<tr>
+<td>Kubernetes / EKS</td>
+<td>Container orchestration</td>
+</tr>
+
+<tr>
+<td>Prometheus</td>
+<td>Metrics collection</td>
+</tr>
+
+<tr>
+<td>Grafana</td>
+<td>Metrics visualization</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<span class="badge">🔥 INTERVIEW REVISION</span>
+
+<h2>13. One-Minute Architecture Explanation</h2>
+
+<div class="answer">
+
+<p>
+"The architecture follows a standard end-to-end DevOps workflow.
+The developer pushes code to GitHub, which triggers Jenkins.
+</p>
+
+<p>
+Jenkins performs the CI stages such as build, testing and
+security checks. It then builds a Docker image and pushes it to a
+container registry.
+</p>
+
+<p>
+The application is deployed to Kubernetes running on AWS.
+Terraform is responsible for provisioning the underlying cloud
+infrastructure.
+</p>
+
+<p>
+For observability, Prometheus collects metrics and Grafana
+visualizes them through dashboards.
+</p>
+
+<p>
+This gives us an automated, repeatable and observable deployment
+process."
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html"
+style="color:#93c5fd;text-decoration:none;font-weight:600;">
+← Back to Project Questions
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • Project Architecture • 2026
+</footer>
+
+</body>
+</html>
+```

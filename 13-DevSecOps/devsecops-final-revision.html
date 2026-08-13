@@ -1,0 +1,717 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DevSecOps Final Revision | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+
+strong{color:#fbbf24}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:7px
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:11px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:16px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:6px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔐</div>
+
+<h1>DevSecOps Final Revision</h1>
+
+<p>
+High-priority interview revision covering security concepts,
+tools, pipeline integration and real-time troubleshooting.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is DevSecOps?</h2>
+
+<div class="answer">
+
+DevSecOps means integrating security throughout the software
+development and delivery lifecycle instead of treating security
+as a separate final-stage activity.
+
+</div>
+
+<div class="flow">
+
+Plan → Code → Build → Test → Secure → Deploy → Monitor
+
+</div>
+
+<strong>Remember:</strong> Security is continuous.
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. DevOps vs DevSecOps</h2>
+
+<table>
+
+<tr>
+<th>DevOps</th>
+<th>DevSecOps</th>
+</tr>
+
+<tr>
+<td>Development + Operations collaboration</td>
+<td>Development + Security + Operations collaboration</td>
+</tr>
+
+<tr>
+<td>Automated delivery</td>
+<td>Automated delivery with security controls</td>
+</tr>
+
+<tr>
+<td>Security may be added separately</td>
+<td>Security is integrated throughout the lifecycle</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. Important Security Testing Types</h2>
+
+<table>
+
+<tr>
+<th>Type</th>
+<th>Purpose</th>
+<th>Typical Stage</th>
+</tr>
+
+<tr>
+<td>SAST</td>
+<td>Analyze source code for security issues</td>
+<td>Code / CI</td>
+</tr>
+
+<tr>
+<td>SCA</td>
+<td>Find vulnerable dependencies</td>
+<td>Build / CI</td>
+</tr>
+
+<tr>
+<td>Secret Scanning</td>
+<td>Detect credentials and secrets</td>
+<td>Commit / CI</td>
+</tr>
+
+<tr>
+<td>Container Scanning</td>
+<td>Find image vulnerabilities</td>
+<td>Image build</td>
+</tr>
+
+<tr>
+<td>IaC Scanning</td>
+<td>Detect insecure infrastructure configuration</td>
+<td>CI</td>
+</tr>
+
+<tr>
+<td>DAST</td>
+<td>Test running application</td>
+<td>Test / Staging</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Must-Know Security Tools</h2>
+
+<table>
+
+<tr>
+<th>Tool</th>
+<th>Used For</th>
+</tr>
+
+<tr>
+<td>SonarQube</td>
+<td>Code quality and static analysis</td>
+</tr>
+
+<tr>
+<td>Gitleaks</td>
+<td>Secret detection</td>
+</tr>
+
+<tr>
+<td>Trivy</td>
+<td>Container and vulnerability scanning</td>
+</tr>
+
+<tr>
+<td>Hadolint</td>
+<td>Dockerfile linting</td>
+</tr>
+
+<tr>
+<td>OWASP ZAP</td>
+<td>Dynamic application security testing</td>
+</tr>
+
+<tr>
+<td>Checkov</td>
+<td>Infrastructure-as-Code security scanning</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Security Pipeline</h2>
+
+<div class="flow">
+
+Git Push
+<br>↓<br>
+Secret Scan
+<br>↓<br>
+SAST
+<br>↓<br>
+SCA
+<br>↓<br>
+Build
+<br>↓<br>
+Docker Image
+<br>↓<br>
+Trivy
+<br>↓<br>
+Registry
+<br>↓<br>
+Deploy to Test
+<br>↓<br>
+DAST
+<br>↓<br>
+Production
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. What is a Security Gate?</h2>
+
+<p>
+A security gate is a policy checkpoint that determines whether
+a pipeline can continue.
+</p>
+
+<div class="answer">
+
+<strong>Example:</strong><br>
+
+If an image contains a critical vulnerability and the organization's
+policy blocks critical vulnerabilities, the pipeline fails and the
+image is not promoted.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. What happens when Trivy finds a Critical CVE?</h2>
+
+<ol>
+
+<li>Identify the CVE and affected package.</li>
+
+<li>Check severity and impact.</li>
+
+<li>Check for a patched version.</li>
+
+<li>Update dependency or base image.</li>
+
+<li>Rebuild image.</li>
+
+<li>Scan again.</li>
+
+<li>Promote only when security policy is satisfied.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. What happens when a Secret is detected?</h2>
+
+<div class="flow">
+
+Secret Detected
+<br>↓<br>
+Stop Pipeline
+<br>↓<br>
+Verify Finding
+<br>↓<br>
+Rotate / Revoke Credential
+<br>↓<br>
+Remove Secret
+<br>↓<br>
+Secure Storage
+<br>↓<br>
+Run Pipeline Again
+
+</div>
+
+<strong>Important:</strong> Never expose credentials in source code,
+logs or pipeline output.
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. How do you manage CI/CD Secrets?</h2>
+
+<ul>
+
+<li>GitHub Secrets</li>
+<li>Jenkins Credentials</li>
+<li>AWS Secrets Manager</li>
+<li>HashiCorp Vault</li>
+
+</ul>
+
+<div class="answer">
+
+"I avoid hard-coded credentials and use protected secret-management
+mechanisms with least-privilege access."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Least Privilege</h2>
+
+<p>
+Least privilege means giving users, applications and CI/CD systems
+only the permissions they actually need.
+</p>
+
+<pre>
+CI/CD Pipeline
+      |
+      └── IAM Role
+             |
+             ├── Required ECR access
+             └── Required deployment access
+</pre>
+
+<p>
+Avoid giving a pipeline unrestricted administrator permissions when
+they are not required.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 11. Shift Left Security</h2>
+
+<div class="answer">
+
+Shift-left security means identifying and fixing security issues
+as early as possible in the software development lifecycle.
+
+</div>
+
+<div class="flow">
+
+Developer
+→ Code Scan
+→ Dependency Scan
+→ Build
+→ Container Scan
+→ Deploy
+
+</div>
+
+<strong>Goal:</strong> Find problems earlier when they are generally
+easier and cheaper to fix.
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 12. False Positive</h2>
+
+<p>
+A false positive occurs when a security tool reports a problem that
+is not actually a security issue in the application's context.
+</p>
+
+<h3>Correct Approach</h3>
+
+<ol>
+
+<li>Validate the finding.</li>
+<li>Understand the affected component.</li>
+<li>Check the evidence.</li>
+<li>Document the analysis.</li>
+<li>Use an approved exception process if appropriate.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 13. How Do You Secure Docker?</h2>
+
+<ul>
+
+<li>Use trusted and maintained base images.</li>
+
+<li>Keep images updated.</li>
+
+<li>Scan images for vulnerabilities.</li>
+
+<li>Avoid running containers as root when possible.</li>
+
+<li>Do not hard-code secrets in Dockerfiles.</li>
+
+<li>Use minimal images where practical.</li>
+
+<li>Do not expose unnecessary ports.</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 14. How Do You Secure Kubernetes?</h2>
+
+<ul>
+
+<li>Use RBAC.</li>
+
+<li>Follow least privilege.</li>
+
+<li>Secure Secrets.</li>
+
+<li>Restrict container privileges.</li>
+
+<li>Use NetworkPolicies where appropriate.</li>
+
+<li>Scan container images.</li>
+
+<li>Keep Kubernetes components updated.</li>
+
+<li>Monitor cluster activity.</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐ 15. How Do You Secure Terraform?</h2>
+
+<ul>
+
+<li>Scan Terraform code before deployment.</li>
+
+<li>Review IAM permissions.</li>
+
+<li>Avoid hard-coded credentials.</li>
+
+<li>Protect Terraform state.</li>
+
+<li>Use remote state with appropriate access controls.</li>
+
+<li>Review security-sensitive changes.</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Real-Time Interview Scenario</h2>
+
+<div class="answer">
+
+<strong>Question:</strong><br><br>
+
+"Your pipeline passed all security checks but production still
+has a security incident. What would you do?"
+
+<br><br>
+
+<strong>Answer:</strong><br>
+
+"I would first contain the incident and assess its scope. Then I
+would identify the attack vector, affected resources and whether
+credentials or application vulnerabilities were involved. I would
+apply the required remediation, verify the fix and monitor the
+environment. Finally, I would identify which preventive control was
+missing and improve the CI/CD or runtime security process."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Top 15 Interview Questions</h2>
+
+<ol>
+
+<li>What is DevSecOps?</li>
+
+<li>DevOps vs DevSecOps?</li>
+
+<li>What is shift-left security?</li>
+
+<li>What is SAST?</li>
+
+<li>What is DAST?</li>
+
+<li>What is SCA?</li>
+
+<li>What is secret scanning?</li>
+
+<li>How do you scan Docker images?</li>
+
+<li>What is a security gate?</li>
+
+<li>What happens when Trivy finds a critical CVE?</li>
+
+<li>What happens when Gitleaks finds a secret?</li>
+
+<li>How do you manage CI/CD secrets?</li>
+
+<li>How do you secure Jenkins?</li>
+
+<li>How do you secure Kubernetes?</li>
+
+<li>Explain your DevSecOps pipeline.</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Final 60-Second Revision</h2>
+
+<div class="flow">
+
+<strong>DevSecOps</strong>
+= Security throughout SDLC
+
+<br><br>
+
+<strong>SAST</strong>
+= Source Code
+
+<br><br>
+
+<strong>SCA</strong>
+= Dependencies
+
+<br><br>
+
+<strong>Gitleaks</strong>
+= Secrets
+
+<br><br>
+
+<strong>Trivy</strong>
+= Vulnerabilities / Containers
+
+<br><br>
+
+<strong>Hadolint</strong>
+= Dockerfile
+
+<br><br>
+
+<strong>Checkov</strong>
+= IaC
+
+<br><br>
+
+<strong>DAST</strong>
+= Running Application
+
+<br><br>
+
+<strong>Security Gate</strong>
+= Allow / Block Pipeline
+
+<br><br>
+
+<strong>Least Privilege</strong>
+= Minimum Required Access
+
+<br><br>
+
+<strong>Shift Left</strong>
+= Fix Security Earlier
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to DevSecOps
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • DevSecOps Final Revision • 2026
+</footer>
+
+</body>
+</html>
+```

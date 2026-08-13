@@ -1,0 +1,768 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EKS Security | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    overflow-x:auto
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🔐</div>
+
+<h1>EKS Security</h1>
+
+<p>
+High-priority Amazon EKS security concepts including IAM,
+RBAC, Pod security, network security, Secrets and encryption.
+</p>
+
+</header>
+
+<main class="container">
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. EKS Security Architecture</h2>
+
+<div class="flow">
+
+👤 User / Application
+<br>↓<br>
+AWS IAM
+<br>↓<br>
+EKS Access
+<br>↓<br>
+Kubernetes API Server
+<br>↓<br>
+Kubernetes RBAC
+<br>↓<br>
+Resources
+<br><br>
+
+Network Layer
+<br>↓<br>
+Security Groups + Network Policies
+<br><br>
+
+Data Layer
+<br>↓<br>
+Encryption + Secrets
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. IAM vs Kubernetes RBAC</h2>
+
+<table>
+
+<tr>
+<th>IAM</th>
+<th>Kubernetes RBAC</th>
+</tr>
+
+<tr>
+<td>AWS-level identity and permissions.</td>
+<td>Kubernetes-level authorization.</td>
+</tr>
+
+<tr>
+<td>Controls access to AWS resources.</td>
+<td>Controls access to Kubernetes resources.</td>
+</tr>
+
+<tr>
+<td>Uses IAM users, roles and policies.</td>
+<td>Uses Roles, ClusterRoles and bindings.</td>
+</tr>
+
+</table>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"IAM controls access to AWS resources and EKS access, while
+Kubernetes RBAC controls what an authenticated identity can do
+inside the Kubernetes API."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. IAM Role for EKS</h2>
+
+<p>
+EKS commonly uses IAM roles for AWS service and workload access.
+Using roles avoids embedding long-lived AWS access keys inside
+applications.
+</p>
+
+<div class="flow">
+
+IAM Role
+<br>↓<br>
+Temporary Credentials
+<br>↓<br>
+AWS API
+<br>↓<br>
+AWS Resource
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. EKS Access Control</h2>
+
+<p>
+Access to an EKS cluster should be explicitly granted to the
+identities that need it.
+</p>
+
+<div class="answer">
+
+<strong>Best Practice:</strong><br>
+
+Give users and automation only the permissions they require.
+Avoid broad administrative permissions unless genuinely necessary.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Kubernetes RBAC</h2>
+
+<p>
+RBAC controls which Kubernetes API actions an identity can perform
+on specific resources.
+</p>
+
+<div class="flow">
+
+User / Service Account
+<br>↓<br>
+Role / ClusterRole
+<br>↓<br>
+RoleBinding / ClusterRoleBinding
+<br>↓<br>
+Kubernetes Resources
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Role vs ClusterRole</h2>
+
+<table>
+
+<tr>
+<th>Role</th>
+<th>ClusterRole</th>
+</tr>
+
+<tr>
+<td>Namespace-scoped.</td>
+<td>Can define permissions at cluster scope.</td>
+</tr>
+
+<tr>
+<td>Used for resources within a namespace.</td>
+<td>Can be used for cluster-scoped resources and can also be
+bound into namespaces.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. RoleBinding vs ClusterRoleBinding</h2>
+
+<div class="answer">
+
+<strong>RoleBinding:</strong><br>
+Grants permissions within a namespace.
+
+<br><br>
+
+<strong>ClusterRoleBinding:</strong><br>
+Grants a ClusterRole across the cluster scope represented by the
+binding.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Kubernetes Service Accounts</h2>
+
+<p>
+Service Accounts provide identities for workloads running inside
+Kubernetes.
+</p>
+
+<div class="flow">
+
+Pod
+<br>↓<br>
+Service Account
+<br>↓<br>
+Identity
+<br>↓<br>
+Authorized API / AWS Access
+
+</div>
+
+<div class="answer">
+
+<strong>Important:</strong><br>
+
+Do not give every application broad permissions. Create dedicated
+identities with only the permissions required.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. EKS Pod Access to AWS Services</h2>
+
+<p>
+Applications running in EKS may need to access services such as
+S3, DynamoDB or Secrets Manager.
+</p>
+
+<div class="flow">
+
+Pod
+<br>↓<br>
+Kubernetes Service Account
+<br>↓<br>
+IAM Role
+<br>↓<br>
+AWS API
+<br>↓<br>
+AWS Service
+
+</div>
+
+<p>
+A common approach is to associate an IAM role with a Kubernetes
+workload identity mechanism so the application receives controlled
+AWS permissions without storing static access keys in the Pod.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Kubernetes Secrets</h2>
+
+<p>
+Kubernetes Secrets are designed to hold sensitive configuration
+data such as passwords, tokens and keys.
+</p>
+
+<pre>
+kubectl get secrets -A
+
+kubectl describe secret &lt;secret-name&gt;
+</pre>
+
+<div class="answer">
+
+<strong>Important:</strong><br>
+
+Kubernetes Secrets should not automatically be treated as a
+complete secret-management solution. Protect access to them and
+consider dedicated secret-management services for sensitive
+production workloads.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Encryption of Secrets</h2>
+
+<p>
+EKS can integrate with AWS encryption capabilities to protect
+Kubernetes data at rest.
+</p>
+
+<div class="flow">
+
+Kubernetes Secret
+<br>↓<br>
+Encryption
+<br>↓<br>
+Encrypted Data
+<br>↓<br>
+Persistent Storage
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. Security Groups</h2>
+
+<p>
+Security Groups provide stateful network access control for AWS
+resources and network interfaces.
+</p>
+
+<div class="answer">
+
+<strong>Example:</strong><br>
+
+Allow application traffic only from the expected load balancer or
+trusted source instead of opening application ports to the entire
+Internet.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Network Policies</h2>
+
+<p>
+NetworkPolicy can control allowed network communication between
+Pods and other endpoints, depending on the networking implementation
+and policy support.
+</p>
+
+<div class="flow">
+
+Frontend Pod
+<br>↓<br>
+NetworkPolicy
+<br>↓<br>
+Allowed → Backend Pod
+<br>
+Denied → Untrusted Pod
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. Security Groups vs NetworkPolicy</h2>
+
+<table>
+
+<tr>
+<th>Security Group</th>
+<th>NetworkPolicy</th>
+</tr>
+
+<tr>
+<td>AWS networking layer.</td>
+<td>Kubernetes networking layer.</td>
+</tr>
+
+<tr>
+<td>Controls traffic to AWS network interfaces/resources.</td>
+<td>Controls Pod-level traffic according to supported implementation.</td>
+</tr>
+
+<tr>
+<td>Managed through AWS.</td>
+<td>Managed through Kubernetes resources.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Private EKS Cluster Endpoint</h2>
+
+<p>
+EKS cluster endpoint access can be configured to control how the
+Kubernetes API endpoint is reached.
+</p>
+
+<div class="answer">
+
+A private endpoint can reduce exposure of the Kubernetes API to
+public networks. Access then needs appropriate connectivity from
+the environments that administer the cluster.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. EKS Security Best Practices</h2>
+
+<ul>
+
+<li>Follow least-privilege IAM.</li>
+
+<li>Use dedicated IAM roles for workloads.</li>
+
+<li>Use Kubernetes RBAC carefully.</li>
+
+<li>Avoid unnecessary cluster-admin permissions.</li>
+
+<li>Use private subnets where appropriate.</li>
+
+<li>Restrict network access with Security Groups.</li>
+
+<li>Use NetworkPolicies where appropriate.</li>
+
+<li>Protect Kubernetes Secrets.</li>
+
+<li>Encrypt sensitive data at rest and in transit.</li>
+
+<li>Regularly update Kubernetes and node components.</li>
+
+<li>Enable appropriate logging and monitoring.</li>
+
+<li>Scan container images for vulnerabilities.</li>
+
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 17. Scenario: Developer Needs Read-Only Access</h2>
+
+<div class="answer">
+
+<strong>Approach:</strong>
+
+<br><br>
+
+Create or use an identity with read-only permissions and grant
+access only to the required namespaces/resources.
+
+Do not give the developer cluster-admin access simply because it
+is easier.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 18. Scenario: Pod Needs S3 Access</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"I would create a dedicated workload identity and associate it with
+an IAM role containing only the required S3 permissions. I would
+avoid storing AWS access keys directly inside the Pod."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 19. Scenario: Unauthorized Kubernetes Access</h2>
+
+<h3>Check</h3>
+
+<ul>
+
+<li>Which identity is making the request?</li>
+
+<li>Does the identity have EKS access?</li>
+
+<li>What Kubernetes RBAC permissions exist?</li>
+
+<li>Is the resource namespace correct?</li>
+
+<li>Is the requested verb allowed?</li>
+
+</ul>
+
+<pre>
+kubectl auth can-i get pods
+
+kubectl auth can-i create deployments
+
+kubectl auth can-i delete pods
+</pre>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 20. Scenario: Secure a Production EKS Cluster</h2>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<br><br>
+
+"I would use least-privilege IAM and Kubernetes RBAC, dedicated
+workload identities, private networking where appropriate,
+Security Groups and NetworkPolicies, protected Secrets, encryption,
+regular patching, image scanning, logging and continuous monitoring."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 21. Top EKS Security Interview Questions</h2>
+
+<ol>
+
+<li>Explain EKS security architecture.</li>
+
+<li>IAM vs Kubernetes RBAC?</li>
+
+<li>What is a Service Account?</li>
+
+<li>How can a Pod access S3 securely?</li>
+
+<li>Why should you avoid AWS access keys inside Pods?</li>
+
+<li>What is least privilege?</li>
+
+<li>Role vs ClusterRole?</li>
+
+<li>RoleBinding vs ClusterRoleBinding?</li>
+
+<li>Security Group vs NetworkPolicy?</li>
+
+<li>How do you secure Kubernetes Secrets?</li>
+
+<li>How would you secure the EKS API endpoint?</li>
+
+<li>How would you secure a production EKS cluster?</li>
+
+<li>How do you troubleshoot an unauthorized request?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+🔑 IAM
+→ AWS Identity & Permissions
+
+<br><br>
+
+👤 EKS Access
+→ Cluster Access
+
+<br><br>
+
+🛡️ RBAC
+→ Kubernetes Authorization
+
+<br><br>
+
+👨‍💻 Service Account
+→ Workload Identity
+
+<br><br>
+
+☁️ IAM Role
+→ AWS Service Access
+
+<br><br>
+
+🌐 Security Group
+→ AWS Network Security
+
+<br><br>
+
+🚦 NetworkPolicy
+→ Pod Traffic Control
+
+<br><br>
+
+🔐 Encryption
+→ Protect Sensitive Data
+
+<br><br>
+
+✅ Least Privilege
+→ Minimum Required Access
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to EKS
+</a>
+
+</div>
+
+</main>
+
+<footer>
+Nandu's DevOps Interview Guide • EKS Security • 2026
+</footer>
+
+</body>
+</html>
+```

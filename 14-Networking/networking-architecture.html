@@ -1,0 +1,734 @@
+```html id="r7k2pm"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Networking Architecture | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:24px;
+    text-align:center;
+    margin:20px 0;
+    line-height:2
+}
+
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:18px;
+    border-radius:7px;
+    margin-top:15px
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+
+th{
+    background:#172033;
+    color:#93c5fd
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:18px;
+    border-radius:9px;
+    overflow-x:auto
+}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🏗️</div>
+
+<h1>Networking Architecture</h1>
+
+<p>
+Understand how real-world cloud applications communicate across
+VPCs, subnets, routing components, NAT and load balancers.
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 1. What is Network Architecture?</h2>
+
+<div class="answer">
+
+Network architecture describes how network components are
+organized and connected so that applications and systems can
+communicate securely and reliably.
+
+</div>
+
+<p>
+In Cloud and DevOps, architecture commonly includes:
+
+</p>
+
+<ul>
+<li>VPC / Virtual Network</li>
+<li>Subnets</li>
+<li>Route Tables</li>
+<li>Internet Gateway</li>
+<li>NAT Gateway</li>
+<li>Load Balancer</li>
+<li>Security Groups / Firewalls</li>
+<li>Application and Database tiers</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 2. Typical Cloud Application Architecture</h2>
+
+<div class="flow">
+
+🌍 Internet
+<br>↓<br>
+🌐 DNS
+<br>↓<br>
+⚖️ Load Balancer
+<br>↓<br>
+🖥️ Application Servers
+<br>↓<br>
+🗄️ Database
+<br><br>
+
+<strong>Private Application Network</strong>
+
+</div>
+
+<p>
+The public-facing components are normally separated from private
+application and database resources.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 3. VPC</h2>
+
+<p>
+A VPC, or Virtual Private Cloud, is an isolated virtual network
+where cloud resources can be deployed.
+</p>
+
+<pre>
+VPC
+CIDR: 10.0.0.0/16
+
+        |
+        +--------------------+
+        |                    |
+   Public Subnet        Private Subnet
+   10.0.1.0/24          10.0.2.0/24
+</pre>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"A VPC provides an isolated networking environment in the cloud
+where I can define IP ranges, subnets, routing and network security
+controls."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 4. Public Subnet vs Private Subnet</h2>
+
+<table>
+
+<tr>
+<th>Public Subnet</th>
+<th>Private Subnet</th>
+</tr>
+
+<tr>
+<td>Has a route toward an Internet Gateway.</td>
+<td>Does not have a direct route to the Internet Gateway.</td>
+</tr>
+
+<tr>
+<td>Can contain resources that need direct Internet reachability.</td>
+<td>Commonly used for application and database resources.</td>
+</tr>
+
+<tr>
+<td>Example: public load balancer.</td>
+<td>Example: private application server or database.</td>
+</tr>
+
+</table>
+
+<strong>Important:</strong> A subnet being called "public" does not
+automatically make every resource inside it publicly reachable.
+Routing and security controls also matter.
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 5. Route Table</h2>
+
+<p>
+A route table contains rules that determine where network traffic
+should be sent.
+</p>
+
+<pre>
+Destination       Target
+
+10.0.0.0/16       local
+0.0.0.0/0         Internet Gateway
+</pre>
+
+<p>
+For a private subnet, a common outbound route is through a NAT
+Gateway instead of directly through an Internet Gateway.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 6. Internet Gateway</h2>
+
+<p>
+An Internet Gateway provides a path between a VPC and the public
+Internet when the required routing and addressing configuration
+exists.
+</p>
+
+<div class="flow">
+
+Public Subnet
+<br>↓<br>
+Route Table
+<br>↓<br>
+Internet Gateway
+<br>↓<br>
+🌍 Internet
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 7. NAT Gateway</h2>
+
+<p>
+A NAT Gateway allows resources in a private subnet to initiate
+outbound Internet connections without requiring those resources
+to have public IP addresses.
+</p>
+
+<div class="flow">
+
+Private EC2
+<br>↓<br>
+Private Route Table
+<br>↓<br>
+NAT Gateway
+<br>↓<br>
+Internet Gateway
+<br>↓<br>
+🌍 Internet
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Question:</strong><br>
+Why do we use NAT Gateway?
+
+<br><br>
+
+<strong>Answer:</strong><br>
+
+"We use a NAT Gateway to allow private resources to access external
+services or download updates without giving those resources public
+IP addresses."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 8. Load Balancer Architecture</h2>
+
+<div class="flow">
+
+Client
+<br>↓<br>
+⚖️ Load Balancer
+<br>↓<br>
+┌───────────────┬───────────────┐
+<br>
+🖥️ App Server 1 &nbsp;&nbsp;&nbsp; 🖥️ App Server 2
+<br>
+└───────────────┴───────────────┘
+<br>↓
+<br>
+🗄️ Database
+
+</div>
+
+<h3>Why use a Load Balancer?</h3>
+
+<ul>
+<li>Distribute incoming traffic.</li>
+<li>Improve availability.</li>
+<li>Support horizontal scaling.</li>
+<li>Perform health checks.</li>
+<li>Provide a single entry point for clients.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 9. Three-Tier Architecture</h2>
+
+<div class="flow">
+
+<strong>Presentation Tier</strong>
+<br>
+Load Balancer / Web Layer
+<br>↓<br>
+<strong>Application Tier</strong>
+<br>
+Application Servers
+<br>↓<br>
+<strong>Data Tier</strong>
+<br>
+Database
+
+</div>
+
+<p>
+A three-tier architecture separates responsibilities and helps
+control access between layers.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 10. Security Groups vs Network ACL</h2>
+
+<table>
+
+<tr>
+<th>Security Group</th>
+<th>Network ACL</th>
+</tr>
+
+<tr>
+<td>Applied to supported network interfaces/resources.</td>
+<td>Applied at subnet level.</td>
+</tr>
+
+<tr>
+<td>Stateful.</td>
+<td>Stateless.</td>
+</tr>
+
+<tr>
+<td>Rules control allowed traffic.</td>
+<td>Rules can allow or deny traffic.</td>
+</tr>
+
+<tr>
+<td>Commonly used for instance-level access control.</td>
+<td>Commonly used for subnet-level filtering.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 11. Security Group Example</h2>
+
+<pre>
+Application Server Security Group
+
+Inbound:
+
+TCP 8080
+Source: Load Balancer Security Group
+
+SSH 22
+Source: Trusted Administration Network
+
+Outbound:
+Only required traffic according to policy
+</pre>
+
+<p>
+A strong design avoids exposing application ports directly to the
+entire Internet when a load balancer can be used.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 12. DNS + Load Balancer Flow</h2>
+
+<div class="flow">
+
+User
+<br>↓<br>
+<strong>example.com</strong>
+<br>↓<br>
+DNS
+<br>↓<br>
+Load Balancer
+<br>↓<br>
+Application Servers
+<br>↓<br>
+Database
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+"DNS resolves the application domain to the appropriate endpoint,
+the load balancer receives the request and distributes it to healthy
+application targets."
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 13. Private Application Server: How Does It Access Internet?</h2>
+
+<div class="flow">
+
+Private Application Server
+<br>↓<br>
+Private Route Table
+<br>↓<br>
+NAT Gateway
+<br>↓<br>
+Public Subnet
+<br>↓<br>
+Internet Gateway
+<br>↓<br>
+🌍 Internet
+
+</div>
+
+<p>
+The application server can initiate outbound connections without
+being directly exposed through a public IP.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 14. High Availability Network Design</h2>
+
+<div class="flow">
+
+Availability Zone A
+<br>
+Public Subnet → Load Balancer → App Server
+<br><br>
+
+Availability Zone B
+<br>
+Public Subnet → Load Balancer → App Server
+<br><br>
+
+Both
+<br>↓<br>
+Private Database / Managed Database
+
+</div>
+
+<h3>Benefits</h3>
+
+<ul>
+<li>Reduces dependency on a single Availability Zone.</li>
+<li>Improves application availability.</li>
+<li>Supports failure recovery.</li>
+<li>Allows traffic distribution across healthy resources.</li>
+</ul>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 15. Real-Time Scenario</h2>
+
+<div class="answer">
+
+<strong>Question:</strong><br><br>
+
+"Your EC2 instance in a private subnet cannot download packages
+from the Internet. How will you troubleshoot?"
+
+<br><br>
+
+<strong>Answer:</strong>
+
+<ol>
+
+<li>Check whether the subnet is actually private.</li>
+
+<li>Check the subnet's route table.</li>
+
+<li>Verify that the default route points to a NAT Gateway.</li>
+
+<li>Check whether the NAT Gateway is available.</li>
+
+<li>Verify the NAT Gateway is in a subnet with Internet connectivity.</li>
+
+<li>Check security controls.</li>
+
+<li>Check DNS configuration if the problem is hostname resolution.</li>
+
+<li>Test connectivity from the instance.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⭐⭐⭐⭐⭐ 16. Real-Time Scenario: Application Not Reachable</h2>
+
+<div class="answer">
+
+<strong>Check in this order:</strong>
+
+<div class="flow">
+
+DNS
+→ Load Balancer
+→ Listener
+→ Target Group
+→ Target Health
+→ Security Group
+→ Route Table
+→ Application Port
+→ Application Logs
+
+</div>
+
+<p>
+This layered approach helps identify whether the issue is DNS,
+load balancing, routing, security or the application itself.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔥 17. Must-Know Interview Questions</h2>
+
+<ol>
+
+<li>What is a VPC?</li>
+
+<li>Public subnet vs private subnet?</li>
+
+<li>What is a route table?</li>
+
+<li>Internet Gateway vs NAT Gateway?</li>
+
+<li>Why do we use NAT Gateway?</li>
+
+<li>What is a load balancer?</li>
+
+<li>Explain three-tier architecture.</li>
+
+<li>Security Group vs Network ACL?</li>
+
+<li>How does a private EC2 instance access the Internet?</li>
+
+<li>How would you design a highly available network?</li>
+
+<li>How would you troubleshoot an unreachable application?</li>
+
+</ol>
+
+</div>
+
+
+<div class="card">
+
+<h2>🧠 Quick Revision</h2>
+
+<div class="flow">
+
+<strong>VPC</strong> → Isolated Cloud Network
+
+<br><br>
+
+<strong>Subnet</strong> → Network Segmentation
+
+<br><br>
+
+<strong>Route Table</strong> → Determines Traffic Path
+
+<br><br>
+
+<strong>IGW</strong> → Internet Connectivity
+
+<br><br>
+
+<strong>NAT Gateway</strong> → Private → Outbound Internet
+
+<br><br>
+
+<strong>Load Balancer</strong> → Distributes Traffic
+
+<br><br>
+
+<strong>Security Group</strong> → Stateful Resource-Level Filtering
+
+<br><br>
+
+<strong>NACL</strong> → Stateless Subnet-Level Filtering
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<a href="index.html" style="color:#93c5fd">
+← Back to Networking
+</a>
+
+</div>
+
+</main>
+
+
+<footer>
+Nandu's DevOps Interview Guide • Networking Architecture • 2026
+</footer>
+
+</body>
+</html>
+```
