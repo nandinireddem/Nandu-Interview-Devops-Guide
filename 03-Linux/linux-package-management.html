@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Package Management - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin:20px 0 5px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+
+h2{
+    margin:5px 0 12px;
+    font-size:25px;
+}
+
+h3{
+    margin-top:22px;
+    color:#dbeafe;
+}
+
+p{color:#c2ccde}
+
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{color:#93c5fd}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{color:#93c5fd}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #27334b;
+    border-radius:12px;
+    padding:18px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{
+    color:#bfdbfe;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #303c58;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    background:#111a2d;
+    color:#bfdbfe;
+}
+
+td{
+    color:#cbd5e1;
+}
+
+.note{
+    background:#111a2d;
+    border-left:4px solid #93c5fd;
+    border-radius:10px;
+    padding:20px;
+    margin:20px 0;
+}
+
+footer{
+    text-align:center;
+    padding:30px 20px;
+    border-top:1px solid #29344d;
+    color:#64748b;
+}
+
+ul,ol{
+    color:#c2ccde;
+}
+
+li{
+    margin:7px 0;
+}
+
+a{
+    color:#93c5fd;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a class="back" href="index.html">← Back to Linux</a>
+
+<div class="icon">📦</div>
+
+<h1>Linux <span>Package Management</span></h1>
+
+<p>
+Package installation, repositories, dependencies, updates,
+troubleshooting and interview-ready DevOps scenarios.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+<!-- 01 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">01</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>What is Package Management?</h2>
+
+<p>
+Package management is the process of installing, updating,
+removing and maintaining software packages on a Linux system.
+</p>
+
+<p>
+A package manager also helps resolve dependencies and obtain
+software from configured repositories.
+</p>
+
+<div class="flow">
+
+Repository → Package Manager → Dependency Resolution →
+Installation → Configuration → Verification
+
+</div>
+
+<div class="example">
+
+<strong>Interview Answer:</strong><br>
+
+"Linux package management is used to install, update, remove
+and maintain software packages. Package managers such as
+APT, DNF and YUM also handle repositories and dependencies."
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 02 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">02</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>APT — Debian / Ubuntu</h2>
+
+<p>
+APT is commonly used on Debian-based distributions such as
+Ubuntu.
+</p>
+
+<h3>Update Repository Metadata</h3>
+
+<pre>sudo apt update</pre>
+
+<h3>Upgrade Installed Packages</h3>
+
+<pre>sudo apt upgrade</pre>
+
+<h3>Install a Package</h3>
+
+<pre>sudo apt install nginx</pre>
+
+<h3>Remove a Package</h3>
+
+<pre>sudo apt remove nginx</pre>
+
+<h3>Remove Package + Configuration</h3>
+
+<pre>sudo apt purge nginx</pre>
+
+<h3>Search for a Package</h3>
+
+<pre>apt search nginx</pre>
+
+<h3>Show Package Information</h3>
+
+<pre>apt show nginx</pre>
+
+<h3>List Installed Packages</h3>
+
+<pre>apt list --installed</pre>
+
+<div class="answer">
+
+<strong>Important:</strong><br>
+
+<code>apt update</code> refreshes repository metadata.
+It does not upgrade installed packages by itself.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 03 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">03</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>apt vs apt-get</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Typical Usage</th>
+</tr>
+
+<tr>
+<td>apt</td>
+<td>Modern, user-friendly interface for interactive administration.</td>
+</tr>
+
+<tr>
+<td>apt-get</td>
+<td>Traditional APT command commonly used in scripts and automation.</td>
+</tr>
+
+</table>
+
+<pre>sudo apt update
+sudo apt install nginx
+
+sudo apt-get update
+sudo apt-get install nginx</pre>
+
+<div class="example">
+
+<strong>Interview Tip:</strong><br>
+
+For modern interactive administration, <code>apt</code> is common.
+In automation and older scripts, you may encounter
+<code>apt-get</code>.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 04 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">04</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>YUM — RPM-Based Systems</h2>
+
+<p>
+YUM is associated with RPM-based Linux distributions and has
+historically been widely used on RHEL-family systems.
+</p>
+
+<pre>sudo yum install nginx
+
+sudo yum update
+
+sudo yum remove nginx
+
+yum search nginx
+
+yum info nginx
+
+yum list installed</pre>
+
+<div class="note">
+
+Modern RHEL-family distributions commonly use DNF.
+YUM may still exist as a compatibility command depending on
+the distribution.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 05 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">05</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>DNF</h2>
+
+<p>
+DNF is the modern package management technology used by many
+current RPM-based distributions.
+</p>
+
+<pre>sudo dnf install nginx
+
+sudo dnf update
+
+sudo dnf remove nginx
+
+dnf search nginx
+
+dnf info nginx
+
+dnf list installed</pre>
+
+<h3>Check Available Updates</h3>
+
+<pre>dnf check-update</pre>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 06 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">06</div>
+
+<div class="priority">⭐⭐⭐⭐</div>
+
+<h2>RPM</h2>
+
+<p>
+RPM is the low-level package format and package-management
+tool used by RPM-based Linux systems.
+</p>
+
+<h3>Install Local RPM</h3>
+
+<pre>sudo rpm -ivh package.rpm</pre>
+
+<h3>Upgrade RPM</h3>
+
+<pre>sudo rpm -Uvh package.rpm</pre>
+
+<h3>Remove Package</h3>
+
+<pre>sudo rpm -e package-name</pre>
+
+<h3>Query Installed Package</h3>
+
+<pre>rpm -q nginx</pre>
+
+<h3>List Files Installed by Package</h3>
+
+<pre>rpm -ql nginx</pre>
+
+<div class="answer">
+
+<strong>Important Difference:</strong><br>
+
+RPM works directly with RPM packages, while DNF/YUM provide
+higher-level dependency and repository management.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 07 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">07</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>Repositories</h2>
+
+<p>
+A repository is a source from which package managers obtain
+software packages and metadata.
+</p>
+
+<div class="flow">
+
+Repository → Metadata → Package Manager → Package + Dependencies
+
+</div>
+
+<p>
+Repositories allow administrators to install trusted software
+without manually downloading every dependency.
+</p>
+
+<h3>Why Repositories Matter</h3>
+
+<ul>
+<li>Centralized package distribution</li>
+<li>Version management</li>
+<li>Dependency resolution</li>
+<li>Security updates</li>
+<li>Software consistency across servers</li>
+</ul>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 08 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">08</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>Dependencies</h2>
+
+<p>
+A dependency is software required by another package for that
+package to function correctly.
+</p>
+
+<div class="example">
+
+<strong>Example:</strong><br>
+
+An application may require a specific library. The package
+manager identifies the dependency and installs the required
+package when available from configured repositories.
+
+</div>
+
+<h3>Common Dependency Problem</h3>
+
+<pre>Package A
+   ↓
+Requires Library B
+   ↓
+Library B missing
+   ↓
+Installation fails</pre>
+
+<p>
+Modern package managers generally resolve dependencies
+automatically when packages come from supported repositories.
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 09 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">09</div>
+
+<div class="priority">⭐⭐⭐⭐</div>
+
+<h2>Install, Update and Upgrade — Difference</h2>
+
+<table>
+
+<tr>
+<th>Operation</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>Install</td>
+<td>Add software package to the system.</td>
+</tr>
+
+<tr>
+<td>Update metadata</td>
+<td>Refresh available package information.</td>
+</tr>
+
+<tr>
+<td>Upgrade</td>
+<td>Update installed packages to newer versions.</td>
+</tr>
+
+<tr>
+<td>Remove</td>
+<td>Uninstall a package.</td>
+</tr>
+
+<tr>
+<td>Purge</td>
+<td>Remove package and associated configuration where supported.</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 10 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">10</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ REAL-TIME DEVOPS</div>
+
+<h2>Installing Nginx on a Linux Server</h2>
+
+<p>
+A common DevOps task is installing a web server on a Linux
+machine.
+</p>
+
+<h3>Ubuntu Example</h3>
+
+<pre>sudo apt update
+sudo apt install nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl status nginx</pre>
+
+<h3>RHEL-Based Example</h3>
+
+<pre>sudo dnf install nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo systemctl status nginx</pre>
+
+<div class="flow">
+
+Install → Enable → Start → Verify → Test → Monitor
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 11 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">11</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ SCENARIO</div>
+
+<h2>Package Installation Fails — How Do You Troubleshoot?</h2>
+
+<ol>
+<li>Check the exact error message.</li>
+<li>Verify network connectivity.</li>
+<li>Check repository configuration.</li>
+<li>Refresh package metadata.</li>
+<li>Check package availability.</li>
+<li>Check dependency errors.</li>
+<li>Check disk space.</li>
+<li>Retry installation.</li>
+</ol>
+
+<pre>df -h
+
+sudo apt update
+
+apt search nginx</pre>
+
+<div class="example">
+
+<strong>Interview Answer:</strong><br>
+
+"I first identify the exact package-manager error, then verify
+connectivity and repository configuration. Next I refresh the
+metadata, check dependencies and disk space, and retry the
+installation."
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 12 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">12</div>
+
+<div class="priority">⭐⭐⭐⭐ SCENARIO</div>
+
+<h2>Disk Full During Package Installation</h2>
+
+<pre>df -h
+
+du -sh /var/* 2>/dev/null
+
+df -i</pre>
+
+<p>
+Package operations can fail when the filesystem has insufficient
+space or inodes.
+</p>
+
+<div class="answer">
+
+<strong>Golden Troubleshooting Flow:</strong><br><br>
+
+Check disk → Identify large files → Check package cache →
+Clean safely → Verify space → Retry installation
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 13 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">13</div>
+
+<div class="priority">⭐⭐⭐⭐ SCENARIO</div>
+
+<h2>Package Manager Is Locked</h2>
+
+<p>
+On Debian-based systems, another package-management process
+may currently be using the package database.
+</p>
+
+<pre>ps aux | grep -E 'apt|dpkg'
+
+sudo lsof /var/lib/dpkg/lock-frontend</pre>
+
+<div class="note">
+
+Do not blindly delete lock files.
+
+First determine whether another legitimate package operation
+is running. Interrupting package operations incorrectly can
+leave the package database inconsistent.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 14 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">14</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ INTERVIEW QUESTIONS</div>
+
+<h2>Frequently Asked Questions</h2>
+
+<p>
+
+<strong>Q:</strong> What is a package manager?<br>
+<strong>A:</strong> A tool used to install, update, remove and
+manage software packages and their dependencies.
+
+<br><br>
+
+<strong>Q:</strong> What is APT?<br>
+<strong>A:</strong> A package-management system commonly used by
+Debian-based distributions.
+
+<br><br>
+
+<strong>Q:</strong> What is DNF?<br>
+<strong>A:</strong> A modern package manager used by many
+RPM-based Linux distributions.
+
+<br><br>
+
+<strong>Q:</strong> What is RPM?<br>
+<strong>A:</strong> A package format and low-level package
+management tool used by RPM-based systems.
+
+<br><br>
+
+<strong>Q:</strong> What is a repository?<br>
+<strong>A:</strong> A source containing packages and package
+metadata.
+
+<br><br>
+
+<strong>Q:</strong> What is a dependency?<br>
+<strong>A:</strong> Software required by another package to
+function correctly.
+
+<br><br>
+
+<strong>Q:</strong> Difference between apt update and apt upgrade?<br>
+<strong>A:</strong> update refreshes package metadata, while
+upgrade updates installed packages.
+
+<br><br>
+
+<strong>Q:</strong> Why can package installation fail?<br>
+<strong>A:</strong> Repository problems, connectivity issues,
+missing dependencies, insufficient disk space, locks or
+package conflicts can cause failures.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- FINAL REVISION -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — PACKAGE MANAGEMENT</h2>
+
+<div class="note">
+
+<strong>APT</strong>
+→ Debian / Ubuntu package management.
+
+<br><br>
+
+<strong>YUM</strong>
+→ Traditional RPM-based package manager.
+
+<br><br>
+
+<strong>DNF</strong>
+→ Modern RPM-based package manager.
+
+<br><br>
+
+<strong>RPM</strong>
+→ Low-level RPM package tool and package format.
+
+<br><br>
+
+<strong>Repository</strong>
+→ Source of packages and metadata.
+
+<br><br>
+
+<strong>Dependency</strong>
+→ Software required by another package.
+
+<br><br>
+
+<strong>apt update</strong>
+→ Refresh repository metadata.
+
+<br><br>
+
+<strong>apt upgrade</strong>
+→ Upgrade installed packages.
+
+<br><br>
+
+<strong>DevOps Flow</strong>
+
+<br><br>
+
+Identify → Check Repository → Update Metadata →
+Install → Verify → Configure → Start Service → Test
+
+</div>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>📦 Linux Package Management • DevOps Interview Master Guide</p>
+<p>Nandu's DevOps Interview Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

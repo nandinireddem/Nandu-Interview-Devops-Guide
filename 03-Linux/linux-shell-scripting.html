@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Linux Shell Scripting - DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:linear-gradient(135deg,#111827,#0b1020);
+    border-bottom:1px solid #29344d;
+}
+
+.back{
+    color:#94a3b8;
+    text-decoration:none;
+}
+
+.back:hover{color:#93c5fd}
+
+.icon{
+    font-size:50px;
+    margin:20px 0 5px;
+}
+
+h1{
+    font-size:clamp(30px,5vw,48px);
+    margin:0;
+}
+
+h1 span{color:#93c5fd}
+
+header p{
+    max-width:850px;
+    margin:12px auto;
+    color:#9ca8c0;
+}
+
+.container{
+    width:min(1000px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.card{
+    background:linear-gradient(145deg,#141d34,#10172a);
+    border:1px solid #2b3751;
+    border-radius:18px;
+    padding:28px;
+    margin:25px 0;
+}
+
+.priority{
+    display:inline-block;
+    color:#93c5fd;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.7px;
+    margin:7px 0 12px;
+}
+
+.number{
+    color:#64748b;
+    font-size:12px;
+    font-weight:800;
+}
+
+h2{
+    margin:5px 0 12px;
+    font-size:25px;
+}
+
+h3{
+    margin-top:22px;
+    color:#dbeafe;
+}
+
+p{color:#c2ccde}
+
+.example{
+    background:rgba(147,197,253,.05);
+    border-left:4px solid #93c5fd;
+    padding:18px 20px;
+    margin:20px 0;
+    border-radius:0 10px 10px 0;
+}
+
+.example strong{color:#93c5fd}
+
+.answer{
+    background:#111a2d;
+    border:1px solid #303c58;
+    border-radius:12px;
+    padding:18px 20px;
+    margin-top:20px;
+}
+
+.answer strong{color:#93c5fd}
+
+.flow{
+    text-align:center;
+    background:#0d1425;
+    border:1px solid #29354e;
+    border-radius:12px;
+    padding:20px;
+    margin:20px 0;
+}
+
+pre{
+    background:#080d18;
+    border:1px solid #27334b;
+    border-radius:12px;
+    padding:18px;
+    overflow-x:auto;
+    color:#dbeafe;
+}
+
+code{color:#bfdbfe}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0;
+}
+
+th,td{
+    border:1px solid #303c58;
+    padding:12px;
+    text-align:left;
+}
+
+th{
+    background:#111a2d;
+    color:#bfdbfe;
+}
+
+td{color:#cbd5e1}
+
+.note{
+    background:#111a2d;
+    border-left:4px solid #93c5fd;
+    border-radius:10px;
+    padding:20px;
+    margin:20px 0;
+}
+
+ul,ol{color:#c2ccde}
+
+li{margin:7px 0}
+
+footer{
+    text-align:center;
+    padding:30px 20px;
+    border-top:1px solid #29344d;
+    color:#64748b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<a class="back" href="index.html">← Back to Linux</a>
+
+<div class="icon">🐚</div>
+
+<h1>Linux <span>Shell Scripting</span></h1>
+
+<p>
+Bash scripting, variables, conditions, loops, functions,
+exit codes and practical DevOps automation.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+<!-- 01 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">01</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ VERY FREQUENTLY ASKED</div>
+
+<h2>What is Shell Scripting?</h2>
+
+<p>
+Shell scripting is the practice of writing a sequence of
+commands in a script file so that Linux tasks can be executed
+automatically.
+</p>
+
+<p>
+Bash is one of the most commonly used shells for Linux
+automation and DevOps tasks.
+</p>
+
+<div class="flow">
+
+Script → Execute Commands → Check Result → Take Action → Exit
+
+</div>
+
+<div class="example">
+
+<strong>Interview Answer:</strong><br>
+
+"Shell scripting is used to automate repetitive Linux tasks.
+In DevOps, Bash scripts are commonly used for server setup,
+deployment, backups, health checks and operational automation."
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 02 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">02</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>Basic Bash Script</h2>
+
+<pre>#!/bin/bash
+
+echo "Hello DevOps"</pre>
+
+<p>
+The first line is called the shebang. It tells the system which
+interpreter should execute the script.
+</p>
+
+<h3>Make Script Executable</h3>
+
+<pre>chmod +x script.sh</pre>
+
+<h3>Run Script</h3>
+
+<pre>./script.sh</pre>
+
+<h3>Run Through Bash</h3>
+
+<pre>bash script.sh</pre>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 03 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">03</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>Variables</h2>
+
+<pre>name="Nandu"
+
+echo "$name"</pre>
+
+<p>
+Do not put spaces around the equals sign when assigning a
+variable.
+</p>
+
+<pre>name="Nandu"
+
+# Incorrect
+# name = "Nandu"</pre>
+
+<h3>Environment Variable</h3>
+
+<pre>export APP_ENV=production
+
+echo "$APP_ENV"</pre>
+
+<div class="answer">
+
+<strong>Interview Tip:</strong><br>
+
+Use quotes around variables when their values may contain spaces.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 04 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">04</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>Command-Line Arguments</h2>
+
+<pre>#!/bin/bash
+
+echo "Script name: $0"
+echo "First argument: $1"
+echo "Second argument: $2"
+echo "All arguments: $@"
+echo "Argument count: $#"</pre>
+
+<table>
+
+<tr>
+<th>Variable</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>$0</td>
+<td>Script name</td>
+</tr>
+
+<tr>
+<td>$1</td>
+<td>First argument</td>
+</tr>
+
+<tr>
+<td>$2</td>
+<td>Second argument</td>
+</tr>
+
+<tr>
+<td>$@</td>
+<td>All positional arguments</td>
+</tr>
+
+<tr>
+<td>$#</td>
+<td>Number of positional arguments</td>
+</tr>
+
+<tr>
+<td>$?</td>
+<td>Exit status of previous command</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 05 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">05</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>Exit Codes</h2>
+
+<p>
+Linux commands normally return an exit status. By convention,
+<code>0</code> means success and a non-zero value indicates
+failure.
+</p>
+
+<pre>ls /tmp
+
+echo $?</pre>
+
+<div class="flow">
+
+0 → Success
+
+<br><br>
+
+Non-zero → Failure / abnormal result
+
+</div>
+
+<h3>Why DevOps Engineers Care</h3>
+
+<p>
+CI/CD pipelines and automation scripts can use exit codes to
+decide whether a step succeeded or failed.
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 06 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">06</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>if / elif / else</h2>
+
+<pre>#!/bin/bash
+
+if [ "$1" = "prod" ]; then
+    echo "Production environment"
+elif [ "$1" = "dev" ]; then
+    echo "Development environment"
+else
+    echo "Unknown environment"
+fi</pre>
+
+<p>
+Conditions are commonly used to make scripts behave differently
+depending on system state or user input.
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 07 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">07</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>File and Directory Conditions</h2>
+
+<pre>if [ -f "/etc/hosts" ]; then
+    echo "File exists"
+fi
+
+if [ -d "/var/log" ]; then
+    echo "Directory exists"
+fi</pre>
+
+<table>
+
+<tr>
+<th>Test</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td>-f</td>
+<td>Regular file exists</td>
+</tr>
+
+<tr>
+<td>-d</td>
+<td>Directory exists</td>
+</tr>
+
+<tr>
+<td>-r</td>
+<td>Readable</td>
+</tr>
+
+<tr>
+<td>-w</td>
+<td>Writable</td>
+</tr>
+
+<tr>
+<td>-x</td>
+<td>Executable</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 08 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">08</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>for Loop</h2>
+
+<pre>for server in web1 web2 web3
+do
+    echo "Checking $server"
+done</pre>
+
+<h3>Useful DevOps Example</h3>
+
+<pre>for file in /var/log/*.log
+do
+    echo "Checking $file"
+done</pre>
+
+<p>
+Loops are useful when the same operation needs to be performed
+against multiple files, servers or values.
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 09 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">09</div>
+
+<div class="priority">⭐⭐⭐⭐</div>
+
+<h2>while Loop</h2>
+
+<pre>count=1
+
+while [ "$count" -le 5 ]
+do
+    echo "Count: $count"
+    count=$((count + 1))
+done</pre>
+
+<p>
+A <code>while</code> loop continues executing while its condition
+remains true.
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 10 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">10</div>
+
+<div class="priority">⭐⭐⭐⭐</div>
+
+<h2>case Statement</h2>
+
+<pre>case "$1" in
+    start)
+        echo "Starting application"
+        ;;
+    stop)
+        echo "Stopping application"
+        ;;
+    restart)
+        echo "Restarting application"
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        ;;
+esac</pre>
+
+<div class="example">
+
+<strong>When is case useful?</strong><br>
+
+It is useful when a script needs to handle multiple predefined
+options such as start, stop, restart, status or deploy.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 11 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">11</div>
+
+<div class="priority">⭐⭐⭐⭐</div>
+
+<h2>Functions</h2>
+
+<pre>check_disk() {
+    df -h
+}
+
+check_disk</pre>
+
+<p>
+Functions allow reusable logic to be grouped into meaningful
+blocks.
+</p>
+
+<h3>DevOps Benefit</h3>
+
+<ul>
+<li>Reduce duplicate commands</li>
+<li>Improve readability</li>
+<li>Make scripts easier to maintain</li>
+<li>Reuse operational logic</li>
+</ul>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 12 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">12</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>Command Substitution</h2>
+
+<pre>current_date=$(date)
+
+echo "$current_date"</pre>
+
+<p>
+Command substitution stores the output of a command so it can be
+used elsewhere in the script.
+</p>
+
+<h3>Example</h3>
+
+<pre>hostname=$(hostname)
+
+echo "Server: $hostname"</pre>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 13 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">13</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ DEVOPS</div>
+
+<h2>Pipes and Redirection</h2>
+
+<pre>cat app.log | grep ERROR</pre>
+
+<p>
+A pipe sends the output of one command as input to another.
+</p>
+
+<pre>echo "deployment complete" > deployment.log
+
+echo "new entry" >> deployment.log
+
+command 2> error.log
+
+command > output.log 2>&1</pre>
+
+<table>
+
+<tr>
+<th>Operator</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td>|</td>
+<td>Pipe output to another command</td>
+</tr>
+
+<tr>
+<td>&gt;</td>
+<td>Write/overwrite output</td>
+</tr>
+
+<tr>
+<td>&gt;&gt;</td>
+<td>Append output</td>
+</tr>
+
+<tr>
+<td>2&gt;</td>
+<td>Redirect stderr</td>
+</tr>
+
+<tr>
+<td>&amp;&gt;</td>
+<td>Redirect stdout and stderr in Bash</td>
+</tr>
+
+</table>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 14 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">14</div>
+
+<div class="priority">⭐⭐⭐⭐⭐</div>
+
+<h2>set -e and Safer Scripts</h2>
+
+<pre>#!/bin/bash
+
+set -e
+
+echo "Starting deployment"
+
+mkdir /tmp/example
+
+echo "Deployment step completed"</pre>
+
+<p>
+With <code>set -e</code>, Bash generally exits when a command
+returns a non-zero status in contexts where the failure is not
+explicitly handled.
+</p>
+
+<div class="note">
+
+Do not assume <code>set -e</code> makes every script completely
+safe. Bash error handling has important exceptions, especially
+inside conditions, pipelines and compound commands.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 15 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">15</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ DEVOPS SCENARIO</div>
+
+<h2>Application Deployment Script</h2>
+
+<pre>#!/bin/bash
+
+set -e
+
+APP_DIR="/opt/myapp"
+
+echo "Starting deployment"
+
+cd "$APP_DIR"
+
+echo "Pulling latest code"
+git pull
+
+echo "Installing dependencies"
+npm install
+
+echo "Restarting application"
+sudo systemctl restart myapp
+
+echo "Checking service"
+sudo systemctl status myapp --no-pager
+
+echo "Deployment completed"</pre>
+
+<div class="flow">
+
+Validate → Pull Code → Install → Restart → Verify → Report
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 16 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">16</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ REAL-TIME SCENARIO</div>
+
+<h2>Disk Health Check Script</h2>
+
+<pre>#!/bin/bash
+
+THRESHOLD=80
+
+usage=$(df / | awk 'NR==2 {print $5}' | tr -d '%')
+
+if [ "$usage" -ge "$THRESHOLD" ]; then
+    echo "WARNING: Disk usage is ${usage}%"
+    exit 1
+else
+    echo "Disk usage is ${usage}%"
+fi</pre>
+
+<p>
+This type of script can be integrated into operational checks
+or monitoring workflows.
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 17 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">17</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ REAL-TIME SCENARIO</div>
+
+<h2>Service Health Check</h2>
+
+<pre>#!/bin/bash
+
+SERVICE="nginx"
+
+if systemctl is-active --quiet "$SERVICE"; then
+    echo "$SERVICE is running"
+else
+    echo "$SERVICE is DOWN"
+    exit 1
+fi</pre>
+
+<div class="example">
+
+<strong>DevOps Usage:</strong><br>
+
+A health-check script can be used during deployments,
+troubleshooting or automated validation.
+
+</div>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- 18 -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<div class="number">18</div>
+
+<div class="priority">⭐⭐⭐⭐⭐ INTERVIEW QUESTIONS</div>
+
+<h2>Frequently Asked Shell Scripting Questions</h2>
+
+<p>
+
+<strong>Q:</strong> What is shell scripting?<br>
+<strong>A:</strong> Automating Linux operations by executing a
+sequence of shell commands from a script.
+
+<br><br>
+
+<strong>Q:</strong> What is Bash?<br>
+<strong>A:</strong> Bash is a widely used Unix/Linux shell and
+scripting language.
+
+<br><br>
+
+<strong>Q:</strong> What does #!/bin/bash mean?<br>
+<strong>A:</strong> It specifies Bash as the interpreter for the
+script.
+
+<br><br>
+
+<strong>Q:</strong> What does $? represent?<br>
+<strong>A:</strong> The exit status of the previous command.
+
+<br><br>
+
+<strong>Q:</strong> What does $1 represent?<br>
+<strong>A:</strong> The first positional argument supplied to the
+script.
+
+<br><br>
+
+<strong>Q:</strong> Difference between $@ and $#?<br>
+<strong>A:</strong> $@ represents the positional arguments, while
+$# represents their count.
+
+<br><br>
+
+<strong>Q:</strong> What is a function?<br>
+<strong>A:</strong> A reusable block of commands.
+
+<br><br>
+
+<strong>Q:</strong> Why are exit codes important in DevOps?<br>
+<strong>A:</strong> Automation systems use exit status to determine
+whether a command or step succeeded or failed.
+
+<br><br>
+
+<strong>Q:</strong> Where is shell scripting used in DevOps?<br>
+<strong>A:</strong> Server setup, deployment, backups, health
+checks, log processing, CI/CD automation and troubleshooting.
+
+</p>
+
+</article>
+
+<!-- ===================================================== -->
+<!-- FINAL REVISION -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — SHELL SCRIPTING</h2>
+
+<div class="note">
+
+<strong>Shebang</strong>
+→ Specifies the script interpreter.
+
+<br><br>
+
+<strong>Variable</strong>
+→ Stores a value.
+
+<br><br>
+
+<strong>$0</strong>
+→ Script name.
+
+<br><br>
+
+<strong>$1</strong>
+→ First argument.
+
+<br><br>
+
+<strong>$@</strong>
+→ Positional arguments.
+
+<br><br>
+
+<strong>$#</strong>
+→ Number of arguments.
+
+<br><br>
+
+<strong>$?</strong>
+→ Previous command's exit status.
+
+<br><br>
+
+<strong>if</strong>
+→ Conditional logic.
+
+<br><br>
+
+<strong>for</strong>
+→ Iterate over values.
+
+<br><br>
+
+<strong>while</strong>
+→ Repeat while condition is true.
+
+<br><br>
+
+<strong>case</strong>
+→ Handle multiple options.
+
+<br><br>
+
+<strong>function</strong>
+→ Reusable logic.
+
+<br><br>
+
+<strong>|</strong>
+→ Pipe output.
+
+<br><br>
+
+<strong>&gt;</strong>
+→ Redirect/overwrite output.
+
+<br><br>
+
+<strong>&gt;&gt;</strong>
+→ Append output.
+
+<br><br>
+
+<strong>DevOps Golden Flow</strong>
+
+<br><br>
+
+Validate → Execute → Check Exit Code →
+Handle Failure → Verify → Report
+
+</div>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🐚 Linux Shell Scripting • DevOps Interview Master Guide</p>
+<p>Nandu's DevOps Interview Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>

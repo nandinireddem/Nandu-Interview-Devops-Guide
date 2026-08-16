@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevSecOps Security Tools | Nandu's DevOps Interview Guide</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#0b1020;
+    color:#e5e7eb;
+    line-height:1.7
+}
+header{
+    text-align:center;
+    padding:50px 20px;
+    background:#111827;
+    border-bottom:1px solid #29344d
+}
+header h1{
+    color:#93c5fd;
+    font-size:40px;
+    margin:10px 0
+}
+header p{
+    max-width:850px;
+    margin:auto;
+    color:#9ca8b8
+}
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:35px 0
+}
+.card{
+    background:#141d34;
+    border:1px solid #2b3751;
+    border-radius:15px;
+    padding:26px;
+    margin-bottom:22px
+}
+h2{color:#93c5fd}
+h3{color:#c4b5fd}
+strong{color:#fbbf24}
+.flow{
+    background:#0d1425;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    margin:20px 0
+}
+.answer{
+    background:#0d1425;
+    border-left:4px solid #4ade80;
+    padding:17px;
+    border-radius:7px
+}
+.warning{
+    background:#211a0d;
+    border-left:4px solid #fbbf24;
+    padding:17px;
+    border-radius:7px
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:20px 0
+}
+th,td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:left;
+    vertical-align:top
+}
+th{
+    background:#172033;
+    color:#93c5fd
+}
+code{
+    background:#0d1425;
+    color:#fbbf24;
+    padding:3px 6px;
+    border-radius:4px
+}
+pre{
+    background:#080d18;
+    border:1px solid #334155;
+    padding:16px;
+    border-radius:9px;
+    overflow-x:auto
+}
+li{margin:7px 0}
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+    border-top:1px solid #222d46
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div style="font-size:55px">🛡️</div>
+
+<h1>DevSecOps Security Tools</h1>
+
+<p>
+Interview-focused guide covering security scanning, vulnerability detection,
+secret detection, code quality, container security, IaC security and
+DevSecOps integration into CI/CD pipelines.
+</p>
+
+</header>
+
+<main class="container">
+
+<!-- ===================================================== -->
+<!-- PRIORITY QUESTIONS -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ MOST IMPORTANT INTERVIEW QUESTIONS</h2>
+
+<h3>Q1. What is DevSecOps?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+DevSecOps is the practice of integrating security throughout the
+software development and DevOps lifecycle instead of performing security
+only at the end.
+</div>
+
+<p>
+The goal is to detect and fix security issues early, automate security
+checks and make security a shared responsibility across development,
+operations and security teams.
+</p>
+
+<div class="flow">
+<strong>Code → Build → Scan → Test → Container Scan → Deploy → Monitor</strong>
+</div>
+
+</article>
+
+
+<article class="card">
+
+<h3>Q2. What are the major types of security scanning?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+
+Common security scanning categories include:
+<ul>
+<li><strong>SAST</strong> — Static Application Security Testing</li>
+<li><strong>DAST</strong> — Dynamic Application Security Testing</li>
+<li><strong>SCA</strong> — Software Composition Analysis</li>
+<li><strong>Secret Scanning</strong></li>
+<li><strong>Container Image Scanning</strong></li>
+<li><strong>IaC Security Scanning</strong></li>
+</ul>
+</div>
+
+</article>
+
+
+<article class="card">
+
+<h3>Q3. What is SAST?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+SAST analyzes application source code or compiled code without executing
+the application to identify security vulnerabilities.
+</div>
+
+<p>
+Examples include insecure coding patterns, SQL injection risks,
+hard-coded credentials and unsafe APIs.
+</p>
+
+<p>
+<strong>Example Tool:</strong> SonarQube
+</p>
+
+</article>
+
+
+<article class="card">
+
+<h3>Q4. What is DAST?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+DAST tests a running application from the outside to identify
+runtime security vulnerabilities.
+</div>
+
+<p>
+Unlike SAST, DAST does not primarily inspect the source code.
+It interacts with the deployed application.
+</p>
+
+</article>
+
+
+<article class="card">
+
+<h3>Q5. What is SCA?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+Software Composition Analysis identifies vulnerabilities and licensing
+issues in third-party libraries and dependencies used by an application.
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- TRIVY -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ Trivy</h2>
+
+<h3>Q6. What is Trivy?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+Trivy is an open-source security scanner commonly used to detect
+vulnerabilities in container images, filesystems, Git repositories,
+Kubernetes configurations and infrastructure-as-code.
+</div>
+
+<h3>Why is Trivy commonly used in DevSecOps?</h3>
+
+<ul>
+<li>Easy to integrate into CI/CD pipelines</li>
+<li>Scans Docker images</li>
+<li>Detects OS package vulnerabilities</li>
+<li>Detects application dependency vulnerabilities</li>
+<li>Supports secret scanning</li>
+<li>Supports IaC and Kubernetes scanning</li>
+</ul>
+
+<h3>Example</h3>
+
+<pre>
+trivy image nginx:latest
+</pre>
+
+<div class="warning">
+<strong>Real-time point:</strong><br>
+A pipeline can scan a Docker image with Trivy before pushing it
+to a production container registry.
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- GITLEAKS -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ Gitleaks</h2>
+
+<h3>Q7. What is Gitleaks?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+Gitleaks is a secret-scanning tool used to detect sensitive information
+such as passwords, API keys, tokens and credentials accidentally committed
+to source code repositories.
+</div>
+
+<h3>Example</h3>
+
+<pre>
+gitleaks detect
+</pre>
+
+<h3>Why is secret scanning important?</h3>
+
+<p>
+A developer may accidentally commit an AWS access key or database password.
+If that secret reaches Git, attackers may potentially use it.
+</p>
+
+<div class="warning">
+<strong>Best practice:</strong>
+Never store credentials directly in source code.
+Use a secrets manager or CI/CD secret store.
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- HADOLINT -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐ Hadolint</h2>
+
+<h3>Q8. What is Hadolint?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+Hadolint is a Dockerfile linter that checks Dockerfiles for
+common mistakes and best-practice violations.
+</div>
+
+<h3>Example</h3>
+
+<pre>
+hadolint Dockerfile
+</pre>
+
+<p>
+It can identify issues such as inefficient instructions,
+missing version pinning and Dockerfile best-practice violations.
+</p>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- SONARQUBE -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ SonarQube</h2>
+
+<h3>Q9. What is SonarQube?</h3>
+
+<div class="answer">
+<strong>Interview Answer:</strong><br>
+SonarQube is a code quality and security analysis platform that
+detects bugs, vulnerabilities, code smells and maintainability issues.
+</div>
+
+<h3>What does SonarQube provide?</h3>
+
+<ul>
+<li>Code quality analysis</li>
+<li>Security vulnerability detection</li>
+<li>Code smell detection</li>
+<li>Quality Gates</li>
+<li>Coverage reporting</li>
+<li>Technical debt analysis</li>
+</ul>
+
+<h3>Typical CI/CD Flow</h3>
+
+<div class="flow">
+Code → Build → Test → SonarQube Scan → Quality Gate → Deploy
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- TOOL COMPARISON -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ DevSecOps Security Tools — Quick Comparison</h2>
+
+<table>
+
+<tr>
+<th>Tool</th>
+<th>Primary Purpose</th>
+<th>Common Usage</th>
+</tr>
+
+<tr>
+<td><strong>Trivy</strong></td>
+<td>Vulnerability scanning</td>
+<td>Container images, filesystem, IaC</td>
+</tr>
+
+<tr>
+<td><strong>Gitleaks</strong></td>
+<td>Secret detection</td>
+<td>Git repositories and CI/CD</td>
+</tr>
+
+<tr>
+<td><strong>Hadolint</strong></td>
+<td>Dockerfile linting</td>
+<td>Docker image build stage</td>
+</tr>
+
+<tr>
+<td><strong>SonarQube</strong></td>
+<td>Code quality and security</td>
+<td>Source code analysis</td>
+</tr>
+
+</table>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- CONTAINER SECURITY -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ Container Security</h2>
+
+<h3>Q10. How do you secure Docker images?</h3>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong>
+
+<ol>
+<li>Use minimal base images.</li>
+<li>Keep base images updated.</li>
+<li>Scan images for vulnerabilities.</li>
+<li>Do not store secrets inside images.</li>
+<li>Run containers as non-root where possible.</li>
+<li>Use trusted images.</li>
+<li>Pin important dependencies.</li>
+<li>Scan images before deployment.</li>
+</ol>
+
+</div>
+
+<h3>Example Pipeline</h3>
+
+<div class="flow">
+
+Build Image
+<br>↓<br>
+Hadolint
+<br>↓<br>
+Trivy Image Scan
+<br>↓<br>
+Push to Registry
+<br>↓<br>
+Deploy
+
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- IAC SECURITY -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐ IaC Security</h2>
+
+<h3>Q11. Why should Infrastructure as Code be scanned?</h3>
+
+<div class="answer">
+IaC scanning identifies insecure configurations before infrastructure
+is deployed.
+</div>
+
+<p>
+Examples include publicly exposed resources, overly permissive IAM
+policies and insecure network configurations.
+</p>
+
+<p>
+Common tools include <strong>Checkov</strong>, <strong>tfsec</strong>
+and Trivy's IaC scanning capabilities.
+</p>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- CI/CD INTEGRATION -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ How do you integrate security into CI/CD?</h2>
+
+<div class="flow">
+
+Developer Push
+<br>↓<br>
+Secret Scan — Gitleaks
+<br>↓<br>
+Build
+<br>↓<br>
+Code Analysis — SonarQube
+<br>↓<br>
+Dockerfile Lint — Hadolint
+<br>↓<br>
+Docker Build
+<br>↓<br>
+Image Scan — Trivy
+<br>↓<br>
+Security Gate
+<br>↓<br>
+Registry
+<br>↓<br>
+Deployment
+
+</div>
+
+<div class="answer">
+
+<strong>Interview Answer:</strong><br>
+
+I integrate security checks at multiple stages of the CI/CD pipeline.
+For example, I can use Gitleaks for secret detection, SonarQube for
+code analysis, Hadolint for Dockerfile validation and Trivy for
+container vulnerability scanning. The pipeline can fail when
+critical security issues exceed the defined threshold.
+
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- REAL TIME SCENARIOS -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ REAL-TIME INTERVIEW SCENARIOS</h2>
+
+<h3>Scenario 1 — Trivy finds a critical vulnerability</h3>
+
+<div class="answer">
+
+<strong>How would you respond?</strong>
+
+<ul>
+<li>Check the affected package.</li>
+<li>Identify the vulnerable base image or dependency.</li>
+<li>Upgrade to a patched version.</li>
+<li>Rebuild the image.</li>
+<li>Run Trivy again.</li>
+<li>Only push/deploy after the required security gate passes.</li>
+</ul>
+
+</div>
+
+
+<h3>Scenario 2 — AWS key accidentally committed to Git</h3>
+
+<div class="answer">
+
+<strong>Response:</strong>
+
+<ol>
+<li>Immediately revoke or rotate the exposed credential.</li>
+<li>Check whether the credential was used.</li>
+<li>Remove the secret from the repository history if appropriate.</li>
+<li>Use a secrets manager going forward.</li>
+<li>Add Gitleaks to CI/CD to prevent recurrence.</li>
+</ol>
+
+</div>
+
+
+<h3>Scenario 3 — SonarQube Quality Gate fails</h3>
+
+<div class="answer">
+
+Do not bypass the gate blindly.
+
+First inspect the reported bugs, vulnerabilities,
+security hotspots and code-quality issues.
+
+Fix the required issues and rerun the pipeline.
+
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- FOLLOW-UP QUESTIONS -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>⭐⭐⭐⭐⭐ FOLLOW-UP QUESTIONS</h2>
+
+<ul>
+
+<li>What is the difference between SAST and DAST?</li>
+
+<li>Why do we use Trivy if Docker images already come from trusted registries?</li>
+
+<li>How do you prevent secrets from entering Git?</li>
+
+<li>What happens when a security scan fails in CI/CD?</li>
+
+<li>How do you define vulnerability severity thresholds?</li>
+
+<li>Where should security scans run in a pipeline?</li>
+
+<li>How do you secure Docker images?</li>
+
+<li>What is a Quality Gate in SonarQube?</li>
+
+<li>What is the difference between vulnerability scanning and secret scanning?</li>
+
+<li>How would you implement DevSecOps in a Jenkins pipeline?</li>
+
+</ul>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- FINAL REVISION -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🧠 FINAL REVISION — SECURITY TOOLS</h2>
+
+<div class="flow">
+
+<strong>Gitleaks</strong>
+→ Detect secrets
+
+<br><br>
+
+<strong>SonarQube</strong>
+→ Analyze code quality & security
+
+<br><br>
+
+<strong>Hadolint</strong>
+→ Validate Dockerfiles
+
+<br><br>
+
+<strong>Trivy</strong>
+→ Scan vulnerabilities
+
+<br><br>
+
+<strong>Checkov / tfsec</strong>
+→ Scan Infrastructure as Code
+
+<br><br>
+
+<strong>DevSecOps</strong>
+→ Security throughout CI/CD
+
+</div>
+
+</article>
+
+
+<!-- ===================================================== -->
+<!-- NAVIGATION -->
+<!-- ===================================================== -->
+
+<article class="card">
+
+<h2>🔗 DevSecOps Navigation</h2>
+
+<p>
+<a href="devsecops-basics.html">← DevSecOps Basics</a>
+</p>
+
+<p>
+<a href="devsecops-ci-cd.html">DevSecOps CI/CD →</a>
+</p>
+
+<p>
+<a href="devsecops-real-time-scenarios.html">Real-Time Scenarios →</a>
+</p>
+
+<p>
+<a href="devsecops-final-revision.html">Final Revision →</a>
+</p>
+
+<p>
+<a href="index.html">← Back to DevSecOps Index</a>
+</p>
+
+<p>
+<a href="../index.html">← Back to DevOps Interview Master Guide</a>
+</p>
+
+</article>
+
+</main>
+
+<footer>
+
+<p>🛡️ DevSecOps Security Tools • DevOps Interview Master Guide</p>
+
+<p>Nandu's DevOps Interview Guide • 2026</p>
+
+</footer>
+
+</body>
+</html>
